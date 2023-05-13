@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'androidx.navigation.safeargs'
 }
 
 android {
@@ -32,14 +33,25 @@ android {
     }
     buildFeatures {
         dataBinding true
+        viewBinding true
     }
 }
 
 dependencies {
+    def nav_version = "2.5.3"
+
+    implementation "com.google.android.material:material:material_design_version"
+
+    implementation 'androidx.annotation:annotation:1.6.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
 
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+
+    // Feature module Support
+    implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
 
     // Tests
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"

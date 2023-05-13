@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainActivity">
+
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.example.moguchi.ui.activities.MainActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main" />
+    <fragment
+        android:id="@+id/addChildNameFragment"
+        android:name="com.example.moguchi.ui.fragments.AddChildNameFragment"
+        android:label="fragment_add_child_name"
+        tools:layout="@layout/fragment_add_child_name" />
+    <fragment
+        android:id="@+id/registrationFragment2"
+        android:name="com.example.moguchi.ui.fragments.RegistrationFragment"
+        android:label="fragment_registration"
+        tools:layout="@layout/fragment_registration" >
+        <action
+            android:id="@+id/action_registrationFragment2_to_createChildProfileFragment"
+            app:destination="@id/createChildProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createChildProfileFragment"
+        android:name="com.example.moguchi.ui.fragments.CreateChildProfileFragment"
+        android:label="fragment_create_child_profile"
+        tools:layout="@layout/fragment_create_child_profile" >
+        <action
+            android:id="@+id/action_createChildProfileFragment_to_startPageFragment"
+            app:destination="@id/startPageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/startPageFragment"
+        android:name="com.example.moguchi.ui.fragments.StartPageFragment"
+        android:label="fragment_start_page"
+        tools:layout="@layout/fragment_start_page" />
+    <fragment
+        android:id="@+id/welcomeFragment"
+        android:name="com.example.moguchi.ui.fragments.WelcomeFragment"
+        android:label="fragment_welcome"
+        tools:layout="@layout/fragment_welcome" />
+</navigation>
