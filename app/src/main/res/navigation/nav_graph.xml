@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/mainActivity">
+    app:startDestination="@id/starterFragment">
 
     <activity
         android:id="@+id/mainActivity"
@@ -14,9 +14,13 @@
         android:id="@+id/addChildNameFragment"
         android:name="com.example.moguchi.ui.fragments.AddChildNameFragment"
         android:label="fragment_add_child_name"
-        tools:layout="@layout/fragment_add_child_name" />
+        tools:layout="@layout/fragment_add_child_name" >
+        <action
+            android:id="@+id/action_addChildNameFragment_to_childWelcomeFragment"
+            app:destination="@id/childWelcomeFragment" />
+    </fragment>
     <fragment
-        android:id="@+id/registrationFragment2"
+        android:id="@+id/registrationFragment"
         android:name="com.example.moguchi.ui.fragments.RegistrationFragment"
         android:label="fragment_registration"
         tools:layout="@layout/fragment_registration" >
@@ -35,12 +39,45 @@
     </fragment>
     <fragment
         android:id="@+id/startPageFragment"
-        android:name="com.example.moguchi.ui.fragments.StartPageFragment"
+        android:name="com.example.moguchi.ui.fragments.GoalPageFragment"
         android:label="fragment_start_page"
-        tools:layout="@layout/fragment_start_page" />
+        tools:layout="@layout/fragment_goal_page" />
     <fragment
-        android:id="@+id/welcomeFragment"
-        android:name="com.example.moguchi.ui.fragments.WelcomeFragment"
-        android:label="fragment_welcome"
-        tools:layout="@layout/fragment_welcome" />
+        android:id="@+id/loginRegistrationFragment"
+        android:name="com.example.moguchi.ui.fragments.LoginRegistrationFragment"
+        android:label="fragment_login_registration"
+        tools:layout="@layout/fragment_login_registration" >
+        <action
+            android:id="@+id/action_loginRegistrationFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
+        <action
+            android:id="@+id/action_loginRegistrationFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/starterFragment"
+        android:name="com.example.moguchi.ui.fragments.StarterFragment"
+        android:label="fragment_starter"
+        tools:layout="@layout/fragment_starter" >
+        <action
+            android:id="@+id/action_starterFragment_to_addChildNameFragment"
+            app:destination="@id/addChildNameFragment" />
+        <action
+            android:id="@+id/action_starterFragment_to_loginRegistrationFragment"
+            app:destination="@id/loginRegistrationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/childWelcomeFragment"
+        android:name="com.example.moguchi.ui.fragments.ChildWelcomeFragment"
+        android:label="fragment_child_welcome"
+        tools:layout="@layout/fragment_child_welcome" >
+        <action
+            android:id="@+id/action_childWelcomeFragment_to_loginRegistrationFragment"
+            app:destination="@id/loginRegistrationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.moguchi.ui.fragments.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
 </navigation>
