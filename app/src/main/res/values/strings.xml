@@ -33,9 +33,9 @@
     <string name="registration_button">Регистрация</string>
     <string name="login_button">Войти</string>
     <string name="skip_button">Пропустить</string>
-    <string name="child_welcome">Отлично, $name! Это приложение поможет тебе быстрее получить то, о чем ты мечтаешь.</string>
+    <string name="child_welcome">Отлично, $s! Это приложение поможет тебе быстрее получить то, о чем ты мечтаешь.</string>
     <string name="sign_in_intent_for_parents">Попроси родителей войти в родительский аккаунт</string>
-    <string name="connection_with_parents">Установить связь с родителем</string>
+    <string name="connection_with_parents">Установить связь \nс родителем</string>
     <string name="password">Пароль</string>
     <string name="sign_in">Войти:</string>
 </resources>

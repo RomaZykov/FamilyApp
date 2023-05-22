@@ -74,6 +74,9 @@
         <action
             android:id="@+id/action_childWelcomeFragment_to_loginRegistrationFragment"
             app:destination="@id/loginRegistrationFragment" />
+        <argument
+            android:name="WelcomeFragmentArgs"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
