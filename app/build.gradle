@@ -46,13 +46,15 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
 
-    // DataStore
-    implementation "androidx.datastore:datastore-preferences:1.0.0"
-
     // OkHttp
     def okhttp_version = "4.11.0"
     implementation("com.squareup.okhttp3:okhttp:$okhttp_version")
     implementation("com.squareup.okhttp3:logging-interceptor:$okhttp_version")
+
+    // Room
+    def room_version = "2.5.1"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
 
     // Retrofit
     def retrofit_version = "2.9.0"

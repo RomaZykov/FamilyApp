@@ -1,4 +1,4 @@
-package com.example.moguchi.data
+package com.example.moguchi.domain.models
 
 data class ErrorResponse(
     val code: Int,

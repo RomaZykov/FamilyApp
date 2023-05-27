@@ -1,4 +1,4 @@
-package com.example.moguchi.data
+package com.example.moguchi.domain.models
 
 import com.google.gson.annotations.SerializedName
 

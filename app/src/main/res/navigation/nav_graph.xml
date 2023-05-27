@@ -25,8 +25,8 @@
         android:label="fragment_registration"
         tools:layout="@layout/fragment_registration" >
         <action
-            android:id="@+id/action_registrationFragment2_to_createChildProfileFragment"
-            app:destination="@id/createChildProfileFragment" />
+            android:id="@+id/action_registrationFragment_to_homeBottomFragment"
+            app:destination="@id/homeBottomFragment" />
     </fragment>
     <fragment
         android:id="@+id/createChildProfileFragment"
@@ -82,5 +82,24 @@
         android:id="@+id/loginFragment"
         android:name="com.example.moguchi.ui.fragments.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_logOutTestFragment"
+            app:destination="@id/logOutTestFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/logOutTestFragment"
+        android:name="com.example.moguchi.LogOutTestFragment"
+        android:label="fragment_log_out_test"
+        tools:layout="@layout/fragment_log_out_test" />
+    <fragment
+        android:id="@+id/homeBottomFragment"
+        android:name="com.example.moguchi.HomeBottomFragment"
+        android:label="fragment_home_bottom"
+        tools:layout="@layout/fragment_home_bottom" />
+    <fragment
+        android:id="@+id/childrenBottomFragment"
+        android:name="com.example.moguchi.ChildrenBottomFragment"
+        android:label="fragment_children_bottom"
+        tools:layout="@layout/fragment_children_bottom" />
 </navigation>

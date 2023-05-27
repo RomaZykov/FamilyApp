@@ -51,36 +51,41 @@
             app:layout_constraintTop_toBottomOf="@id/tv_registration_title">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/password_edit_text"
+                android:id="@+id/first_name"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:boxStrokeColor="@color/orange"
                 android:hint="@string/name"
                 app:startIconDrawable="@drawable/baseline_account_box_24">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/re_password_edit_text"
+                android:id="@+id/last_name"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:boxStrokeColor="@color/orange"
                 android:hint="@string/last_name"
                 app:startIconDrawable="@drawable/baseline_account_box_24">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/email_edit_text"
+                android:id="@+id/email"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:boxStrokeColor="@color/orange"
                 android:hint="@string/e_mail"
                 app:startIconDrawable="@drawable/baseline_email_24">
 
@@ -91,27 +96,42 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/status_edit_text"
+                android:id="@+id/password"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/password"
+                app:boxStrokeColor="@color/orange"
+                app:startIconDrawable="@drawable/baseline_lock_24">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/status"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxStrokeColor="@color/orange"
                 android:hint="@string/status"
                 app:startIconDrawable="@drawable/baseline_emoji_people_24">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:inputType="text"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
-                android:id="@+id/button_next"
+                android:id="@+id/registration_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:enabled="false"
-                android:alpha="0.7"
                 android:layout_marginTop="40dp"
                 android:backgroundTint="@color/orange"
-                android:text="@string/next"
+                android:text="@string/registration_button"
                 android:textSize="20sp" />
 
         </LinearLayout>
