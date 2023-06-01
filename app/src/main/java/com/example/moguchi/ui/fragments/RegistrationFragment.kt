@@ -1,6 +1,8 @@
 package com.example.moguchi.ui.fragments
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,18 +11,21 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.example.moguchi.R
 import com.example.moguchi.api.ApiService
-import com.example.moguchi.data.ApiClient
 import com.example.moguchi.databinding.FragmentRegistrationBinding
-import com.example.moguchi.domain.models.RegisterResponse
-import com.example.moguchi.domain.models.User
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class RegistrationFragment : Fragment() {
 
     private lateinit var binding: FragmentRegistrationBinding
     private lateinit var api: ApiService
+    private lateinit var auth: FirebaseAuth;
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        auth = Firebase.auth
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,6 +41,14 @@ class RegistrationFragment : Fragment() {
         binding.registrationButton.setOnClickListener { registerUser() }
     }
 
+    override fun onStart() {
+        super.onStart()
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            reload()
+        }
+    }
+
     private fun registerUser() {
         val firstName: String = binding.firstName.editText?.text.toString().trim { it <= ' ' }
         val lastName: String = binding.lastName.editText?.text.toString().trim { it <= ' ' }
@@ -48,34 +61,42 @@ class RegistrationFragment : Fragment() {
             return
         }
 
-        api = ApiClient.getApiClient().create(ApiService::class.java)
-        val registeredUser = User(
-            firstName = firstName,
-            lastName = lastName,
-            email = email,
-            password = password,
-            role = role
-        )
-
-        api.registerUser(registeredUser).enqueue(object : Callback<RegisterResponse> {
-            override fun onResponse(
-                call: Call<RegisterResponse>,
-                response: Response<RegisterResponse>
-            ) {
-                if (response.isSuccessful) {
-                    Toast.makeText(context, "Пользователь сохранен", Toast.LENGTH_SHORT).show()
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(requireActivity()) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d(TAG, "createUserWithEmail:success")
+                    val user = auth.currentUser
+                    Toast.makeText(context, "${user?.email}", Toast.LENGTH_SHORT).show()
                     Navigation.findNavController(binding.root)
-                        .navigate(R.id.action_registrationFragment_to_homeBottomFragment)
+                        .navigate(R.id.action_registrationFragment_to_logOutTestFragment)
+
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w(TAG, "createUserWithEmail:failure", task.exception)
+                    Toast.makeText(
+                        context,
+                        "Authentication failed.",
+                        Toast.LENGTH_SHORT,
+                    ).show()
                 }
             }
+    }
 
-            override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
-                Toast.makeText(
-                    context,
-                    "Возникла непредвиденная ошибка, попробуйте позже",
-                    Toast.LENGTH_LONG
-                ).show()
+    private fun reload() {
+        auth.currentUser!!.reload().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Navigation.findNavController(binding.root)
+                    .navigate(R.id.action_registrationFragment_to_logOutTestFragment)
+                Toast.makeText(context, "Reload successful!", Toast.LENGTH_SHORT).show()
+            } else {
+                Log.e(TAG, "reload", task.exception)
+                Toast.makeText(context, "Failed to reload user.", Toast.LENGTH_SHORT).show()
             }
-        })
+        }
+    }
+
+    private fun validateForm(): Boolean {
+        TODO()
     }
 }

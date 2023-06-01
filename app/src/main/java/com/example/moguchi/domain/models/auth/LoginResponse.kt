@@ -1,4 +1,4 @@
-package com.example.moguchi.domain.models
+package com.example.moguchi.domain.models.auth
 
 import com.google.gson.annotations.SerializedName
 

@@ -18,4 +18,6 @@ class HomeBottomFragment : Fragment() {
         binding = FragmentHomeBottomBinding.inflate(inflater, container, false)
         return binding.root
     }
+
+
 }

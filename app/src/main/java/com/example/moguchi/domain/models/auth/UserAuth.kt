@@ -1,16 +1,12 @@
-package com.example.moguchi.domain.models
+package com.example.moguchi.domain.models.auth
 
 import com.google.gson.annotations.SerializedName
 
-data class RegisterResponse(
+data class UserAuth(
     @SerializedName("first_name")
     val firstName: String,
-    @SerializedName("last_name")
     val lastName: String,
-    @SerializedName("email")
     val email: String,
-    @SerializedName("password")
     val password: String,
-    @SerializedName("role")
     val role: String
 )

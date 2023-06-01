@@ -6,9 +6,9 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-private const val BASE_URL = "https://6108311e-f73c-4b38-91a9-d7bacb9feabc.mock.pstmn.io"
+private const val BASE_URL = "https://4225496d-01fa-4cc7-8046-b326b758f225.mock.pstmn.io"
 
-class ApiClient {
+interface ApiClient {
 
     companion object {
         private var retrofit: Retrofit? = null

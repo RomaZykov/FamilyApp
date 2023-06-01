@@ -38,4 +38,7 @@
     <string name="connection_with_parents">Устанавить связь с родителем</string>
     <string name="password">Пароль</string>
     <string name="sign_in">Войти:</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="log_out">Выйти из аккаунта</string>
+
 </resources>
