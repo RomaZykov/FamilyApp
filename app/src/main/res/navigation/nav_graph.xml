@@ -23,36 +23,18 @@
         android:id="@+id/registrationFragment"
         android:name="com.example.moguchi.ui.fragments.RegistrationFragment"
         android:label="fragment_registration"
-        tools:layout="@layout/fragment_registration" >
-        <action
-            android:id="@+id/action_registrationFragment_to_logOutTestFragment"
-            app:destination="@id/logOutTestFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/createChildProfileFragment"
-        android:name="com.example.moguchi.ui.fragments.CreateChildProfileFragment"
-        android:label="fragment_create_child_profile"
-        tools:layout="@layout/fragment_create_child_profile" >
-        <action
-            android:id="@+id/action_createChildProfileFragment_to_startPageFragment"
-            app:destination="@id/startPageFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/startPageFragment"
-        android:name="com.example.moguchi.ui.fragments.GoalPageFragment"
-        android:label="fragment_start_page"
-        tools:layout="@layout/fragment_goal_page" />
+        tools:layout="@layout/fragment_registration" />
     <fragment
         android:id="@+id/loginRegistrationFragment"
         android:name="com.example.moguchi.ui.fragments.LoginRegistrationFragment"
         android:label="fragment_login_registration"
         tools:layout="@layout/fragment_login_registration" >
         <action
-            android:id="@+id/action_loginRegistrationFragment_to_registrationFragment"
-            app:destination="@id/registrationFragment" />
-        <action
             android:id="@+id/action_loginRegistrationFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_loginRegistrationFragment_to_onBoardingFragment"
+            app:destination="@id/onBoardingFragment" />
     </fragment>
     <fragment
         android:id="@+id/starterFragment"
@@ -84,8 +66,8 @@
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
-            android:id="@+id/action_loginFragment_to_logOutTestFragment"
-            app:destination="@id/logOutTestFragment" />
+            android:id="@+id/action_loginFragment_to_homeBottomFragment"
+            app:destination="@id/homeBottomFragment" />
     </fragment>
     <fragment
         android:id="@+id/logOutTestFragment"
@@ -102,4 +84,8 @@
         android:name="com.example.moguchi.ChildrenBottomFragment"
         android:label="fragment_children_bottom"
         tools:layout="@layout/fragment_children_bottom" />
+    <fragment
+        android:id="@+id/onBoardingFragment"
+        android:name="com.example.moguchi.ui.fragments.OnBoardingFragment"
+        android:label="OnBoardingFragment" />
 </navigation>

@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.moguchi.R
 
-class GoalPageFragment : Fragment() {
+class ThirdSlideFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_goal_page, container, false)
+        return inflater.inflate(R.layout.fragment_first_slide_page, container, false)
     }
 }

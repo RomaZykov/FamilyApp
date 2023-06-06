@@ -20,7 +20,7 @@ class RegistrationFragment : Fragment() {
 
     private lateinit var binding: FragmentRegistrationBinding
     private lateinit var api: ApiService
-    private lateinit var auth: FirebaseAuth;
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,15 +64,13 @@ class RegistrationFragment : Fragment() {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "createUserWithEmail:success")
                     val user = auth.currentUser
                     Toast.makeText(context, "${user?.email}", Toast.LENGTH_SHORT).show()
                     Navigation.findNavController(binding.root)
-                        .navigate(R.id.action_registrationFragment_to_logOutTestFragment)
+                        .navigate(R.id.action_loginRegistrationFragment_to_onBoardingFragment)
 
                 } else {
-                    // If sign in fails, display a message to the user.
                     Log.w(TAG, "createUserWithEmail:failure", task.exception)
                     Toast.makeText(
                         context,
@@ -87,7 +85,7 @@ class RegistrationFragment : Fragment() {
         auth.currentUser!!.reload().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 Navigation.findNavController(binding.root)
-                    .navigate(R.id.action_registrationFragment_to_logOutTestFragment)
+                    .navigate(R.id.action_loginRegistrationFragment_to_loginFragment)
                 Toast.makeText(context, "Reload successful!", Toast.LENGTH_SHORT).show()
             } else {
                 Log.e(TAG, "reload", task.exception)
