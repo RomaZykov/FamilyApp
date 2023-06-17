@@ -12,8 +12,10 @@ import androidx.navigation.Navigation
 import com.example.moguchi.R
 import com.example.moguchi.api.ApiService
 import com.example.moguchi.databinding.FragmentRegistrationBinding
+import com.example.moguchi.domain.models.auth.Parent
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 
 class RegistrationFragment : Fragment() {
@@ -50,6 +52,7 @@ class RegistrationFragment : Fragment() {
     }
 
     private fun registerUser() {
+
         val firstName: String = binding.firstName.editText?.text.toString().trim { it <= ' ' }
         val lastName: String = binding.lastName.editText?.text.toString().trim { it <= ' ' }
         val email: String = binding.email.editText?.text.toString().trim { it <= ' ' }
@@ -59,19 +62,23 @@ class RegistrationFragment : Fragment() {
         if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty() || role.isEmpty()) {
             Toast.makeText(context, "Заполните все поля", Toast.LENGTH_SHORT).show()
             return
+        } else {
+            saveParentToFirebase(firstName, lastName, email, password, role)
         }
 
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) {
                     Log.d(TAG, "createUserWithEmail:success")
+
                     val user = auth.currentUser
                     Toast.makeText(context, "${user?.email}", Toast.LENGTH_SHORT).show()
                     Navigation.findNavController(binding.root)
-                        .navigate(R.id.action_loginRegistrationFragment_to_onBoardingFragment)
+                        .navigate(R.id.action_registrationFragment_to_addChildFragment)
 
                 } else {
                     Log.w(TAG, "createUserWithEmail:failure", task.exception)
+
                     Toast.makeText(
                         context,
                         "Authentication failed.",
@@ -79,6 +86,28 @@ class RegistrationFragment : Fragment() {
                     ).show()
                 }
             }
+    }
+
+    private fun saveParentToFirebase(
+        firstName: String,
+        lastName: String,
+        email: String,
+        password: String,
+        role: String
+    ) {
+        val database =
+            FirebaseDatabase.getInstance("https://moguchi-app-default-rtdb.europe-west1.firebasedatabase.app/")
+        val parentsRef = database.getReference("parents")
+        val parentId = auth.currentUser?.uid
+
+        val parent = Parent(
+            firstName = firstName,
+            lastName = lastName,
+            email = email,
+            password = password,
+            role = role
+        )
+        parentsRef.child(parentId!!).setValue(parent)
     }
 
     private fun reload() {
@@ -97,4 +126,5 @@ class RegistrationFragment : Fragment() {
     private fun validateForm(): Boolean {
         TODO()
     }
+
 }

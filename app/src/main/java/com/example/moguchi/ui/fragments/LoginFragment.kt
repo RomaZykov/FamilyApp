@@ -1,6 +1,7 @@
 package com.example.moguchi.ui.fragments
 
 import android.content.ContentValues.TAG
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -9,9 +10,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.navigation.Navigation
-import com.example.moguchi.R
 import com.example.moguchi.databinding.FragmentLoginBinding
+import com.example.moguchi.ui.activities.HomeActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -55,18 +55,23 @@ class LoginFragment : Fragment() {
             .addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) {
                     Log.d(TAG, "signInWithEmail:success")
+
                     binding.buttonSignIn.isEnabled = true
                     binding.buttonSignIn.alpha = 1.0f
+
                     val user = auth.currentUser
                     Toast.makeText(
                         context,
                         "Sign-in: ${user?.email}",
                         Toast.LENGTH_SHORT,
                     ).show()
-                    Navigation.findNavController(binding.root)
-                        .navigate(R.id.action_loginFragment_to_homeBottomFragment)
+
+                    val intent = Intent(context, HomeActivity::class.java)
+                    startActivity(intent)
+
                 } else {
                     Log.w(TAG, "signInWithEmail:failure", task.exception)
+
                     Toast.makeText(
                         context,
                         "Authentication failed.",

@@ -41,5 +41,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="log_out">Выйти из аккаунта</string>
     <string name="how_it_works">Как это работает?</string>
+    <string name="add_child_button">Добавить</string>
+    <string name="ad_child">Добавить ребенка:</string>
+    <string name="bottom_home">Дом</string>
+    <string name="bottom_settings">Настройки</string>
+    <string name="age">Возраст</string>
 
 </resources>

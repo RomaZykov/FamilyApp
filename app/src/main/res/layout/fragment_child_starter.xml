@@ -6,7 +6,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.fragments.AddChildNameFragment">
+        tools:context=".ui.fragments.ChildStarterFragment">
 
         <ImageView
             android:layout_width="match_parent"
@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/app_name"
-            android:textColor="@color/orange"
+            android:textColor="@color/pink"
             android:layout_marginTop="60dp"
             android:textSize="50sp"
             app:layout_constraintBottom_toTopOf="@id/tv_greetings_name"
@@ -72,11 +72,11 @@
                 android:id="@+id/button_next"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:backgroundTint="@color/orange"
+                android:backgroundTint="@color/purple"
                 android:text="@string/next"
                 android:enabled="false"
                 android:textColor="@color/white"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

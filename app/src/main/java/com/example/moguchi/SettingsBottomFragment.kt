@@ -5,18 +5,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.moguchi.databinding.FragmentChildrenBottomBinding
-import com.example.moguchi.databinding.FragmentHomeBottomBinding
+import com.example.moguchi.databinding.FragmentSettingsBottomBinding
 
-class ChildrenBottomFragment : Fragment() {
+class SettingsBottomFragment : Fragment() {
 
-    private lateinit var binding: FragmentChildrenBottomBinding
+    private lateinit var binding: FragmentSettingsBottomBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentChildrenBottomBinding.inflate(inflater, container, false)
+    ): View {
+        binding = FragmentSettingsBottomBinding.inflate(inflater, container, false)
         return binding.root
     }
 }

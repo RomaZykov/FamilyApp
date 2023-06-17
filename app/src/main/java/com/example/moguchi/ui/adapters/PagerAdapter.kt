@@ -1,4 +1,4 @@
-package com.example.moguchi.ui
+package com.example.moguchi.ui.adapters
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

@@ -13,6 +13,6 @@ class SecondSlideFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_first_slide_page, container, false)
+        return inflater.inflate(R.layout.fragment_second_slide_page, container, false)
     }
 }

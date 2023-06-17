@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "868557684546",
+    "project_id": "moguchi-app",
+    "storage_bucket": "moguchi-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:868557684546:android:403bdcc1fbf594c152d2db",
+        "android_client_info": {
+          "package_name": "com.example.moguchi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAr_HM-3Ofv-GJ2MJGMdn3SyIlnit80Vhg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

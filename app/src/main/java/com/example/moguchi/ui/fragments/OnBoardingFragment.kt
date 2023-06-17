@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.example.moguchi.R
-import com.example.moguchi.ui.PagerAdapter
+import com.example.moguchi.ui.adapters.PagerAdapter
 
 class OnBoardingFragment : Fragment() {
 
@@ -23,7 +23,7 @@ class OnBoardingFragment : Fragment() {
             FirstSlideFragment(),
             SecondSlideFragment(),
             ThirdSlideFragment(),
-            FourSlideFragment(),
+            FourSlideFragment()
         )
 
         viewPager = view.findViewById(R.id.pager)

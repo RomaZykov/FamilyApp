@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.activities.HomeActivity">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/top_app_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:title="@string/app_name"/>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottom_app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:contentInsetEnd="0dp"
+            app:contentInsetStart="0dp"
+            app:fabCradleMargin="10dp"
+            app:fabCradleVerticalOffset="10dp">
+
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottom_navigation_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                app:menu="@menu/bottom_menu" />
+        </com.google.android.material.bottomappbar.BottomAppBar>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/purple"
+            android:src="@drawable/baseline_add_24"
+            app:borderWidth="0dp"
+            app:layout_anchor="@id/bottom_app_bar" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_goal_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="120dp"
+            android:layout_marginBottom="90dp"
+            android:backgroundTint="@color/purple"
+            android:src="@drawable/baseline_add_24"
+            android:visibility="gone"
+            app:borderWidth="0dp"
+            app:fabSize="mini"
+            app:layout_anchor="@id/bottom_app_bar"
+            app:layout_anchorGravity="end" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_task_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="120dp"
+            android:layout_marginBottom="90dp"
+            android:backgroundTint="@color/purple"
+            android:src="@drawable/baseline_add_24"
+            android:visibility="gone"
+            app:borderWidth="0dp"
+            app:fabSize="mini"
+            app:layout_anchor="@id/bottom_app_bar" />
+
+        <TextView
+            android:id="@+id/add_goal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="50dp"
+            android:text="add goal"
+            android:visibility="gone"
+            app:layout_anchor="@id/add_goal_button"
+            app:layout_anchorGravity="end" />
+
+        <TextView
+            android:id="@+id/add_task"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingEnd="50dp"
+            android:text="add task"
+            android:visibility="gone"
+            app:layout_anchor="@id/add_task_button"
+            app:layout_anchorGravity="start" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

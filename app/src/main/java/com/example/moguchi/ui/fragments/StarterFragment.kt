@@ -34,6 +34,9 @@ class StarterFragment : Fragment() {
 
         binding.buttonParentAccount.apply {
             setOnClickListener {
+
+//                val intent = Intent(context, HomeActivity::class.java)
+//                startActivity(intent)
                 Navigation.findNavController(binding.root)
                     .navigate(R.id.action_starterFragment_to_loginRegistrationFragment)
             }

@@ -6,17 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.moguchi.databinding.FragmentAddChildNameBinding
+import com.example.moguchi.databinding.FragmentChildStarterBinding
 
-class AddChildNameFragment : Fragment() {
+class ChildStarterFragment : Fragment() {
 
-    private lateinit var binding: FragmentAddChildNameBinding
+    private lateinit var binding: FragmentChildStarterBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentAddChildNameBinding.inflate(inflater, container, false)
+        binding = FragmentChildStarterBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -30,7 +30,7 @@ class AddChildNameFragment : Fragment() {
                 isEnabled = true
                 setOnClickListener {
                     val action =
-                        AddChildNameFragmentDirections.actionAddChildNameFragmentToChildWelcomeFragment(
+                        ChildStarterFragmentDirections.actionChildStarterFragmentToChildWelcomeFragment(
                             childNameEditText
                         )
                     findNavController().navigate(action)
