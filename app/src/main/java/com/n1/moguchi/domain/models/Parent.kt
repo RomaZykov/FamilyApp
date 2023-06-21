@@ -4,8 +4,7 @@ import com.n1.moguchi.domain.models.child.Child
 
 data class Parent(
     val uid: String? = null,
-    val firstName: String,
-    val lastName: String,
+    val userName: String,
     val email: String,
     val password: String,
     val role: String,

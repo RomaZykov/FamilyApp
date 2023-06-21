@@ -9,14 +9,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import com.n1.moguchi.R
-import com.n1.moguchi.api.ApiService
-import com.n1.moguchi.databinding.FragmentRegistrationBinding
-import com.n1.moguchi.domain.models.Parent
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
+import com.n1.moguchi.R
+import com.n1.moguchi.api.ApiService
+import com.n1.moguchi.databinding.FragmentRegistrationBinding
+import com.n1.moguchi.domain.models.Parent
 
 class RegistrationFragment : Fragment() {
 
@@ -41,6 +41,7 @@ class RegistrationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.registrationButton.setOnClickListener { registerUser() }
+//        binding.googleLoginButton.setOnClickListener {  }
     }
 
     override fun onStart() {
@@ -53,13 +54,12 @@ class RegistrationFragment : Fragment() {
 
     private fun registerUser() {
 
-        val firstName: String = binding.firstName.editText?.text.toString().trim { it <= ' ' }
-        val lastName: String = binding.lastName.editText?.text.toString().trim { it <= ' ' }
+        val userName: String = binding.firstName.editText?.text.toString().trim { it <= ' ' }
         val email: String = binding.email.editText?.text.toString().trim { it <= ' ' }
         val password: String = binding.password.editText?.text.toString().trim { it <= ' ' }
         val role: String = binding.status.editText?.text.toString().trim { it <= ' ' }
 
-        if (firstName.isBlank() || lastName.isBlank() || email.isBlank() || password.isBlank() || role.isBlank()) {
+        if (userName.isBlank() || email.isBlank() || password.isBlank() || role.isBlank()) {
             Toast.makeText(context, "Заполните все поля", Toast.LENGTH_SHORT).show()
             return
         } else {
@@ -68,7 +68,7 @@ class RegistrationFragment : Fragment() {
                     if (task.isSuccessful) {
                         Log.d(TAG, "createUserWithEmail:success")
                         val user = auth.currentUser
-                        saveParentToFirebase(firstName, lastName, email, password, role)
+                        saveParentToFirebase(userName, email, password, role)
                         Toast.makeText(context, "${user?.email}", Toast.LENGTH_SHORT).show()
                         Navigation.findNavController(binding.root)
                             .navigate(R.id.action_registrationFragment_to_addChildFragment)
@@ -86,8 +86,7 @@ class RegistrationFragment : Fragment() {
     }
 
     private fun saveParentToFirebase(
-        firstName: String,
-        lastName: String,
+        userName: String,
         email: String,
         password: String,
         role: String
@@ -98,8 +97,7 @@ class RegistrationFragment : Fragment() {
         val parentId = auth.currentUser?.uid
 
         val parent = Parent(
-            firstName = firstName,
-            lastName = lastName,
+            userName = userName,
             email = email,
             password = password,
             role = role
