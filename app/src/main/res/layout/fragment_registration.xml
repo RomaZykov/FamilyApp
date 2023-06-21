@@ -55,7 +55,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:boxStrokeColor="@color/orange"
+                app:boxStrokeColor="@color/pink"
                 android:hint="@string/name"
                 app:startIconDrawable="@drawable/baseline_account_box_24">
 
@@ -70,7 +70,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:boxStrokeColor="@color/orange"
+                app:boxStrokeColor="@color/pink"
                 android:hint="@string/last_name"
                 app:startIconDrawable="@drawable/baseline_account_box_24">
 
@@ -85,7 +85,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:boxStrokeColor="@color/orange"
+                app:boxStrokeColor="@color/pink"
                 android:hint="@string/e_mail"
                 app:startIconDrawable="@drawable/baseline_email_24">
 
@@ -101,7 +101,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
-                app:boxStrokeColor="@color/orange"
+                app:boxStrokeColor="@color/pink"
                 app:startIconDrawable="@drawable/baseline_lock_24">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -115,7 +115,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:boxStrokeColor="@color/orange"
+                app:boxStrokeColor="@color/pink"
                 android:hint="@string/status"
                 app:startIconDrawable="@drawable/baseline_emoji_people_24">
 

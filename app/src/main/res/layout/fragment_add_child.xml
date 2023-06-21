@@ -55,7 +55,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:boxStrokeColor="@color/orange"
+                app:boxStrokeColor="@color/pink"
                 android:hint="@string/name"
                 app:startIconDrawable="@drawable/baseline_account_box_24">
 
@@ -70,7 +70,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:boxStrokeColor="@color/orange"
+                app:boxStrokeColor="@color/pink"
                 android:hint="@string/last_name"
                 app:startIconDrawable="@drawable/baseline_account_box_24">
 
@@ -85,7 +85,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:boxStrokeColor="@color/orange"
+                app:boxStrokeColor="@color/pink"
                 android:hint="@string/age"
                 app:startIconDrawable="@drawable/baseline_30fps_24">
 
