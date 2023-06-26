@@ -33,41 +33,38 @@ class AddChildFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.addButton.apply {
-            isEnabled = true
-            setOnClickListener {
-                saveChildToFirebase()
-                Navigation.findNavController(binding.root)
-                    .navigate(R.id.action_addChildFragment_to_onBoardingFragment)
-            }
+
+        binding.addButton.setOnClickListener {
+            saveChildToFirebase()
         }
     }
 
     private fun saveChildToFirebase() {
         auth = Firebase.auth
 
+        val childName = binding.childName.editText?.text.toString().trim { it <= ' ' }
+        val childYears = binding.years.editText?.text.toString()
+
         val database =
             FirebaseDatabase.getInstance("https://moguchi-app-default-rtdb.europe-west1.firebasedatabase.app/")
         val childId = UUID.randomUUID().toString()
 
-        val childFirstName = binding.firstName.editText?.text.toString().trim { it <= ' ' }
-        val childLastName = binding.lastName.editText?.text.toString().trim { it <= ' ' }
-        val childYears = binding.years.editText?.text.toString()
-
-        if (childFirstName.isEmpty() || childLastName.isEmpty() || childYears.isEmpty()) {
+        if (childName.isBlank() || childYears.isBlank()) {
             Toast.makeText(context, "Заполните все поля", Toast.LENGTH_SHORT).show()
             return
         }
 
         val parentId = auth.currentUser?.uid
-        val parentRef = database.getReference("parents").child(parentId!!)
+        val childRef = database.reference.child("children")
+        Log.d("AddChildFragment", "ChildRef - $childRef")
         val child = Child(
-            firstName = childFirstName,
-            lastName = childLastName,
-            years = childYears.toInt()
+            childName = childName,
+            years = childYears.toInt(),
+            parentOwnerId = parentId.toString()
         )
-        parentRef.child("children").child(childId).setValue(child)
+        childRef.child(childId).setValue(child)
 
-        Log.d("AddChildFragment", "Id for parent - $parentId")
+        Navigation.findNavController(binding.root)
+            .navigate(R.id.action_addChildFragment_to_onBoardingFragment)
     }
 }

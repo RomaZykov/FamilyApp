@@ -47,6 +47,8 @@ dependencies {
 
     implementation "androidx.cardview:cardview:1.0.0"
 
+    implementation group: 'at.favre.lib', name: 'bcrypt', version: '0.10.2'
+
     // Firebase
     implementation 'com.google.firebase:firebase-auth-ktx:22.0.0'
     implementation 'com.google.android.gms:play-services-auth:20.5.0'
@@ -58,7 +60,7 @@ dependencies {
     implementation "androidx.datastore:datastore-preferences:1.0.0"
 
     // Room
-    def room_version = "2.5.1"
+    def room_version = "2.5.2"
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
 

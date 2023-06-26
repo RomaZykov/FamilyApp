@@ -9,19 +9,18 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import at.favre.lib.crypto.bcrypt.BCrypt
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 import com.n1.moguchi.R
-import com.n1.moguchi.api.ApiService
 import com.n1.moguchi.databinding.FragmentRegistrationBinding
 import com.n1.moguchi.domain.models.Parent
 
 class RegistrationFragment : Fragment() {
 
     private lateinit var binding: FragmentRegistrationBinding
-    private lateinit var api: ApiService
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -96,10 +95,12 @@ class RegistrationFragment : Fragment() {
         val parentsRef = database.getReference("parents")
         val parentId = auth.currentUser?.uid
 
+        val passwordHash= BCrypt.withDefaults().hashToString(12, password.toCharArray())
+
         val parent = Parent(
             userName = userName,
             email = email,
-            password = password,
+            passwordHash = passwordHash,
             role = role
         )
         parentsRef.child(parentId!!).setValue(parent)

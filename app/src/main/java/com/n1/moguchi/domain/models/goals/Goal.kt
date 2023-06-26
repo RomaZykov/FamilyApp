@@ -3,8 +3,8 @@ package com.n1.moguchi.domain.models.goals
 import com.n1.moguchi.domain.models.tasks.Task
 
 data class Goal(
-    val goalId: Int,
+    var goalId: String,
     val taskList: List<Task>,
     val description: String? = null,
-    val isGoalCompleted: Boolean
+    val isGoalCompleted: Boolean = false
 )

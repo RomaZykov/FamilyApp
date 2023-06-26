@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.n1.moguchi.ui.viewmodels.HomeActivityViewModel" />
+    </data>
+
     <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_goal"
@@ -25,7 +31,7 @@
                 android:layout_height="match_parent"
                 android:layout_margin="20dp"
                 android:gravity="center"
-                android:text="Цель - ..."
+                android:text="Цель - @{viewmodel.userName}"
                 android:textSize="20sp" />
 
             <ProgressBar

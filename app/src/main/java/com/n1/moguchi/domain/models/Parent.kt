@@ -6,7 +6,7 @@ data class Parent(
     val uid: String? = null,
     val userName: String,
     val email: String,
-    val password: String,
+    val passwordHash: String,
     val role: String,
     val listChild: List<Child>? = null
 )
