@@ -1,6 +1,6 @@
 package com.n1.moguchi.domain.repositories
 
-import com.n1.moguchi.domain.models.goals.Goal
+import com.n1.moguchi.domain.models.Goal
 
 interface GoalRepository {
 

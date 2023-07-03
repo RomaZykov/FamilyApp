@@ -1,13 +1,13 @@
 package com.n1.moguchi.ui.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
+import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentFourSlidePageBinding
-import com.n1.moguchi.ui.activities.HomeActivity
 
 class FourSlideFragment : Fragment() {
 
@@ -25,8 +25,8 @@ class FourSlideFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.buttonNext.setOnClickListener {
-            val intent = Intent(context, HomeActivity::class.java)
-            startActivity(intent)
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.action_onBoardingFragment_to_homeFragment)
         }
     }
 }

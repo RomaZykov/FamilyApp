@@ -19,7 +19,9 @@
             android:id="@+id/title_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="50dp"
+            app:layout_constraintVertical_chainStyle="packed"
             android:text="@string/app_name"
             android:textColor="@color/pink"
             android:textSize="50sp"
@@ -47,7 +49,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingHorizontal="50dp"
-            app:layout_constraintBottom_toTopOf="@+id/registration_button"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_linear_layout"
             app:layout_constraintTop_toBottomOf="@id/tv_registration_title">
 
             <com.google.android.material.textfield.TextInputLayout
@@ -116,6 +118,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal"
             app:layout_constraintBottom_toTopOf="@id/registration_button"
             app:layout_constraintTop_toBottomOf="@id/registration_linear_layout">
@@ -142,20 +145,34 @@
 
         </LinearLayout>
 
+        <ImageButton
+            android:id="@+id/google_login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/btn_google_dark_normal__9"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/sign_in_rounded"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bottom_linear_layout"
+            app:layout_constraintBottom_toTopOf="@id/registration_button"
+            android:importantForAccessibility="no" />
+
         <Button
             android:id="@+id/registration_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginBottom="40dp"
             android:backgroundTint="@color/purple"
             android:text="@string/registration_button"
             android:textColor="@color/white"
             android:textSize="18sp"
+            android:layout_marginBottom="30dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/registration_linear_layout" />
+            app:layout_constraintTop_toBottomOf="@+id/google_login_button" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

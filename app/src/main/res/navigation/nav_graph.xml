@@ -20,31 +20,22 @@
             app:destination="@id/childWelcomeFragment" />
     </fragment>
     <fragment
-        android:id="@+id/registrationFragment"
-        android:name="com.n1.moguchi.ui.fragments.RegistrationFragment"
-        android:label="fragment_registration"
-        tools:layout="@layout/fragment_registration" >
-        <action
-            android:id="@+id/action_registrationFragment_to_addChildFragment"
-            app:destination="@id/addChildFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/loginRegistrationFragment"
         android:name="com.n1.moguchi.ui.fragments.LoginRegistrationFragment"
         android:label="fragment_login_registration"
-        tools:layout="@layout/fragment_login_registration" >
+        tools:layout="@layout/fragment_login_registration">
         <action
-            android:id="@+id/action_loginRegistrationFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            android:id="@+id/action_loginRegistrationFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
         <action
-            android:id="@+id/action_loginRegistrationFragment_to_registrationFragment"
-            app:destination="@id/registrationFragment" />
+            android:id="@+id/action_loginRegistrationFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/starterFragment"
         android:name="com.n1.moguchi.ui.fragments.StarterFragment"
         android:label="fragment_starter"
-        tools:layout="@layout/fragment_starter" >
+        tools:layout="@layout/fragment_starter">
         <action
             android:id="@+id/action_starterFragment_to_addChildNameFragment"
             app:destination="@id/childStarterFragment" />
@@ -56,7 +47,7 @@
         android:id="@+id/childWelcomeFragment"
         android:name="com.n1.moguchi.ui.fragments.ChildWelcomeFragment"
         android:label="fragment_child_welcome"
-        tools:layout="@layout/fragment_child_welcome" >
+        tools:layout="@layout/fragment_child_welcome">
         <action
             android:id="@+id/action_childWelcomeFragment_to_loginRegistrationFragment"
             app:destination="@id/loginRegistrationFragment" />
@@ -70,30 +61,35 @@
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" />
     <fragment
-        android:id="@+id/homeBottomFragment"
-        android:name="com.n1.moguchi.HomeBottomFragment"
-        android:label="fragment_home_bottom"
-        tools:layout="@layout/fragment_home_bottom" />
-    <fragment
-        android:id="@+id/childrenBottomFragment"
-        android:name="com.n1.moguchi.SettingsBottomFragment"
-        android:label="fragment_children_bottom"
-        tools:layout="@layout/fragment_settings_bottom" />
-    <fragment
         android:id="@+id/onBoardingFragment"
         android:name="com.n1.moguchi.ui.fragments.OnBoardingFragment"
-        android:label="OnBoardingFragment" />
-    <activity
-        android:id="@+id/homeActivity"
-        android:name="com.n1.moguchi.ui.activities.HomeActivity"
-        android:label="activity_home"
-        tools:layout="@layout/activity_home" />
+        android:label="OnBoardingFragment" >
+        <action
+            android:id="@+id/action_onBoardingFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addChildFragment"
         android:name="com.n1.moguchi.ui.fragments.AddChildFragment"
-        android:label="AddChildFragment" >
+        android:label="AddChildFragment">
         <action
             android:id="@+id/action_addChildFragment_to_onBoardingFragment"
             app:destination="@id/onBoardingFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/registrationFragment"
+        android:name="com.n1.moguchi.ui.fragments.RegistrationFragment"
+        android:label="RegistrationFragment" >
+        <action
+            android:id="@+id/action_registrationFragment_to_addChildFragment"
+            app:destination="@id/addChildFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.n1.moguchi.ui.fragments.SettingsFragment"
+        android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.n1.moguchi.ui.fragments.HomeFragment"
+        android:label="HomeFragment" />
 </navigation>

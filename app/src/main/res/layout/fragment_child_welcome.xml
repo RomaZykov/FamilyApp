@@ -54,13 +54,13 @@
             android:text="@string/sign_in_intent_for_parents"
             android:textColor="@color/white"
             android:textSize="22sp"
-            app:layout_constraintBottom_toTopOf="@id/button_next"
+            app:layout_constraintBottom_toTopOf="@+id/button_parent_connection"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_description" />
 
         <Button
-            android:id="@+id/button_next"
+            android:id="@+id/button_parent_connection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"

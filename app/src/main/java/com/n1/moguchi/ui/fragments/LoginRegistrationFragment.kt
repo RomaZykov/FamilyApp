@@ -30,7 +30,7 @@ class LoginRegistrationFragment : Fragment() {
                     alpha = 1F
                     setOnClickListener {
                         Navigation.findNavController(binding.root)
-                            .navigate(R.id.action_loginRegistrationFragment_to_registrationFragment)
+                            .navigate(R.id.action_loginRegistrationFragment_to_settingsFragment)
                     }
                 }
             }
@@ -43,7 +43,7 @@ class LoginRegistrationFragment : Fragment() {
                     alpha = 1F
                     setOnClickListener {
                         Navigation.findNavController(binding.root)
-                            .navigate(R.id.action_loginRegistrationFragment_to_loginFragment)
+                            .navigate(R.id.action_loginRegistrationFragment_to_homeFragment)
                     }
                 }
             }

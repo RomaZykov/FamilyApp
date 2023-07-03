@@ -2,19 +2,17 @@ package com.n1.moguchi.data.implementations
 
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.n1.moguchi.domain.models.goals.Goal
+import com.n1.moguchi.domain.models.Goal
 import com.n1.moguchi.domain.repositories.GoalRepository
 import java.util.UUID
 
-class GoalRepositoryImpl(private val goalRepository: GoalRepository) : GoalRepository {
+class GoalRepositoryImpl(userId: String?, private val goalRepository: GoalRepository) : GoalRepository {
 
-    val database = Firebase.database
+    private val database = Firebase.database
+    val parentRef = database.getReference("parents/")
 
     override fun createGoal(goal: Goal): Goal {
-        if (goal.goalId == null) {
-            goal.goalId = UUID.randomUUID().toString()
-        }
-//        localRepository.save(task)
+        goal.goalId = UUID.randomUUID().toString()
         return TODO()
     }
 

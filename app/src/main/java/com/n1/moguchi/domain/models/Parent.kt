@@ -1,7 +1,5 @@
 package com.n1.moguchi.domain.models
 
-import com.n1.moguchi.domain.models.child.Child
-
 data class Parent(
     val uid: String? = null,
     val userName: String,

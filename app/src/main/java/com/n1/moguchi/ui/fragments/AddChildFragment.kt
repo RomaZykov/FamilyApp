@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentAddChildBinding
-import com.n1.moguchi.domain.models.child.Child
+import com.n1.moguchi.domain.models.Child
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
