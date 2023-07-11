@@ -26,7 +26,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentRegistrationBinding
-import com.n1.moguchi.domain.models.Parent
+import com.n1.moguchi.data.models.Parent
 
 class RegistrationFragment : Fragment() {
 
@@ -76,7 +76,6 @@ class RegistrationFragment : Fragment() {
                                 Log.d(TAG, "Got ID token.")
                                 firebaseAuthWithGoogle(idToken)
                             }
-
                             else -> {
                                 Log.d(TAG, "No ID token!")
                             }
@@ -109,7 +108,11 @@ class RegistrationFragment : Fragment() {
                         TAG,
                         "signInWithCredential:success"
                     )
-                    val user = auth.currentUser
+                    val email = task.result.user?.email
+                    val userName = task.result.user?.email
+                    val role = task.result.user?.email
+
+//                    saveParentToFirebase(TODO())
                     Navigation.findNavController(binding.root)
                         .navigate(R.id.action_registrationFragment_to_addChildFragment)
                 } else {

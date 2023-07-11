@@ -43,15 +43,14 @@ dependencies {
     def lifecycle_version = '2.6.1'
     def activity_version = '1.7.2'
     def fragment_version = '1.5.7'
-
+    def okhttp_version = '5.0.0-alpha.11'
+    def retrofit_version = '2.9.0'
 
     implementation 'androidx.annotation:annotation:1.6.0'
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation "androidx.activity:activity-ktx:$activity_version"
     implementation "androidx.fragment:fragment-ktx:$fragment_version"
-
-    implementation "androidx.cardview:cardview:1.0.0"
 
     implementation group: 'at.favre.lib', name: 'bcrypt', version: '0.10.2'
 
@@ -61,6 +60,14 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:20.6.0'
     implementation 'com.google.firebase:firebase-database:20.2.2'
     implementation 'com.google.firebase:firebase-database-ktx:20.2.2'
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+
+    // OkHttp
+    implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
 
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
@@ -81,6 +88,7 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation "androidx.cardview:cardview:1.0.0"
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'

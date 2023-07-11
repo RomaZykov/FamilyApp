@@ -1,6 +1,6 @@
 package com.n1.moguchi.api
 
-import com.n1.moguchi.domain.models.Parent
+import com.n1.moguchi.data.models.Parent
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.DELETE

@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.databinding.FragmentGoalsTasksContainerBinding
-import com.n1.moguchi.domain.models.Goal
+import com.n1.moguchi.data.models.Goal
 
 class CardListAdapter() : RecyclerView.Adapter<CardListAdapter.CardViewHolder>() {
 

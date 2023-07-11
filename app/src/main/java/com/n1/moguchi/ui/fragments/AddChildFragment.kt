@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentAddChildBinding
-import com.n1.moguchi.domain.models.Child
+import com.n1.moguchi.data.models.Child
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
@@ -33,7 +33,6 @@ class AddChildFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         binding.addButton.setOnClickListener {
             saveChildToFirebase()
         }
@@ -47,20 +46,21 @@ class AddChildFragment : Fragment() {
 
         val database =
             FirebaseDatabase.getInstance("https://moguchi-app-default-rtdb.europe-west1.firebasedatabase.app/")
-        val childId = UUID.randomUUID().toString()
+        val parentId = auth.currentUser?.uid
 
         if (childName.isBlank() || childYears.isBlank()) {
             Toast.makeText(context, "Заполните все поля", Toast.LENGTH_SHORT).show()
             return
         }
 
-        val parentId = auth.currentUser?.uid
         val childRef = database.reference.child("children")
+        val childId = UUID.randomUUID().toString()
         Log.d("AddChildFragment", "ChildRef - $childRef")
         val child = Child(
+            childId = childId,
+            parentOwnerId = parentId.toString(),
             childName = childName,
-            years = childYears.toInt(),
-            parentOwnerId = parentId.toString()
+            years = childYears.toInt()
         )
         childRef.child(childId).setValue(child)
 

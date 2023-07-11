@@ -1,28 +1,28 @@
-package com.n1.moguchi.data.implementations
+package com.n1.moguchi.data.Implementations
 
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.n1.moguchi.domain.models.Task
-import com.n1.moguchi.domain.repositories.TaskRepository
+import com.n1.moguchi.data.models.Task
+import com.n1.moguchi.data.repositories.TaskRepository
 
 class TaskRepositoryImpl : TaskRepository {
 
     private val database = Firebase.database
-    val parentRef = database.getReference("parents")
+    val tasksRef = database.getReference("tasks")
 
-    override fun createTask(): Task {
+    fun createTask(goalId: String): Task {
         TODO("Not yet implemented")
     }
 
-    override fun updateTask(): Task {
+    fun updateTask(taskId: String): Task {
         TODO("Not yet implemented")
     }
 
-    override fun deleteTask() {
+    fun deleteTask(taskId: String) {
         TODO("Not yet implemented")
     }
 
-    override fun markTaskCompleted(taskId: Int, isCompleted: Boolean) {
+    fun markTaskCompleted(taskId: String, isCompleted: Boolean) {
         TODO("Not yet implemented")
     }
 
