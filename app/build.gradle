@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'androidx.navigation.safeargs'
     id 'com.google.gms.google-services'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -42,7 +43,7 @@ dependencies {
     def nav_version = '2.6.0'
     def lifecycle_version = '2.6.1'
     def activity_version = '1.7.2'
-    def fragment_version = '1.5.7'
+    def fragment_version = '1.6.0'
     def okhttp_version = '5.0.0-alpha.11'
     def retrofit_version = '2.9.0'
 
@@ -53,6 +54,10 @@ dependencies {
     implementation "androidx.fragment:fragment-ktx:$fragment_version"
 
     implementation group: 'at.favre.lib', name: 'bcrypt', version: '0.10.2'
+
+    // Dagger 2
+    implementation 'com.google.dagger:dagger:2.47'
+    kapt 'com.google.dagger:dagger-compiler:2.47'
 
     // Firebase
     implementation platform('com.google.firebase:firebase-bom:32.1.1')

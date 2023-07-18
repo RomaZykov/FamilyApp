@@ -4,9 +4,11 @@ import com.n1.moguchi.data.models.Child
 
 interface ParentRepository {
 
-    fun getChildrenList(parentId: String): List<Child>
+    suspend fun getChildrenList(parentId: String): List<Child>
 
-    fun getChild(parentId: String, childId: String): Child
+    suspend fun getChild(parentId: String, childId: String): Child
+
+    fun saveChild(parentId: String, child: Child)
 
     fun deleteChild(parentId: String, childId: String)
 }

@@ -1,10 +1,11 @@
-package com.n1.moguchi.data.Implementations
+package com.n1.moguchi.data.implementations
 
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.n1.moguchi.data.repositories.ChildRepository
+import javax.inject.Inject
 
-class ChildRepositoryImpl : ChildRepository {
+class ChildRepositoryImpl @Inject constructor() : ChildRepository {
 
     private val database = Firebase.database
     val parentRef = database.getReference("parents/")

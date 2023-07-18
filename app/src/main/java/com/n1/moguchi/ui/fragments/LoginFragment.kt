@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.navigation.Navigation
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
@@ -78,6 +79,7 @@ class LoginFragment : Fragment() {
                                 Log.d(TAG, "Got ID token.")
                                 firebaseAuthWithGoogle(idToken)
                             }
+
                             else -> {
                                 // Shouldn't happen.
                                 Log.d(TAG, "No ID token or password!")
@@ -142,8 +144,6 @@ class LoginFragment : Fragment() {
     }
 
     private fun signIn() {
-        binding.buttonSignIn.isEnabled = false
-
         val email = binding.emailEditText.editText?.text.toString()
         val password = binding.passwordEditText.editText?.text.toString()
 
@@ -157,9 +157,6 @@ class LoginFragment : Fragment() {
                 if (task.isSuccessful) {
                     Log.d(TAG, "signInWithEmail:success")
 
-                    binding.buttonSignIn.isEnabled = true
-                    binding.buttonSignIn.alpha = 1.0f
-
                     val user = auth.currentUser
                     Toast.makeText(
                         context,
@@ -167,8 +164,8 @@ class LoginFragment : Fragment() {
                         Toast.LENGTH_SHORT,
                     ).show()
 
-                    val intent = Intent(context, HomeFragment::class.java)
-                    startActivity(intent)
+                    Navigation.findNavController(binding.root)
+                        .navigate(R.id.action_loginFragment_to_homeFragment)
 
                 } else {
                     Log.w(TAG, "signInWithEmail:failure", task.exception)
