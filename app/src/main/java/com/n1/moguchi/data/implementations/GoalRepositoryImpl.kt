@@ -16,7 +16,7 @@ class GoalRepositoryImpl @Inject constructor() : GoalRepository {
     private val auth: FirebaseAuth = Firebase.auth
     private val goalsRef = database.getReference("goals")
 
-    override fun createGoal(goal: Goal): Goal {
+    override fun createGoal(goal: Goal, childId: String): Goal {
         if (goal.goalId == null) {
             goal.goalId = UUID.randomUUID().toString()
         }

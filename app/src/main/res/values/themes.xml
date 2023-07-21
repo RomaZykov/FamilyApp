@@ -1,8 +1,9 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Base.Theme.Moguchi" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="Base.Theme.Moguchi" parent="Theme.Material3.Dark.NoActionBar">
         <item name="colorPrimary">#FF6D17FC</item>
         <item name="colorPrimaryVariant">#FFE13682</item>
         <item name="colorOnPrimary">#FF000000</item>
     </style>
+
 </resources>

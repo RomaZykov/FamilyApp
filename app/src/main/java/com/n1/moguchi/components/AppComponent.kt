@@ -5,7 +5,8 @@ import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.modules.RepositoryModule
 import com.n1.moguchi.modules.ViewModelModule
 import com.n1.moguchi.ui.fragments.AddChildFragment
-import com.n1.moguchi.ui.fragments.GoalAndTaskCreationDialogFragment
+import com.n1.moguchi.ui.fragments.CommonCreationDialog
+import com.n1.moguchi.ui.fragments.TaskCreationDialog
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -16,7 +17,9 @@ interface AppComponent {
 
     fun inject(addChildFragment: AddChildFragment)
 
-    fun inject(goalAndTaskCreationDialogFragment: GoalAndTaskCreationDialogFragment)
+    fun inject(commonCreationDialog: CommonCreationDialog)
+
+    fun inject(taskCreationDialog: TaskCreationDialog)
 
     fun inject(moguchiBaseApplication: MoguchiBaseApplication)
 

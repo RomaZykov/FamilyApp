@@ -6,9 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
 import com.n1.moguchi.MoguchiBaseApplication
-import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentHomeBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.viewmodels.HomeViewModel
@@ -41,8 +39,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.buttonAddChild.setOnClickListener {
-            Navigation.findNavController(binding.root)
-                .navigate(R.id.action_homeFragment_to_addChildFragment)
+
         }
     }
 }

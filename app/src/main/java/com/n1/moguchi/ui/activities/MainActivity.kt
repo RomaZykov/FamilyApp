@@ -12,7 +12,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.ActivityMainBinding
 import com.n1.moguchi.ui.adapters.CardListAdapter
-import com.n1.moguchi.ui.fragments.GoalAndTaskCreationDialogFragment
+import com.n1.moguchi.ui.fragments.CommonCreationDialog
 
 class MainActivity : AppCompatActivity() {
 
@@ -62,8 +62,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showGoalAndTaskCreationDialog() {
-        val dialog = GoalAndTaskCreationDialogFragment()
-        dialog.show(supportFragmentManager, "GoalAndTaskCreation")
+        val fragmentManager = supportFragmentManager
+        val modalBottomSheet = CommonCreationDialog()
+        modalBottomSheet.show(fragmentManager, CommonCreationDialog.TAG)
     }
 
     private fun showUi() {

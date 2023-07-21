@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.n1.moguchi.helpers.ViewModelKey
 import com.n1.moguchi.ui.viewmodels.AddChildViewModel
 import com.n1.moguchi.ui.viewmodels.AuthViewModel
-import com.n1.moguchi.ui.viewmodels.GoalCreationDialogViewModel
+import com.n1.moguchi.ui.viewmodels.CommonCreationDialogViewModel
 import com.n1.moguchi.ui.viewmodels.HomeViewModel
 import com.n1.moguchi.ui.viewmodels.MainActivityViewModel
 import dagger.Binds
@@ -25,9 +25,9 @@ interface ViewModelModule {
     fun bindAuthViewModel(authViewModel: AuthViewModel): ViewModel
 
     @IntoMap
-    @ViewModelKey(GoalCreationDialogViewModel::class)
+    @ViewModelKey(CommonCreationDialogViewModel::class)
     @Binds
-    fun bindGoalCreationDialogViewModel(goalCreationDialogViewModel: GoalCreationDialogViewModel): ViewModel
+    fun bindGoalCreationDialogViewModel(commonCreationDialogViewModel: CommonCreationDialogViewModel): ViewModel
 
     @IntoMap
     @ViewModelKey(HomeViewModel::class)
