@@ -45,7 +45,7 @@ class RegistrationFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentRegistrationBinding.inflate(layoutInflater)
+        binding = FragmentRegistrationBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 

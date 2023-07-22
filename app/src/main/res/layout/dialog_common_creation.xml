@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="com.n1.moguchi.ui.viewmodels.CommonCreationDialogViewModel" />
+            type="com.n1.moguchi.ui.viewmodels.ParentViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"

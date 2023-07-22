@@ -6,6 +6,7 @@ import com.n1.moguchi.modules.RepositoryModule
 import com.n1.moguchi.modules.ViewModelModule
 import com.n1.moguchi.ui.fragments.AddChildFragment
 import com.n1.moguchi.ui.fragments.CommonCreationDialog
+import com.n1.moguchi.ui.fragments.HomeFragment
 import com.n1.moguchi.ui.fragments.TaskCreationDialog
 import dagger.BindsInstance
 import dagger.Component
@@ -20,6 +21,8 @@ interface AppComponent {
     fun inject(commonCreationDialog: CommonCreationDialog)
 
     fun inject(taskCreationDialog: TaskCreationDialog)
+
+    fun inject(homeFragment: HomeFragment)
 
     fun inject(moguchiBaseApplication: MoguchiBaseApplication)
 

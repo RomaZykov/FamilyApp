@@ -13,7 +13,7 @@ import com.google.firebase.ktx.Firebase
 import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.databinding.DialogTaskCreationBinding
 import com.n1.moguchi.ui.ViewModelFactory
-import com.n1.moguchi.ui.viewmodels.CommonCreationDialogViewModel
+import com.n1.moguchi.ui.viewmodels.ParentViewModel
 import javax.inject.Inject
 
 class TaskCreationDialog : BottomSheetDialogFragment() {
@@ -22,8 +22,8 @@ class TaskCreationDialog : BottomSheetDialogFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-    private val viewModel: CommonCreationDialogViewModel by lazy {
-        ViewModelProvider(this, viewModelFactory)[CommonCreationDialogViewModel::class.java]
+    private val viewModel: ParentViewModel by lazy {
+        ViewModelProvider(this, viewModelFactory)[ParentViewModel::class.java]
     }
 
     private val component by lazy {

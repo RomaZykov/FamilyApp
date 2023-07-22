@@ -18,7 +18,7 @@ import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.DialogCommonCreationBinding
 import com.n1.moguchi.ui.ViewModelFactory
-import com.n1.moguchi.ui.viewmodels.CommonCreationDialogViewModel
+import com.n1.moguchi.ui.viewmodels.ParentViewModel
 import javax.inject.Inject
 
 class CommonCreationDialog : BottomSheetDialogFragment(), AdapterView.OnItemSelectedListener {
@@ -27,8 +27,8 @@ class CommonCreationDialog : BottomSheetDialogFragment(), AdapterView.OnItemSele
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-    private val viewModel: CommonCreationDialogViewModel by lazy {
-        ViewModelProvider(this, viewModelFactory)[CommonCreationDialogViewModel::class.java]
+    private val viewModel: ParentViewModel by lazy {
+        ViewModelProvider(this, viewModelFactory)[ParentViewModel::class.java]
     }
 
     private val component by lazy {
