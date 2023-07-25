@@ -5,11 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.auth.ktx.auth
@@ -21,7 +21,7 @@ import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.viewmodels.ParentViewModel
 import javax.inject.Inject
 
-class CommonCreationDialog : BottomSheetDialogFragment(), AdapterView.OnItemSelectedListener {
+class CommonCreationDialog : BottomSheetDialogFragment() {
 
     private lateinit var binding: DialogCommonCreationBinding
 
@@ -79,17 +79,6 @@ class CommonCreationDialog : BottomSheetDialogFragment(), AdapterView.OnItemSele
             throw Exception("User not authorized")
         }
 
-        val goalOrTaskSpinner: Spinner = view.findViewById(R.id.goal_or_task_spinner)
-        ArrayAdapter.createFromResource(
-            requireActivity(),
-            R.array.goal_or_task,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            goalOrTaskSpinner.adapter = adapter
-        }
-        goalOrTaskSpinner.onItemSelectedListener = this
-
         binding.increaseButton.setOnClickListener {
             viewModel.increaseHeight()
         }
@@ -97,37 +86,18 @@ class CommonCreationDialog : BottomSheetDialogFragment(), AdapterView.OnItemSele
             viewModel.decreaseHeight()
         }
 
-//        binding.nextButton.setOnClickListener {
-//
-//        }
+        binding.nextButton.setOnClickListener {
+            val goalTitle = binding.goalNameEditText.editText?.text.toString().trim { it <= ' ' }
+            if (goalTitle.isNotEmpty() && goalTitle.isNotBlank()) {
+                val fragmentManager = requireActivity().supportFragmentManager
+                val modalTaskCreationBottomSheet = TaskCreationDialog()
+                modalTaskCreationBottomSheet.show(fragmentManager, TaskCreationDialog.TAG)
+            }
+        }
 //
 //        binding.cancelButton.setOnClickListener {
 //
 //        }
-    }
-
-    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        when (parent?.getItemAtPosition(position).toString()) {
-            "Goal" -> {
-                binding.goalNameEditText.visibility = View.VISIBLE
-                binding.goalHeightCountTv.visibility = View.VISIBLE
-                binding.goalHeightLimitTv.visibility = View.VISIBLE
-                binding.counterLinearLayout.visibility = View.VISIBLE
-                binding.taskSpinner.visibility = View.GONE
-            }
-
-            "Task" -> {
-                binding.goalNameEditText.visibility = View.GONE
-                binding.goalHeightLimitTv.visibility = View.GONE
-                binding.counterLinearLayout.visibility = View.GONE
-                binding.goalHeightCountTv.visibility = View.GONE
-                binding.taskSpinner.visibility = View.VISIBLE
-            }
-        }
-    }
-
-    override fun onNothingSelected(parent: AdapterView<*>?) {
-        TODO("Not yet implemented")
     }
 
     companion object {

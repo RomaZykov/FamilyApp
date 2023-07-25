@@ -1,6 +1,5 @@
 package com.n1.moguchi.ui.fragments
 
-import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -52,9 +51,7 @@ class TaskCreationDialog : BottomSheetDialogFragment() {
 
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = super.onCreateDialog(savedInstanceState)
-//        dialog.requestWindowFeature(Window.FEATURE_ACTION_BAR)
-        return dialog
+    companion object {
+        const val TAG = "TaskCreationBottomSheet"
     }
 }

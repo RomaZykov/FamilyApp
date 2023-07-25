@@ -107,4 +107,16 @@
             android:id="@+id/action_homeFragment_to_addChildFragment"
             app:destination="@id/addChildFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/commonCreationDialog"
+        android:name="com.n1.moguchi.ui.fragments.CommonCreationDialog"
+        android:label="CommonCreationDialog" >
+        <action
+            android:id="@+id/action_commonCreationDialog_to_taskCreationDialog"
+            app:destination="@id/taskCreationDialog" />
+    </dialog>
+    <dialog
+        android:id="@+id/taskCreationDialog"
+        android:name="com.n1.moguchi.ui.fragments.TaskCreationDialog"
+        android:label="TaskCreationDialog" />
 </navigation>
