@@ -14,8 +14,8 @@ android {
         applicationId "com.n1.moguchi"
         minSdk 24
         targetSdk 33
-        versionCode 5
-        versionName "1.4"
+        versionCode 6
+        versionName "1.5"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -54,6 +54,9 @@ dependencies {
     implementation "androidx.fragment:fragment-ktx:$fragment_version"
 
     implementation group: 'at.favre.lib', name: 'bcrypt', version: '0.10.2'
+
+    // Leak Detection
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.12'
 
     // Dagger 2
     implementation 'com.google.dagger:dagger:2.47'
