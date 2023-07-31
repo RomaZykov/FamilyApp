@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.n1.moguchi.R
-import com.n1.moguchi.ui.adapters.PagerAdapter
+import com.n1.moguchi.ui.adapters.OnBoardingViewPagerAdapter
 
 class OnBoardingFragment : Fragment() {
 
@@ -26,14 +26,12 @@ class OnBoardingFragment : Fragment() {
             FourSlideFragment()
         )
 
-        viewPager = view.findViewById(R.id.pager)
-
-        val adapter = PagerAdapter(
+        viewPager = view.findViewById(R.id.onboarding_pager)
+        val adapter = OnBoardingViewPagerAdapter(
             fragmentList,
             requireActivity().supportFragmentManager,
             lifecycle
         )
-
         viewPager.adapter = adapter
 
         return view

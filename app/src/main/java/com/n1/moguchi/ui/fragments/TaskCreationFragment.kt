@@ -10,19 +10,19 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.n1.moguchi.MoguchiBaseApplication
-import com.n1.moguchi.databinding.DialogTaskCreationBinding
+import com.n1.moguchi.databinding.FragmentTaskCreationBinding
 import com.n1.moguchi.ui.ViewModelFactory
-import com.n1.moguchi.ui.viewmodels.ParentViewModel
+import com.n1.moguchi.ui.viewmodels.BottomSheetViewModel
 import javax.inject.Inject
 
-class TaskCreationDialog : BottomSheetDialogFragment() {
+class TaskCreationFragment : BottomSheetDialogFragment() {
 
-    private lateinit var binding: DialogTaskCreationBinding
+    private lateinit var binding: FragmentTaskCreationBinding
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-    private val viewModel: ParentViewModel by lazy {
-        ViewModelProvider(this, viewModelFactory)[ParentViewModel::class.java]
+    private val viewModel: BottomSheetViewModel by lazy {
+        ViewModelProvider(this, viewModelFactory)[BottomSheetViewModel::class.java]
     }
 
     private val component by lazy {
@@ -39,7 +39,7 @@ class TaskCreationDialog : BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DialogTaskCreationBinding.inflate(inflater, container, false)
+        binding = FragmentTaskCreationBinding.inflate(inflater, container, false)
         return binding.root
     }
 

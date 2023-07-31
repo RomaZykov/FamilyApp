@@ -11,13 +11,13 @@ import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.ActivityMainBinding
-import com.n1.moguchi.ui.adapters.CardListAdapter
-import com.n1.moguchi.ui.fragments.CommonCreationDialog
+import com.n1.moguchi.ui.adapters.GoalListAdapter
+import com.n1.moguchi.ui.fragments.BottomSheetFragment
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var adapter: CardListAdapter
+    private lateinit var adapter: GoalListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,8 +63,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun showGoalAndTaskCreationDialog() {
         val fragmentManager = supportFragmentManager
-        val modalBottomSheet = CommonCreationDialog()
-        modalBottomSheet.show(fragmentManager, CommonCreationDialog.TAG)
+        val modalBottomSheet = BottomSheetFragment()
+        modalBottomSheet.show(fragmentManager, BottomSheetFragment.TAG)
     }
 
     private fun showUi() {

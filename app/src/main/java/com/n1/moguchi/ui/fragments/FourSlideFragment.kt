@@ -26,7 +26,7 @@ class FourSlideFragment : Fragment() {
 
         binding.buttonNext.setOnClickListener {
             Navigation.findNavController(binding.root)
-                .navigate(R.id.action_onBoardingFragment_to_homeFragment)
+                .navigate(R.id.action_onBoardingFragment_to_loginRegistrationFragment)
         }
     }
 }

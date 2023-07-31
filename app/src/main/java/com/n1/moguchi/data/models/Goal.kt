@@ -1,11 +1,11 @@
 package com.n1.moguchi.data.models
 
 data class Goal(
-    var goalId: String? = "",
-    var parentOwnerId: String? = "",
-    var childOwnerId: String? = "",
-    val taskList: List<Task>,
-    val title: String? = "",
-    val height: Int? = 0,
+    var goalId: String? = null,
+    var parentOwnerId: String? = null,
+    var childOwnerId: String? = null,
+    val taskList: List<Task>? = null,
+    val title: String = "Новая цель",
+    val height: Int = 0,
     val isGoalCompleted: Boolean = false
 )

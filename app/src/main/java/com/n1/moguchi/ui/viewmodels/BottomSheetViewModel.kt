@@ -12,7 +12,7 @@ import com.n1.moguchi.data.repositories.TaskRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class ParentViewModel @Inject constructor(
+class BottomSheetViewModel @Inject constructor(
     private val parentRepository: ParentRepository,
     private val goalRepository: GoalRepository,
     private val taskRepository: TaskRepository
@@ -21,27 +21,33 @@ class ParentViewModel @Inject constructor(
     private val _children = MutableLiveData<List<Child>>()
     val children: LiveData<List<Child>> = _children
 
-    private val _counter = MutableLiveData<Int>()
-    val counter: LiveData<Int> = _counter
+    private val _progressGoal = MutableLiveData<String>()
+    val progress: LiveData<String> = _progressGoal
 
-    private val _goalTitle = MutableLiveData<String>()
-    val goalTitle: LiveData<String> = _goalTitle
+    private val _goalHeight = MutableLiveData<Int>()
+    val goalHeight: LiveData<Int> = _goalHeight
+
+    private val _taskHeight = MutableLiveData<Int>()
+    val taskHeight: LiveData<Int> = _taskHeight
+
+    private val _goalName = MutableLiveData<String>()
+    val goalName: LiveData<String> = _goalName
 
     private var counterHeight = 1
 
     init {
-        _counter.value = counterHeight
+        _goalHeight.value = counterHeight
     }
 
-    fun getChildrenList(parentId: String) {
+    fun getChildren(parentId: String) {
         viewModelScope.launch {
-            val children: List<Child> = parentRepository.getChildrenList(parentId)
-            _children.value = children
+            val children: Map<String, Child> = parentRepository.getChildren(parentId)
+            _children.value = children.values.toList()
         }
     }
 
     fun createGoal(goal: Goal, childId: String) {
-
+        goalRepository.createGoal(goal, childId)
     }
 
     fun createTask() {
@@ -50,13 +56,13 @@ class ParentViewModel @Inject constructor(
 
     fun increaseHeight() {
         if (counterHeight < 10) {
-            _counter.value = ++counterHeight
+            _goalHeight.value = ++counterHeight
         }
     }
 
     fun decreaseHeight() {
         if (counterHeight != 1) {
-            _counter.value = --counterHeight
+            _goalHeight.value = --counterHeight
         }
     }
 }

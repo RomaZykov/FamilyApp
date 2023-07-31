@@ -14,7 +14,7 @@ import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentHomeBinding
 import com.n1.moguchi.ui.ViewModelFactory
-import com.n1.moguchi.ui.viewmodels.ParentViewModel
+import com.n1.moguchi.ui.viewmodels.HomeViewModel
 import javax.inject.Inject
 
 class HomeFragment : Fragment() {
@@ -24,7 +24,7 @@ class HomeFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private val viewModel by lazy {
-        ViewModelProvider(this, viewModelFactory)[ParentViewModel::class.java]
+        ViewModelProvider(this, viewModelFactory)[HomeViewModel::class.java]
     }
 
     private val component by lazy {
@@ -56,7 +56,7 @@ class HomeFragment : Fragment() {
             viewModel.children.observe(viewLifecycleOwner) { childrenList ->
                 childrenList.map {
                     val childTopCard = layoutInflater.inflate(R.layout.child_item, null)
-                    val childName = it.childName
+                    val childName = it.value.childName
                     childTopCard.findViewById<TextView>(R.id.child_name).text = childName
                     binding.childrenLinearLayout.addView(childTopCard, 0)
                 }

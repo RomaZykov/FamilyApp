@@ -10,19 +10,15 @@ class TaskRepositoryImpl @Inject constructor() : TaskRepository {
     private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
     val tasksRef = database.getReference("tasks")
 
-    fun createTask(goalId: String): Task {
+    override fun createTask(task: Task, goalId: String): Task {
         TODO("Not yet implemented")
     }
 
-    fun updateTask(taskId: String): Task {
+    override fun deleteTask(taskId: String) {
         TODO("Not yet implemented")
     }
 
-    fun deleteTask(taskId: String) {
-        TODO("Not yet implemented")
-    }
-
-    fun markTaskCompleted(taskId: String, isCompleted: Boolean) {
+    override fun markTaskCompleted(taskId: String, isCompleted: Boolean) {
         TODO("Not yet implemented")
     }
 

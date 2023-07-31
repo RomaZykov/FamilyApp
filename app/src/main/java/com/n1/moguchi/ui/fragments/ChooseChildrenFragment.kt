@@ -5,11 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.n1.moguchi.databinding.FragmentChildBinding
+import com.n1.moguchi.databinding.FragmentChooseChildrenBinding
 
-class ProfileFragment : Fragment() {
+class ChooseChildrenFragment : Fragment() {
 
-    private lateinit var binding: FragmentChildBinding
+    private lateinit var binding: FragmentChooseChildrenBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -17,11 +17,8 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         super.onCreate(savedInstanceState)
-        binding = FragmentChildBinding.inflate(layoutInflater, container, false)
+        binding = FragmentChooseChildrenBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
-    private fun logOut() {
-
-    }
 }

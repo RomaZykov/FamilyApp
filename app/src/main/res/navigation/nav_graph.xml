@@ -3,22 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/starterFragment">
+    app:startDestination="@id/onBoardingFragment">
 
     <activity
         android:id="@+id/mainActivity"
         android:name="com.n1.moguchi.ui.activities.MainActivity"
         android:label="activity_main"
         tools:layout="@layout/activity_main" />
-    <fragment
-        android:id="@+id/childStarterFragment"
-        android:name="com.n1.moguchi.ui.fragments.ChildStarterFragment"
-        android:label="fragment_child_starter"
-        tools:layout="@layout/fragment_child_starter">
-        <action
-            android:id="@+id/action_childStarterFragment_to_childWelcomeFragment"
-            app:destination="@id/childWelcomeFragment" />
-    </fragment>
     <fragment
         android:id="@+id/loginRegistrationFragment"
         android:name="com.n1.moguchi.ui.fragments.LoginRegistrationFragment"
@@ -30,30 +21,6 @@
         <action
             android:id="@+id/action_loginRegistrationFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/starterFragment"
-        android:name="com.n1.moguchi.ui.fragments.StarterFragment"
-        android:label="fragment_starter"
-        tools:layout="@layout/fragment_starter">
-        <action
-            android:id="@+id/action_starterFragment_to_addChildNameFragment"
-            app:destination="@id/childStarterFragment" />
-        <action
-            android:id="@+id/action_starterFragment_to_loginRegistrationFragment"
-            app:destination="@id/loginRegistrationFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/childWelcomeFragment"
-        android:name="com.n1.moguchi.ui.fragments.ChildWelcomeFragment"
-        android:label="fragment_child_welcome"
-        tools:layout="@layout/fragment_child_welcome">
-        <action
-            android:id="@+id/action_childWelcomeFragment_to_loginRegistrationFragment"
-            app:destination="@id/loginRegistrationFragment" />
-        <argument
-            android:name="WelcomeFragmentArgs"
-            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -69,17 +36,13 @@
         android:name="com.n1.moguchi.ui.fragments.OnBoardingFragment"
         android:label="OnBoardingFragment">
         <action
-            android:id="@+id/action_onBoardingFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            android:id="@+id/action_onBoardingFragment_to_loginRegistrationFragment"
+            app:destination="@id/loginRegistrationFragment" />
     </fragment>
     <fragment
         android:id="@+id/addChildFragment"
         android:name="com.n1.moguchi.ui.fragments.AddChildFragment"
-        android:label="AddChildFragment">
-        <action
-            android:id="@+id/action_addChildFragment_to_onBoardingFragment"
-            app:destination="@id/onBoardingFragment" />
-    </fragment>
+        android:label="AddChildFragment"/>
     <fragment
         android:id="@+id/registrationFragment"
         android:name="com.n1.moguchi.ui.fragments.RegistrationFragment"
@@ -90,7 +53,7 @@
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.n1.moguchi.ui.fragments.ProfileFragment"
+        android:name="com.n1.moguchi.ui.fragments.ChooseChildrenFragment"
         android:label="ProfileFragment">
         <action
             android:id="@+id/action_profileFragment_to_homeFragment"
@@ -101,22 +64,12 @@
         android:name="com.n1.moguchi.ui.fragments.HomeFragment"
         android:label="HomeFragment">
         <action
-            android:id="@+id/action_homeFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
-        <action
             android:id="@+id/action_homeFragment_to_addChildFragment"
             app:destination="@id/addChildFragment" />
-    </fragment>
-    <dialog
-        android:id="@+id/commonCreationDialog"
-        android:name="com.n1.moguchi.ui.fragments.CommonCreationDialog"
-        android:label="CommonCreationDialog" >
         <action
-            android:id="@+id/action_commonCreationDialog_to_taskCreationDialog"
-            app:destination="@id/taskCreationDialog" />
-    </dialog>
-    <dialog
-        android:id="@+id/taskCreationDialog"
-        android:name="com.n1.moguchi.ui.fragments.TaskCreationDialog"
-        android:label="TaskCreationDialog" />
+            android:id="@+id/action_homeFragment_to_profileFragment"
+            app:destination="@id/profileFragment"
+            app:popUpTo="@id/profileFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

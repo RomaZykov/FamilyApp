@@ -16,13 +16,13 @@ class ParentRepositoryImpl @Inject constructor() : ParentRepository {
     private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
     private val childrenRef: DatabaseReference = database.getReference("children")
 
-    override suspend fun getChildrenList(parentId: String): List<Child> {
+    override suspend fun getChildren(parentId: String): Map<String, Child> {
         val childrenRefByParentId = childrenRef.child(parentId)
-        val childrenList: MutableList<Child> = mutableListOf()
+        val children: MutableMap<String, Child> = mutableMapOf()
         childrenRefByParentId.get().await().children.map {
-            childrenList.add(it.getValue(Child::class.java)!!)
+            children.put(it?.key!!, it.getValue(Child::class.java)!!)
         }
-        return childrenList
+        return children
     }
 
     override suspend fun getChild(parentId: String, childId: String): Child {

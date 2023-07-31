@@ -84,6 +84,6 @@ class AddChildFragment : Fragment() {
         }
 
         Navigation.findNavController(binding.root)
-            .navigate(R.id.action_addChildFragment_to_onBoardingFragment)
+            .navigate(R.id.homeFragment)
     }
 }
