@@ -14,45 +14,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
-            android:layout_marginBottom="50dp"
-            android:gravity="center"
-            android:text="Новая цель"
-            android:textColor="@color/pink"
-            android:textSize="25sp"
-            app:layout_constraintBottom_toTopOf="@id/spinner_linear_layout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <LinearLayout
             android:id="@+id/spinner_linear_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/goal_name_edit_text"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:hint="Например, велосипед"
-                app:boxStrokeColor="@color/pink">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:layout_width="match_parent"
@@ -69,13 +38,29 @@
                     android:id="@+id/children_list_ll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginVertical="8dp"
                     android:orientation="horizontal">
 
                 </LinearLayout>
 
             </ScrollView>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/goal_name_edit_text"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:hint="Например, велосипед"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/pink">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <!--            <Spinner-->
             <!--                android:id="@+id/children_spinner"-->
@@ -86,20 +71,10 @@
             <!--                android:layout_marginBottom="16dp"-->
             <!--                android:spinnerMode="dropdown" />-->
 
-            <Spinner
-                android:id="@+id/task_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="4dp"
-                android:spinnerMode="dropdown"
-                android:visibility="gone" />
-
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:layout_marginHorizontal="16dp">
 
                 <TextView
@@ -112,40 +87,44 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:src="@drawable/baseline_30fps_24" />
-
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/counter_linear_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center">
+                android:layout_height="match_parent"
+                android:layout_marginVertical="8dp"
+                android:layout_marginHorizontal="16dp"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/decrease_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="60dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="10dp"
-                    android:backgroundTint="@color/pink"
-                    android:text="-" />
+                <ImageButton
+                    android:id="@+id/goal_decrease_button"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="50dp"
+                    android:background="@drawable/round_profile_button"
+                    android:backgroundTint="@color/white"
+                    android:src="@drawable/baseline_horizontal_rule_24" />
 
                 <TextView
-                    android:id="@+id/goal_height"
-                    android:layout_width="150dp"
+                    android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:background="@color/purple"
+                    android:layout_marginHorizontal="16dp"
+                    android:background="@drawable/round_wide_button"
                     android:gravity="center"
-                    android:text="@{viewModel.goalHeight.toString()}" />
+                    android:text="@{viewModel.goalHeight.toString()}"
+                    android:textColor="@color/black" />
 
-                <Button
-                    android:id="@+id/increase_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="8dp"
-                    android:backgroundTint="@color/pink"
-                    android:text="+" />
+                <ImageButton
+                    android:id="@+id/goal_increase_button"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="50dp"
+                    android:background="@drawable/round_profile_button"
+                    android:backgroundTint="@color/white"
+                    android:src="@drawable/baseline_add_24"
+                    android:textSize="25sp" />
             </LinearLayout>
 
             <TextView
@@ -155,37 +134,6 @@
                 android:layout_marginStart="16dp"
                 android:text="Не больше 10 баллов"
                 android:textSize="12sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@id/bottom_linear_layout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="192dp"
-            android:layout_marginBottom="24dp"
-            android:gravity="center"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <Button
-                android:id="@+id/cancel_button"
-                android:layout_width="148dp"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/pink"
-                android:text="Отмена" />
-
-            <Space
-                android:layout_width="20dp"
-                android:layout_height="wrap_content" />
-
-            <Button
-                android:id="@+id/next_button"
-                android:layout_width="148dp"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/pink"
-                android:text="Далее" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

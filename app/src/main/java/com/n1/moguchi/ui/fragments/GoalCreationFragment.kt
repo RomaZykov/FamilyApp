@@ -13,7 +13,6 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
-import com.n1.moguchi.data.models.Goal
 import com.n1.moguchi.databinding.FragmentGoalCreationBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.viewmodels.BottomSheetViewModel
@@ -60,12 +59,12 @@ class GoalCreationFragment : Fragment() {
             viewModel.children.observe(viewLifecycleOwner) { children ->
                 children?.forEach { childrenNames.add(it.childName!!) }
                 val childrenLinearLayout =
-                    view.findViewById<LinearLayout>(R.id.children_linear_layout)
-                val childItem =
-                    layoutInflater.inflate(R.layout.child_item, childrenLinearLayout, true)
-                childrenNames.map {
-                    childItem.findViewById<TextView>(R.id.child_name).text = it
-                    childrenLinearLayout.addView(childItem)
+                    view.findViewById<LinearLayout>(R.id.children_list_ll)
+                childrenNames.mapIndexed { index, name ->
+                    val childItem =
+                        layoutInflater.inflate(R.layout.child_item, childrenLinearLayout, false)
+                    childItem.findViewById<TextView>(R.id.child_name).text = name
+                    childrenLinearLayout.addView(childItem, index)
                 }
             }
         } else {
@@ -73,27 +72,27 @@ class GoalCreationFragment : Fragment() {
         }
 
         viewModel.goalHeight.observe(viewLifecycleOwner) {
-            binding.increaseButton.setOnClickListener {
+            binding.goalIncreaseButton.setOnClickListener {
                 viewModel.increaseHeight()
             }
         }
 
         viewModel.goalHeight.observe(viewLifecycleOwner) {
-            binding.decreaseButton.setOnClickListener {
+            binding.goalDecreaseButton.setOnClickListener {
                 viewModel.decreaseHeight()
             }
         }
 
-        binding.nextButton.setOnClickListener {
-            val currentGoalHeight = viewModel.goalHeight.value
-            val goal = Goal(
-
-            )
-//            viewModel.createGoal(goal = goal)
-            parentFragmentManager.beginTransaction()
-                .remove(GoalCreationFragment())
-                .replace(R.id.child_fragment_container, TaskCreationFragment())
-                .commit()
-        }
+//        binding.nextButton.setOnClickListener {
+//            val currentGoalHeight = viewModel.goalHeight.value
+//            val goal = Goal(
+//
+//            )
+////            viewModel.createGoal(goal = goal)
+//            parentFragmentManager.beginTransaction()
+//                .remove(GoalCreationFragment())
+//                .replace(R.id.child_fragment_container, TaskCreationFragment())
+//                .commit()
+//        }
     }
 }

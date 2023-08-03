@@ -6,18 +6,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.n1.moguchi.MoguchiBaseApplication
+import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentTaskCreationBinding
 import com.n1.moguchi.ui.ViewModelFactory
+import com.n1.moguchi.ui.adapters.TaskListAdapter
 import com.n1.moguchi.ui.viewmodels.BottomSheetViewModel
 import javax.inject.Inject
 
 class TaskCreationFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentTaskCreationBinding
+    private lateinit var taskListAdapter: TaskListAdapter
+
+    private var tasksCardList: MutableList<View> = mutableListOf()
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -46,9 +51,17 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val parentId = Firebase.auth.currentUser?.uid
+        val recyclerView: RecyclerView = view.findViewById(R.id.rv_card_list)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        taskListAdapter = TaskListAdapter(tasksCardList)
+        recyclerView.adapter = taskListAdapter
 
-
+        binding.addTaskButton.setOnClickListener {
+            val taskCard =
+                layoutInflater.inflate(R.layout.task_creation_card, recyclerView, false)
+            tasksCardList.add(taskCard)
+            taskListAdapter.notifyItemInserted(0)
+        }
     }
 
     companion object {

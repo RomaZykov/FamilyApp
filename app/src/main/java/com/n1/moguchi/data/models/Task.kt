@@ -1,9 +1,8 @@
 package com.n1.moguchi.data.models
 
 data class Task(
-    val taskId: String,
-    val description: String? = null,
+    val taskId: String = "",
+    val title: String = "",
     val isTaskCompleted: Boolean = false,
-    val height: Int,
-    val priority: Priority?
+    val height: Int = 0
 )

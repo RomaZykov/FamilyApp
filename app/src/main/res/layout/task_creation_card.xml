@@ -11,138 +11,168 @@
     <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/task_card"
+        android:id="@+id/task_material_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        android:backgroundTint="@color/soft_orange"
         android:checkable="true"
         android:clickable="true"
         android:focusable="true"
         card_view:cardCornerRadius="15dp"
-        card_view:strokeColor="@color/pink"
+        card_view:strokeColor="@color/orange"
         card_view:strokeWidth="1dp">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <TextView
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="4dp"
-                android:gravity="start"
-                android:text="Задача"
-                android:textSize="20sp" />
+                android:orientation="vertical">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/task_name_edit_text"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:hint="Например, помыть посуду"
-                app:boxStrokeColor="@color/pink">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="4dp"
+                    android:gravity="start"
+                    android:text="Задача"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/task_name_edit_text"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginHorizontal="20dp"
+                    app:hintTextColor="@color/black"
+                    android:hint="Например, помыть посуду"
+                    app:boxBackgroundColor="@color/white"
+                    app:boxStrokeColor="@color/orange">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="4dp"
-                android:orientation="horizontal">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="4dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Награда в баллах"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:src="@drawable/baseline_settings_24" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/counter_linear_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="16dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/decrease_button"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="50dp"
+                        android:background="@drawable/round_profile_button"
+                        android:backgroundTint="@color/white"
+                        android:src="@drawable/baseline_horizontal_rule_24" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginHorizontal="16dp"
+                        android:background="@drawable/round_wide_button"
+                        android:backgroundTint="@color/white"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textColor="@color/black" />
+
+                    <ImageButton
+                        android:id="@+id/increase_button"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginEnd="50dp"
+                        android:background="@drawable/round_profile_button"
+                        android:backgroundTint="@color/white"
+                        android:src="@drawable/baseline_add_24"
+                        android:textSize="25sp" />
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="Награда в баллах"
-                    android:textSize="20sp" />
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="start"
+                    android:text="Не больше 3 баллов"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:src="@drawable/baseline_settings_24" />
+                    android:layout_marginTop="8dp"
+                    app:dividerColor="@color/orange"
+                    app:dividerInsetEnd="16dp"
+                    app:dividerInsetStart="16dp" />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginVertical="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/baseline_settings_24" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:text="Настроить повторение задачи"
+                        android:textColor="@color/orange" />
+                </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/counter_linear_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:gravity="center">
-
-                <Button
-                    android:id="@+id/decrease_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="60dp"
-                    android:layout_marginEnd="15dp"
-                    android:text="-" />
-
-                <TextView
-                    android:layout_width="150dp"
-                    android:layout_height="50dp"
-                    android:background="@color/purple"
-                    android:gravity="center"
-                    android:text="1" />
-
-                <Button
-                    android:id="@+id/increase_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="15dp"
-                    android:text="+" />
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="10dp"
-                android:gravity="start"
-                android:text="Не больше 3 баллов"
-                android:textSize="15sp" />
-
-            <com.google.android.material.divider.MaterialDivider
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="4dp"
-                app:dividerColor="@color/pink"
-                app:dividerInsetEnd="16dp"
-                app:dividerInsetStart="16dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/baseline_settings_24" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Настроить повторение задачи" />
-            </LinearLayout>
-        </LinearLayout>
+            <ImageButton
+                android:id="@+id/delete_task_button"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="end"
+                android:background="@drawable/round_profile_button"
+                android:backgroundTint="@color/white"
+                android:src="@drawable/baseline_delete_24" />
+        </FrameLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>

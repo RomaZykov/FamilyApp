@@ -55,10 +55,11 @@ class HomeFragment : Fragment() {
             viewModel.getChildrenList(parentId)
             viewModel.children.observe(viewLifecycleOwner) { childrenList ->
                 childrenList.map {
-                    val childTopCard = layoutInflater.inflate(R.layout.child_item, null)
+                    val childrenLinearLayout = binding.childrenLinearLayout
+                    val childTopCard = layoutInflater.inflate(R.layout.child_item, childrenLinearLayout, false)
                     val childName = it.value.childName
                     childTopCard.findViewById<TextView>(R.id.child_name).text = childName
-                    binding.childrenLinearLayout.addView(childTopCard, 0)
+                    childrenLinearLayout.addView(childTopCard, 0)
                 }
             }
         }

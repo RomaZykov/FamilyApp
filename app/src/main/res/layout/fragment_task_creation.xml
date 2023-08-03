@@ -1,32 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/task_creation"
         style="@style/Widget.Material3.BottomSheet"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <LinearLayout
+            android:id="@+id/tasks_ll"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:layout_marginBottom="16dp"
-                android:gravity="center"
-                android:text="Новая цель"
-                android:textColor="@color/pink"
-                android:textSize="25sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -34,7 +25,7 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginBottom="4dp"
                 android:text="Добавьте задачи, которые ребенок должен выполнить, чтобы достичь цели"
-                android:textSize="15sp" />
+                android:textSize="14sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -47,13 +38,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginEnd="8dp"
-                    android:text="Количество баллов" />
+                    android:text="Количество баллов"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginEnd="8dp"
-                    android:text="0/10" />
+                    android:text="0/10"
+                    android:textSize="14sp" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -71,64 +64,40 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="4dp"
                 android:progress="25"
-                android:progressTint="@color/pink" />
+                android:progressTint="@color/orange" />
 
-
-            <ScrollView
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="16dp">
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:fitsSystemWindows="true"
+                android:scrollbars="vertical">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_card_list"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scrollbars="vertical"
-                    app:layoutManager="LinearLayoutManager"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    android:orientation="vertical">
 
-            </ScrollView>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_card_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        app:layoutManager="LinearLayoutManager" />
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="24dp"
-                android:text="+ Добавить еще задачу" />
+                    <Button
+                        android:id="@+id/add_task_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="16dp"
+                        android:backgroundTint="@color/white"
+                        android:text="+ Добавить задачу"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="192dp"
-            android:layout_marginBottom="24dp"
-            android:gravity="center"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <Button
-                android:id="@+id/cancel_button"
-                android:layout_width="148dp"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/pink"
-                android:text="Отмена" />
-
-            <Space
-                android:layout_width="20dp"
-                android:layout_height="wrap_content" />
-
-            <Button
-                android:id="@+id/complete_button"
-                android:layout_width="148dp"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/pink"
-                android:text="Готово" />
-        </LinearLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

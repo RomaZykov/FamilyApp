@@ -5,6 +5,7 @@ import com.n1.moguchi.helpers.ViewModelKey
 import com.n1.moguchi.ui.viewmodels.AddChildViewModel
 import com.n1.moguchi.ui.viewmodels.AuthViewModel
 import com.n1.moguchi.ui.viewmodels.BottomSheetViewModel
+import com.n1.moguchi.ui.viewmodels.HomeViewModel
 import com.n1.moguchi.ui.viewmodels.TaskViewModel
 import com.n1.moguchi.ui.viewmodels.MainActivityViewModel
 import dagger.Binds
@@ -32,10 +33,15 @@ interface ViewModelModule {
     @IntoMap
     @ViewModelKey(TaskViewModel::class)
     @Binds
-    fun bindHomeViewModel(taskViewModel: TaskViewModel): ViewModel
+    fun bindTaskViewModel(taskViewModel: TaskViewModel): ViewModel
 
     @IntoMap
     @ViewModelKey(MainActivityViewModel::class)
     @Binds
     fun bindMainActivityViewModel(mainActivityViewModel: MainActivityViewModel): ViewModel
+
+    @IntoMap
+    @ViewModelKey(HomeViewModel::class)
+    @Binds
+    fun bindHomeViewModel(homeViewModel: HomeViewModel): ViewModel
 }
