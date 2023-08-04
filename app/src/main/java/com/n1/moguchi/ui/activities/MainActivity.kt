@@ -28,10 +28,10 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
         val appBarConfiguration = AppBarConfiguration(
-            topLevelDestinationIds = setOf(R.id.homeFragment, R.id.profileFragment),
+            topLevelDestinationIds = setOf(R.id.homeFragment, R.id.chooseChildrenFragment),
             fallbackOnNavigateUpListener = ::onSupportNavigateUp
         )
-        binding.topAppBar.setupWithNavController(navController, appBarConfiguration)
+//        binding.topAppBar.setupWithNavController(navController, appBarConfiguration)
         binding.bottomNavigationView.setupWithNavController(navController)
 
         addFabClickListener()
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.homeFragment -> {
                     showUi()
                 }
-                R.id.profileFragment -> {
+                R.id.chooseChildrenFragment -> {
                     showUi()
                 }
                 else -> hideUi()
@@ -69,13 +69,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun showUi() {
         binding.bottomAppBarLayout.visibility = View.VISIBLE
-        binding.topAppBarLayout.visibility = View.VISIBLE
         binding.addFab.visibility = View.VISIBLE
     }
 
     private fun hideUi() {
         binding.bottomAppBarLayout.visibility = View.GONE
-        binding.topAppBarLayout.visibility = View.GONE
         binding.addFab.visibility = View.GONE
     }
 }

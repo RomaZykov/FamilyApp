@@ -21,6 +21,13 @@
             android:gravity="end"
             android:text="Пропустить" />
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_gravity="bottom"
+            android:text="Продолжить"/>
+
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/onboarding_pager"
             android:layout_width="match_parent"

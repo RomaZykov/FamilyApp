@@ -8,6 +8,25 @@
         android:layout_height="match_parent"
         tools:context=".ui.fragments.HomeFragment">
 
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/topAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            app:layout_constraintBottom_toTopOf="@+id/scroll_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/homeAppBar"
+                style="@style/Widget.MaterialComponents.Toolbar.Primary"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:menu="@menu/parent_profile_app_bar"
+                app:title="Мои дети" />
+        </com.google.android.material.appbar.AppBarLayout>
+
         <HorizontalScrollView
             android:id="@+id/scroll_view"
             android:layout_width="match_parent"
@@ -15,7 +34,7 @@
             app:layout_constraintBottom_toTopOf="@id/rv_card_list"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/topAppBar">
 
             <LinearLayout
                 android:id="@+id/children_linear_layout"

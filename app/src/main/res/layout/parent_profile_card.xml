@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/parent_profile_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:backgroundTint="@color/soft_orange"
+        android:checkable="true"
+        android:clickable="true"
+        android:focusable="true"
+        card_view:cardCornerRadius="15dp"
+        card_view:strokeColor="@color/orange"
+        card_view:strokeWidth="1dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/parent_image"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_margin="16dp"
+                    android:src="@drawable/baseline_account_circle_24"
+                    card_view:layout_constraintBottom_toBottomOf="parent"
+                    card_view:layout_constraintStart_toStartOf="parent"
+                    card_view:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/parent_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginBottom="4dp"
+                    card_view:layout_constraintBottom_toTopOf="@+id/parent_email"
+                    card_view:layout_constraintStart_toEndOf="@+id/parent_image"
+                    card_view:layout_constraintTop_toTopOf="parent"
+                    card_view:layout_constraintVertical_chainStyle="packed"
+                    tools:text="Роман Зыков" />
+
+                <TextView
+                    android:id="@+id/parent_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    card_view:layout_constraintBottom_toBottomOf="parent"
+                    card_view:layout_constraintStart_toEndOf="@+id/parent_image"
+                    card_view:layout_constraintTop_toBottomOf="@+id/parent_name"
+                    tools:text="romatest@Gmail.com" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <ImageButton
+                android:id="@+id/delete_task_button"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="end"
+                android:background="@drawable/round_profile_button"
+                android:backgroundTint="@color/white"
+                android:src="@drawable/baseline_mode_edit_24" />
+        </FrameLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

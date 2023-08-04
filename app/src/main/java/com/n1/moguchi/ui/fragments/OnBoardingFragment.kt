@@ -22,8 +22,7 @@ class OnBoardingFragment : Fragment() {
         val fragmentList = arrayListOf(
             FirstSlideFragment(),
             SecondSlideFragment(),
-            ThirdSlideFragment(),
-            FourSlideFragment()
+            ThirdSlideFragment()
         )
 
         viewPager = view.findViewById(R.id.onboarding_pager)

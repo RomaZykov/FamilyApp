@@ -7,7 +7,7 @@
         android:title="@string/bottom_home" />
 
     <item
-        android:id="@+id/profileFragment"
+        android:id="@+id/chooseChildrenFragment"
         android:icon="@drawable/baseline_settings_24"
         android:title="Ребенку" />
 </menu>

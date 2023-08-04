@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.n1.moguchi.MoguchiBaseApplication
@@ -56,16 +57,31 @@ class HomeFragment : Fragment() {
             viewModel.children.observe(viewLifecycleOwner) { childrenList ->
                 childrenList.map {
                     val childrenLinearLayout = binding.childrenLinearLayout
-                    val childTopCard = layoutInflater.inflate(R.layout.child_item, childrenLinearLayout, false)
+                    val childItem = layoutInflater.inflate(
+                        R.layout.small_child_item,
+                        childrenLinearLayout,
+                        false
+                    )
                     val childName = it.value.childName
-                    childTopCard.findViewById<TextView>(R.id.child_name).text = childName
-                    childrenLinearLayout.addView(childTopCard, 0)
+                    childItem.findViewById<TextView>(R.id.child_name).text = childName
+                    childrenLinearLayout.addView(childItem, 0)
                 }
             }
         }
 
         binding.buttonAddChild.setOnClickListener {
+            TODO()
+        }
 
+        binding.homeAppBar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.profile -> {
+                    Navigation.findNavController(binding.root)
+                        .navigate(R.id.action_homeFragment_to_profileFragment)
+                    true
+                }
+                else -> false
+            }
         }
     }
 }

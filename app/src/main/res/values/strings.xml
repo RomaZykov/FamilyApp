@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MeTTask</string>
+    <string name="app_name">Moguchi</string>
     <string name="greetings">Привет! Давай познакомимся, как тебя зовут?</string>
 
     <!-- Strings related to login -->

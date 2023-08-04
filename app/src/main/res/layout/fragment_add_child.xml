@@ -8,103 +8,95 @@
         android:layout_height="match_parent"
         tools:context=".ui.fragments.AddChildFragment">
 
-        <ImageView
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/topAppBar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:alpha="0.45"
-            android:background="@drawable/background_bed"
-            android:scaleX="1.6" />
-
-        <TextView
-            android:id="@+id/title_name"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="70dp"
-            android:text="@string/app_name"
-            android:textColor="@color/pink"
-            android:textSize="50sp"
-            app:layout_constraintBottom_toTopOf="@id/tv_registration_title"
+            android:fitsSystemWindows="true"
+            app:layout_constraintBottom_toTopOf="@+id/rv_children_nested"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintVertical_chainStyle="packed">
 
-        <TextView
-            android:id="@+id/tv_registration_title"
-            android:layout_width="wrap_content"
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/homeAppBar"
+                style="@style/Widget.MaterialComponents.Toolbar.Primary"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:navigationIcon="@drawable/baseline_arrow_back_24"
+                app:title="Мои дети" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/rv_children_nested"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/ad_child"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/registration_linear_layout"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:fitsSystemWindows="true"
+            android:scrollbars="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_linear_layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title_name" />
+            app:layout_constraintTop_toBottomOf="@+id/topAppBar">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_children_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    app:layoutManager="LinearLayoutManager" />
+
+                <Button
+                    android:id="@+id/add_task_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:backgroundTint="@color/white"
+                    android:text="+ Добавить ребенка"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
 
         <LinearLayout
-            android:id="@+id/registration_linear_layout"
-            android:layout_width="match_parent"
+            android:id="@id/bottom_linear_layout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingHorizontal="50dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_registration_title">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/child_name"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/name"
-                app:boxStrokeColor="@color/pink"
-                app:startIconDrawable="@drawable/baseline_account_box_24">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/years"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/age"
-                app:boxStrokeColor="@color/pink"
-                app:startIconDrawable="@drawable/baseline_30fps_24">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/sex"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Пол"
-                app:boxStrokeColor="@color/pink"
-                app:startIconDrawable="@drawable/baseline_30fps_24">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
             <Button
-                android:id="@+id/add_button"
-                android:layout_width="match_parent"
+                android:id="@+id/cancel_button"
+                android:layout_width="148dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:backgroundTint="@color/purple"
-                android:text="@string/add_child_button"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
+                android:backgroundTint="@color/white"
+                android:text="Отмена"
+                android:textColor="@color/black" />
 
+            <Space
+                android:layout_width="20dp"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/next_button"
+                android:layout_width="148dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/orange"
+                android:text="Продолжить"
+                android:textColor="@color/black" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
