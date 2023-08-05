@@ -30,21 +30,21 @@
                 android:layout_marginTop="16dp"
                 android:text="Ребенок:" />
 
-            <ScrollView
+            <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginVertical="8dp">
 
                 <LinearLayout
                     android:id="@+id/children_list_ll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginVertical="8dp"
                     android:orientation="horizontal">
 
                 </LinearLayout>
 
-            </ScrollView>
+            </HorizontalScrollView>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/goal_name_edit_text"
@@ -74,8 +74,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginHorizontal="16dp">
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="8dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -93,8 +93,8 @@
                 android:id="@+id/counter_linear_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginVertical="8dp"
                 android:layout_marginHorizontal="16dp"
+                android:layout_marginVertical="8dp"
                 android:gravity="center"
                 android:orientation="horizontal">
 

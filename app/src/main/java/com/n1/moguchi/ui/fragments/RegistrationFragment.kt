@@ -1,5 +1,6 @@
 package com.n1.moguchi.ui.fragments
 
+import android.app.Activity
 import android.app.PendingIntent
 import android.content.ContentValues.TAG
 import android.content.Intent
@@ -23,8 +24,8 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 import com.n1.moguchi.R
-import com.n1.moguchi.databinding.FragmentRegistrationBinding
 import com.n1.moguchi.data.models.Parent
+import com.n1.moguchi.databinding.FragmentRegistrationBinding
 
 class RegistrationFragment : Fragment() {
 
@@ -34,7 +35,7 @@ class RegistrationFragment : Fragment() {
 
     private val signInLauncher =
         registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
-            handleSignInResult(result.data)
+            handleSignInResult(result.data, result.resultCode)
         }
 
     override fun onCreateView(
@@ -49,16 +50,16 @@ class RegistrationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        auth = Firebase.auth
         signInClient = Identity.getSignInClient(requireActivity())
-        val currentUser = auth.currentUser
+        auth = Firebase.auth
 
         binding.googleLoginButton.setOnClickListener {
-            if (currentUser == null) {
-                oneTapSignIn() // registration
-            } else {
-                signIn() // login
-            }
+            signIn() // login
+        }
+
+        val currentUser = auth.currentUser
+        if (currentUser == null) {
+            oneTapSignIn() // registration
         }
     }
 
@@ -72,55 +73,58 @@ class RegistrationFragment : Fragment() {
         }
     }
 
-    private fun handleSignInResult(data: Intent?) {
-        try {
-            val credential = signInClient.getSignInCredentialFromIntent(data)
-            val idToken = credential.googleIdToken
-            when {
-                idToken != null -> {
-                    Log.d(TAG, "Got ID token.")
-                    firebaseAuthWithGoogle(idToken)
+    private fun handleSignInResult(data: Intent?, resultCode: Int) {
+        if (resultCode == Activity.RESULT_OK) {
+            try {
+                val credential = signInClient.getSignInCredentialFromIntent(data)
+                val idToken = credential.googleIdToken
+                when {
+                    idToken != null -> {
+                        Log.d(TAG, "firebaseAuthWithGoogle: ${credential.id}")
+                        firebaseAuthWithGoogle(idToken)
+                    }
+                    else -> {
+                        Log.d("RegistrationFragment", "No ID token!")
+                    }
                 }
-
-                else -> {
-                    Log.d(TAG, "No ID token!")
-                }
+            } catch (e: IntentSender.SendIntentException) {
+                Log.e(TAG, "Couldn't start One Tap UI: ${e.localizedMessage}")
             }
-        } catch (e: IntentSender.SendIntentException) {
-            Log.e(TAG, "Couldn't start One Tap UI: ${e.localizedMessage}")
         }
     }
 
-    private fun firebaseAuthWithGoogle(idToken: String?) {
+    private fun firebaseAuthWithGoogle(idToken: String) {
         val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
         auth.signInWithCredential(firebaseCredential)
             .addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) {
-                    Log.d(
-                        TAG,
-                        "signInWithCredential:success"
-                    )
-                    val email = task.result.user?.email
-                    saveParentToFirebase(email = email.toString())
+                    Log.d(TAG, "signInWithCredential:success")
+//                    val email = task.result.user?.email
+//                    saveParentToFirebase(email = email.toString())
                     Navigation.findNavController(binding.root)
                         .navigate(R.id.action_registrationFragment_to_onBoardingFragment)
                 } else {
-                    Log.w(
-                        TAG,
-                        "signInWithCredential:failure",
-                        task.exception
-                    )
+                    Log.w(TAG, "signInWithCredential:failure", task.exception)
                 }
+            }
+    }
+
+    private fun signIn() {
+        val signInRequest = GetSignInIntentRequest.builder()
+            .setServerClientId(getString(R.string.web_client_id))
+            .build()
+
+        signInClient.getSignInIntent(signInRequest)
+            .addOnSuccessListener { pendingIntent ->
+                launchSignIn(pendingIntent)
+            }
+            .addOnFailureListener { e ->
+                Log.e(TAG, "Google Sign-in failed", e)
             }
     }
 
     private fun oneTapSignIn() {
         val oneTapRequest = BeginSignInRequest.builder()
-//            .setPasswordRequestOptions(
-//                BeginSignInRequest.PasswordRequestOptions.builder()
-//                    .setSupported(true)
-//                    .build()
-//            )
             .setGoogleIdTokenRequestOptions(
                 BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
                     .setSupported(true)
@@ -128,7 +132,7 @@ class RegistrationFragment : Fragment() {
                     .setFilterByAuthorizedAccounts(true)
                     .build()
             )
-            .setAutoSelectEnabled(true)
+//            .setAutoSelectEnabled(true)
             .build()
 
         signInClient.beginSignIn(oneTapRequest)
@@ -143,25 +147,11 @@ class RegistrationFragment : Fragment() {
 
     private fun launchSignIn(pendingIntent: PendingIntent) {
         try {
-            val intentSenderRequest = IntentSenderRequest.Builder(pendingIntent)
-                .build()
+            val intentSenderRequest = IntentSenderRequest.Builder(pendingIntent).build()
             signInLauncher.launch(intentSenderRequest)
         } catch (e: IntentSender.SendIntentException) {
             Log.e(TAG, "Couldn't start Sign In: ${e.localizedMessage}")
         }
-    }
-
-    private fun signIn() {
-        val signInRequest = GetSignInIntentRequest.builder()
-            .setServerClientId(getString(R.string.web_client_id))
-            .build()
-        signInClient.getSignInIntent(signInRequest)
-            .addOnSuccessListener { pendingIntent ->
-                launchSignIn(pendingIntent)
-            }
-            .addOnFailureListener { e ->
-                Log.e(TAG, "Google Sign-in failed", e)
-            }
     }
 
     private fun saveParentToFirebase(

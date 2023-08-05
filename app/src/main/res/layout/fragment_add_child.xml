@@ -21,7 +21,7 @@
             app:layout_constraintVertical_chainStyle="packed">
 
             <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/homeAppBar"
+                android:id="@+id/addChildAppBar"
                 style="@style/Widget.MaterialComponents.Toolbar.Primary"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
@@ -55,7 +55,7 @@
                     app:layoutManager="LinearLayoutManager" />
 
                 <Button
-                    android:id="@+id/add_task_button"
+                    android:id="@+id/add_child_button"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="16dp"

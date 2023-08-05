@@ -4,22 +4,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.n1.moguchi.databinding.TaskCreationCardBinding
+import com.n1.moguchi.databinding.ChildCreationCardBinding
 
-class ChildrenListAdapter(private val tasksCard: MutableList<View>) :
-    RecyclerView.Adapter<ChildrenListAdapter.CardViewHolder>() {
+class ChildrenListAdapter(private val childrenCard: MutableList<View>) :
+    RecyclerView.Adapter<ChildrenListAdapter.ChildViewHolder>() {
 
-    inner class CardViewHolder(val binding: TaskCreationCardBinding) :
+    private var childrenNames: MutableList<String> = mutableListOf()
+
+    class ChildViewHolder(val binding: ChildCreationCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        interface Listener {
+            fun getChildrenNamesList(list: ArrayList<String>);
+        }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
-        val taskCard = TaskCreationCardBinding.inflate(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChildViewHolder {
+        val childCard = ChildCreationCardBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
-        return CardViewHolder(taskCard)
+        return ChildViewHolder(childCard)
     }
 
     override fun getItemId(position: Int): Long {
@@ -30,15 +35,20 @@ class ChildrenListAdapter(private val tasksCard: MutableList<View>) :
         return position
     }
 
-    override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
-        val task = tasksCard[position]
-        holder.binding.deleteTaskButton.setOnClickListener {
-            tasksCard.removeAt(position)
+    override fun onBindViewHolder(holder: ChildViewHolder, position: Int) {
+        holder.binding.deleteChildButton.setOnClickListener {
+            childrenCard.removeAt(position)
             this.notifyItemRemoved(position)
         }
+        childrenNames.add(
+            holder.binding.childNameEditText.editText?.text.toString().trim { it <= ' ' })
     }
 
     override fun getItemCount(): Int {
-        return tasksCard.size
+        return childrenCard.size
+    }
+
+    fun getItem(position: Int): String {
+        return childrenNames[position]
     }
 }

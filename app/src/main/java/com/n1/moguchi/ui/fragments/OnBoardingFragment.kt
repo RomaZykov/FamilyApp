@@ -5,34 +5,43 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import androidx.viewpager2.widget.ViewPager2
 import com.n1.moguchi.R
+import com.n1.moguchi.databinding.FragmentOnboardingBinding
 import com.n1.moguchi.ui.adapters.OnBoardingViewPagerAdapter
 
 class OnBoardingFragment : Fragment() {
 
     private lateinit var viewPager: ViewPager2
+    private lateinit var binding: FragmentOnboardingBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_onboarding, container, false)
+    ): View {
+        binding = FragmentOnboardingBinding.inflate(layoutInflater, container, false)
 
         val fragmentList = arrayListOf(
             FirstSlideFragment(),
             SecondSlideFragment(),
             ThirdSlideFragment()
         )
-
-        viewPager = view.findViewById(R.id.onboarding_pager)
+        viewPager = binding.onboardingPager
         val adapter = OnBoardingViewPagerAdapter(
             fragmentList,
             requireActivity().supportFragmentManager,
             lifecycle
         )
         viewPager.adapter = adapter
+        return binding.root
+    }
 
-        return view
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.skipButton.setOnClickListener {
+            Navigation.findNavController(binding.root).navigate(R.id.action_onBoardingFragment_to_addChildFragment)
+        }
     }
 }
