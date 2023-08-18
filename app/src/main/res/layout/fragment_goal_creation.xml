@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.n1.moguchi.ui.viewmodels.BottomSheetViewModel" />
+            type="com.n1.moguchi.ui.viewmodels.PrimaryBottomSheetViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

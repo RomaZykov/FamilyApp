@@ -18,10 +18,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <ImageView
+                android:id="@+id/onboarding_page2_parent"
+                android:layout_width="360dp"
+                android:layout_height="420dp"
+                android:src="@drawable/onboarding_parent_3"
+                app:layout_constraintBottom_toTopOf="@+id/title_name_3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.3"
+                app:layout_constraintVertical_chainStyle="packed" />
+
             <TextView
                 android:id="@+id/title_name_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="72dp"
                 android:layout_marginBottom="16dp"
                 android:text="Ставьте задачи"
                 android:textColor="@color/orange"
@@ -29,7 +42,7 @@
                 app:layout_constraintBottom_toTopOf="@id/tv_description_3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/onboarding_page2_parent"
                 app:layout_constraintVertical_bias="0.8"
                 app:layout_constraintVertical_chainStyle="packed" />
 

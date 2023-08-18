@@ -24,26 +24,23 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginHorizontal="16dp"
             android:orientation="vertical">
 
-            <ProgressBar
-                android:id="@+id/goal_progress_bar"
-                style="@android:style/Widget.ProgressBar.Horizontal"
+            <com.n1.moguchi.ui.views.CurveProgressBarView
+                android:id="@+id/goal_progressbar"
+                style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="20dp"
-                android:progress="25"
-                android:progressTint="@color/pink" />
+                android:layout_marginTop="8dp" />
 
             <TextView
                 android:id="@+id/counter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
                 android:gravity="center"
                 android:text="2 /10"
-                android:textSize="20sp"/>
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/goal_title"
@@ -69,11 +66,11 @@
                 android:id="@+id/all_tasks_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginHorizontal="30dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="10dp"
-                android:layout_gravity="center"
-                android:text="Смотреть 5 задач"/>
+                android:text="Смотреть 5 задач" />
 
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

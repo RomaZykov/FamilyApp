@@ -19,9 +19,7 @@
         android:checkable="true"
         android:clickable="true"
         android:focusable="true"
-        card_view:cardCornerRadius="15dp"
-        card_view:strokeColor="@color/orange"
-        card_view:strokeWidth="1dp">
+        card_view:cardCornerRadius="15dp">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -92,7 +90,7 @@
                     android:id="@+id/counter_linear_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginHorizontal="20dp"
                     android:gravity="center"
                     android:orientation="horizontal">
 
@@ -108,7 +106,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginHorizontal="8dp"
                         android:background="@drawable/round_wide_button"
                         android:backgroundTint="@color/white"
                         android:gravity="center"
@@ -142,13 +140,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     app:dividerColor="@color/orange"
-                    app:dividerInsetEnd="16dp"
-                    app:dividerInsetStart="16dp" />
+                    app:dividerInsetEnd="20dp"
+                    app:dividerInsetStart="20dp" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:id="@+id/task_settings_button"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginHorizontal="20dp"
                     android:layout_marginVertical="8dp"
                     android:clickable="true"
                     android:focusable="true"

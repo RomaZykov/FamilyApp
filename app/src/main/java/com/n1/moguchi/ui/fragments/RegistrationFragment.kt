@@ -27,6 +27,8 @@ import com.n1.moguchi.R
 import com.n1.moguchi.data.models.Parent
 import com.n1.moguchi.databinding.FragmentRegistrationBinding
 
+private const val BASE_URL = "https://moguchi-app-default-rtdb.europe-west1.firebasedatabase.app"
+
 class RegistrationFragment : Fragment() {
 
     private lateinit var binding: FragmentRegistrationBinding
@@ -83,6 +85,7 @@ class RegistrationFragment : Fragment() {
                         Log.d(TAG, "firebaseAuthWithGoogle: ${credential.id}")
                         firebaseAuthWithGoogle(idToken)
                     }
+
                     else -> {
                         Log.d("RegistrationFragment", "No ID token!")
                     }
@@ -99,8 +102,8 @@ class RegistrationFragment : Fragment() {
             .addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) {
                     Log.d(TAG, "signInWithCredential:success")
-//                    val email = task.result.user?.email
-//                    saveParentToFirebase(email = email.toString())
+                    val email = task.result.user?.email
+                    saveParentToFirebase(email = email.toString())
                     Navigation.findNavController(binding.root)
                         .navigate(R.id.action_registrationFragment_to_onBoardingFragment)
                 } else {
@@ -157,13 +160,12 @@ class RegistrationFragment : Fragment() {
     private fun saveParentToFirebase(
         email: String
     ) {
-        val database =
-            FirebaseDatabase.getInstance("https://moguchi-app-default-rtdb.europe-west1.firebasedatabase.app/")
+        val database = FirebaseDatabase.getInstance(BASE_URL)
         val parentsRef = database.getReference("parents")
         val parentId = auth.currentUser?.uid
 
         val parent = Parent(
-            userName = fun(): String = "User${parentId?.chunked(5)?.get(0)}",
+            userName = "User-${parentId?.slice(0..7)}",
             email = email
         )
         parentsRef.child(parentId!!).setValue(parent)

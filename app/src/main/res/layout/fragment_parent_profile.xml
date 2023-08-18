@@ -5,6 +5,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/light_orange"
         tools:context=".ParentProfileFragment">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -12,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
-            app:layout_constraintBottom_toTopOf="@+id/profile_ll"
+            app:layout_constraintBottom_toTopOf="@+id/profile_card"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -27,60 +28,92 @@
                 app:navigationIcon="@drawable/baseline_arrow_back_24"
                 app:title="Профиль"
                 app:titleCentered="true" />
-
         </com.google.android.material.appbar.AppBarLayout>
+
+        <include
+            android:id="@+id/profile_card"
+            layout="@layout/parent_profile_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            app:layout_constraintBottom_toTopOf="@id/profile_ll"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/topAppBar" />
 
         <LinearLayout
             android:id="@+id/profile_ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toTopOf="@id/notifications_title"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profile_card">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/my_children_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:layout_marginVertical="8dp"
+                android:layout_marginVertical="4dp"
                 android:background="@drawable/round_wide_button"
                 android:text="Мои дети"
                 android:textAlignment="textStart"
-                app:icon="@drawable/baseline_child_care_24" />
+                android:textColor="@color/light_black"
+                app:icon="@drawable/profile_icon" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/notifications"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:layout_marginVertical="8dp"
+                android:layout_marginVertical="4dp"
                 android:background="@drawable/round_wide_button"
                 android:text="Уведомления"
                 android:textAlignment="textStart"
-                app:icon="@drawable/baseline_notifications_24" />
+                android:textColor="@color/light_black"
+                app:icon="@drawable/notification_bing_icon" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/sign_out_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:layout_marginVertical="8dp"
+                android:layout_marginVertical="4dp"
                 android:background="@drawable/round_wide_button"
                 android:text="Выйти из аккаунта"
                 android:textAlignment="textStart"
+                android:textColor="@color/light_black"
                 app:icon="@drawable/baseline_exit_to_app_24" />
-
         </LinearLayout>
 
         <TextView
             android:id="@+id/notifications_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="24dp"
+            android:gravity="start"
             android:text="Уведомления"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@id/rv_notifications_list"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profile_ll" />
+            app:layout_constraintTop_toBottomOf="@+id/profile_ll"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/empty_notifications_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginVertical="16dp"
+            android:gravity="start"
+            android:text="Уведомлений нет"
+            android:textColor="@color/gray"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/notifications_title" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_notifications_list"
@@ -88,6 +121,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:nestedScrollingEnabled="false"
+            android:visibility="gone"
             app:layoutManager="LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

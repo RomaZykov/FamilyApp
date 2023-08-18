@@ -70,7 +70,8 @@ class HomeFragment : Fragment() {
         }
 
         binding.buttonAddChild.setOnClickListener {
-            TODO()
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.action_homeFragment_to_addChildFragment)
         }
 
         binding.homeAppBar.setOnMenuItemClickListener { menuItem ->
@@ -80,6 +81,7 @@ class HomeFragment : Fragment() {
                         .navigate(R.id.action_homeFragment_to_profileFragment)
                     true
                 }
+
                 else -> false
             }
         }

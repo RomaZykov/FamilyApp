@@ -12,7 +12,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.ActivityMainBinding
 import com.n1.moguchi.ui.adapters.GoalListAdapter
-import com.n1.moguchi.ui.fragments.BottomSheetFragment
+import com.n1.moguchi.ui.fragments.PrimaryBottomSheetFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -63,8 +63,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun showGoalAndTaskCreationDialog() {
         val fragmentManager = supportFragmentManager
-        val modalBottomSheet = BottomSheetFragment()
-        modalBottomSheet.show(fragmentManager, BottomSheetFragment.TAG)
+        val modalBottomSheet = PrimaryBottomSheetFragment()
+        modalBottomSheet.show(fragmentManager, PrimaryBottomSheetFragment.TAG)
     }
 
     private fun showUi() {

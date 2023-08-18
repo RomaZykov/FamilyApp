@@ -5,9 +5,9 @@ import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.modules.RepositoryModule
 import com.n1.moguchi.modules.ViewModelModule
 import com.n1.moguchi.ui.fragments.AddChildFragment
-import com.n1.moguchi.ui.fragments.BottomSheetFragment
 import com.n1.moguchi.ui.fragments.GoalCreationFragment
 import com.n1.moguchi.ui.fragments.HomeFragment
+import com.n1.moguchi.ui.fragments.PrimaryBottomSheetFragment
 import com.n1.moguchi.ui.fragments.TaskCreationFragment
 import dagger.BindsInstance
 import dagger.Component
@@ -21,7 +21,7 @@ interface AppComponent {
 
     fun inject(goalCreationFragment: GoalCreationFragment)
 
-    fun inject(bottomSheetFragment: BottomSheetFragment)
+    fun inject(bottomSheetFragment: PrimaryBottomSheetFragment)
 
     fun inject(taskCreationFragment: TaskCreationFragment)
 

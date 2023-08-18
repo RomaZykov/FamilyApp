@@ -15,12 +15,10 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
-import com.n1.moguchi.data.models.Child
 import com.n1.moguchi.databinding.FragmentAddChildBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.adapters.ChildrenListAdapter
 import com.n1.moguchi.ui.viewmodels.AddChildViewModel
-import java.util.UUID
 import javax.inject.Inject
 
 class AddChildFragment : Fragment() {
@@ -71,7 +69,7 @@ class AddChildFragment : Fragment() {
             childrenListAdapter.notifyItemInserted(0)
         }
 
-        binding.nextButton.setOnClickListener {
+        binding.saveChildrenButton.setOnClickListener {
             saveChildrenToFirebase()
         }
     }
@@ -79,17 +77,8 @@ class AddChildFragment : Fragment() {
     private fun saveChildrenToFirebase() {
         val parentId = auth.currentUser?.uid
         if (parentId != null) {
-            val childrenCount = childrenListAdapter.itemCount
-            for (position in 0..childrenCount) {
-                val childName = childrenListAdapter.getItem(position)
-                val childId = UUID.randomUUID().toString()
-                val child = Child(
-                    childId = childId,
-                    parentOwnerId = parentId.toString(),
-                    childName = childName
-                )
-                viewModel.addChild(parentId, child)
-            }
+            val childrenNamesList = childrenListAdapter.retrieveChildrenNames()
+            viewModel.saveChildrenList(parentId, childrenNamesList)
         }
         Navigation.findNavController(binding.root).navigate(R.id.homeFragment)
     }

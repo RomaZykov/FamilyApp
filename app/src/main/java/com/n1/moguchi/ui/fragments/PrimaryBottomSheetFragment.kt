@@ -12,19 +12,19 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
 import com.n1.moguchi.data.models.Goal
-import com.n1.moguchi.databinding.FragmentBottomSheetBinding
+import com.n1.moguchi.databinding.FragmentPrimaryBottomSheetBinding
 import com.n1.moguchi.ui.ViewModelFactory
-import com.n1.moguchi.ui.viewmodels.BottomSheetViewModel
+import com.n1.moguchi.ui.viewmodels.PrimaryBottomSheetViewModel
 import javax.inject.Inject
 
-class BottomSheetFragment : BottomSheetDialogFragment() {
+class PrimaryBottomSheetFragment : BottomSheetDialogFragment() {
 
-    private lateinit var binding: FragmentBottomSheetBinding
+    private lateinit var binding: FragmentPrimaryBottomSheetBinding
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private val viewModel by lazy {
-        ViewModelProvider(this, viewModelFactory)[BottomSheetViewModel::class.java]
+        ViewModelProvider(this, viewModelFactory)[PrimaryBottomSheetViewModel::class.java]
     }
 
     private val component by lazy {
@@ -40,7 +40,7 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentBottomSheetBinding.inflate(inflater, container, false)
+        binding = FragmentPrimaryBottomSheetBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
         return binding.root
@@ -55,13 +55,8 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
 
         childFragmentManager.beginTransaction()
-            .replace(R.id.child_fragment_container, GoalCreationFragment())
+            .replace(R.id.child_fragment_container, GoalCreationFragment(), GOAL_CREATION_TAG)
             .commit()
-
-        val currentGoalHeight = viewModel.goalHeight.value
-        val goal = Goal(
-
-        )
 
         binding.nextButton.setOnClickListener {
             val currentGoalHeight = viewModel.goalHeight.value
@@ -69,14 +64,38 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
 
             )
 //            viewModel.createGoal(goal = goal)
-            childFragmentManager.beginTransaction()
-                .remove(GoalCreationFragment())
-                .replace(R.id.child_fragment_container, TaskCreationFragment())
-                .commit()
+
+            val currentFragmentInContainer = childFragmentManager.fragments[0]
+
+            when (currentFragmentInContainer.tag) {
+                GOAL_CREATION_TAG -> {
+                    childFragmentManager.beginTransaction()
+                        .remove(currentFragmentInContainer)
+                        .replace(
+                            R.id.child_fragment_container,
+                            TaskCreationFragment(),
+                            TASK_CREATION_TAG
+                        )
+                        .commit()
+                }
+
+                TASK_CREATION_TAG -> {
+                    childFragmentManager.beginTransaction()
+                        .remove(currentFragmentInContainer)
+                        .replace(
+                            R.id.child_fragment_container,
+                            TaskCreationFragment(),
+                            TASK_CREATION_TAG
+                        )
+                        .commit()
+                }
+            }
         }
     }
 
     companion object {
-        const val TAG = "CommonBottomSheet"
+        const val TAG = "PrimaryModalBottomSheet"
+        const val GOAL_CREATION_TAG = "GoalCreationFragment"
+        const val TASK_CREATION_TAG = "TaskCreationFragment"
     }
 }

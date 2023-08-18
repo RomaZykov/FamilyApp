@@ -4,10 +4,10 @@ import androidx.lifecycle.ViewModel
 import com.n1.moguchi.helpers.ViewModelKey
 import com.n1.moguchi.ui.viewmodels.AddChildViewModel
 import com.n1.moguchi.ui.viewmodels.AuthViewModel
-import com.n1.moguchi.ui.viewmodels.BottomSheetViewModel
 import com.n1.moguchi.ui.viewmodels.HomeViewModel
 import com.n1.moguchi.ui.viewmodels.TaskViewModel
 import com.n1.moguchi.ui.viewmodels.MainActivityViewModel
+import com.n1.moguchi.ui.viewmodels.PrimaryBottomSheetViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -26,9 +26,9 @@ interface ViewModelModule {
     fun bindAuthViewModel(authViewModel: AuthViewModel): ViewModel
 
     @IntoMap
-    @ViewModelKey(BottomSheetViewModel::class)
+    @ViewModelKey(PrimaryBottomSheetViewModel::class)
     @Binds
-    fun bindGoalCreationDialogViewModel(bottomSheetViewModel: BottomSheetViewModel): ViewModel
+    fun bindGoalCreationDialogViewModel(bottomSheetViewModel: PrimaryBottomSheetViewModel): ViewModel
 
     @IntoMap
     @ViewModelKey(TaskViewModel::class)

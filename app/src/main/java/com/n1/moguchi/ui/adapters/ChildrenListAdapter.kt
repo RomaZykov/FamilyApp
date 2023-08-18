@@ -11,12 +11,8 @@ class ChildrenListAdapter(private val childrenCard: MutableList<View>) :
 
     private var childrenNames: MutableList<String> = mutableListOf()
 
-    class ChildViewHolder(val binding: ChildCreationCardBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        interface Listener {
-            fun getChildrenNamesList(list: ArrayList<String>);
-        }
-    }
+    inner class ChildViewHolder(val binding: ChildCreationCardBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChildViewHolder {
         val childCard = ChildCreationCardBinding.inflate(
@@ -40,15 +36,16 @@ class ChildrenListAdapter(private val childrenCard: MutableList<View>) :
             childrenCard.removeAt(position)
             this.notifyItemRemoved(position)
         }
-        childrenNames.add(
-            holder.binding.childNameEditText.editText?.text.toString().trim { it <= ' ' })
+        val childName = holder.binding.childNameEditText.text.toString().trim { it <= ' ' }
+        childrenNames.add(childName)
     }
+
 
     override fun getItemCount(): Int {
         return childrenCard.size
     }
 
-    fun getItem(position: Int): String {
-        return childrenNames[position]
+    fun retrieveChildrenNames(): List<String> {
+        return childrenNames
     }
 }

@@ -12,7 +12,7 @@ import com.n1.moguchi.data.repositories.TaskRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class BottomSheetViewModel @Inject constructor(
+class PrimaryBottomSheetViewModel @Inject constructor(
     private val parentRepository: ParentRepository,
     private val goalRepository: GoalRepository,
     private val taskRepository: TaskRepository

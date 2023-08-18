@@ -36,6 +36,9 @@ class TaskListAdapter(private val tasksCard: MutableList<View>) :
             tasksCard.removeAt(position)
             this.notifyItemRemoved(position)
         }
+        holder.binding.taskSettingsButton.setOnClickListener {view ->
+//            view.findNavController().navigate(R.id.)
+        }
     }
 
     override fun getItemCount(): Int {

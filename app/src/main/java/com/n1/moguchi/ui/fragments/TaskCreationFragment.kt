@@ -14,7 +14,7 @@ import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentTaskCreationBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.adapters.TaskListAdapter
-import com.n1.moguchi.ui.viewmodels.BottomSheetViewModel
+import com.n1.moguchi.ui.viewmodels.PrimaryBottomSheetViewModel
 import javax.inject.Inject
 
 class TaskCreationFragment : BottomSheetDialogFragment() {
@@ -26,8 +26,8 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-    private val viewModel: BottomSheetViewModel by lazy {
-        ViewModelProvider(this, viewModelFactory)[BottomSheetViewModel::class.java]
+    private val viewModel: PrimaryBottomSheetViewModel by lazy {
+        ViewModelProvider(this, viewModelFactory)[PrimaryBottomSheetViewModel::class.java]
     }
 
     private val component by lazy {

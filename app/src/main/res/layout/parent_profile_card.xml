@@ -13,7 +13,6 @@
         android:clickable="true"
         android:focusable="true"
         card_view:cardCornerRadius="15dp"
-        card_view:strokeColor="@color/orange"
         card_view:strokeWidth="1dp">
 
         <FrameLayout
@@ -55,13 +54,10 @@
                     card_view:layout_constraintStart_toEndOf="@+id/parent_image"
                     card_view:layout_constraintTop_toBottomOf="@+id/parent_name"
                     tools:text="romatest@Gmail.com" />
-
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
             <ImageButton
-                android:id="@+id/delete_task_button"
+                android:id="@+id/edit_profile_button"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_gravity="end"

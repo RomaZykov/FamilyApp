@@ -63,8 +63,7 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="4dp"
-                android:progress="25"
-                android:progressTint="@color/orange" />
+                android:progress="25" />
 
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"

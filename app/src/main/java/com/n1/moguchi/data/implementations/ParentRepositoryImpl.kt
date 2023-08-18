@@ -6,10 +6,11 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
-import com.n1.moguchi.data.repositories.ParentRepository
 import com.n1.moguchi.data.models.Child
+import com.n1.moguchi.data.repositories.ParentRepository
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
+
 
 class ParentRepositoryImpl @Inject constructor() : ParentRepository {
 
@@ -43,9 +44,18 @@ class ParentRepositoryImpl @Inject constructor() : ParentRepository {
         return child[0]
     }
 
-    override fun saveChild(parentId: String, child: Child) {
+    override fun saveChildrenByName(parentId: String, childrenNamesList: List<String>) {
         val childrenRefByParentId = childrenRef.child(parentId)
-        childrenRefByParentId.child(child.childId!!).setValue(child)
+        for (childName in childrenNamesList) {
+            val newChildRef: DatabaseReference = childrenRefByParentId.push()
+            val childId: String? = newChildRef.key
+            val child = Child(
+                childId = childId,
+                parentOwnerId = parentId,
+                childName = childName
+            )
+            newChildRef.setValue(child)
+        }
     }
 
     override fun deleteChild(parentId: String, childId: String) {

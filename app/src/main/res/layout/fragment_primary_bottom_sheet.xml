@@ -3,14 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
             name="viewModel"
-            type="com.n1.moguchi.ui.viewmodels.BottomSheetViewModel" />
+            type="com.n1.moguchi.ui.viewmodels.PrimaryBottomSheetViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/bottom_sheet_creation"
+        android:id="@+id/secondary_bottom_sheet_creation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true">

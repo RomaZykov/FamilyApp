@@ -21,7 +21,7 @@ class GoalListAdapter() : RecyclerView.Adapter<GoalListAdapter.CardViewHolder>()
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
         val goalContainer = goalsList?.get(position)
-        holder.binding.goalProgressBar.progress
+//        holder.binding.goalProgressbar
         holder.binding.counter.text
         holder.binding.goalTitle.text
         holder.binding.linearLayoutTasksContainer
