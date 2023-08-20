@@ -7,7 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -55,6 +56,10 @@ class AddChildFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val navHostFragment =
+            requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+
         auth = Firebase.auth
 
         val recyclerView: RecyclerView = binding.rvChildrenList
@@ -70,16 +75,24 @@ class AddChildFragment : Fragment() {
         }
 
         binding.saveChildrenButton.setOnClickListener {
-            saveChildrenToFirebase()
+            saveChildrenToFirebase(navController)
         }
     }
 
-    private fun saveChildrenToFirebase() {
+    private fun saveChildrenToFirebase(navController: NavController) {
         val parentId = auth.currentUser?.uid
+
+        val args = arguments
+        val isAfterOnBoarding = args?.getBoolean("onboarding_completed")
+
         if (parentId != null) {
             val childrenNamesList = childrenListAdapter.retrieveChildrenNames()
             viewModel.saveChildrenList(parentId, childrenNamesList)
+            if (isAfterOnBoarding == true) {
+                navController.navigate(R.id.action_addChildFragment_to_goalCreationFragment)
+            } else {
+                navController.navigate(R.id.homeFragment)
+            }
         }
-        Navigation.findNavController(binding.root).navigate(R.id.homeFragment)
     }
 }

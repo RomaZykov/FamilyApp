@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.n1.moguchi.MoguchiBaseApplication
@@ -50,6 +51,10 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val navHostFragment =
+            requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+
         val parentId = Firebase.auth.currentUser?.uid
 
         if (parentId != null) {
@@ -70,15 +75,14 @@ class HomeFragment : Fragment() {
         }
 
         binding.buttonAddChild.setOnClickListener {
-            Navigation.findNavController(binding.root)
+            Navigation.findNavController(requireView())
                 .navigate(R.id.action_homeFragment_to_addChildFragment)
         }
 
         binding.homeAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.profile -> {
-                    Navigation.findNavController(binding.root)
-                        .navigate(R.id.action_homeFragment_to_profileFragment)
+                    navController.navigate(R.id.action_homeFragment_to_profileFragment)
                     true
                 }
 

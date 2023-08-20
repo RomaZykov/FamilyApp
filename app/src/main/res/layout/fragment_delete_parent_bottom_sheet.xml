@@ -1,22 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/content"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
-    android:background="#FFF2E3"
-    android:fadeScrollbars="false"
-    android:fillViewport="true"
-    android:isScrollContainer="true"
-    android:scrollbarAlwaysDrawVerticalTrack="true"
-    android:scrollbars="horizontal"
-    app:layout_scrollFlags="scroll">
+<layout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/delete_profile"
+        style="@style/Widget.Material3.BottomSheet"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center">
+        android:layout_height="match_parent"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <ImageView
             android:id="@+id/onboarding_welcome_parent"
@@ -37,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="16dp"
-            android:text="Режим родителя и ребенка"
+            android:text="Удалить аккаунт?"
             android:textColor="@color/black"
             android:textSize="24sp"
             app:layout_constraintBottom_toTopOf="@id/tv_description_1"
@@ -50,8 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="позволит ограничить доступ ребёнка
-\nк редактированию и созданию целей"
+            android:text="Все цели и прогресс детей потеряются, \nвосстановить их не получится"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -60,4 +50,4 @@
             app:layout_constraintTop_toBottomOf="@id/title_name_1" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+</layout>

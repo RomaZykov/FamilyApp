@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.n1.moguchi.R
@@ -25,7 +26,20 @@ class ThirdSlideFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.nextButton.setOnClickListener {
+
             Navigation.findNavController(binding.root).navigate(R.id.action_onBoardingFragment_to_addChildFragment)
+        }
+    }
+
+    companion object {
+        private const val AFTER_ONBOARDING = "after_onboarding"
+
+        fun newInstance(): Fragment {
+            return ThirdSlideFragment().apply {
+                arguments = Bundle().apply {
+                    putBoolean(AFTER_ONBOARDING, true)
+                }
+            }
         }
     }
 }

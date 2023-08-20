@@ -21,7 +21,11 @@
     <fragment
         android:id="@+id/addChildFragment"
         android:name="com.n1.moguchi.ui.fragments.AddChildFragment"
-        android:label="AddChildFragment"/>
+        android:label="AddChildFragment">
+        <action
+            android:id="@+id/action_addChildFragment_to_goalCreationFragment"
+            app:destination="@id/goalCreationFragment" />
+    </fragment>
     <fragment
         android:id="@+id/registrationFragment"
         android:name="com.n1.moguchi.ui.fragments.RegistrationFragment"
@@ -56,4 +60,13 @@
             android:id="@+id/action_parentProfileFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/passwordForChildFragment"
+        android:name="com.n1.moguchi.PasswordForChildFragment"
+        android:label="fragment_password_for_child"
+        tools:layout="@layout/fragment_password_for_child" />
+    <fragment
+        android:id="@+id/goalCreationFragment"
+        android:name="com.n1.moguchi.ui.fragments.GoalCreationFragment"
+        android:label="GoalCreationFragment" />
 </navigation>

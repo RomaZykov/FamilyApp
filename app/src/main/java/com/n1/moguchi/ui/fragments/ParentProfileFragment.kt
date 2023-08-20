@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.firebase.auth.FirebaseAuth
@@ -43,16 +44,29 @@ class ParentProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val navHostFragment =
+            requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+
         signInClient = Identity.getSignInClient(requireContext())
         auth = Firebase.auth
 
         binding.signOutButton.setOnClickListener {
             signOut()
             signInClient.signOut().addOnCompleteListener(requireActivity()) {
-                Navigation.findNavController(binding.root)
-                    .navigate(R.id.action_parentProfileFragment_to_registrationFragment)
+                navController.navigate(R.id.action_parentProfileFragment_to_registrationFragment)
             }
         }
+
+        binding.profileCard.editProfileButton.setOnClickListener {
+            showParentEditDialog()
+        }
+    }
+
+    private fun showParentEditDialog() {
+        val fragmentManager = requireParentFragment().childFragmentManager
+        val modalBottomSheet = ParentEditProfileBottomSheetFragment()
+        modalBottomSheet.show(fragmentManager, ParentEditProfileBottomSheetFragment.TAG)
     }
 
     private fun signOut() {

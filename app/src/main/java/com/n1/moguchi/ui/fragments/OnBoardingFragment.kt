@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
 import androidx.viewpager2.widget.ViewPager2
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentOnboardingBinding
@@ -21,6 +22,7 @@ class OnBoardingFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentOnboardingBinding.inflate(layoutInflater, container, false)
+
 
         val fragmentList = arrayListOf(
             FirstSlideFragment(),
@@ -40,8 +42,12 @@ class OnBoardingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val navHostFragment =
+            requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+
         binding.skipButton.setOnClickListener {
-            Navigation.findNavController(binding.root).navigate(R.id.action_onBoardingFragment_to_addChildFragment)
+            navController.navigate(R.id.action_onBoardingFragment_to_addChildFragment)
         }
     }
 }
