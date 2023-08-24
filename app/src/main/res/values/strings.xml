@@ -50,6 +50,7 @@
     <string name="tasks_title">Задачи:</string>
     <string name="alternative_way">Or</string>
     <string name="add_task_text_button"><u>Добавить задачу underline</u></string>
+    <string name="n_moguchi">Добро пожаловать \nв <font color='#FA824C'>Moguchi</font>!</string>
 
     <string-array name="children">
         <item>C</item>

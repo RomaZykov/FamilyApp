@@ -9,7 +9,7 @@
         tools:context=".ParentProfileFragment">
 
         <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/topAppBar"
+            android:id="@+id/parent_profile_top_app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
@@ -21,15 +21,15 @@
             app:layout_constraintVertical_chainStyle="packed">
 
             <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/homeAppBar"
+                android:id="@+id/parent_profile_app_bar"
                 style="@style/Widget.MaterialComponents.Toolbar.Primary"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:navigationIcon="@drawable/baseline_arrow_back_24"
-                app:titleTextColor="@color/black"
-                app:titleTextAppearance="@style/ActionBar.TitleText"
                 app:title="Профиль"
-                app:titleCentered="true" />
+                app:titleCentered="true"
+                app:titleTextAppearance="@style/ActionBar.TitleText"
+                app:titleTextColor="@color/black" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <include
@@ -41,7 +41,7 @@
             app:layout_constraintBottom_toTopOf="@id/profile_ll"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/topAppBar" />
+            app:layout_constraintTop_toBottomOf="@id/parent_profile_top_app_bar" />
 
         <LinearLayout
             android:id="@+id/profile_ll"
@@ -54,51 +54,110 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/profile_card">
 
-            <com.google.android.material.button.MaterialButton
+            <LinearLayout
                 android:id="@+id/my_children_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginVertical="4dp"
-                android:backgroundTint="@color/white"
-                android:padding="16dp"
-                android:text="Мои дети"
-                android:textAlignment="textStart"
-                android:textColor="@color/light_black"
-                android:textSize="14sp"
-                app:cornerRadius="10dp"
-                app:icon="@drawable/profile_icon" />
+                android:background="@drawable/round_wide_button"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
-            <com.google.android.material.button.MaterialButton
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="24dp"
+                    android:gravity="center"
+                    android:src="@drawable/profile" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="16dp"
+                    android:fontFamily="@font/onest_regular"
+                    android:gravity="start|center"
+                    android:layout_weight="1"
+                    android:text="Мои дети"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:paddingHorizontal="8dp"
+                    android:src="@drawable/chevron_r" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/notifications_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginVertical="4dp"
-                android:backgroundTint="@color/white"
-                android:clickable="false"
-                android:focusable="false"
-                android:padding="16dp"
-                android:text="Уведомления"
-                android:textAlignment="textStart"
-                android:textColor="@color/light_black"
-                android:textSize="14sp"
-                app:cornerRadius="10dp"
-                app:icon="@drawable/notification_bing_icon" />
+                android:background="@drawable/round_wide_button"
+                android:clickable="true"
+                android:focusable="true">
 
-            <com.google.android.material.button.MaterialButton
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="24dp"
+                    android:gravity="center"
+                    android:src="@drawable/notification_bing" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:gravity="start|center"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="16dp"
+                    android:fontFamily="@font/onest_regular"
+                    android:text="Уведомления"
+                    android:textSize="14sp" />
+
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/notifications_switch"
+                    android:paddingHorizontal="16dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/sign_out_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginVertical="4dp"
-                android:backgroundTint="@color/white"
-                android:padding="16dp"
-                android:text="Выйти из аккаунта"
-                android:textAlignment="textStart"
-                android:textColor="@color/light_black"
-                android:textSize="14sp"
-                app:cornerRadius="10dp"
-                app:icon="@drawable/baseline_exit_to_app_24" />
+                android:background="@drawable/round_wide_button"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="24dp"
+                    android:gravity="center"
+                    android:src="@drawable/logout" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="16dp"
+                    android:fontFamily="@font/onest_regular"
+                    android:gravity="center"
+                    android:text="Выйти из аккаунта"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
         <TextView
@@ -106,6 +165,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="24dp"
+            android:fontFamily="@font/onest_regular"
             android:gravity="start"
             android:text="Уведомления"
             android:textSize="16sp"
@@ -120,6 +180,7 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="16dp"
             android:layout_marginStart="24dp"
+            android:fontFamily="@font/onest_regular"
             android:gravity="start"
             android:text="Уведомлений нет"
             android:textColor="@color/gray"

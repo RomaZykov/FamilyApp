@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.n1.moguchi.ui.viewmodels.PrimaryBottomSheetViewModel" />
@@ -31,11 +32,11 @@
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="32dp"
+                android:fontFamily="@font/onest_regular"
                 android:gravity="center"
                 android:text="Новая цель"
-                android:textColor="@color/orange"
-                android:textSize="25sp"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toTopOf="@+id/child_fragment_container"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -65,29 +66,33 @@
 
                 <Button
                     android:id="@+id/cancel_button"
-                    android:layout_width="168dp"
+                    android:layout_width="178dp"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
+                    android:fontFamily="@font/onest_regular"
                     android:paddingHorizontal="24dp"
                     android:paddingVertical="16dp"
                     android:text="Отмена"
                     android:textColor="@color/black" />
 
                 <Space
-                    android:layout_width="20dp"
+                    android:layout_width="8dp"
                     android:layout_height="wrap_content" />
 
                 <Button
                     android:id="@+id/next_button"
-                    android:layout_width="168dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="178dp"
+                    android:layout_height="match_parent"
                     android:backgroundTint="@color/orange"
+                    android:fontFamily="@font/onest_regular"
+                    android:text="Далее"
+                    android:drawableTint="@color/white"
                     android:paddingHorizontal="24dp"
                     android:paddingVertical="16dp"
-                    android:text="Далее"
-                    android:textColor="@color/black" />
-            </LinearLayout>
+                    android:textColor="@color/white"
+                    app:drawableEndCompat="@drawable/arrow_r" />
 
+            </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

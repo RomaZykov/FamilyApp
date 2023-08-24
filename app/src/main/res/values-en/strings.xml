@@ -50,5 +50,6 @@
     <string name="tasks_title">Задачи:</string>
     <string name="alternative_way">Or</string>
     <string name="add_task_text_button">Добавить задачу</string>
+    <string name="n_moguchi">Добро пожаловать \nв Moguchi!</string>
 
 </resources>

@@ -28,6 +28,8 @@
                 android:layout_margin="16dp"
                 android:clickable="true"
                 android:focusable="true"
+                android:textSize="14sp"
+                android:fontFamily="@font/onest_regular"
                 android:gravity="end"
                 android:textColor="@color/orange"
                 android:padding="16dp"

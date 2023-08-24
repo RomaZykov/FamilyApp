@@ -27,9 +27,9 @@
             android:id="@+id/child_name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginEnd="5dp"
+            android:paddingHorizontal="8dp"
             android:gravity="center"
-            android:textSize="20sp"
+            android:textSize="14sp"
             tools:text="Kirill"/>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

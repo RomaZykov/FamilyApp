@@ -6,6 +6,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/light_orange"
         tools:context=".ui.fragments.parent.RegistrationFragment">
 
         <ImageView
@@ -17,16 +18,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.3"
+            app:layout_constraintVertical_bias="0.1"
             app:layout_constraintVertical_chainStyle="packed" />
 
         <TextView
             android:id="@+id/title_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="32dp"
+            android:fontFamily="@font/onest_regular"
             android:gravity="center"
-            android:text="Добро пожаловать \nв Могучи!"
+            android:text="@string/n_moguchi"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -35,17 +37,33 @@
             app:layout_constraintTop_toBottomOf="@+id/registration_image"
             app:layout_constraintVertical_chainStyle="packed" />
 
-        <com.google.android.material.button.MaterialButton
+        <LinearLayout
             android:id="@+id/google_login_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:background="@drawable/round_wide_button"
-            android:importantForAccessibility="no"
-            android:text="Войти с помощью Google"
+            android:background="@drawable/round_login_button"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
-        </com.google.android.material.button.MaterialButton>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:src="@drawable/google_logo" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/onest_regular"
+                android:gravity="center"
+                android:text="Войти с помощью Google"
+                android:textSize="14sp" />
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
