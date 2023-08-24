@@ -20,13 +20,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-            <Button
+            <TextView
                 android:id="@+id/skip_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_margin="16dp"
+                android:clickable="true"
+                android:focusable="true"
                 android:gravity="end"
+                android:textColor="@color/orange"
                 android:padding="16dp"
                 android:text="Пропустить" />
         </FrameLayout>

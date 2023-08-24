@@ -6,6 +6,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/light_orange"
         tools:context=".ui.fragments.HomeFragment">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -29,6 +30,7 @@
 
         <HorizontalScrollView
             android:id="@+id/scroll_view"
+            android:layout_marginTop="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@id/rv_home_children_list"
@@ -39,14 +41,16 @@
             <LinearLayout
                 android:id="@+id/children_linear_layout"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="56dp"
                 android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/button_add_child"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="@color/soft_orange"
                     android:text="+ Добавить ребенка"
+                    android:textColor="@color/black"
                     android:textSize="11sp" />
             </LinearLayout>
         </HorizontalScrollView>
