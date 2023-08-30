@@ -12,7 +12,6 @@
             android:id="@+id/registration_image"
             android:layout_width="match_parent"
             android:layout_height="480dp"
-            android:scaleType="fitXY"
             android:src="@drawable/onboarding_parent_welcome"
             app:layout_constraintBottom_toTopOf="@+id/title_name"
             app:layout_constraintEnd_toEndOf="parent"
@@ -47,8 +46,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
-
         </com.google.android.material.button.MaterialButton>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

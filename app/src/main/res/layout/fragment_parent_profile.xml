@@ -59,24 +59,27 @@
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginVertical="4dp"
                 android:backgroundTint="@color/white"
-                android:padding="24dp"
+                android:padding="16dp"
                 android:text="Мои дети"
                 android:textAlignment="textStart"
                 android:textColor="@color/light_black"
+                android:textSize="14sp"
                 app:cornerRadius="10dp"
                 app:icon="@drawable/profile_icon" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/notifications"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginVertical="4dp"
                 android:backgroundTint="@color/white"
-                android:padding="24dp"
+                android:clickable="false"
+                android:focusable="false"
+                android:padding="16dp"
                 android:text="Уведомления"
                 android:textAlignment="textStart"
                 android:textColor="@color/light_black"
+                android:textSize="14sp"
                 app:cornerRadius="10dp"
                 app:icon="@drawable/notification_bing_icon" />
 
@@ -87,10 +90,11 @@
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginVertical="4dp"
                 android:backgroundTint="@color/white"
-                android:padding="24dp"
+                android:padding="16dp"
                 android:text="Выйти из аккаунта"
                 android:textAlignment="textStart"
                 android:textColor="@color/light_black"
+                android:textSize="14sp"
                 app:cornerRadius="10dp"
                 app:icon="@drawable/baseline_exit_to_app_24" />
         </LinearLayout>

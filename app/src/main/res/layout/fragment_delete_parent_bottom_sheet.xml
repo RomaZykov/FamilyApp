@@ -12,7 +12,7 @@
         <ImageView
             android:id="@+id/onboarding_welcome_parent"
             android:layout_width="match_parent"
-            android:layout_height="480dp"
+            android:layout_height="450dp"
             android:scaleType="fitXY"
             android:src="@drawable/onboarding_parent_1"
             app:layout_constraintBottom_toTopOf="@+id/title_name_1"
@@ -26,7 +26,6 @@
             android:id="@+id/title_name_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
             android:layout_marginBottom="16dp"
             android:text="Удалить аккаунт?"
             android:textColor="@color/black"
@@ -44,10 +43,46 @@
             android:text="Все цели и прогресс детей потеряются, \nвосстановить их не получится"
             android:textColor="@color/black"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_linear_layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title_name_1" />
+
+        <LinearLayout
+            android:id="@id/bottom_linear_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <Button
+                android:id="@+id/cancel_button"
+                android:layout_width="148dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/orange"
+                android:paddingHorizontal="24dp"
+                android:paddingVertical="16dp"
+                android:text="Отмена"
+                android:textColor="@color/white" />
+
+            <Space
+                android:layout_width="20dp"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/save_button"
+                android:layout_width="148dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
+                android:paddingHorizontal="24dp"
+                android:paddingVertical="16dp"
+                android:text="Удалить"
+                android:textColor="@color/black" />
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

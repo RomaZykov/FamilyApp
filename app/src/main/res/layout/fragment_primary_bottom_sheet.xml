@@ -65,9 +65,11 @@
 
                 <Button
                     android:id="@+id/cancel_button"
-                    android:layout_width="148dp"
+                    android:layout_width="168dp"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
+                    android:paddingHorizontal="24dp"
+                    android:paddingVertical="16dp"
                     android:text="Отмена"
                     android:textColor="@color/black" />
 
@@ -77,9 +79,11 @@
 
                 <Button
                     android:id="@+id/next_button"
-                    android:layout_width="148dp"
+                    android:layout_width="168dp"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/orange"
+                    android:paddingHorizontal="24dp"
+                    android:paddingVertical="16dp"
                     android:text="Далее"
                     android:textColor="@color/black" />
             </LinearLayout>

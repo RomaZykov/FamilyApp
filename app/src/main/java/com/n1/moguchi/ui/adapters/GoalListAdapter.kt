@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.data.models.Goal
 import com.n1.moguchi.databinding.GoalsTasksCardBinding
 
-class GoalListAdapter() : RecyclerView.Adapter<GoalListAdapter.CardViewHolder>() {
+class GoalListAdapter : RecyclerView.Adapter<GoalListAdapter.CardViewHolder>() {
 
     private val goalsList: List<Goal>? = null
 

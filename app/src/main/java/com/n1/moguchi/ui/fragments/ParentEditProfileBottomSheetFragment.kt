@@ -37,6 +37,10 @@ class ParentEditProfileBottomSheetFragment : BottomSheetDialogFragment() {
             )
             .commit()
 
+//        if () {
+//            binding.bottomLinearLayout.visibility = View.GONE
+//        }
+
         binding.saveButton.setOnClickListener {
 
         }
@@ -44,5 +48,7 @@ class ParentEditProfileBottomSheetFragment : BottomSheetDialogFragment() {
 
     companion object {
         const val TAG = "ParentEditProfileModalBottomSheet"
+        const val PARENT_EDIT_TAG = "ParentEditProfileFragment"
+        const val PARENT_DELETE_TAG = "ParentDeleteProfileFragment"
     }
 }

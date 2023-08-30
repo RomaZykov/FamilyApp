@@ -15,6 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        app:strokeWidth="0dp"
         android:backgroundTint="@color/soft_orange"
         android:checkable="true"
         android:clickable="true"

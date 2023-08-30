@@ -3,11 +3,16 @@
 
     <item
         android:id="@+id/homeFragment"
-        android:icon="@drawable/baseline_home_24"
-        android:title="@string/bottom_home" />
+        android:icon="@drawable/home"
+        android:title="Главная" />
+
+    <item
+        android:id="@+id/fab_placeholder"
+        android:enabled="false"
+        android:title="Добавить цель" />
 
     <item
         android:id="@+id/chooseChildrenFragment"
-        android:icon="@drawable/baseline_settings_24"
+        android:icon="@drawable/rotate"
         android:title="Ребенку" />
 </menu>

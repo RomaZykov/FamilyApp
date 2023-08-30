@@ -91,6 +91,10 @@ class PrimaryBottomSheetFragment : BottomSheetDialogFragment() {
                 }
             }
         }
+
+        binding.cancelButton.setOnClickListener {
+            dismiss()
+        }
     }
 
     companion object {
