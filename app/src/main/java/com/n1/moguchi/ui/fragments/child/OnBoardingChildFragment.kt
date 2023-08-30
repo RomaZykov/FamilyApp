@@ -1,18 +1,18 @@
-package com.n1.moguchi.ui.fragments
+package com.n1.moguchi.ui.fragments.child
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.viewpager2.widget.ViewPager2
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentOnboardingBinding
 import com.n1.moguchi.ui.adapters.OnBoardingViewPagerAdapter
+import com.n1.moguchi.ui.fragments.parent.ThirdSlideFragment
 
-class OnBoardingFragment : Fragment() {
+class OnBoardingChildFragment : Fragment() {
 
     private lateinit var viewPager: ViewPager2
     private lateinit var binding: FragmentOnboardingBinding
@@ -25,8 +25,8 @@ class OnBoardingFragment : Fragment() {
 
 
         val fragmentList = arrayListOf(
-            FirstSlideFragment(),
-            SecondSlideFragment(),
+            FirstSlideChildFragment(),
+            SecondSlideChildFragment(),
             ThirdSlideFragment()
         )
         viewPager = binding.onboardingPager

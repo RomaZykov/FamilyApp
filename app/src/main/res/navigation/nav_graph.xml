@@ -12,7 +12,7 @@
         tools:layout="@layout/activity_main" />
     <fragment
         android:id="@+id/onBoardingFragment"
-        android:name="com.n1.moguchi.ui.fragments.OnBoardingFragment"
+        android:name="com.n1.moguchi.ui.fragments.parent.OnBoardingFragment"
         android:label="OnBoardingFragment">
         <action
             android:id="@+id/action_onBoardingFragment_to_addChildFragment"
@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/addChildFragment"
-        android:name="com.n1.moguchi.ui.fragments.AddChildFragment"
+        android:name="com.n1.moguchi.ui.fragments.parent.AddChildFragment"
         android:label="AddChildFragment">
         <action
             android:id="@+id/action_addChildFragment_to_goalCreationFragment"
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
-        android:name="com.n1.moguchi.ui.fragments.RegistrationFragment"
+        android:name="com.n1.moguchi.ui.fragments.parent.RegistrationFragment"
         android:label="RegistrationFragment">
         <action
             android:id="@+id/action_registrationFragment_to_onBoardingFragment"
@@ -39,11 +39,11 @@
     </fragment>
     <fragment
         android:id="@+id/chooseChildrenFragment"
-        android:name="com.n1.moguchi.ui.fragments.ChooseChildrenFragment"
+        android:name="com.n1.moguchi.ui.fragments.parent.SwitchToChildFragment"
         android:label="ProfileFragment"/>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.n1.moguchi.ui.fragments.HomeFragment"
+        android:name="com.n1.moguchi.ui.fragments.parent.HomeFragment"
         android:label="HomeFragment">
         <action
             android:id="@+id/action_homeFragment_to_addChildFragment"
@@ -54,7 +54,7 @@
     </fragment>
     <fragment
         android:id="@+id/parentProfileFragment"
-        android:name="com.n1.moguchi.ui.fragments.ParentProfileFragment"
+        android:name="com.n1.moguchi.ui.fragments.parent.ParentProfileFragment"
         android:label="fragment_parent_profile" >
         <action
             android:id="@+id/action_parentProfileFragment_to_registrationFragment"
@@ -67,6 +67,6 @@
         tools:layout="@layout/fragment_password_for_child" />
     <fragment
         android:id="@+id/goalCreationFragment"
-        android:name="com.n1.moguchi.ui.fragments.GoalCreationFragment"
+        android:name="com.n1.moguchi.ui.fragments.parent.GoalCreationFragment"
         android:label="GoalCreationFragment" />
 </navigation>

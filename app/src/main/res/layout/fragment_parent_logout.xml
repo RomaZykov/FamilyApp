@@ -23,10 +23,11 @@
                 android:id="@+id/top_title_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="32dp"
+                android:fontFamily="@font/onest_regular"
                 android:gravity="center"
                 android:text="Выход"
-                android:textSize="25sp"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toTopOf="@+id/sign_out_iv"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -37,21 +38,22 @@
             <ImageView
                 android:id="@+id/sign_out_iv"
                 android:layout_width="match_parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/top_title_tv"
-                android:layout_marginTop="16dp"
-                app:layout_constraintBottom_toTopOf="@+id/exit_tv"
                 android:layout_height="wrap_content"
-                android:src="@drawable/sign_out_image"/>
+                android:layout_marginTop="16dp"
+                android:src="@drawable/sign_out_image"
+                app:layout_constraintBottom_toTopOf="@+id/exit_tv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/top_title_tv" />
 
             <TextView
                 android:id="@+id/exit_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="Выйти из аккаунта?"
+                android:fontFamily="@font/onest_regular"
                 android:gravity="center"
+                android:text="Выйти из аккаунта?"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toTopOf="@+id/bottom_linear_layout"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -60,7 +62,7 @@
 
             <LinearLayout
                 android:id="@id/bottom_linear_layout"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:gravity="center"
@@ -71,27 +73,31 @@
 
                 <Button
                     android:id="@+id/cancel_button"
-                    android:layout_width="148dp"
+                    android:layout_width="161dp"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
+                    android:fontFamily="@font/onest_regular"
                     android:paddingHorizontal="24dp"
                     android:paddingVertical="16dp"
                     android:text="Отмена"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
 
                 <Space
-                    android:layout_width="20dp"
+                    android:layout_width="8dp"
                     android:layout_height="wrap_content" />
 
                 <Button
                     android:id="@+id/exit_button"
-                    android:layout_width="148dp"
+                    android:layout_width="161dp"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/orange"
+                    android:fontFamily="@font/onest_regular"
                     android:paddingHorizontal="24dp"
                     android:paddingVertical="16dp"
                     android:text="Да"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

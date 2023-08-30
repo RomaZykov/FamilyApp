@@ -1,4 +1,4 @@
-package com.n1.moguchi.ui.fragments
+package com.n1.moguchi.ui.fragments.parent
 
 import android.app.Activity
 import android.app.PendingIntent
@@ -14,7 +14,6 @@ import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.NavHostFragment
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.GetSignInIntentRequest
 import com.google.android.gms.auth.api.identity.Identity
@@ -28,7 +27,6 @@ import com.n1.moguchi.R
 import com.n1.moguchi.data.models.Parent
 import com.n1.moguchi.databinding.FragmentRegistrationBinding
 
-private const val BASE_URL = "https://moguchi-app-default-rtdb.europe-west1.firebasedatabase.app"
 
 class RegistrationFragment : Fragment() {
 
@@ -170,5 +168,9 @@ class RegistrationFragment : Fragment() {
             email = email
         )
         parentsRef.child(parentId!!).setValue(parent)
+    }
+
+    companion object {
+        private const val BASE_URL = "https://moguchi-app-default-rtdb.europe-west1.firebasedatabase.app"
     }
 }

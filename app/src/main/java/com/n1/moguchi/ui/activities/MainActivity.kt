@@ -12,7 +12,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.ActivityMainBinding
 import com.n1.moguchi.ui.adapters.GoalListAdapter
-import com.n1.moguchi.ui.fragments.PrimaryBottomSheetFragment
+import com.n1.moguchi.ui.fragments.parent.PrimaryBottomSheetFragment
 
 class MainActivity : AppCompatActivity() {
 

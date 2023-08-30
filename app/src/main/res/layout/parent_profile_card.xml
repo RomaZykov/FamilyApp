@@ -65,7 +65,7 @@
                 android:layout_gravity="end"
                 android:background="@drawable/round_profile_button"
                 android:backgroundTint="@color/white"
-                android:src="@drawable/baseline_mode_edit_24" />
+                android:src="@drawable/edit" />
         </FrameLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>

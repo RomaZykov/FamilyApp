@@ -1,4 +1,4 @@
-package com.n1.moguchi.ui.fragments
+package com.n1.moguchi.ui.fragments.child
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.n1.moguchi.databinding.FragmentChooseChildrenBinding
 
-class ChooseChildrenFragment : Fragment() {
+class SwitchToParentFragment : Fragment() {
 
     private lateinit var binding: FragmentChooseChildrenBinding
 
