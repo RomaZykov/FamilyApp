@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -66,7 +68,6 @@ class PrimaryBottomSheetFragment : BottomSheetDialogFragment() {
 //            viewModel.createGoal(goal = goal)
 
             val currentFragmentInContainer = childFragmentManager.fragments[0]
-
             when (currentFragmentInContainer.tag) {
                 GOAL_CREATION_TAG -> {
                     childFragmentManager.beginTransaction()
@@ -77,17 +78,18 @@ class PrimaryBottomSheetFragment : BottomSheetDialogFragment() {
                             TASK_CREATION_TAG
                         )
                         .commit()
-                }
 
+                    binding.nextButton.text = "Готово"
+                    binding.nextButton.setCompoundDrawablesRelative(null, null, null, null)
+                }
                 TASK_CREATION_TAG -> {
-                    childFragmentManager.beginTransaction()
-                        .remove(currentFragmentInContainer)
-                        .replace(
-                            R.id.child_fragment_container,
-                            TaskCreationFragment(),
-                            TASK_CREATION_TAG
-                        )
-                        .commit()
+                    binding.title.visibility = View.GONE
+                    binding.bottomLinearLayout.visibility = View.GONE
+                    binding.childFragmentContainer.visibility = View.GONE
+                    childFragmentManager.commit {
+                        remove(currentFragmentInContainer)
+                        replace<SuccessGoalAddedFragment>(R.id.full_fragment_container)
+                    }
                 }
             }
         }

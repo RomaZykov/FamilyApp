@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.databinding.TaskCreationCardBinding
 
-class TaskListAdapter(private val tasksCard: MutableList<View>) :
+class TaskListAdapter(private val tasksCard: MutableList<View>, val taskSettingsClickListener: TaskSettingsClickListener) :
     RecyclerView.Adapter<TaskListAdapter.CardViewHolder>() {
 
     inner class CardViewHolder(val binding: TaskCreationCardBinding) :
@@ -31,13 +31,13 @@ class TaskListAdapter(private val tasksCard: MutableList<View>) :
     }
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
-        val task = tasksCard[position]
+        val taskEmptyCard = tasksCard[position]
         holder.binding.deleteTaskButton.setOnClickListener {
             tasksCard.removeAt(position)
             this.notifyItemRemoved(position)
         }
-        holder.binding.taskSettingsButton.setOnClickListener {view ->
-//            view.findNavController().navigate(R.id.)
+        holder.binding.taskSettingsButton.setOnClickListener {
+            taskSettingsClickListener.onTaskSettingsItemClick(taskEmptyCard)
         }
     }
 

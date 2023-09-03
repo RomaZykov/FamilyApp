@@ -7,7 +7,7 @@
     android:layout_marginEnd="10dp"
     android:clickable="true"
     android:focusable="true"
-    android:backgroundTint="@color/soft_orange"
+    android:backgroundTint="@color/ultra_soft_orange"
     card_view:cardCornerRadius="22dp"
     card_view:strokeWidth="0dp">
 

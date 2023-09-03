@@ -13,18 +13,16 @@
         android:id="@+id/card_goal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:backgroundTint="@color/blue"
         android:checkable="true"
         android:clickable="true"
         android:focusable="true"
         card_view:cardCornerRadius="15dp"
-        card_view:strokeColor="@color/pink"
-        card_view:strokeWidth="1dp">
+        card_view:strokeWidth="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="16dp"
             android:orientation="vertical">
 
             <com.n1.moguchi.ui.views.CurveProgressBarView
@@ -36,31 +34,37 @@
 
             <TextView
                 android:id="@+id/counter"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/onest_regular"
                 android:gravity="center"
                 android:text="2 /10"
-                android:textSize="20sp" />
+                android:textColor="@color/black"
+                android:textSize="12sp" />
 
+            <!--                android:text="Цель - @{viewmodel.userName}"-->
             <TextView
                 android:id="@+id/goal_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
+                android:fontFamily="@font/onest_regular"
                 android:gravity="center"
-                android:text="Цель - @{viewmodel.userName}"
-                android:textSize="20sp" />
+                android:text="Велосипед"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
 
 
-            <LinearLayout
-                android:id="@+id/linear_layout_tasks_container"
+            <ListView
+                android:id="@+id/tasks_container_ll"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="4dp"
                 android:orientation="vertical">
 
-            </LinearLayout>
+            </ListView>
 
             <Button
                 android:id="@+id/all_tasks_button"
@@ -70,7 +74,11 @@
                 android:layout_marginHorizontal="30dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="10dp"
-                android:text="Смотреть 5 задач" />
+                android:backgroundTint="@color/white"
+                android:drawableEnd="@drawable/arrow_r"
+                android:fontFamily="@font/onest_regular"
+                android:text="Смотреть 5 задач"
+                android:textColor="@color/black" />
 
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

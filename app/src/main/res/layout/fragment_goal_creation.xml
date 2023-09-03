@@ -56,16 +56,20 @@
                 android:textSize="14sp" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/goal_name_edit_text"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:hint="Например, велосипед"
                 app:boxBackgroundColor="@color/white"
+                app:boxCornerRadiusBottomEnd="18dp"
+                app:boxCornerRadiusBottomStart="18dp"
+                app:boxCornerRadiusTopEnd="18dp"
                 app:boxStrokeWidth="0dp"
                 app:hintTextAppearance="@style/TextAppearance.Design.Hint.Small"
-                app:boxStrokeColor="@color/orange">
+                app:boxCornerRadiusTopStart="18dp"
+                app:boxStrokeColor="@color/orange"
+                app:hintTextColor="@color/black">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"

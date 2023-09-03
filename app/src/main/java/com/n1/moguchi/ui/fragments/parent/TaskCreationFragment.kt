@@ -14,15 +14,17 @@ import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentTaskCreationBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.adapters.TaskListAdapter
+import com.n1.moguchi.ui.adapters.TaskSettingsClickListener
 import com.n1.moguchi.ui.viewmodels.PrimaryBottomSheetViewModel
 import javax.inject.Inject
 
-class TaskCreationFragment : BottomSheetDialogFragment() {
+class TaskCreationFragment : BottomSheetDialogFragment(), TaskSettingsClickListener {
 
     private lateinit var binding: FragmentTaskCreationBinding
     private lateinit var taskListAdapter: TaskListAdapter
 
     private var tasksCardList: MutableList<View> = mutableListOf()
+    lateinit var listener: TaskSettingsClickListener
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -51,9 +53,11 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        listener = this
+
         val recyclerView: RecyclerView = view.findViewById(R.id.rv_card_list)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        taskListAdapter = TaskListAdapter(tasksCardList)
+        taskListAdapter = TaskListAdapter(tasksCardList, listener)
         recyclerView.adapter = taskListAdapter
 
         binding.addTaskButton.setOnClickListener {
@@ -62,6 +66,15 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
             tasksCardList.add(taskCard)
             taskListAdapter.notifyItemInserted(0)
         }
+    }
+    override fun onTaskSettingsItemClick(view: View) {
+        showTaskSettingsBottomSheet()
+    }
+
+    private fun showTaskSettingsBottomSheet() {
+        val fragmentManager = childFragmentManager
+        val modalBottomSheet = SecondaryBottomSheetFragment()
+        modalBottomSheet.show(fragmentManager, SecondaryBottomSheetFragment.TAG)
     }
 
     companion object {
