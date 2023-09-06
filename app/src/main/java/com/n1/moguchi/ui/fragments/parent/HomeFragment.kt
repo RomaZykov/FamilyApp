@@ -16,12 +16,14 @@ import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentHomeBinding
 import com.n1.moguchi.ui.ViewModelFactory
+import com.n1.moguchi.ui.adapters.TaskListAdapter
 import com.n1.moguchi.ui.viewmodels.HomeViewModel
 import javax.inject.Inject
 
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
+    private lateinit var taskListAdapter: TaskListAdapter
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -85,9 +87,10 @@ class HomeFragment : Fragment() {
                     navController.navigate(R.id.action_homeFragment_to_profileFragment)
                     true
                 }
-
                 else -> false
             }
         }
+
+
     }
 }

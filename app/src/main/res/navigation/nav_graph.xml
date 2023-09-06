@@ -62,7 +62,7 @@
     </fragment>
     <fragment
         android:id="@+id/passwordForChildFragment"
-        android:name="com.n1.moguchi.PasswordForChildFragment"
+        android:name="com.n1.moguchi.ui.fragments.parent.PasswordForChildFragment"
         android:label="fragment_password_for_child"
         tools:layout="@layout/fragment_password_for_child" />
     <fragment

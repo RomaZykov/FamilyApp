@@ -39,7 +39,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                app:menu="@menu/bottom_menu" />
+                app:itemTextColor="@color/bottom_navigation_selector"
+                app:menu="@menu/bottom_menu_parent"
+                app:itemActiveIndicatorStyle="@color/white"
+                app:itemHorizontalTranslationEnabled="false"
+                app:itemIconTint="@color/bottom_navigation_selector" />
         </com.google.android.material.bottomappbar.BottomAppBar>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

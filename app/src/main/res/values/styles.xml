@@ -36,4 +36,7 @@
         <item name="android:font" tools:targetApi="o">@font/onest_regular</item>
     </style>
 
+    <style name="Widget.App.RadioButton" parent="Widget.Material3.CompoundButton.RadioButton">
+        <item name="buttonTint">@color/button_tint</item>
+    </style>
 </resources>

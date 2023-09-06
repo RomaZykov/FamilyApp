@@ -16,7 +16,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/onboarding_pager"
+                android:id="@+id/child_onboarding_pager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 

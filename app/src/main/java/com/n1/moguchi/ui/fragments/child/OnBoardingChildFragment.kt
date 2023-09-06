@@ -8,28 +8,25 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import androidx.viewpager2.widget.ViewPager2
 import com.n1.moguchi.R
-import com.n1.moguchi.databinding.FragmentOnboardingBinding
+import com.n1.moguchi.databinding.FragmentChildOnboardingBinding
 import com.n1.moguchi.ui.adapters.OnBoardingViewPagerAdapter
-import com.n1.moguchi.ui.fragments.parent.ThirdSlideFragment
 
 class OnBoardingChildFragment : Fragment() {
 
     private lateinit var viewPager: ViewPager2
-    private lateinit var binding: FragmentOnboardingBinding
+    private lateinit var binding: FragmentChildOnboardingBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentOnboardingBinding.inflate(layoutInflater, container, false)
-
+        binding = FragmentChildOnboardingBinding.inflate(layoutInflater, container, false)
 
         val fragmentList = arrayListOf(
             FirstSlideChildFragment(),
-            SecondSlideChildFragment(),
-            ThirdSlideFragment()
+            SecondSlideChildFragment()
         )
-        viewPager = binding.onboardingPager
+        viewPager = binding.childOnboardingPager
         val adapter = OnBoardingViewPagerAdapter(
             fragmentList,
             requireActivity().supportFragmentManager,

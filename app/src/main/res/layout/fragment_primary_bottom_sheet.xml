@@ -17,7 +17,7 @@
         android:fitsSystemWindows="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/modal_bottom_sheet"
+            android:id="@+id/primary_modal_bottom_sheet"
             android:layout_width="match_parent"
             android:layout_height="750dp"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">

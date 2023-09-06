@@ -22,7 +22,6 @@ class OnBoardingFragment : Fragment() {
     ): View {
         binding = FragmentOnboardingBinding.inflate(layoutInflater, container, false)
 
-
         val fragmentList = arrayListOf(
             FirstSlideFragment(),
             SecondSlideFragment(),
