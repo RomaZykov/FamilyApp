@@ -1,4 +1,4 @@
-package com.n1.moguchi.ui.adapters
+package com.n1.moguchi.ui
 
 import android.view.View
 

@@ -2,7 +2,6 @@
 <layout>
 
     <data>
-
         <variable
             name="viewmodel"
             type="com.n1.moguchi.ui.viewmodels.MainActivityViewModel" />
@@ -13,16 +12,20 @@
         android:id="@+id/card_goal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="8dp"
         android:backgroundTint="@color/blue"
         android:checkable="true"
         android:clickable="true"
         android:focusable="true"
-        card_view:cardCornerRadius="15dp"
+        card_view:cardCornerRadius="24dp"
+        card_view:strokeColor="@color/pink"
         card_view:strokeWidth="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginVertical="8dp"
             android:orientation="vertical">
 
             <com.n1.moguchi.ui.views.CurveProgressBarView
@@ -32,18 +35,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp" />
 
-            <TextView
-                android:id="@+id/counter"
+            <include
+                android:id="@+id/goal_item_points"
+                layout="@layout/points_goal_item"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
                 android:layout_gravity="center"
-                android:fontFamily="@font/onest_regular"
-                android:gravity="center"
-                android:text="2 /10"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp" />
 
-            <!--                android:text="Цель - @{viewmodel.userName}"-->
             <TextView
                 android:id="@+id/goal_title"
                 android:layout_width="match_parent"
@@ -52,10 +52,9 @@
                 android:fontFamily="@font/onest_regular"
                 android:gravity="center"
                 android:text="Велосипед"
-                android:textColor="@color/black"
                 android:textSize="16sp" />
 
-            <ListView
+            <LinearLayout
                 android:id="@+id/tasks_container_ll"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -63,22 +62,37 @@
                 android:layout_marginBottom="4dp"
                 android:orientation="vertical">
 
-            </ListView>
+            </LinearLayout>
 
-            <Button
+            <LinearLayout
                 android:id="@+id/all_tasks_button"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginHorizontal="30dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="10dp"
-                android:backgroundTint="@color/white"
-                android:drawableEnd="@drawable/arrow_r"
-                android:fontFamily="@font/onest_regular"
-                android:text="Смотреть 5 задач"
-                android:textColor="@color/black" />
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginVertical="8dp"
+                android:padding="8dp"
+                android:background="@drawable/round_white_button"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:fontFamily="@font/onest_regular"
+                    android:gravity="center"
+                    android:text="Смотреть 5 задач"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_marginStart="8dp"
+                    android:src="@drawable/arrow_r"
+                    card_view:tint="@color/black" />
+            </LinearLayout>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>

@@ -42,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:background="@drawable/round_login_button"
+            android:background="@drawable/round_white_button"
             android:clickable="true"
             android:focusable="true"
             android:gravity="center"

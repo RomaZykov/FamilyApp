@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="ActionBar.TitleText" parent="TextAppearance.Material3.ActionBar.Title">
+    <style name="ActionBar.TitleText.Large" parent="TextAppearance.Material3.ActionBar.Title">
+        <item name="android:textSize">32sp</item>
+        <item name="android:font">@font/onest_regular</item>
+        <item name="android:color">@color/black</item>
+    </style>
+
+    <style name="ActionBar.TitleText.Medium" parent="TextAppearance.Material3.ActionBar.Title">
         <item name="android:textSize">16sp</item>
         <item name="android:font">@font/onest_regular</item>
         <item name="android:color">@color/black</item>

@@ -8,7 +8,7 @@
 
     <style name="ModalBottomSheetDialog" parent="Widget.Material3.BottomSheet.Modal">
         <item name="shapeAppearance">@style/ShapeAppearance.App.LargeComponent</item>
-        <item name="backgroundTint">@color/light_orange</item>
+        <item name="backgroundTint">@color/ultra_light_orange</item>
     </style>
 
     <style name="CustomFabStyle" parent="Widget.MaterialComponents.FloatingActionButton">
@@ -32,7 +32,7 @@
     </style>
 
     <style name="TextAppearance.Design.Hint.Small" parent="TextAppearance.Material3.TitleSmall">
-        <item name="android:textSize">8sp</item>
+        <item name="android:textSize">12sp</item>
         <item name="android:font" tools:targetApi="o">@font/onest_regular</item>
     </style>
 

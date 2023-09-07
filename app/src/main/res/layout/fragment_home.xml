@@ -6,7 +6,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/light_orange"
+        android:background="@color/ultra_light_orange"
         tools:context=".ui.fragments.parent.HomeFragment">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -24,17 +24,17 @@
                 style="@style/Widget.MaterialComponents.Toolbar.Primary"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:titleTextAppearance="@style/Toolbar.TitleText.Large"
                 app:menu="@menu/parent_profile_app_bar"
-                app:titleTextColor="@color/black"
-                app:title="Мои дети" />
+                app:title="Мои дети"
+                app:titleTextAppearance="@style/Toolbar.TitleText.Large"
+                app:titleTextColor="@color/black" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <HorizontalScrollView
             android:id="@+id/scroll_view"
-            android:layout_marginTop="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             app:layout_constraintBottom_toTopOf="@id/rv_home_goals_list"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,17 +43,36 @@
             <LinearLayout
                 android:id="@+id/children_linear_layout"
                 android:layout_width="wrap_content"
-                android:layout_height="56dp"
+                android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <Button
+                <LinearLayout
                     android:id="@+id/button_add_child"
                     android:layout_width="wrap_content"
+                    android:layout_marginHorizontal="4dp"
                     android:layout_height="match_parent"
-                    android:backgroundTint="@color/ultra_soft_orange"
-                    android:text="+ Добавить ребенка"
-                    android:textColor="@color/black"
-                    android:textSize="11sp" />
+                    android:background="@drawable/round_white_button"
+                    android:padding="8dp"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/plus"
+                        app:tint="@color/black" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/onest_regular"
+                        android:layout_marginHorizontal="8dp"
+                        android:text="Добавить ребёнка"
+                        android:layout_gravity="center"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+                </LinearLayout>
             </LinearLayout>
         </HorizontalScrollView>
 
@@ -61,6 +80,7 @@
             android:id="@+id/rv_home_goals_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="16dp"
             android:scrollbars="vertical"
             app:layoutManager="LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
