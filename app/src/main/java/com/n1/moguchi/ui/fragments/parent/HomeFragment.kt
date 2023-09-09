@@ -36,7 +36,6 @@ class HomeFragment : Fragment() {
         (requireActivity().application as MoguchiBaseApplication).appComponent
     }
 
-
     override fun onAttach(context: Context) {
         component.inject(this)
         super.onAttach(context)
@@ -59,8 +58,6 @@ class HomeFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         goalListAdapter = GoalListAdapter()
         recyclerView.adapter = goalListAdapter
-
-        initFirstMockGoal(recyclerView)
 
         val navHostFragment =
             requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
@@ -114,11 +111,5 @@ class HomeFragment : Fragment() {
                 else -> false
             }
         }
-    }
-
-    private fun initFirstMockGoal(recyclerView: RecyclerView) {
-        val initFirstGoal =
-            layoutInflater.inflate(R.layout.z_mock_main_goal_card, recyclerView, false)
-        goalListAdapter.goalsList.add(initFirstGoal)
     }
 }

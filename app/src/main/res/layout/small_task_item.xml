@@ -1,40 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/card_goal"
     android:layout_width="match_parent"
+    android:layout_margin="4dp"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    android:checkable="true"
-    android:clickable="true"
-    android:focusable="true"
-    card_view:cardBackgroundColor="@drawable/round_task_card"
-    card_view:cardCornerRadius="15dp"
-    card_view:strokeWidth="0dp">
+    android:background="@drawable/round_task_card"
+    android:orientation="horizontal"
+    android:padding="8dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:padding="8dp">
+    <TextView
+        android:id="@+id/task_title"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="16dp"
+        android:gravity="start"
+        android:textSize="14sp"
+        tools:text="Написать контрольную минимум на 4" />
 
-        <TextView
-            android:layout_width="240dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginHorizontal="16dp"
-            android:gravity="start"
-            android:textSize="14sp"
-            tools:text="Написать контрольную минимум на 4" />
-
-        <include
-            android:id="@+id/goal_item_points"
-            layout="@layout/points_task_item"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginVertical="8dp" />
-    </LinearLayout>
-</com.google.android.material.card.MaterialCardView>
+    <include
+        android:id="@+id/goal_item_points"
+        layout="@layout/points_task_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="8dp" />
+</LinearLayout>

@@ -13,7 +13,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
-import com.n1.moguchi.data.models.Goal
 import com.n1.moguchi.databinding.FragmentPrimaryBottomSheetBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.viewmodels.PrimaryBottomSheetViewModel
@@ -62,9 +61,9 @@ class PrimaryBottomSheetFragment : BottomSheetDialogFragment() {
 
         binding.nextButton.setOnClickListener {
             val currentGoalHeight = viewModel.goalHeight.value
-            val goal = Goal(
-
-            )
+//            val goal = Goal(
+//
+//            )
 //            viewModel.createGoal(goal = goal)
 
             val currentFragmentInContainer = childFragmentManager.fragments[0]

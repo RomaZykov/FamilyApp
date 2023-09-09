@@ -6,7 +6,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/light_orange"
+        android:background="@color/ultra_light_orange"
         tools:context=".ui.fragments.parent.RegistrationFragment">
 
         <ImageView
@@ -42,6 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
+            android:padding="16dp"
             android:background="@drawable/round_white_button"
             android:clickable="true"
             android:focusable="true"
