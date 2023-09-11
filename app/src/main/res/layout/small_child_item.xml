@@ -26,6 +26,7 @@
         <TextView
             android:id="@+id/child_name"
             android:layout_width="match_parent"
+            android:fontFamily="@font/onest_regular"
             android:layout_height="match_parent"
             android:paddingHorizontal="8dp"
             android:gravity="center"

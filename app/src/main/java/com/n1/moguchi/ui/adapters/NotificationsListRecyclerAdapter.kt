@@ -5,22 +5,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.databinding.TaskCreationCardBinding
-import com.n1.moguchi.ui.TaskSettingsClickListener
 
-class TaskSetupAdapter(private val tasksCard: MutableList<View>, private val taskSettingsClickListener: TaskSettingsClickListener) :
-    RecyclerView.Adapter<TaskSetupAdapter.TaskCardViewHolder>() {
+class NotificationsListRecyclerAdapter(private val tasksCard: MutableList<View>) :
+    RecyclerView.Adapter<NotificationsListRecyclerAdapter.CardViewHolder>() {
 
-    inner class TaskCardViewHolder(val binding: TaskCreationCardBinding) :
+    inner class CardViewHolder(val binding: TaskCreationCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskCardViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
         val taskCard = TaskCreationCardBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
-        return TaskCardViewHolder(taskCard)
+        return CardViewHolder(taskCard)
     }
 
     override fun getItemId(position: Int): Long {
@@ -31,14 +30,11 @@ class TaskSetupAdapter(private val tasksCard: MutableList<View>, private val tas
         return position
     }
 
-    override fun onBindViewHolder(holder: TaskCardViewHolder, position: Int) {
-        val taskEmptyCard = tasksCard[position]
+    override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
+        val task = tasksCard[position]
         holder.binding.deleteTaskButton.setOnClickListener {
             tasksCard.removeAt(position)
             this.notifyItemRemoved(position)
-        }
-        holder.binding.taskSettingsButton.setOnClickListener {
-            taskSettingsClickListener.onTaskSettingsItemClick(taskEmptyCard)
         }
     }
 

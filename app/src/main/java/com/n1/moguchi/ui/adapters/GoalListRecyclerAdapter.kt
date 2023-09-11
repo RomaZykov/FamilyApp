@@ -11,10 +11,14 @@ import com.n1.moguchi.data.models.Goal
 import com.n1.moguchi.data.models.Task
 import com.n1.moguchi.databinding.ZMockMainGoalCardBinding
 
-class GoalListAdapter : RecyclerView.Adapter<GoalListAdapter.CardViewHolder>() {
+class GoalListRecyclerAdapter : RecyclerView.Adapter<GoalListRecyclerAdapter.CardViewHolder>() {
 
     private val tasksList = mutableListOf(
         Task(title = "Прибраться в комнате 5 дней подряд", height = 2),
+        Task(title = "Сходить в магазин в пятницу", height = 1),
+        Task(title = "Написать контрольную минимум на 4", height = 3),
+        Task(title = "Сходить в магазин в пятницу", height = 1),
+        Task(title = "Написать контрольную минимум на 4", height = 3),
         Task(title = "Сходить в магазин в пятницу", height = 1),
         Task(title = "Написать контрольную минимум на 4", height = 3),
         Task(title = "Прибраться в комнате 5 дней подряд", height = 2)
@@ -62,9 +66,9 @@ class GoalListAdapter : RecyclerView.Adapter<GoalListAdapter.CardViewHolder>() {
                     addView(taskSmallItem, 0)
                 }
             }
-//            binding.allTasksButton.setOnClickListener {
-//                TODO("not implemented")
-//            }
+            binding.allTasksButton.setOnClickListener {
+
+            }
         }
     }
 }

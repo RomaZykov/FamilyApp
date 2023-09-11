@@ -50,6 +50,7 @@
                     android:id="@+id/button_add_child"
                     android:layout_width="wrap_content"
                     android:layout_marginHorizontal="4dp"
+                    android:backgroundTint="@color/ultra_soft_orange"
                     android:layout_height="match_parent"
                     android:background="@drawable/round_white_button"
                     android:padding="8dp"
@@ -80,12 +81,11 @@
             android:id="@+id/rv_home_goals_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_margin="8dp"
             android:scrollbars="vertical"
             app:layoutManager="LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/scroll_view" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

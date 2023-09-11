@@ -18,7 +18,7 @@ import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentAddChildBinding
 import com.n1.moguchi.ui.ViewModelFactory
-import com.n1.moguchi.ui.adapters.ChildrenListAdapter
+import com.n1.moguchi.ui.adapters.ChildrenListRecyclerAdapter
 import com.n1.moguchi.ui.viewmodels.AddChildViewModel
 import javax.inject.Inject
 
@@ -26,7 +26,7 @@ class AddChildFragment : Fragment() {
 
     private lateinit var binding: FragmentAddChildBinding
     private lateinit var auth: FirebaseAuth
-    private lateinit var childrenListAdapter: ChildrenListAdapter
+    private lateinit var childrenListRecyclerAdapter: ChildrenListRecyclerAdapter
 
     private var childrenCardList: MutableList<View> = mutableListOf()
 
@@ -64,14 +64,14 @@ class AddChildFragment : Fragment() {
 
         val recyclerView: RecyclerView = binding.rvChildrenList
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        childrenListAdapter = ChildrenListAdapter(childrenCardList)
-        recyclerView.adapter = childrenListAdapter
+        childrenListRecyclerAdapter = ChildrenListRecyclerAdapter(childrenCardList)
+        recyclerView.adapter = childrenListRecyclerAdapter
 
         binding.addChildButton.setOnClickListener {
             val childCard =
                 layoutInflater.inflate(R.layout.child_creation_card, recyclerView, false)
             childrenCardList.add(childCard)
-            childrenListAdapter.notifyItemInserted(0)
+            childrenListRecyclerAdapter.notifyItemInserted(0)
         }
 
         binding.saveChildrenButton.setOnClickListener {
@@ -86,7 +86,7 @@ class AddChildFragment : Fragment() {
         val isAfterOnBoarding = args?.getBoolean("onboarding_completed")
 
         if (parentId != null) {
-            val childrenNamesList = childrenListAdapter.retrieveChildrenNames()
+            val childrenNamesList = childrenListRecyclerAdapter.retrieveChildrenNames()
             viewModel.saveChildrenList(parentId, childrenNamesList)
             if (isAfterOnBoarding == true) {
                 navController.navigate(R.id.action_addChildFragment_to_goalCreationFragment)

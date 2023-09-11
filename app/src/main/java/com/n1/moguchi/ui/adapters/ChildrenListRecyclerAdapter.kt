@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.databinding.ChildCreationCardBinding
 
-class ChildrenListAdapter(private val childrenCard: MutableList<View>) :
-    RecyclerView.Adapter<ChildrenListAdapter.ChildViewHolder>() {
+class ChildrenListRecyclerAdapter(private val childrenCard: MutableList<View>) :
+    RecyclerView.Adapter<ChildrenListRecyclerAdapter.ChildViewHolder>() {
 
     private var childrenNames: MutableList<String> = mutableListOf()
 

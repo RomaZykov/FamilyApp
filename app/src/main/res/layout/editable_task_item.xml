@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_margin="4dp"
+        android:background="@drawable/round_task_card"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/task_title"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:layout_marginHorizontal="8dp"
+            android:gravity="start"
+            android:textSize="14sp"
+            tools:text="Написать контрольную минимум на 4" />
+
+        <LinearLayout
+            android:id="@+id/goal_item_points"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:background="@drawable/round_white_button"
+            android:paddingHorizontal="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/onest_regular"
+                android:gravity="center"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"
+                android:text="4" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingVertical="4dp"
+                android:src="@drawable/points" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/task_settings_button"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:backgroundTint="?android:selectableItemBackground"
+            android:src="@drawable/baseline_more_vert_24" />
+    </LinearLayout>
+</layout>

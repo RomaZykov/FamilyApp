@@ -17,14 +17,14 @@ import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentHomeBinding
 import com.n1.moguchi.ui.ViewModelFactory
-import com.n1.moguchi.ui.adapters.GoalListAdapter
+import com.n1.moguchi.ui.adapters.GoalListRecyclerAdapter
 import com.n1.moguchi.ui.viewmodels.HomeViewModel
 import javax.inject.Inject
 
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var goalListAdapter: GoalListAdapter
+    private lateinit var goalListRecyclerAdapter: GoalListRecyclerAdapter
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -56,8 +56,8 @@ class HomeFragment : Fragment() {
 
         val recyclerView: RecyclerView = view.findViewById(R.id.rv_home_goals_list)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        goalListAdapter = GoalListAdapter()
-        recyclerView.adapter = goalListAdapter
+        goalListRecyclerAdapter = GoalListRecyclerAdapter()
+        recyclerView.adapter = goalListRecyclerAdapter
 
         val navHostFragment =
             requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment

@@ -11,13 +11,13 @@ import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.ActivityMainBinding
-import com.n1.moguchi.ui.adapters.GoalListAdapter
+import com.n1.moguchi.ui.adapters.GoalListRecyclerAdapter
 import com.n1.moguchi.ui.fragments.parent.PrimaryBottomSheetFragment
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var adapter: GoalListAdapter
+    private lateinit var adapter: GoalListRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
