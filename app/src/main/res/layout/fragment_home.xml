@@ -85,7 +85,33 @@
             android:scrollbars="vertical"
             app:layoutManager="LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/completed_goals_tv"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/scroll_view" />
+
+        <TextView
+            android:id="@+id/completed_goals_tv"
+            android:layout_width="match_parent"
+            android:text="Выполненные цели"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginVertical="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="24sp"
+            app:layout_constraintTop_toBottomOf="@id/rv_home_goals_list"
+            android:textColor="@color/black"
+            android:fontFamily="@font/onest_regular"
+            android:layout_height="wrap_content" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_home_completed_goals_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:scrollbars="vertical"
+            app:layoutManager="LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/completed_goals_tv" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -5,18 +5,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.commit
 import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.R
 import com.n1.moguchi.data.models.Goal
 import com.n1.moguchi.data.models.Task
-import com.n1.moguchi.databinding.ZMockMainGoalCardBinding
+import com.n1.moguchi.databinding.ZMockGoalCardBinding
+import com.n1.moguchi.ui.fragments.parent.TasksFragment
 
-class GoalListRecyclerAdapter : RecyclerView.Adapter<GoalListRecyclerAdapter.CardViewHolder>() {
+class GoalsListRecyclerAdapter :
+    RecyclerView.Adapter<GoalsListRecyclerAdapter.CardViewHolder>() {
 
     private val tasksList = mutableListOf(
         Task(title = "Прибраться в комнате 5 дней подряд", height = 2),
         Task(title = "Сходить в магазин в пятницу", height = 1),
         Task(title = "Написать контрольную минимум на 4", height = 3),
+        Task(title = "Сходить в магазин в пятницу", height = 1),
+        Task(title = "Написать контрольную минимум на 4", height = 3),
+        Task(title = "Сходить в магазин в пятницу", height = 1),
+        Task(title = "Сходить в магазин в пятницу", height = 1),
+        Task(title = "Написать контрольную минимум на 4", height = 3),
+        Task(title = "Сходить в магазин в пятницу", height = 1),
         Task(title = "Сходить в магазин в пятницу", height = 1),
         Task(title = "Написать контрольную минимум на 4", height = 3),
         Task(title = "Сходить в магазин в пятницу", height = 1),
@@ -36,7 +46,7 @@ class GoalListRecyclerAdapter : RecyclerView.Adapter<GoalListRecyclerAdapter.Car
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.z_mock_main_goal_card, parent, false)
+            .inflate(R.layout.z_mock_goal_card, parent, false)
         return CardViewHolder(view)
     }
 
@@ -49,8 +59,9 @@ class GoalListRecyclerAdapter : RecyclerView.Adapter<GoalListRecyclerAdapter.Car
         return goalsList.size
     }
 
-    inner class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val binding = ZMockMainGoalCardBinding.bind(itemView)
+    inner class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+        View.OnClickListener {
+        private val binding = ZMockGoalCardBinding.bind(itemView)
         private var goal: Goal? = null
         var context: Context = itemView.context
 
@@ -66,9 +77,20 @@ class GoalListRecyclerAdapter : RecyclerView.Adapter<GoalListRecyclerAdapter.Car
                     addView(taskSmallItem, 0)
                 }
             }
-            binding.allTasksButton.setOnClickListener {
+            binding.allTasksButton.setOnClickListener(this)
+        }
 
+        override fun onClick(v: View) {
+            val fragmentActivity = v.context as FragmentActivity
+            fragmentActivity.supportFragmentManager.commit {
+                replace(android.R.id.content, TasksFragment())
+                setReorderingAllowed(true)
+                addToBackStack(TAG)
             }
         }
+    }
+
+    companion object {
+        const val TAG = "GoalItem"
     }
 }

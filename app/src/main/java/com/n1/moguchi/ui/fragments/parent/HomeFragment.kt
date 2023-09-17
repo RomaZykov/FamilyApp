@@ -17,14 +17,16 @@ import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentHomeBinding
 import com.n1.moguchi.ui.ViewModelFactory
-import com.n1.moguchi.ui.adapters.GoalListRecyclerAdapter
+import com.n1.moguchi.ui.adapters.CompletedGoalsListRecyclerAdapter
+import com.n1.moguchi.ui.adapters.GoalsListRecyclerAdapter
 import com.n1.moguchi.ui.viewmodels.HomeViewModel
 import javax.inject.Inject
 
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var goalListRecyclerAdapter: GoalListRecyclerAdapter
+    private lateinit var goalsRecyclerAdapter: GoalsListRecyclerAdapter
+    private lateinit var completedGoalsRecyclerAdapter: CompletedGoalsListRecyclerAdapter
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -54,14 +56,19 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val recyclerView: RecyclerView = view.findViewById(R.id.rv_home_goals_list)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        goalListRecyclerAdapter = GoalListRecyclerAdapter()
-        recyclerView.adapter = goalListRecyclerAdapter
-
         val navHostFragment =
             requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
+
+        val recyclerViewGoals: RecyclerView = view.findViewById(R.id.rv_home_goals_list)
+        recyclerViewGoals.layoutManager = LinearLayoutManager(requireContext())
+        goalsRecyclerAdapter = GoalsListRecyclerAdapter()
+        recyclerViewGoals.adapter = goalsRecyclerAdapter
+
+        val recyclerViewCompletedGoals: RecyclerView = view.findViewById(R.id.rv_home_completed_goals_list)
+        recyclerViewCompletedGoals.layoutManager = LinearLayoutManager(requireContext())
+        completedGoalsRecyclerAdapter = CompletedGoalsListRecyclerAdapter()
+        recyclerViewCompletedGoals.adapter = completedGoalsRecyclerAdapter
 
         val parentId = Firebase.auth.currentUser?.uid
 
@@ -107,7 +114,6 @@ class HomeFragment : Fragment() {
                     navController.navigate(R.id.action_homeFragment_to_profileFragment)
                     true
                 }
-
                 else -> false
             }
         }
