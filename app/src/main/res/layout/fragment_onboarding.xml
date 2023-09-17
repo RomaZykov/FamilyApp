@@ -34,6 +34,20 @@
                 android:textColor="@color/orange"
                 android:padding="16dp"
                 android:text="Пропустить" />
+
+            <Button
+                android:id="@+id/next_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginBottom="16dp"
+                android:paddingVertical="16dp"
+                android:backgroundTint="@color/orange"
+                android:text="Продолжить"
+                android:fontFamily="@font/onest_regular"
+                android:textSize="14sp"
+                android:layout_gravity="bottom"
+                android:textColor="@color/white" />
         </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

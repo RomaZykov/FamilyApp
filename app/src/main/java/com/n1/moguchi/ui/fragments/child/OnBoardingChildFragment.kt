@@ -9,7 +9,6 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.viewpager2.widget.ViewPager2
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentChildOnboardingBinding
-import com.n1.moguchi.ui.adapters.OnBoardingViewPagerAdapter
 
 class OnBoardingChildFragment : Fragment() {
 
@@ -27,12 +26,12 @@ class OnBoardingChildFragment : Fragment() {
             SecondSlideChildFragment()
         )
         viewPager = binding.childOnboardingPager
-        val adapter = OnBoardingViewPagerAdapter(
-            fragmentList,
-            requireActivity().supportFragmentManager,
-            lifecycle
-        )
-        viewPager.adapter = adapter
+//        val adapter = OnBoardingViewPagerAdapter(
+//            fragmentList,
+//            requireActivity().supportFragmentManager,
+//            lifecycle
+//        )
+//        viewPager.adapter = adapter
         return binding.root
     }
 

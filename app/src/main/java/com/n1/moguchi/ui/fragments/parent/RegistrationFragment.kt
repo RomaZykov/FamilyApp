@@ -131,7 +131,7 @@ class RegistrationFragment : Fragment() {
                 BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
                     .setSupported(true)
                     .setServerClientId(getString(R.string.web_client_id))
-                    .setFilterByAuthorizedAccounts(true)
+                    .setFilterByAuthorizedAccounts(false)
                     .build()
             )
 //            .setAutoSelectEnabled(true)

@@ -21,19 +21,6 @@ class OnBoardingFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentOnboardingBinding.inflate(layoutInflater, container, false)
-
-        val fragmentList = arrayListOf(
-            FirstSlideFragment(),
-            SecondSlideFragment(),
-            ThirdSlideFragment()
-        )
-        viewPager = binding.onboardingPager
-        val adapter = OnBoardingViewPagerAdapter(
-            fragmentList,
-            requireActivity().supportFragmentManager,
-            lifecycle
-        )
-        viewPager.adapter = adapter
         return binding.root
     }
 
@@ -44,8 +31,31 @@ class OnBoardingFragment : Fragment() {
             requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
 
+        val fragmentMap = mapOf(
+            "first" to FirstSlideFragment(),
+            "second" to SecondSlideFragment(),
+            "third" to ThirdSlideFragment()
+        )
+        viewPager = binding.onboardingPager
+        val adapter = OnBoardingViewPagerAdapter(
+            fragmentMap,
+            requireActivity().supportFragmentManager,
+            lifecycle
+        )
+        viewPager.adapter = adapter
+        viewPager.offscreenPageLimit = 3
+
         binding.skipButton.setOnClickListener {
             navController.navigate(R.id.action_onBoardingFragment_to_addChildFragment)
+        }
+
+        binding.nextButton.setOnClickListener {
+            val currentItem = viewPager.currentItem
+            if (currentItem != 2) {
+                viewPager.setCurrentItem(currentItem + 1, true)
+            } else {
+                navController.navigate(R.id.action_onBoardingFragment_to_addChildFragment)
+            }
         }
     }
 }
