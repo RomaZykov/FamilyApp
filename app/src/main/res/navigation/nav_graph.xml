@@ -59,6 +59,12 @@
         <action
             android:id="@+id/action_parentProfileFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
+        <action
+            android:id="@+id/action_parentProfileFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_parentProfileFragment_to_addChildFragment"
+            app:destination="@id/addChildFragment" />
     </fragment>
     <fragment
         android:id="@+id/passwordForChildFragment"
@@ -69,4 +75,24 @@
         android:id="@+id/goalCreationFragment"
         android:name="com.n1.moguchi.ui.fragments.parent.GoalCreationFragment"
         android:label="GoalCreationFragment" />
+    <fragment
+        android:id="@+id/firstSlideFragment"
+        android:name="com.n1.moguchi.ui.fragments.parent.FirstSlideFragment"
+        android:label="FirstSlideFragment" >
+        <action
+            android:id="@+id/action_firstSlideFragment_to_secondSlideFragment"
+            app:destination="@id/secondSlideFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/secondSlideFragment"
+        android:name="com.n1.moguchi.ui.fragments.parent.SecondSlideFragment"
+        android:label="SecondSlideFragment" >
+        <action
+            android:id="@+id/action_secondSlideFragment_to_thirdSlideFragment"
+            app:destination="@id/thirdSlideFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/thirdSlideFragment"
+        android:name="com.n1.moguchi.ui.fragments.parent.ThirdSlideFragment"
+        android:label="ThirdSlideFragment" />
 </navigation>

@@ -11,7 +11,7 @@
     <color name="ultra_light_orange">#FFF2E3</color>
     <color name="ultra_soft_orange">#FDE6CA</color>
     <color name="soft_orange">#EFD2AE</color>
-    <color name="white_opacity_60">#60FFFFFF</color>
+    <color name="white_opacity_90">#90FFFFFF</color>
     <color name="purple">#FF6D17FC</color>
     <color name="pink">#FFE13682</color>
 </resources>

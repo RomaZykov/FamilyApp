@@ -54,7 +54,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/onest_regular"
                     android:gravity="center|end"
-                    android:text="0/10"
+                    android:text="0 / 10"
                     android:textSize="12sp" />
 
                 <ImageView

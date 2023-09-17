@@ -1,7 +1,6 @@
 package com.n1.moguchi.ui.fragments.parent
 
 import android.os.Bundle
-import android.text.TextUtils.replace
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,6 +43,10 @@ class ParentEditProfileBottomSheetFragment : BottomSheetDialogFragment() {
 
         binding.saveButton.setOnClickListener {
             TODO()
+        }
+
+        binding.cancelButton.setOnClickListener {
+            dismiss()
         }
     }
 }

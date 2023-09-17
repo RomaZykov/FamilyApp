@@ -4,6 +4,7 @@
         <item name="colorPrimary">#FFF2E3</item>
         <item name="colorPrimaryVariant">#FDE6CA</item>
         <item name="colorOnPrimary">#FA824C</item>
+        <item name="extendedFloatingActionButtonStyle">@style/Widget.App.ExtendedFloatingActionButton</item>
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialog</item>
     </style>
 

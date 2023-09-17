@@ -21,7 +21,7 @@
     <LinearLayout
         android:id="@+id/goal_item_points"
         android:layout_width="wrap_content"
-        android:paddingHorizontal="8dp"
+        android:paddingHorizontal="4dp"
         android:layout_height="wrap_content"
         android:background="@drawable/round_white_button"
         android:layout_gravity="top">
@@ -29,11 +29,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:text="4"
+            android:gravity="center"
             android:layout_gravity="center"
             android:paddingHorizontal="8dp"
             android:fontFamily="@font/onest_regular"
             android:paddingVertical="4dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent" />
 
         <ImageView
             android:layout_width="wrap_content"

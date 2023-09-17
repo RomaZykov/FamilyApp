@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -11,13 +12,12 @@ import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.ActivityMainBinding
-import com.n1.moguchi.ui.adapters.GoalListRecyclerAdapter
+import com.n1.moguchi.ui.adapters.GoalsListRecyclerAdapter
 import com.n1.moguchi.ui.fragments.parent.PrimaryBottomSheetFragment
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var adapter: GoalListRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,8 +33,10 @@ class MainActivity : AppCompatActivity() {
         )
 //        binding.topAppBar.setupWithNavController(navController, appBarConfiguration)
         binding.bottomNavigationView.setupWithNavController(navController)
-
-        addFabClickListener()
+        binding.bottomNavigationView.menu.findItem(R.id.addGoal).setOnMenuItemClickListener {
+            showGoalAndTaskCreationBottomSheet()
+            true
+        }
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
@@ -47,7 +49,6 @@ class MainActivity : AppCompatActivity() {
                 else -> hideUi()
             }
         }
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -55,25 +56,23 @@ class MainActivity : AppCompatActivity() {
         return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
     }
 
-    private fun addFabClickListener() {
-        binding.addFab.setOnClickListener {
-            showGoalAndTaskCreationDialog()
-        }
-    }
-
-    private fun showGoalAndTaskCreationDialog() {
+    private fun showGoalAndTaskCreationBottomSheet() {
         val fragmentManager = supportFragmentManager
         val modalBottomSheet = PrimaryBottomSheetFragment()
-        modalBottomSheet.show(fragmentManager, PrimaryBottomSheetFragment.TAG)
+        val mainActivityTag = TAG
+        fragmentManager.setFragmentResult("requestKey", bundleOf("bundleKey" to mainActivityTag))
+        modalBottomSheet.show(fragmentManager, TAG)
     }
 
     private fun showUi() {
         binding.bottomAppBarLayout.visibility = View.VISIBLE
-        binding.addFab.visibility = View.VISIBLE
     }
 
     private fun hideUi() {
         binding.bottomAppBarLayout.visibility = View.GONE
-        binding.addFab.visibility = View.GONE
+    }
+
+    companion object {
+        private const val TAG = "MainActivity"
     }
 }

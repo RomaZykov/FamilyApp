@@ -8,7 +8,7 @@
         android:background="@color/ultra_light_orange">
 
         <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/top_tasks_app_bar"
+            android:id="@+id/top_app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
@@ -17,6 +17,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/top_tasks_app_bar"
                 style="@style/Widget.MaterialComponents.Toolbar.Primary"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
@@ -31,12 +32,14 @@
             android:id="@+id/goal_points_ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
+            android:layout_marginHorizontal="16dp"
             android:orientation="horizontal"
             app:layout_constraintBottom_toTopOf="@+id/tasks_progress_bar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/top_tasks_app_bar">
+            app:layout_constraintTop_toBottomOf="@+id/top_app_bar"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintVertical_chainStyle="packed">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -45,6 +48,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/onest_regular"
                 android:text="Получено баллов"
+                android:textColor="@color/black"
                 android:textSize="12sp" />
 
             <TextView
@@ -55,19 +59,23 @@
                 android:layout_marginHorizontal="8dp"
                 android:fontFamily="@font/onest_regular"
                 android:text="6 / 10"
+                android:textColor="@color/black"
                 android:textSize="12sp" />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
                 android:src="@drawable/points" />
         </LinearLayout>
 
-        <com.google.android.material.progressindicator.LinearProgressIndicator
+        <ProgressBar
             android:id="@+id/tasks_progress_bar"
+            style="@android:style/Widget.Holo.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
+            android:layout_marginHorizontal="16dp"
+            android:progress="25"
+            android:progressTint="@color/orange"
             app:layout_constraintBottom_toTopOf="@+id/active_completed_tasks_ll"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -77,51 +85,65 @@
             android:id="@+id/active_completed_tasks_ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginVertical="8dp"
             android:orientation="horizontal"
             app:layout_constraintBottom_toTopOf="@+id/rv_tasks_list"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tasks_progress_bar">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/active_tasks"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:background="@drawable/round_white_button"
                 android:fontFamily="@font/onest_regular"
                 android:text="Активные 10"
                 android:textColor="@color/black"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                app:backgroundTint="@color/light_orange" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/completed_tasks"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/round_white_button"
+                android:layout_height="match_parent"
                 android:fontFamily="@font/onest_regular"
                 android:text="Выполненные 4"
                 android:textColor="@color/black"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                app:backgroundTint="@color/ultra_soft_orange" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_tasks_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="8dp"
             android:scrollbars="vertical"
             app:layoutManager="LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/active_completed_tasks_ll" />
+            app:layout_constraintTop_toBottomOf="@+id/active_completed_tasks_ll"
+            app:layout_constraintVertical_weight="1" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/add_task_fab"
+            style="@style/Widget.App.ExtendedFloatingActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="32dp"
+            android:fontFamily="@font/onest_regular"
+            android:text="Добавить задачу"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:icon="@drawable/plus"
+            app:iconTint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.App.LargeComponent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

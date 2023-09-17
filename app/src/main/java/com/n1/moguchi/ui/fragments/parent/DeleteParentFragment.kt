@@ -32,5 +32,9 @@ class DeleteParentFragment : Fragment() {
           val bottomLinearLayout = requireParentFragment().view?.findViewById<LinearLayout>(R.id.bottom_edit_ll)
             bottomLinearLayout?.visibility = View.GONE
         }
+
+        binding.cancelButton.setOnClickListener {
+            TODO()
+        }
     }
 }

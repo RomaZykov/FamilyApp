@@ -39,4 +39,13 @@
     <style name="Widget.App.RadioButton" parent="Widget.Material3.CompoundButton.RadioButton">
         <item name="buttonTint">@color/button_tint</item>
     </style>
+
+    <style name="Widget.App.ExtendedFloatingActionButton" parent="Widget.Material3.ExtendedFloatingActionButton.Icon.Primary">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.FloatingActionButton</item>
+    </style>
+
+    <style name="ThemeOverlay.App.FloatingActionButton" parent="">
+        <item name="colorContainer">@color/orange</item>
+        <item name="colorOnContainer">@color/pink</item>
+    </style>
 </resources>

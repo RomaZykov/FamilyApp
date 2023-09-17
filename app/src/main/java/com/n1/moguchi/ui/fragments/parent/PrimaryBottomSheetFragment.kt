@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -55,39 +57,73 @@ class PrimaryBottomSheetFragment : BottomSheetDialogFragment() {
         bottomSheetBehavior.skipCollapsed = true
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
 
-        childFragmentManager.beginTransaction()
-            .replace(R.id.child_fragment_container, GoalCreationFragment(), GOAL_CREATION_TAG)
-            .commit()
+        setFragmentResultListener("requestKey") { key, bundle ->
+            val result = bundle.getString("bundleKey")
+            when (result) {
+                "TasksFragment" -> {
+                    childFragmentManager.commit {
+                        replace(
+                            R.id.child_fragment_container,
+                            TaskCreationFragment(),
+                            TO_TASKS_COMPLETE_TAG
+                        )
+                    }
+                    binding.nextButton.text = "Готово"
+                    binding.nextButton.setCompoundDrawablesRelative(null, null, null, null)
+                }
 
+                "MainActivity" -> {
+                    childFragmentManager.commit {
+                        replace(
+                            R.id.child_fragment_container,
+                            GoalCreationFragment(),
+                            TO_TASK_CREATION_TAG
+                        )
+                    }
+                }
+            }
+        }
         binding.nextButton.setOnClickListener {
             val currentGoalHeight = viewModel.goalHeight.value
 //            val goal = Goal(
 //
 //            )
 //            viewModel.createGoal(goal = goal)
-
             val currentFragmentInContainer = childFragmentManager.fragments[0]
             when (currentFragmentInContainer.tag) {
-                GOAL_CREATION_TAG -> {
-                    childFragmentManager.beginTransaction()
-                        .remove(currentFragmentInContainer)
-                        .replace(
+                TO_TASK_CREATION_TAG -> {
+                    childFragmentManager.commit {
+                        remove(currentFragmentInContainer)
+                        replace(
                             R.id.child_fragment_container,
                             TaskCreationFragment(),
-                            TASK_CREATION_TAG
+                            TO_GOAL_COMPLETE_TAG
                         )
-                        .commit()
-
+                    }
                     binding.nextButton.text = "Готово"
                     binding.nextButton.setCompoundDrawablesRelative(null, null, null, null)
                 }
-                TASK_CREATION_TAG -> {
+
+                TO_GOAL_COMPLETE_TAG -> {
+                    binding.nextButton.visibility = View.GONE
+                    binding.cancelButton.visibility = View.GONE
+                    binding.space.visibility = View.GONE
+                    binding.title.visibility = View.GONE
+                    binding.bottomLinearLayout.findViewById<Button>(R.id.add_goal_button).visibility =
+                        View.VISIBLE
+                    childFragmentManager.commit {
+                        remove(currentFragmentInContainer)
+                        replace<SuccessGoalAddedFragment>(R.id.child_fragment_container)
+                    }
+                }
+
+                TO_TASKS_COMPLETE_TAG -> {
                     binding.title.visibility = View.GONE
                     binding.bottomLinearLayout.visibility = View.GONE
                     binding.childFragmentContainer.visibility = View.GONE
                     childFragmentManager.commit {
                         remove(currentFragmentInContainer)
-                        replace<SuccessGoalAddedFragment>(R.id.full_fragment_container)
+                        replace<SuccessTasksAddedFragment>(R.id.full_fragment_container)
                     }
                 }
             }
@@ -96,11 +132,14 @@ class PrimaryBottomSheetFragment : BottomSheetDialogFragment() {
         binding.cancelButton.setOnClickListener {
             dismiss()
         }
+        binding.addGoalButton.setOnClickListener {
+            dismiss()
+        }
     }
 
     companion object {
-        const val TAG = "PrimaryModalBottomSheet"
-        const val GOAL_CREATION_TAG = "GoalCreationFragment"
-        const val TASK_CREATION_TAG = "TaskCreationFragment"
+        private const val TO_TASK_CREATION_TAG = "TaskCreationFragment"
+        private const val TO_GOAL_COMPLETE_TAG = "SuccessGoalFragment"
+        private const val TO_TASKS_COMPLETE_TAG = "SuccessTaskFragment"
     }
 }

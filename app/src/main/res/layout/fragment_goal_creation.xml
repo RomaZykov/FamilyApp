@@ -2,7 +2,6 @@
 <layout>
 
     <data>
-
         <variable
             name="viewModel"
             type="com.n1.moguchi.ui.viewmodels.PrimaryBottomSheetViewModel" />
