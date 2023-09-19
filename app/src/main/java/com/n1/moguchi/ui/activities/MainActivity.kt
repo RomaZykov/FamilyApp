@@ -12,7 +12,6 @@ import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.ActivityMainBinding
-import com.n1.moguchi.ui.adapters.GoalsListRecyclerAdapter
 import com.n1.moguchi.ui.fragments.parent.PrimaryBottomSheetFragment
 
 class MainActivity : AppCompatActivity() {
@@ -65,11 +64,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showUi() {
-        binding.bottomAppBarLayout.visibility = View.VISIBLE
+        binding.bottomNavigationView.visibility = View.VISIBLE
     }
 
     private fun hideUi() {
-        binding.bottomAppBarLayout.visibility = View.GONE
+        binding.bottomNavigationView.visibility = View.GONE
     }
 
     companion object {

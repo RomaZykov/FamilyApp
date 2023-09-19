@@ -1,50 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.activities.MainActivity">
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/nav_host_fragment"
-            android:name="androidx.navigation.fragment.NavHostFragment"
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:defaultNavHost="true"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="parent"
-            app:navGraph="@navigation/nav_graph"
-            tools:layout="@layout/fragment_home" />
+            android:layout_above="@+id/bottom_navigation_view">
 
-        <com.google.android.material.bottomappbar.BottomAppBar
-            android:id="@+id/bottom_app_bar_layout"
-            style="@style/Widget.MaterialComponents.BottomAppBar"
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/nav_host_fragment"
+                android:name="androidx.navigation.fragment.NavHostFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:defaultNavHost="true"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+                app:navGraph="@navigation/nav_graph"
+                tools:layout="@layout/fragment_home" />
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            app:contentInsetEnd="0dp"
-            app:contentInsetStart="0dp"
-            app:fabAlignmentMode="center"
-            app:fabCradleMargin="16dp"
-            app:fabCradleRoundedCornerRadius="24dp">
-
-            <com.google.android.material.bottomnavigation.BottomNavigationView
-                android:id="@+id/bottom_navigation_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:itemTextColor="@color/bottom_navigation_selector"
-                app:menu="@menu/bottom_menu_parent"
-                app:itemActiveIndicatorStyle="@color/white"
-                app:itemHorizontalTranslationEnabled="false"
-                app:itemIconTint="@color/bottom_navigation_selector" />
-        </com.google.android.material.bottomappbar.BottomAppBar>
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+            android:layout_alignParentBottom="true"
+            app:itemActiveIndicatorStyle="@color/white"
+            app:itemHorizontalTranslationEnabled="false"
+            app:itemIconTint="@color/bottom_navigation_selector"
+            app:itemTextColor="@color/bottom_navigation_selector"
+            app:menu="@menu/bottom_menu_parent" />
+    </RelativeLayout>
 </layout>

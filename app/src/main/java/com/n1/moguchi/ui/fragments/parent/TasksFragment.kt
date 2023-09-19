@@ -13,12 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentTasksBinding
-import com.n1.moguchi.ui.adapters.TasksListRecyclerAdapter
+import com.n1.moguchi.ui.adapters.TasksRecyclerAdapter
 
 class TasksFragment : Fragment() {
 
     private lateinit var binding: FragmentTasksBinding
-    private lateinit var tasksListRecyclerAdapter: TasksListRecyclerAdapter
+    private lateinit var tasksRecyclerAdapter: TasksRecyclerAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,8 +34,8 @@ class TasksFragment : Fragment() {
 
         val recyclerView: RecyclerView = binding.rvTasksList
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        tasksListRecyclerAdapter = TasksListRecyclerAdapter()
-        recyclerView.adapter = tasksListRecyclerAdapter
+        tasksRecyclerAdapter = TasksRecyclerAdapter()
+        recyclerView.adapter = tasksRecyclerAdapter
 
         val topAppBar = requireActivity().findViewById<Toolbar>(R.id.top_tasks_app_bar)
         topAppBar.setNavigationOnClickListener {

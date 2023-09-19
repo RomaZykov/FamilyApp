@@ -1,6 +1,7 @@
 <resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.Moguchi" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowLightStatusBar">true</item>
         <item name="colorPrimary">#FFF2E3</item>
         <item name="colorPrimaryVariant">#FDE6CA</item>
         <item name="colorOnPrimary">#FA824C</item>

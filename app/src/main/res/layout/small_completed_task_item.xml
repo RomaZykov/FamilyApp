@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:layout_margin="2dp"
+        android:background="@drawable/round_task_card"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/completed_task_title"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="8dp"
+            android:gravity="start"
+            android:textSize="14sp"
+            tools:text="Написать контрольную минимум на 4" />
+
+        <ImageView
+            android:id="@+id/completed_ic"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginHorizontal="4dp"
+            android:visibility="gone"
+            android:layout_gravity="center"
+            android:src="@drawable/orange_done" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/completed_task_item_points"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="32dp"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/white_opacity_90">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="2dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/onest_regular"
+                    android:gravity="center"
+                    android:paddingHorizontal="8dp"
+                    android:text="4" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/points" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+</layout>

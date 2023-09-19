@@ -17,16 +17,16 @@ import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentHomeBinding
 import com.n1.moguchi.ui.ViewModelFactory
-import com.n1.moguchi.ui.adapters.CompletedGoalsListRecyclerAdapter
-import com.n1.moguchi.ui.adapters.GoalsListRecyclerAdapter
+import com.n1.moguchi.ui.adapters.CompletedGoalsRecyclerAdapter
+import com.n1.moguchi.ui.adapters.GoalsRecyclerAdapter
 import com.n1.moguchi.ui.viewmodels.HomeViewModel
 import javax.inject.Inject
 
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var goalsRecyclerAdapter: GoalsListRecyclerAdapter
-    private lateinit var completedGoalsRecyclerAdapter: CompletedGoalsListRecyclerAdapter
+    private lateinit var goalsRecyclerAdapter: GoalsRecyclerAdapter
+    private lateinit var completedGoalsRecyclerAdapter: CompletedGoalsRecyclerAdapter
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -62,12 +62,12 @@ class HomeFragment : Fragment() {
 
         val recyclerViewGoals: RecyclerView = view.findViewById(R.id.rv_home_goals_list)
         recyclerViewGoals.layoutManager = LinearLayoutManager(requireContext())
-        goalsRecyclerAdapter = GoalsListRecyclerAdapter()
+        goalsRecyclerAdapter = GoalsRecyclerAdapter()
         recyclerViewGoals.adapter = goalsRecyclerAdapter
 
         val recyclerViewCompletedGoals: RecyclerView = view.findViewById(R.id.rv_home_completed_goals_list)
         recyclerViewCompletedGoals.layoutManager = LinearLayoutManager(requireContext())
-        completedGoalsRecyclerAdapter = CompletedGoalsListRecyclerAdapter()
+        completedGoalsRecyclerAdapter = CompletedGoalsRecyclerAdapter()
         recyclerViewCompletedGoals.adapter = completedGoalsRecyclerAdapter
 
         val parentId = Firebase.auth.currentUser?.uid

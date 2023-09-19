@@ -57,7 +57,7 @@ class GoalCreationFragment : Fragment() {
         if (parentId != null) {
             viewModel.getChildren(parentId)
             viewModel.children.observe(viewLifecycleOwner) { children ->
-                children?.forEach { childrenNames.add(it.childName!!) }
+                children?.forEach { childrenNames.add(it.childName) }
                 val childrenLinearLayout =
                     view.findViewById<LinearLayout>(R.id.children_list_ll)
                 childrenNames.mapIndexed { index, name ->

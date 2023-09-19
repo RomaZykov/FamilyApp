@@ -14,6 +14,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintVertical_bias="0"
             app:layout_constraintBottom_toTopOf="@+id/scroll_view"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -24,95 +26,98 @@
                 style="@style/Widget.MaterialComponents.Toolbar.Primary"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                app:layout_scrollFlags="scroll|enterAlways"
                 app:menu="@menu/parent_profile_app_bar"
                 app:title="Мои дети"
                 app:titleTextAppearance="@style/Toolbar.TitleText.Large"
                 app:titleTextColor="@color/black" />
         </com.google.android.material.appbar.AppBarLayout>
 
-        <HorizontalScrollView
+        <ScrollView
             android:id="@+id/scroll_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:layout_constraintBottom_toTopOf="@id/rv_home_goals_list"
+            android:scrollbars="none"
+            android:layout_height="0dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/topAppBar">
+            app:layout_constraintTop_toBottomOf="@id/topAppBar">
 
             <LinearLayout
-                android:id="@+id/children_linear_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <LinearLayout
-                    android:id="@+id/button_add_child"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginHorizontal="4dp"
-                    android:background="@drawable/round_white_button"
-                    android:backgroundTint="@color/ultra_soft_orange"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:padding="8dp">
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp">
 
-                    <ImageView
+                    <LinearLayout
+                        android:id="@+id/children_linear_layout"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:src="@drawable/plus"
-                        app:tint="@color/black" />
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginHorizontal="8dp"
-                        android:fontFamily="@font/onest_regular"
-                        android:text="Добавить ребёнка"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-                </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/button_add_child"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginHorizontal="4dp"
+                            android:background="@drawable/round_white_button"
+                            android:backgroundTint="@color/ultra_soft_orange"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:padding="8dp">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:src="@drawable/plus"
+                                app:tint="@color/black" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginHorizontal="8dp"
+                                android:fontFamily="@font/onest_regular"
+                                android:text="Добавить ребёнка"
+                                android:textColor="@color/black"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_home_goals_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:scrollbars="vertical"
+                    app:layoutManager="LinearLayoutManager" />
+
+                <TextView
+                    android:id="@+id/completed_goals_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/onest_regular"
+                    android:text="Выполненные цели"
+                    android:textColor="@color/black"
+                    android:textSize="24sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_home_completed_goals_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:scrollbars="vertical"
+                    app:layoutManager="LinearLayoutManager" />
             </LinearLayout>
-        </HorizontalScrollView>
+        </ScrollView>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_home_goals_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:scrollbars="vertical"
-            app:layoutManager="LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@id/completed_goals_tv"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/scroll_view" />
-
-        <TextView
-            android:id="@+id/completed_goals_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
-            android:layout_marginVertical="16dp"
-            android:fontFamily="@font/onest_regular"
-            android:text="Выполненные цели"
-            android:textColor="@color/black"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toTopOf="@+id/rv_home_completed_goals_list"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rv_home_goals_list" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_home_completed_goals_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:scrollbars="vertical"
-            app:layoutManager="LinearLayoutManager"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/completed_goals_tv" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
