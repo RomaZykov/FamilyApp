@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/ultra_light_orange"
-        tools:context=".ui.fragments.parent.HomeFragment">
+        tools:context=".ui.fragments.child.HomeFragment">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/topAppBar"
@@ -22,13 +22,13 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/homeAppBar"
+                android:id="@+id/childHomeAppBar"
                 style="@style/Widget.MaterialComponents.Toolbar.Primary"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_scrollFlags="scroll|enterAlways"
-                app:menu="@menu/parent_profile_app_bar"
-                app:title="Мои дети"
+                app:menu="@menu/child_profile_app_bar"
+                app:title="Мои цели"
                 app:titleTextAppearance="@style/Toolbar.TitleText.Large"
                 app:titleTextColor="@color/black" />
         </com.google.android.material.appbar.AppBarLayout>
@@ -48,58 +48,16 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <HorizontalScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp">
-
-                    <LinearLayout
-                        android:id="@+id/children_linear_layout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:id="@+id/button_add_child"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginHorizontal="4dp"
-                            android:background="@drawable/round_white_button"
-                            android:backgroundTint="@color/ultra_soft_orange"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:padding="8dp">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:src="@drawable/plus"
-                                app:tint="@color/black" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginHorizontal="8dp"
-                                android:fontFamily="@font/onest_regular"
-                                android:text="Добавить ребёнка"
-                                android:textColor="@color/black"
-                                android:textSize="14sp" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </HorizontalScrollView>
-
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_home_goals_list"
+                    android:id="@+id/rv_child_home_goals"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
-                    android:nestedScrollingEnabled="false"
+                    android:scrollbars="vertical"
                     app:layoutManager="LinearLayoutManager" />
 
                 <TextView
-                    android:id="@+id/completed_goals_tv"
+                    android:id="@+id/child_completed_goals_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
@@ -110,11 +68,10 @@
                     android:textSize="24sp" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_home_completed_goals_list"
+                    android:id="@+id/rv_child_home_completed_goals"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
-                    android:nestedScrollingEnabled="false"
                     android:scrollbars="vertical"
                     app:layoutManager="LinearLayoutManager" />
             </LinearLayout>

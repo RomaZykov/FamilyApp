@@ -28,7 +28,7 @@ class AddChildFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var childrenRecyclerAdapter: ChildrenRecyclerAdapter
 
-    private var childrenCardList: MutableList<View> = mutableListOf()
+    private var childrenCardList: MutableList<Any> = mutableListOf()
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory

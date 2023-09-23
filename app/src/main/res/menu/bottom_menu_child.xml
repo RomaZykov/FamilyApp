@@ -7,11 +7,6 @@
         android:title="Главная" />
 
     <item
-        android:id="@+id/fab_placeholder"
-        android:enabled="false"
-        android:title="Добавить цель" />
-
-    <item
         android:id="@+id/chooseChildrenFragment"
         android:icon="@drawable/rotate"
         android:title="Родителю" />

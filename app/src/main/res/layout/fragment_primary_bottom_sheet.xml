@@ -12,8 +12,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/primary_bottom_sheet_creation"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true">
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/primary_modal_bottom_sheet"
@@ -25,6 +24,8 @@
                 android:id="@+id/drag_handle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView

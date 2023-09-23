@@ -13,9 +13,9 @@
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/ultra_light_orange"
             android:fitsSystemWindows="true"
             app:layout_constraintBottom_toTopOf="@+id/change_profile_hint_tv"
-            android:background="@color/ultra_light_orange"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -23,9 +23,9 @@
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/chooseChildrenAppBar"
                 android:layout_width="match_parent"
-                app:titleTextAppearance="@style/ActionBar.TitleText.Large"
                 android:layout_height="?attr/actionBarSize"
-                app:title="Передать ребёнку" />
+                app:title="Передать ребёнку"
+                app:titleTextAppearance="@style/ActionBar.TitleText.Large" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <TextView
@@ -35,19 +35,19 @@
             android:layout_marginHorizontal="16dp"
             android:text="Выберете ребёнка, которому хотите передать \nтелефон"
             android:textSize="14sp"
-            app:layout_constraintBottom_toTopOf="@+id/children_list"
+            app:layout_constraintBottom_toTopOf="@+id/rv_children_list"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/topAppBar" />
 
-        <ListView
-            android:id="@+id/children_list"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_children_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="24dp"
+            android:layout_margin="16dp"
+            app:layoutManager="LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/change_profile_hint_tv" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

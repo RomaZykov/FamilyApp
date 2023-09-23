@@ -54,7 +54,6 @@ class PrimaryBottomSheetFragment : BottomSheetDialogFragment() {
 
         val modalBottomSheet = view.findViewById<ConstraintLayout>(R.id.primary_modal_bottom_sheet)
         val bottomSheetBehavior = BottomSheetBehavior.from(modalBottomSheet)
-        bottomSheetBehavior.skipCollapsed = true
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
 
         setFragmentResultListener("requestKey") { key, bundle ->

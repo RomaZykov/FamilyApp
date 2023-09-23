@@ -7,7 +7,6 @@
     </style>
 
     <style name="ModalBottomSheetDialog" parent="Widget.Material3.BottomSheet.Modal">
-        <item name="shapeAppearance">@style/ShapeAppearance.App.LargeComponent</item>
         <item name="backgroundTint">@color/ultra_light_orange</item>
     </style>
 

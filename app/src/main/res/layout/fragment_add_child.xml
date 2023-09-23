@@ -54,7 +54,6 @@
                     android:id="@+id/rv_children_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false"
                     app:layoutManager="LinearLayoutManager" />
 
                 <LinearLayout
@@ -127,6 +126,5 @@
                 android:text="Продолжить"
                 android:textColor="@color/white" />
         </LinearLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
