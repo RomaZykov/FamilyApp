@@ -7,7 +7,7 @@
 
     <activity
         android:id="@+id/mainActivity"
-        android:name="com.n1.moguchi.ui.activities.MainActivity"
+        android:name="com.n1.moguchi.ui.activity.MainActivity"
         android:label="activity_main"
         tools:layout="@layout/activity_main" />
     <fragment
@@ -35,21 +35,17 @@
             app:destination="@id/onBoardingFragment" />
         <action
             android:id="@+id/action_registrationFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/parentHomeFragment" />
     </fragment>
     <fragment
-        android:id="@+id/chooseChildrenFragment"
-        android:name="com.n1.moguchi.ui.fragments.parent.SwitchToChildFragment"
-        android:label="ProfileFragment"/>
-    <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.n1.moguchi.ui.fragments.parent.HomeFragment"
+        android:id="@+id/parentHomeFragment"
+        android:name="com.n1.moguchi.ui.fragments.parent.ParentHomeFragment"
         android:label="HomeFragment">
         <action
-            android:id="@+id/action_homeFragment_to_addChildFragment"
+            android:id="@+id/action_parentHomeFragment_to_addChildFragment"
             app:destination="@id/addChildFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_profileFragment"
+            android:id="@+id/action_parentHomeFragment_to_parentProfileFragment"
             app:destination="@id/parentProfileFragment" />
     </fragment>
     <fragment
@@ -60,17 +56,12 @@
             android:id="@+id/action_parentProfileFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
         <action
-            android:id="@+id/action_parentProfileFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
-        <action
             android:id="@+id/action_parentProfileFragment_to_addChildFragment"
             app:destination="@id/addChildFragment" />
+        <action
+            android:id="@+id/action_parentProfileFragment_to_parentHomeFragment"
+            app:destination="@id/parentHomeFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/passwordForChildFragment"
-        android:name="com.n1.moguchi.ui.fragments.parent.PasswordForChildFragment"
-        android:label="fragment_password_for_child"
-        tools:layout="@layout/fragment_password_for_child" />
     <fragment
         android:id="@+id/goalCreationFragment"
         android:name="com.n1.moguchi.ui.fragments.parent.GoalCreationFragment"
@@ -95,4 +86,8 @@
         android:id="@+id/thirdSlideFragment"
         android:name="com.n1.moguchi.ui.fragments.parent.ThirdSlideFragment"
         android:label="ThirdSlideFragment" />
+    <fragment
+        android:id="@+id/switchToChildFragment"
+        android:name="com.n1.moguchi.ui.fragments.parent.SwitchToChildFragment"
+        android:label="SwitchToChildFragment" />
 </navigation>

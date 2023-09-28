@@ -36,7 +36,7 @@ class ParentLogOutBottomSheetFragment : BottomSheetDialogFragment() {
         val navHostFragment = requireParentFragment()
             .requireActivity()
             .supportFragmentManager
-            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+            .findFragmentById(R.id.fragment_container_view) as NavHostFragment
         val navController = navHostFragment.navController
 
         signInClient = Identity.getSignInClient(requireContext())

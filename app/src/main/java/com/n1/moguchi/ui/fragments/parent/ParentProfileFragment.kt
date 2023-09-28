@@ -51,12 +51,12 @@ class ParentProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val navHostFragment =
-            requireParentFragment().parentFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+            requireParentFragment().parentFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
         val navController = navHostFragment.navController
 
         val topAppBar = requireActivity().findViewById<Toolbar>(R.id.parent_profile_app_bar)
         topAppBar.setNavigationOnClickListener {
-            navController.navigate(R.id.action_parentProfileFragment_to_homeFragment)
+            navController.navigate(R.id.action_parentProfileFragment_to_parentHomeFragment)
         }
 
         binding.signOutButton.setOnClickListener {

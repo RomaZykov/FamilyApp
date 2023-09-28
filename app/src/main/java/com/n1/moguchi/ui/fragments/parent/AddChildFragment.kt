@@ -57,7 +57,7 @@ class AddChildFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val navHostFragment =
-            requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+            requireActivity().supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
         val navController = navHostFragment.navController
 
         auth = Firebase.auth
@@ -91,7 +91,7 @@ class AddChildFragment : Fragment() {
             if (isAfterOnBoarding == true) {
                 navController.navigate(R.id.action_addChildFragment_to_goalCreationFragment)
             } else {
-                navController.navigate(R.id.homeFragment)
+                navController.navigate(R.id.parentHomeFragment)
             }
         }
     }

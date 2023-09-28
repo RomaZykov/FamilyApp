@@ -39,7 +39,7 @@ class OnBoardingChildFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val navHostFragment =
-            requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+            requireActivity().supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
         val navController = navHostFragment.navController
 
         binding.skipButton.setOnClickListener {
