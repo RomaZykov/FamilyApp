@@ -8,23 +8,23 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
-import com.n1.moguchi.databinding.FragmentHomeBinding
+import com.n1.moguchi.databinding.FragmentParentHomeBinding
 import com.n1.moguchi.ui.ViewModelFactory
+import com.n1.moguchi.ui.activity.MainActivity
 import com.n1.moguchi.ui.adapters.CompletedGoalsRecyclerAdapter
 import com.n1.moguchi.ui.adapters.GoalsRecyclerAdapter
 import com.n1.moguchi.ui.viewmodels.HomeViewModel
 import javax.inject.Inject
 
-class HomeFragment : Fragment() {
+class ParentHomeFragment : Fragment() {
 
-    private lateinit var binding: FragmentHomeBinding
+    private lateinit var binding: FragmentParentHomeBinding
     private lateinit var goalsRecyclerAdapter: GoalsRecyclerAdapter
     private lateinit var completedGoalsRecyclerAdapter: CompletedGoalsRecyclerAdapter
 
@@ -48,7 +48,7 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
+        binding = FragmentParentHomeBinding.inflate(layoutInflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
@@ -56,9 +56,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val navHostFragment =
-            requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val navController = navHostFragment.navController
+        val navController = Navigation.findNavController(activity as MainActivity, R.id.fragment_container_view)
 
         val recyclerViewGoals: RecyclerView = view.findViewById(R.id.rv_home_goals_list)
         recyclerViewGoals.layoutManager = LinearLayoutManager(requireContext())
@@ -89,8 +87,8 @@ class HomeFragment : Fragment() {
 
         if (parentId != null) {
             viewModel.getChildrenList(parentId)
-            viewModel.children.observe(viewLifecycleOwner) { childrenList ->
-                childrenList.map {
+//            viewModel.children.observe(viewLifecycleOwner) { childrenList ->
+//                childrenList.map {
 //                    val childItem = layoutInflater.inflate(
 //                        R.layout.small_child_item,
 //                        childrenLinearLayout,
@@ -99,19 +97,18 @@ class HomeFragment : Fragment() {
 //                    val childName = it.value.childName
 //                    childItem.findViewById<TextView>(R.id.child_name).text = childName
 //                    childrenLinearLayout.addView(childItem, 0)
-                }
-            }
+//                }
+//            }
         }
 
         binding.buttonAddChild.setOnClickListener {
-            Navigation.findNavController(requireView())
-                .navigate(R.id.action_homeFragment_to_addChildFragment)
+            navController.navigate(R.id.action_parentHomeFragment_to_addChildFragment)
         }
 
         binding.homeAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.profile -> {
-                    navController.navigate(R.id.action_homeFragment_to_profileFragment)
+                    navController.navigate(R.id.action_parentHomeFragment_to_parentProfileFragment)
                     true
                 }
                 else -> false

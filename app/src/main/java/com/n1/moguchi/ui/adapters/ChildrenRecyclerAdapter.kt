@@ -3,11 +3,14 @@ package com.n1.moguchi.ui.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.commit
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.ChildCreationCardBinding
 import com.n1.moguchi.databinding.MediumChildItemBinding
+import com.n1.moguchi.ui.fragments.child.HomeChildFragment
 
 class ChildrenRecyclerAdapter(
     private val children: MutableList<Any>
@@ -25,7 +28,6 @@ class ChildrenRecyclerAdapter(
                 )
                 ChildViewHolder(view)
             }
-
             else -> {
                 val view = LayoutInflater.from(parent.context).inflate(
                     R.layout.medium_child_item,
@@ -90,12 +92,21 @@ class ChildrenRecyclerAdapter(
 
     inner class MediumChildViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         private val binding = MediumChildItemBinding.bind(itemView)
+
+        init {
+            itemView.setOnClickListener(this)
+        }
+
         fun bind(childName: String) {
             binding.childName.text = childName
         }
 
         override fun onClick(v: View) {
-
+            val fragmentActivity = v.context as FragmentActivity
+            fragmentActivity.supportFragmentManager.commit {
+                replace(R.id.fragment_container_view, HomeChildFragment())
+                setReorderingAllowed(true)
+            }
         }
     }
 }
