@@ -79,8 +79,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val TAG = "MainActivity"
-
+        const val TAG = "MainActivity"
         var isParentProfile = true
     }
 }

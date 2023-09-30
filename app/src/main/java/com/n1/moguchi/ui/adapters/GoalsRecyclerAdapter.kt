@@ -93,7 +93,6 @@ class GoalsRecyclerAdapter :
             fragmentActivity.supportFragmentManager.commit {
                 replace(android.R.id.content, TasksFragment())
                 setReorderingAllowed(true)
-                addToBackStack(TAG)
             }
         }
     }
