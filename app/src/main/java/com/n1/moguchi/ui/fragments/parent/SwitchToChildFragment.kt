@@ -12,7 +12,8 @@ import com.n1.moguchi.ui.adapters.ChildrenRecyclerAdapter
 
 class SwitchToChildFragment : Fragment() {
 
-    private lateinit var binding: FragmentSwitchToChildBinding
+    private var _binding: FragmentSwitchToChildBinding? = null
+    private val binding get() = _binding!!
     private lateinit var childrenRecyclerAdapter: ChildrenRecyclerAdapter
     private var mockNames: List<String> = listOf("Максимка", "Алена")
 
@@ -22,7 +23,7 @@ class SwitchToChildFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         super.onCreate(savedInstanceState)
-        binding = FragmentSwitchToChildBinding.inflate(layoutInflater, container, false)
+        _binding = FragmentSwitchToChildBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -33,5 +34,10 @@ class SwitchToChildFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         childrenRecyclerAdapter = ChildrenRecyclerAdapter(mockNames.toMutableList())
         recyclerView.adapter = childrenRecyclerAdapter
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

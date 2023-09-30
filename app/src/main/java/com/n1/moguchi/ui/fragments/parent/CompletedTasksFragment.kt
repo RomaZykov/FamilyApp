@@ -15,7 +15,8 @@ import com.n1.moguchi.ui.adapters.CompletedTasksRecyclerAdapter
 
 class CompletedTasksFragment : Fragment() {
 
-    private lateinit var binding: FragmentCompletedTasksBinding
+    private var _binding: FragmentCompletedTasksBinding? = null
+    private val binding get() = _binding!!
     private lateinit var completedTasksRecyclerAdapter: CompletedTasksRecyclerAdapter
 
     override fun onCreateView(
@@ -23,7 +24,7 @@ class CompletedTasksFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentCompletedTasksBinding.inflate(inflater, container, false)
+        _binding = FragmentCompletedTasksBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -42,5 +43,10 @@ class CompletedTasksFragment : Fragment() {
             }
         }
 
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

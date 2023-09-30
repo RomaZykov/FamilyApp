@@ -11,14 +11,15 @@ import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentEditProfileParentBinding
 
 class ParentEditProfileFragment : Fragment() {
-    private lateinit var binding: FragmentEditProfileParentBinding
+    private var _binding: FragmentEditProfileParentBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentEditProfileParentBinding.inflate(inflater, container, false)
+        _binding = FragmentEditProfileParentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -34,5 +35,10 @@ class ParentEditProfileFragment : Fragment() {
                 setReorderingAllowed(true)
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

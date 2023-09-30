@@ -22,7 +22,8 @@ import javax.inject.Inject
 
 class PrimaryBottomSheetFragment : BottomSheetDialogFragment() {
 
-    private lateinit var binding: FragmentPrimaryBottomSheetBinding
+    private var _binding: FragmentPrimaryBottomSheetBinding? = null
+    private val binding get() = _binding!!
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -43,7 +44,7 @@ class PrimaryBottomSheetFragment : BottomSheetDialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentPrimaryBottomSheetBinding.inflate(inflater, container, false)
+        _binding = FragmentPrimaryBottomSheetBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
         return binding.root
@@ -134,6 +135,11 @@ class PrimaryBottomSheetFragment : BottomSheetDialogFragment() {
         binding.addGoalButton.setOnClickListener {
             dismiss()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {

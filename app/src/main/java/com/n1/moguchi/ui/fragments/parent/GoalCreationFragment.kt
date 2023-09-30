@@ -20,7 +20,8 @@ import javax.inject.Inject
 
 class GoalCreationFragment : Fragment() {
 
-    private lateinit var binding: FragmentGoalCreationBinding
+    private var _binding: FragmentGoalCreationBinding? = null
+    private val binding get() = _binding!!
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -42,7 +43,7 @@ class GoalCreationFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentGoalCreationBinding.inflate(inflater, container, false)
+        _binding = FragmentGoalCreationBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
@@ -94,5 +95,10 @@ class GoalCreationFragment : Fragment() {
 //                .replace(R.id.child_fragment_container, TaskCreationFragment())
 //                .commit()
 //        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

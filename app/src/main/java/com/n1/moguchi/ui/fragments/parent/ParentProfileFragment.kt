@@ -20,7 +20,8 @@ import javax.inject.Inject
 
 class ParentProfileFragment : Fragment() {
 
-    private lateinit var binding: FragmentParentProfileBinding
+    private var _binding: FragmentParentProfileBinding? = null
+    private val binding get() = _binding!!
     private lateinit var notificationsRecyclerAdapter: NotificationsRecyclerAdapter
 
     private val notificationList = mutableListOf(
@@ -42,7 +43,7 @@ class ParentProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentParentProfileBinding.inflate(layoutInflater, container, false)
+        _binding = FragmentParentProfileBinding.inflate(layoutInflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
@@ -91,6 +92,11 @@ class ParentProfileFragment : Fragment() {
                 binding.deleteNotificationsButton.visibility = View.GONE
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun setupRecyclerView(view: View, notificationList: MutableList<String>) {

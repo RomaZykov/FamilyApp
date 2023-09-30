@@ -20,7 +20,8 @@ import javax.inject.Inject
 
 class TaskCreationFragment : BottomSheetDialogFragment(), TaskSettingsClickListener {
 
-    private lateinit var binding: FragmentTaskCreationBinding
+    private var _binding: FragmentTaskCreationBinding? = null
+    private val binding get() = _binding!!
     private lateinit var taskSetupRecyclerAdapter: TaskSetupRecyclerAdapter
 
     private var tasksCardList: MutableList<View> = mutableListOf()
@@ -46,7 +47,7 @@ class TaskCreationFragment : BottomSheetDialogFragment(), TaskSettingsClickListe
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentTaskCreationBinding.inflate(inflater, container, false)
+        _binding = FragmentTaskCreationBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -69,6 +70,11 @@ class TaskCreationFragment : BottomSheetDialogFragment(), TaskSettingsClickListe
     }
     override fun onTaskSettingsItemClick(view: View) {
         showTaskSettingsBottomSheet()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun showTaskSettingsBottomSheet() {

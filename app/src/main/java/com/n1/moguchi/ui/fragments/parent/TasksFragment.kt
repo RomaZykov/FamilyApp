@@ -17,7 +17,8 @@ import com.n1.moguchi.ui.adapters.TasksRecyclerAdapter
 
 class TasksFragment : Fragment() {
 
-    private lateinit var binding: FragmentTasksBinding
+    private var _binding: FragmentTasksBinding? = null
+    private val binding get() = _binding!!
     private lateinit var tasksRecyclerAdapter: TasksRecyclerAdapter
 
     override fun onCreateView(
@@ -25,7 +26,7 @@ class TasksFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentTasksBinding.inflate(inflater, container, false)
+        _binding = FragmentTasksBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -51,6 +52,11 @@ class TasksFragment : Fragment() {
             val bottomSheet = PrimaryBottomSheetFragment()
             bottomSheet.show(fragmentManager, TAG)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {

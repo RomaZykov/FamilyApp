@@ -24,7 +24,8 @@ import javax.inject.Inject
 
 class AddChildFragment : Fragment() {
 
-    private lateinit var binding: FragmentAddChildBinding
+    private var _binding: FragmentAddChildBinding? = null
+    private val binding get() = _binding!!
     private lateinit var auth: FirebaseAuth
     private lateinit var childrenRecyclerAdapter: ChildrenRecyclerAdapter
 
@@ -49,7 +50,7 @@ class AddChildFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentAddChildBinding.inflate(inflater, container, false)
+        _binding = FragmentAddChildBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -77,6 +78,11 @@ class AddChildFragment : Fragment() {
         binding.saveChildrenButton.setOnClickListener {
             saveChildrenToFirebase(navController)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun saveChildrenToFirebase(navController: NavController) {

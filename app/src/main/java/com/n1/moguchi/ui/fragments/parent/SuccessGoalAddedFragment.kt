@@ -8,17 +8,23 @@ import androidx.fragment.app.Fragment
 import com.n1.moguchi.databinding.FragmentSuccessGoalAddedBinding
 class SuccessGoalAddedFragment : Fragment() {
 
-    private lateinit var binding: FragmentSuccessGoalAddedBinding
+    private var _binding: FragmentSuccessGoalAddedBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentSuccessGoalAddedBinding.inflate(inflater, container, false)
+        _binding = FragmentSuccessGoalAddedBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

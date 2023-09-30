@@ -10,7 +10,9 @@ import com.google.android.material.textfield.TextInputEditText
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.ChildCreationCardBinding
 import com.n1.moguchi.databinding.MediumChildItemBinding
-import com.n1.moguchi.ui.fragments.child.HomeChildFragment
+import com.n1.moguchi.ui.fragments.OnBoardingFragment
+import com.n1.moguchi.ui.fragments.child.FirstSlideChildFragment
+import com.n1.moguchi.ui.fragments.child.SecondSlideChildFragment
 
 class ChildrenRecyclerAdapter(
     private val children: MutableList<Any>
@@ -102,9 +104,13 @@ class ChildrenRecyclerAdapter(
         }
 
         override fun onClick(v: View) {
+            val childMap = mapOf(
+                "first" to FirstSlideChildFragment(),
+                "second" to SecondSlideChildFragment()
+            )
             val fragmentActivity = v.context as FragmentActivity
             fragmentActivity.supportFragmentManager.commit {
-                replace(R.id.fragment_container_view, HomeChildFragment())
+                replace(R.id.fragment_container_view, OnBoardingFragment(childMap, 2))
                 setReorderingAllowed(true)
             }
         }

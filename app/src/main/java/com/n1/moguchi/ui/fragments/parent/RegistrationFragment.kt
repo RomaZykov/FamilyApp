@@ -30,7 +30,9 @@ import com.n1.moguchi.databinding.FragmentRegistrationBinding
 
 class RegistrationFragment : Fragment() {
 
-    private lateinit var binding: FragmentRegistrationBinding
+    private var _binding: FragmentRegistrationBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var auth: FirebaseAuth
     private lateinit var signInClient: SignInClient
 
@@ -44,7 +46,7 @@ class RegistrationFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentRegistrationBinding.inflate(layoutInflater, container, false)
+        _binding = FragmentRegistrationBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -72,6 +74,11 @@ class RegistrationFragment : Fragment() {
             Navigation.findNavController(binding.root)
                 .navigate(R.id.action_registrationFragment_to_homeFragment)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun handleSignInResult(data: Intent?, resultCode: Int) {

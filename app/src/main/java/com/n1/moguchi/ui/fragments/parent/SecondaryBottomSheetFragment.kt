@@ -12,13 +12,14 @@ import com.n1.moguchi.databinding.FragmentSecondaryBottomSheetBinding
 
 class SecondaryBottomSheetFragment : BottomSheetDialogFragment() {
 
-    private lateinit var binding: FragmentSecondaryBottomSheetBinding
+    private var _binding: FragmentSecondaryBottomSheetBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentSecondaryBottomSheetBinding.inflate(inflater, container, false)
+        _binding = FragmentSecondaryBottomSheetBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
@@ -77,6 +78,11 @@ class SecondaryBottomSheetFragment : BottomSheetDialogFragment() {
         binding.cancelButton.setOnClickListener {
             dismiss()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {

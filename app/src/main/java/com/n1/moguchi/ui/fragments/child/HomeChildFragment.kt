@@ -11,20 +11,23 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentChildHomeBinding
 import com.n1.moguchi.ui.activity.MainActivity
+import com.n1.moguchi.ui.adapters.CompletedGoalsRecyclerAdapter
 import com.n1.moguchi.ui.adapters.GoalsRecyclerAdapter
 import com.n1.moguchi.ui.fragments.parent.ChangeProfileBottomSheetFragment
 
 class HomeChildFragment : Fragment() {
 
-    private lateinit var binding: FragmentChildHomeBinding
+    private var _binding: FragmentChildHomeBinding? = null
+    private val binding get() = _binding!!
     private lateinit var goalsRecyclerAdapter: GoalsRecyclerAdapter
+    private lateinit var childCompletedGoalsRecyclerAdapter: CompletedGoalsRecyclerAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentChildHomeBinding.inflate(layoutInflater, container, false)
+        _binding = FragmentChildHomeBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -38,12 +41,22 @@ class HomeChildFragment : Fragment() {
         goalsRecyclerAdapter = GoalsRecyclerAdapter()
         recyclerViewGoals.adapter = goalsRecyclerAdapter
 
+        val recyclerViewCompletedGoals: RecyclerView = view.findViewById(R.id.rv_child_home_completed_goals)
+        recyclerViewCompletedGoals.layoutManager = LinearLayoutManager(requireContext())
+        childCompletedGoalsRecyclerAdapter = CompletedGoalsRecyclerAdapter()
+        recyclerViewCompletedGoals.adapter = childCompletedGoalsRecyclerAdapter
+
         updateBottomNavigationView()
 
         (activity as MainActivity).findViewById<BottomNavigationView>(R.id.bottom_navigation_view).menu.findItem(R.id.switchToParent).setOnMenuItemClickListener {
             showToParentChangeBottomSheet()
             true
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun showToParentChangeBottomSheet() {

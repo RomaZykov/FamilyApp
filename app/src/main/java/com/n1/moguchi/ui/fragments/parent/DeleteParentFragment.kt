@@ -11,13 +11,16 @@ import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentDeleteParentBinding
 
 class DeleteParentFragment : Fragment() {
-    private lateinit var binding: FragmentDeleteParentBinding
+
+    private var _binding: FragmentDeleteParentBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentDeleteParentBinding.inflate(inflater, container, false)
+        _binding = FragmentDeleteParentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -36,5 +39,10 @@ class DeleteParentFragment : Fragment() {
         binding.cancelButton.setOnClickListener {
             TODO()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

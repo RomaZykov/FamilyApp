@@ -14,7 +14,7 @@ import com.n1.moguchi.ui.fragments.parent.PrimaryBottomSheetFragment
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var navController: NavController
+    lateinit var navController: NavController
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

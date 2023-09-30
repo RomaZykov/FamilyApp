@@ -18,7 +18,8 @@ import com.n1.moguchi.databinding.FragmentParentLogoutBinding
 
 class ParentLogOutBottomSheetFragment : BottomSheetDialogFragment() {
 
-    private lateinit var binding: FragmentParentLogoutBinding
+    private var _binding: FragmentParentLogoutBinding? = null
+    private val binding get() = _binding!!
     private lateinit var signInClient: SignInClient
     private lateinit var auth: FirebaseAuth
 
@@ -26,7 +27,7 @@ class ParentLogOutBottomSheetFragment : BottomSheetDialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentParentLogoutBinding.inflate(inflater, container, false)
+        _binding = FragmentParentLogoutBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -59,6 +60,11 @@ class ParentLogOutBottomSheetFragment : BottomSheetDialogFragment() {
         binding.cancelButton.setOnClickListener {
             dismiss()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun signOut() {

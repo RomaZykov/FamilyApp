@@ -12,11 +12,14 @@
         tools:layout="@layout/activity_main" />
     <fragment
         android:id="@+id/onBoardingFragment"
-        android:name="com.n1.moguchi.ui.fragments.parent.OnBoardingFragment"
+        android:name="com.n1.moguchi.ui.fragments.OnBoardingFragment"
         android:label="OnBoardingFragment">
         <action
             android:id="@+id/action_onBoardingFragment_to_addChildFragment"
             app:destination="@id/addChildFragment" />
+        <action
+            android:id="@+id/action_onBoardingFragment_to_homeChildFragment"
+            app:destination="@id/homeChildFragment" />
     </fragment>
     <fragment
         android:id="@+id/addChildFragment"
@@ -90,4 +93,20 @@
         android:id="@+id/switchToChildFragment"
         android:name="com.n1.moguchi.ui.fragments.parent.SwitchToChildFragment"
         android:label="SwitchToChildFragment" />
+    <fragment
+        android:id="@+id/homeChildFragment"
+        android:name="com.n1.moguchi.ui.fragments.child.HomeChildFragment"
+        android:label="HomeChildFragment" />
+    <fragment
+        android:id="@+id/firstSlideChildFragment"
+        android:name="com.n1.moguchi.ui.fragments.child.FirstSlideChildFragment"
+        android:label="FirstSlideChildFragment" >
+        <action
+            android:id="@+id/action_firstSlideChildFragment_to_secondSlideChildFragment"
+            app:destination="@id/secondSlideChildFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/secondSlideChildFragment"
+        android:name="com.n1.moguchi.ui.fragments.child.SecondSlideChildFragment"
+        android:label="SecondSlideChildFragment" />
 </navigation>

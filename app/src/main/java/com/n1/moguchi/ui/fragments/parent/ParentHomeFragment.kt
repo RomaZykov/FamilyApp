@@ -24,7 +24,9 @@ import javax.inject.Inject
 
 class ParentHomeFragment : Fragment() {
 
-    private lateinit var binding: FragmentParentHomeBinding
+    private var _binding: FragmentParentHomeBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var goalsRecyclerAdapter: GoalsRecyclerAdapter
     private lateinit var completedGoalsRecyclerAdapter: CompletedGoalsRecyclerAdapter
 
@@ -48,7 +50,7 @@ class ParentHomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentParentHomeBinding.inflate(layoutInflater, container, false)
+        _binding = FragmentParentHomeBinding.inflate(layoutInflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
@@ -114,5 +116,10 @@ class ParentHomeFragment : Fragment() {
                 else -> false
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

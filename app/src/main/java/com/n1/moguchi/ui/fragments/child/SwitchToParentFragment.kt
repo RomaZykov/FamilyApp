@@ -9,7 +9,8 @@ import com.n1.moguchi.databinding.FragmentSwitchToParentBinding
 
 class SwitchToParentFragment : Fragment() {
 
-    private lateinit var binding: FragmentSwitchToParentBinding
+    private var _binding: FragmentSwitchToParentBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -17,7 +18,12 @@ class SwitchToParentFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         super.onCreate(savedInstanceState)
-        binding = FragmentSwitchToParentBinding.inflate(layoutInflater, container, false)
+        _binding = FragmentSwitchToParentBinding.inflate(layoutInflater, container, false)
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

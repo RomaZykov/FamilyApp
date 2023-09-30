@@ -14,13 +14,14 @@ import com.n1.moguchi.databinding.FragmentProfileEditBottomSheetBinding
 
 class ParentEditProfileBottomSheetFragment : BottomSheetDialogFragment() {
 
-    private lateinit var binding: FragmentProfileEditBottomSheetBinding
+    private var _binding: FragmentProfileEditBottomSheetBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentProfileEditBottomSheetBinding.inflate(inflater, container, false)
+        _binding = FragmentProfileEditBottomSheetBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -48,5 +49,10 @@ class ParentEditProfileBottomSheetFragment : BottomSheetDialogFragment() {
         binding.cancelButton.setOnClickListener {
             dismiss()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

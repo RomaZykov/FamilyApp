@@ -9,17 +9,23 @@ import com.n1.moguchi.databinding.FragmentSuccessTasksAddedBinding
 
 class SuccessTasksAddedFragment : Fragment() {
 
-    private lateinit var binding: FragmentSuccessTasksAddedBinding
+    private var _binding: FragmentSuccessTasksAddedBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentSuccessTasksAddedBinding.inflate(inflater, container, false)
+        _binding = FragmentSuccessTasksAddedBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
