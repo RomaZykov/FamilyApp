@@ -3,16 +3,15 @@ package com.n1.moguchi.ui.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.commit
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.textfield.TextInputEditText
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.ChildCreationCardBinding
 import com.n1.moguchi.databinding.MediumChildItemBinding
-import com.n1.moguchi.ui.fragments.OnBoardingFragment
-import com.n1.moguchi.ui.fragments.child.FirstSlideChildFragment
-import com.n1.moguchi.ui.fragments.child.SecondSlideChildFragment
+import com.n1.moguchi.ui.activity.MainActivity
+import com.n1.moguchi.ui.fragments.child.OnBoardingChildFragment
 
 class ChildrenRecyclerAdapter(
     private val children: MutableList<Any>
@@ -104,13 +103,10 @@ class ChildrenRecyclerAdapter(
         }
 
         override fun onClick(v: View) {
-            val childMap = mapOf(
-                "first" to FirstSlideChildFragment(),
-                "second" to SecondSlideChildFragment()
-            )
-            val fragmentActivity = v.context as FragmentActivity
+            val fragmentActivity = v.context as MainActivity
             fragmentActivity.supportFragmentManager.commit {
-                replace(R.id.fragment_container_view, OnBoardingFragment(childMap, 2))
+                replace(R.id.fragment_container_view, OnBoardingChildFragment())
+                fragmentActivity.findViewById<BottomNavigationView>(R.id.bottom_navigation_view).visibility = View.GONE
                 setReorderingAllowed(true)
             }
         }

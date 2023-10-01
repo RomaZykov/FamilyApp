@@ -12,7 +12,7 @@
         tools:layout="@layout/activity_main" />
     <fragment
         android:id="@+id/onBoardingFragment"
-        android:name="com.n1.moguchi.ui.fragments.OnBoardingFragment"
+        android:name="com.n1.moguchi.ui.fragments.parent.OnBoardingParentFragment"
         android:label="OnBoardingFragment">
         <action
             android:id="@+id/action_onBoardingFragment_to_addChildFragment"
@@ -92,7 +92,11 @@
     <fragment
         android:id="@+id/switchToChildFragment"
         android:name="com.n1.moguchi.ui.fragments.parent.SwitchToChildFragment"
-        android:label="SwitchToChildFragment" />
+        android:label="SwitchToChildFragment" >
+        <action
+            android:id="@+id/action_switchToChildFragment_to_homeChildFragment"
+            app:destination="@id/homeChildFragment" />
+    </fragment>
     <fragment
         android:id="@+id/homeChildFragment"
         android:name="com.n1.moguchi.ui.fragments.child.HomeChildFragment"
