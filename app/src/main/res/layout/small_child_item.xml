@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="130dp"
+    android:layout_height="48dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:backgroundTint="@color/ultra_soft_orange"
+    card_view:cardCornerRadius="22dp"
+    card_view:strokeWidth="0dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/child_photo"
+            android:layout_width="48dp"
+            android:padding="2dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/avatar_male_1" />
+
+        <TextView
+            android:id="@+id/child_name"
+            android:layout_width="match_parent"
+            android:fontFamily="@font/onest_regular"
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="16dp"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:text="Ребёнок"/>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

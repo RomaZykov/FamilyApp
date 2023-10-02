@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/child_material_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:backgroundTint="@color/ultra_soft_orange"
+        android:checkable="true"
+        android:clickable="true"
+        android:focusable="true"
+        app:strokeWidth="0dp"
+        card_view:cardCornerRadius="15dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="4dp"
+                    android:gravity="start"
+                    android:fontFamily="@font/onest_regular"
+                    android:text="Имя"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:hint="Введите имя ребенка"
+                    app:boxBackgroundColor="@color/white"
+                    app:boxCornerRadiusBottomEnd="18dp"
+                    app:boxCornerRadiusBottomStart="18dp"
+                    app:boxCornerRadiusTopEnd="18dp"
+                    app:boxStrokeWidth="0dp"
+                    app:hintTextAppearance="@style/TextAppearance.Design.Hint.Small"
+                    app:boxCornerRadiusTopStart="18dp"
+                    app:boxStrokeColor="@color/orange"
+                    app:hintTextColor="@color/black">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/child_name_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:fontFamily="@font/onest_regular"
+                    android:text="Аватар"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <HorizontalScrollView
+                    android:id="@+id/scroll_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginBottom="8dp">
+
+                    <LinearLayout
+                        android:id="@+id/avatar_linear_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/avatar_male_1"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_marginHorizontal="4dp"
+                            android:layout_marginVertical="8dp"
+                            android:src="@drawable/avatar_male_1" />
+
+                        <ImageView
+                            android:id="@+id/avatar_male_2"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_marginHorizontal="4dp"
+                            android:layout_marginVertical="8dp"
+                            android:src="@drawable/avatar_male_2" />
+
+                        <ImageView
+                            android:id="@+id/avatar_female_2"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_marginHorizontal="4dp"
+                            android:layout_marginVertical="8dp"
+                            android:src="@drawable/avatar_female_2" />
+
+                        <ImageView
+                            android:id="@+id/avatar_female_3"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_marginHorizontal="4dp"
+                            android:layout_marginVertical="8dp"
+                            android:src="@drawable/avatar_female_3" />
+
+                    </LinearLayout>
+                </HorizontalScrollView>
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/delete_child_button"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="end"
+                android:background="@drawable/round_profile_button"
+                android:backgroundTint="@color/white"
+                android:src="@drawable/delete" />
+        </FrameLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.n1.moguchi.ui.viewmodels.PrimaryBottomSheetViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/primary_modal_bottom_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="750dp"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+            <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+                android:id="@+id/drag_handle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:fontFamily="@font/onest_regular"
+                android:gravity="center"
+                android:text="Новая цель"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@+id/child_fragment_container"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/drag_handle"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <FrameLayout
+                android:id="@+id/child_fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginVertical="16dp"
+                app:layout_constraintBottom_toTopOf="@+id/bottom_linear_layout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/drag_handle" />
+
+            <LinearLayout
+                android:id="@id/bottom_linear_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <Button
+                    android:id="@+id/add_goal_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="@color/orange"
+                    android:fontFamily="@font/onest_regular"
+                    android:layout_marginHorizontal="16dp"
+                    android:visibility="gone"
+                    android:padding="16dp"
+                    android:text="Отлично"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/cancel_button"
+                    android:layout_width="178dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:fontFamily="@font/onest_regular"
+                    android:paddingHorizontal="24dp"
+                    android:paddingVertical="16dp"
+                    android:text="Отмена"
+                    android:textColor="@color/black" />
+
+                <Space
+                    android:id="@+id/space"
+                    android:layout_width="8dp"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:id="@+id/next_button"
+                    android:layout_width="178dp"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="@color/orange"
+                    android:drawableTint="@color/white"
+                    android:fontFamily="@font/onest_regular"
+                    android:paddingHorizontal="24dp"
+                    android:paddingVertical="16dp"
+                    android:text="Далее"
+                    android:textColor="@color/white"
+                    app:drawableEndCompat="@drawable/arrow_r" />
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/full_fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/drag_handle"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

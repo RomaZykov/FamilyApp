@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:layout_marginBottom="2dp"
+        android:background="@drawable/notification_bg"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/badge_notification"
+            android:layout_width="8dp"
+            android:layout_margin="8dp"
+            android:layout_height="8dp"
+            android:background="@drawable/badge_circle_red" />
+
+        <TextView
+            android:id="@+id/notification_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="8dp"
+            android:gravity="start"
+            android:textSize="14sp"
+            tools:text="Написать контрольную минимум на 4" />
+    </LinearLayout>
+</layout>
