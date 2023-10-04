@@ -6,10 +6,13 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.R
 import com.n1.moguchi.data.models.Task
 import com.n1.moguchi.databinding.EditableTaskItemBinding
+import com.n1.moguchi.ui.activity.MainActivity
+import com.n1.moguchi.ui.fragments.child.TaskConfirmationBottomSheetFragment
 
 class TasksRecyclerAdapter : RecyclerView.Adapter<TasksRecyclerAdapter.EditableTaskViewHolder>() {
 
@@ -46,18 +49,27 @@ class TasksRecyclerAdapter : RecyclerView.Adapter<TasksRecyclerAdapter.EditableT
     }
 
     inner class EditableTaskViewHolder(itemView: View) :
-        RecyclerView.ViewHolder(itemView), PopupMenu.OnMenuItemClickListener {
+        RecyclerView.ViewHolder(itemView), PopupMenu.OnMenuItemClickListener, View.OnClickListener {
 
         private val binding = EditableTaskItemBinding.bind(itemView)
         private var task: Task? = null
         var context: Context = itemView.context
 
+        init {
+            itemView.setOnClickListener(this)
+        }
+
         fun bind(task: Task) {
             this.task = task
 
             binding.taskTitle.text = task.title
-            binding.taskSettingsButton.setOnClickListener {
-                showOptionsPopup()
+            if (MainActivity.isParentProfile) {
+                binding.taskSettingsButton.visibility = View.VISIBLE
+                binding.taskSettingsButton.setOnClickListener {
+                    showOptionsPopup()
+                }
+            } else {
+                binding.taskSettingsButton.visibility = View.GONE
             }
         }
 
@@ -70,12 +82,28 @@ class TasksRecyclerAdapter : RecyclerView.Adapter<TasksRecyclerAdapter.EditableT
             popup.show()
         }
 
+        override fun onClick(v: View) {
+            val fragmentActivity = v.context as FragmentActivity
+            val fragmentManager = fragmentActivity.supportFragmentManager
+            val modalBottomSheet = TaskConfirmationBottomSheetFragment()
+            modalBottomSheet.show(fragmentManager, TAG)
+        }
+
         override fun onMenuItemClick(item: MenuItem?): Boolean {
             when (item?.itemId) {
-                R.id.done -> { TODO("Not yet implemented") }
-                R.id.delete -> { TODO("Not yet implemented") }
+                R.id.done -> {
+                    TODO("Not yet implemented")
+                }
+
+                R.id.delete -> {
+                    TODO("Not yet implemented")
+                }
             }
             return true
         }
+    }
+
+    companion object {
+        private const val TAG = "TasksRecyclerAdapter"
     }
 }
