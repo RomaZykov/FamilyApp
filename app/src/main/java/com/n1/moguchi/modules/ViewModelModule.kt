@@ -3,7 +3,6 @@ package com.n1.moguchi.modules
 import androidx.lifecycle.ViewModel
 import com.n1.moguchi.helpers.ViewModelKey
 import com.n1.moguchi.ui.viewmodels.AddChildViewModel
-import com.n1.moguchi.ui.viewmodels.AuthViewModel
 import com.n1.moguchi.ui.viewmodels.HomeViewModel
 import com.n1.moguchi.ui.viewmodels.TaskViewModel
 import com.n1.moguchi.ui.viewmodels.MainActivityViewModel
@@ -19,11 +18,6 @@ interface ViewModelModule {
     @ViewModelKey(AddChildViewModel::class)
     @Binds
     fun bindAddChildViewModel(addChildViewModel: AddChildViewModel): ViewModel
-
-    @IntoMap
-    @ViewModelKey(AuthViewModel::class)
-    @Binds
-    fun bindAuthViewModel(authViewModel: AuthViewModel): ViewModel
 
     @IntoMap
     @ViewModelKey(PrimaryBottomSheetViewModel::class)

@@ -1,6 +1,7 @@
 package com.n1.moguchi.ui.fragments.child
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,11 +22,6 @@ class OnBoardingChildFragment : Fragment() {
     private var _binding: FragmentOnboardingBinding? = null
     private val binding get() = _binding!!
 
-    init {
-        TODO()
-        (activity as MainActivity).navController.graph.setStartDestination(R.id.onBoardingFragment)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -45,8 +41,7 @@ class OnBoardingChildFragment : Fragment() {
         viewPager.adapter = adapter
 
         binding.skipButton.setOnClickListener {
-            TODO()
-            (activity as MainActivity).navController.navigate(R.id.action_onBoardingFragment_to_homeChildFragment)
+            (activity as MainActivity).navController.navigate(R.id.action_onBoardingChildFragment_to_homeChildFragment)
         }
 
         binding.nextButton.setOnClickListener {
@@ -54,8 +49,11 @@ class OnBoardingChildFragment : Fragment() {
             if (currentItem != 1) {
                 viewPager.setCurrentItem(currentItem + 1, true)
             } else {
-                TODO()
-
+                Log.d(
+                    "OnBoardingChildFragment",
+                    "Current destination = ${(activity as MainActivity).navController.currentDestination}"
+                )
+                (activity as MainActivity).navController.navigate(R.id.action_onBoardingChildFragment_to_homeChildFragment)
             }
         }
     }

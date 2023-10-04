@@ -3,15 +3,12 @@ package com.n1.moguchi.ui.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.commit
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.textfield.TextInputEditText
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.ChildCreationCardBinding
 import com.n1.moguchi.databinding.MediumChildItemBinding
 import com.n1.moguchi.ui.activity.MainActivity
-import com.n1.moguchi.ui.fragments.child.OnBoardingChildFragment
 
 class ChildrenRecyclerAdapter(
     private val children: MutableList<Any>
@@ -29,6 +26,7 @@ class ChildrenRecyclerAdapter(
                 )
                 ChildViewHolder(view)
             }
+
             else -> {
                 val view = LayoutInflater.from(parent.context).inflate(
                     R.layout.medium_child_item,
@@ -91,7 +89,8 @@ class ChildrenRecyclerAdapter(
         }
     }
 
-    inner class MediumChildViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    inner class MediumChildViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+        View.OnClickListener {
         private val binding = MediumChildItemBinding.bind(itemView)
 
         init {
@@ -103,12 +102,8 @@ class ChildrenRecyclerAdapter(
         }
 
         override fun onClick(v: View) {
-            val fragmentActivity = v.context as MainActivity
-            fragmentActivity.supportFragmentManager.commit {
-                replace(R.id.fragment_container_view, OnBoardingChildFragment())
-                fragmentActivity.findViewById<BottomNavigationView>(R.id.bottom_navigation_view).visibility = View.GONE
-                setReorderingAllowed(true)
-            }
+            val mainActivityContext = v.context as MainActivity
+            mainActivityContext.navController.navigate(R.id.action_switchToChildFragment_to_onBoardingChildFragment)
         }
     }
 }
