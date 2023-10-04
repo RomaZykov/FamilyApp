@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
                     showUi()
                 }
 
-                R.id.childHomeFragment -> {
+                R.id.homeChildFragment -> {
                     showUi()
                 }
 

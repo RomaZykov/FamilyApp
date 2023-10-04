@@ -111,7 +111,7 @@ class RegistrationFragment : Fragment() {
                     val email = task.result.user?.email
                     saveParentToFirebase(email = email.toString())
                     Navigation.findNavController(binding.root)
-                        .navigate(R.id.action_registrationFragment_to_onBoardingFragment)
+                        .navigate(R.id.action_registrationFragment_to_onBoardingParentFragment)
                 } else {
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
                 }

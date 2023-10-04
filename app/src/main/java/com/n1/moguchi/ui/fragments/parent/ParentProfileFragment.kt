@@ -83,7 +83,7 @@ class ParentProfileFragment : Fragment() {
             if (isChecked) {
                 if (notificationsRecyclerAdapter.itemCount != 0) {
                     binding.deleteNotificationsButton.visibility = View.VISIBLE
-                    binding.emptyNotificationsHint.visibility = View.GONE
+                    binding.emptyNotificationsHint.visibility = View.VISIBLE
                 }
                 binding.rvNotificationsList.visibility = View.VISIBLE
             } else {

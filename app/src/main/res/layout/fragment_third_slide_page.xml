@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ScrollView
-        android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
@@ -21,7 +20,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/onboarding_page2_parent"
+                android:id="@+id/onboarding_page3_parent"
                 android:layout_width="match_parent"
                 android:layout_height="480dp"
                 android:scaleType="fitXY"
@@ -46,7 +45,7 @@
                 app:layout_constraintBottom_toTopOf="@id/tv_description_3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/onboarding_page2_parent" />
+                app:layout_constraintTop_toBottomOf="@id/onboarding_page3_parent" />
 
             <TextView
                 android:id="@+id/tv_description_3"

@@ -41,7 +41,7 @@ class OnBoardingParentFragment : Fragment() {
 
         binding.skipButton.setOnClickListener {
             (activity as MainActivity).navController.navigate(
-                R.id.action_onBoardingFragment_to_addChildFragment
+                R.id.action_onBoardingParentFragment_to_addChildFragment
             )
         }
 
@@ -50,7 +50,7 @@ class OnBoardingParentFragment : Fragment() {
             if (currentItem != 2) {
                 viewPager.setCurrentItem(currentItem + 1, true)
             } else {
-                (activity as MainActivity).navController.navigate(R.id.action_onBoardingFragment_to_addChildFragment)
+                (activity as MainActivity).navController.navigate(R.id.action_onBoardingParentFragment_to_addChildFragment)
             }
         }
     }

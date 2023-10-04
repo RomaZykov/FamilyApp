@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.R
 import com.n1.moguchi.data.models.Task
-import com.n1.moguchi.databinding.SmallCompletedTaskItemBinding
+import com.n1.moguchi.databinding.CompletedTaskItemBinding
 
 class CompletedTasksRecyclerAdapter :
     RecyclerView.Adapter<CompletedTasksRecyclerAdapter.CompletedTaskViewHolder>() {
@@ -31,7 +31,7 @@ class CompletedTasksRecyclerAdapter :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompletedTaskViewHolder {
         val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.small_completed_task_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.completed_task_item, parent, false)
         return CompletedTaskViewHolder(view)
     }
 
@@ -47,7 +47,7 @@ class CompletedTasksRecyclerAdapter :
     inner class CompletedTaskViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
 
-        private val binding = SmallCompletedTaskItemBinding.bind(itemView)
+        private val binding = CompletedTaskItemBinding.bind(itemView)
         private var task: Task? = null
         var context: Context = itemView.context
 

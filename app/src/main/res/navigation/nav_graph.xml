@@ -11,15 +11,12 @@
         android:label="activity_main"
         tools:layout="@layout/activity_main" />
     <fragment
-        android:id="@+id/onBoardingFragment"
+        android:id="@+id/onBoardingParentFragment"
         android:name="com.n1.moguchi.ui.fragments.parent.OnBoardingParentFragment"
-        android:label="OnBoardingFragment">
+        android:label="OnBoardingParentFragment">
         <action
-            android:id="@+id/action_onBoardingFragment_to_addChildFragment"
+            android:id="@+id/action_onBoardingParentFragment_to_addChildFragment"
             app:destination="@id/addChildFragment" />
-        <action
-            android:id="@+id/action_onBoardingFragment_to_homeChildFragment"
-            app:destination="@id/homeChildFragment" />
     </fragment>
     <fragment
         android:id="@+id/addChildFragment"
@@ -34,8 +31,8 @@
         android:name="com.n1.moguchi.ui.fragments.parent.RegistrationFragment"
         android:label="RegistrationFragment">
         <action
-            android:id="@+id/action_registrationFragment_to_onBoardingFragment"
-            app:destination="@id/onBoardingFragment" />
+            android:id="@+id/action_registrationFragment_to_onBoardingParentFragment"
+            app:destination="@id/onBoardingParentFragment" />
         <action
             android:id="@+id/action_registrationFragment_to_homeFragment"
             app:destination="@id/parentHomeFragment" />
@@ -96,6 +93,9 @@
         <action
             android:id="@+id/action_switchToChildFragment_to_homeChildFragment"
             app:destination="@id/homeChildFragment" />
+        <action
+            android:id="@+id/action_switchToChildFragment_to_onBoardingChildFragment"
+            app:destination="@id/onBoardingChildFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeChildFragment"
@@ -113,4 +113,12 @@
         android:id="@+id/secondSlideChildFragment"
         android:name="com.n1.moguchi.ui.fragments.child.SecondSlideChildFragment"
         android:label="SecondSlideChildFragment" />
+    <fragment
+        android:id="@+id/onBoardingChildFragment"
+        android:name="com.n1.moguchi.ui.fragments.child.OnBoardingChildFragment"
+        android:label="OnBoardingChildFragment" >
+        <action
+            android:id="@+id/action_onBoardingChildFragment_to_homeChildFragment"
+            app:destination="@id/homeChildFragment" />
+    </fragment>
 </navigation>
