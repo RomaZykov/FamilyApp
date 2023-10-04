@@ -14,8 +14,8 @@ android {
         applicationId "com.n1.moguchi"
         minSdk 24
         targetSdk 34
-        versionCode 13
-        versionName "1.7.5"
+        versionCode 14
+        versionName "1.7.6"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -40,9 +40,9 @@ android {
 }
 
 dependencies {
-    def nav_version = '2.7.2'
+    def nav_version = '2.7.3'
     def lifecycle_version = '2.6.2'
-    def activity_version = '1.7.2'
+    def activity_version = '1.8.0-rc01'
     def fragment_version = '1.6.1'
     def okhttp_version = '5.0.0-alpha.11'
     def retrofit_version = '2.9.0'
@@ -91,7 +91,7 @@ dependencies {
 
     // Material Design
     implementation 'com.google.android.material:material:1.9.0'
-    implementation 'com.google.android.material:material:1.11.0-alpha02'
+    implementation 'com.google.android.material:material:1.11.0-alpha03'
 
     implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
