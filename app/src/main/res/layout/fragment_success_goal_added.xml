@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:scaleType="fitXY"
             android:layout_height="480dp"
-            android:src="@drawable/goal_added_image"
+            android:src="@drawable/onboarding_parent_2"
             app:layout_constraintBottom_toTopOf="@+id/goal_added_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
