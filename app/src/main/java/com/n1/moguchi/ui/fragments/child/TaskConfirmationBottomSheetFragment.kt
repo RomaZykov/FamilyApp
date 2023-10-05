@@ -9,6 +9,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentConfirmationTaskBottomSheetBinding
+import com.ncorti.slidetoact.SlideToActView
 
 class TaskConfirmationBottomSheetFragment : BottomSheetDialogFragment() {
 
@@ -26,10 +27,18 @@ class TaskConfirmationBottomSheetFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val modalBottomSheet = view.findViewById<ConstraintLayout>(R.id.confirmation_task_modal_bottom_sheet)
+        val modalBottomSheet =
+            view.findViewById<ConstraintLayout>(R.id.confirmation_task_modal_bottom_sheet)
         val bottomSheetBehavior = BottomSheetBehavior.from(modalBottomSheet)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
 
+        binding.swipeableConfirmationButton.onSlideCompleteListener = object : SlideToActView.OnSlideCompleteListener {
+            override fun onSlideComplete(view: SlideToActView) {
+                if (view.isCompleted()) {
+                    dismiss()
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {

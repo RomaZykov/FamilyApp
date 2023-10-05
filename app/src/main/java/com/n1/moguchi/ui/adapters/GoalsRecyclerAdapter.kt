@@ -12,7 +12,7 @@ import com.n1.moguchi.R
 import com.n1.moguchi.data.models.Goal
 import com.n1.moguchi.data.models.Task
 import com.n1.moguchi.databinding.ZMockGoalCardBinding
-import com.n1.moguchi.ui.fragments.parent.TasksFragment
+import com.n1.moguchi.ui.fragments.TasksFragment
 
 class GoalsRecyclerAdapter :
     RecyclerView.Adapter<GoalsRecyclerAdapter.CardViewHolder>() {
