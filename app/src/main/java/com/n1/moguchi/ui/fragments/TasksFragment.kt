@@ -1,4 +1,4 @@
-package com.n1.moguchi.ui.fragments.parent
+package com.n1.moguchi.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,15 +11,17 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.setFragmentResult
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentTasksBinding
+import com.n1.moguchi.ui.adapters.CompletedTasksRecyclerAdapter
 import com.n1.moguchi.ui.adapters.TasksRecyclerAdapter
+import com.n1.moguchi.ui.fragments.parent.PrimaryBottomSheetFragment
 
 class TasksFragment : Fragment() {
 
     private var _binding: FragmentTasksBinding? = null
     private val binding get() = _binding!!
-    private lateinit var tasksRecyclerAdapter: TasksRecyclerAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,10 +35,7 @@ class TasksFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val recyclerView: RecyclerView = binding.rvTasksList
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        tasksRecyclerAdapter = TasksRecyclerAdapter()
-        recyclerView.adapter = tasksRecyclerAdapter
+        setupRecyclerViewByTasks(TasksRecyclerAdapter())
 
         val topAppBar = requireActivity().findViewById<Toolbar>(R.id.top_tasks_app_bar)
         topAppBar.setNavigationOnClickListener {
@@ -52,6 +51,36 @@ class TasksFragment : Fragment() {
             val bottomSheet = PrimaryBottomSheetFragment()
             bottomSheet.show(fragmentManager, TAG)
         }
+
+        binding.activeTasks.addOnCheckedChangeListener { button, isChecked ->
+            TODO()
+//            button.setOnClickListener {
+//                setupRecyclerViewByTasks(TasksRecyclerAdapter())
+//            }
+//            if (isChecked) {
+//                button.setBackgroundColor(resources.getColor(R.color.light_orange))
+//            } else {
+//                button.setBackgroundColor(resources.getColor(R.color.ultra_soft_orange))
+//            }
+        }
+
+        binding.activeTasks.addOnCheckedChangeListener { button, isChecked ->
+            TODO()
+//            if (isChecked) {
+//                button.setBackgroundColor(resources.getColor(R.color.light_orange))
+//            } else {
+//                button.setBackgroundColor(resources.getColor(R.color.ultra_soft_orange))
+//            }
+        }
+        binding.activeTasks.setOnClickListener {
+            setupRecyclerViewByTasks(CompletedTasksRecyclerAdapter())
+        }
+    }
+
+    private fun setupRecyclerViewByTasks(specificAdapter: Adapter<*>) {
+        val recyclerView: RecyclerView = binding.rvTasksList
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = specificAdapter
     }
 
     override fun onDestroyView() {
