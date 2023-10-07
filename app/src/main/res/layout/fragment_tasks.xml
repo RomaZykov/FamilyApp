@@ -85,41 +85,46 @@
             android:id="@+id/active_completed_tasks_ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
             android:layout_marginVertical="8dp"
             android:orientation="horizontal"
+            android:paddingVertical="2dp"
             app:layout_constraintBottom_toTopOf="@+id/rv_tasks_list"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tasks_progress_bar">
 
-            <com.google.android.material.button.MaterialButton
+            <ToggleButton
                 android:id="@+id/active_tasks"
-                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:clickable="true"
-                android:focusable="true"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="2dp"
+                android:background="@drawable/checked_button"
                 android:checked="true"
-                android:fontFamily="@font/onest_regular"
-                android:text="Активные 10"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                app:backgroundTint="@color/light_orange" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/completed_tasks"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
                 android:clickable="true"
                 android:focusable="true"
-                android:checked="false"
                 android:fontFamily="@font/onest_regular"
-                android:text="Выполненные 4"
+                android:paddingHorizontal="16dp"
                 android:textColor="@color/black"
-                android:textSize="14sp"
-                app:backgroundTint="@color/ultra_soft_orange" />
+                android:textOff="Активные 10"
+                android:textOn="Активные 10"
+                android:textSize="14sp" />
+
+            <ToggleButton
+                android:id="@+id/completed_tasks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="2dp"
+                android:background="@drawable/checked_button"
+                android:checked="false"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="@font/onest_regular"
+                android:paddingHorizontal="16dp"
+                android:textColor="@color/black"
+                android:textOff="Выполненные 4"
+                android:textOn="Выполненные 4"
+                android:textSize="14sp" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView

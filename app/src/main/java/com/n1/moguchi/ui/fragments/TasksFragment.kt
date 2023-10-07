@@ -52,29 +52,34 @@ class TasksFragment : Fragment() {
             bottomSheet.show(fragmentManager, TAG)
         }
 
-        binding.activeTasks.addOnCheckedChangeListener { button, isChecked ->
-            TODO()
-//            button.setOnClickListener {
-//                setupRecyclerViewByTasks(TasksRecyclerAdapter())
-//            }
-//            if (isChecked) {
-//                button.setBackgroundColor(resources.getColor(R.color.light_orange))
-//            } else {
-//                button.setBackgroundColor(resources.getColor(R.color.ultra_soft_orange))
-//            }
+        binding.activeTasks.setOnCheckedChangeListener { button, isChecked ->
+            if (isChecked) {
+                button.isChecked = true
+                button.isEnabled = false
+                binding.completedTasks.isChecked = false
+                binding.completedTasks.isEnabled = true
+                setupRecyclerViewByTasks(TasksRecyclerAdapter())
+            }
         }
 
-        binding.activeTasks.addOnCheckedChangeListener { button, isChecked ->
-            TODO()
+        binding.completedTasks.setOnCheckedChangeListener { button, isChecked ->
+            if (isChecked) {
+                button.isChecked = true
+                button.isEnabled = false
+                binding.activeTasks.isChecked = false
+                binding.activeTasks.isEnabled = true
+                setupRecyclerViewByTasks(CompletedTasksRecyclerAdapter())
+            }
+        }
+//        binding.completedTasks.addOnCheckedChangeListener { button, isChecked ->
 //            if (isChecked) {
 //                button.setBackgroundColor(resources.getColor(R.color.light_orange))
+//                setupRecyclerViewByTasks(CompletedTasksRecyclerAdapter())
+//                button.isChecked = false
 //            } else {
-//                button.setBackgroundColor(resources.getColor(R.color.ultra_soft_orange))
+//                button.setBackgroundColor(resources.getColor(R.color.pink))
 //            }
-        }
-        binding.activeTasks.setOnClickListener {
-            setupRecyclerViewByTasks(CompletedTasksRecyclerAdapter())
-        }
+//        }
     }
 
     private fun setupRecyclerViewByTasks(specificAdapter: Adapter<*>) {
