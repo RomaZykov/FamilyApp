@@ -19,16 +19,6 @@ class CompletedTasksRecyclerAdapter :
         Task(title = "Сходить в магазин в пятницу", height = 1),
         Task(title = "Написать контрольную минимум на 4", height = 3),
         Task(title = "Сходить в магазин в пятницу", height = 1),
-        Task(title = "Написать контрольную минимум на 4", height = 3),
-        Task(title = "Сходить в магазин в пятницу", height = 1),
-        Task(title = "Сходить в магазин в пятницу", height = 1),
-        Task(title = "Написать контрольную минимум на 4", height = 3),
-        Task(title = "Сходить в магазин в пятницу", height = 1),
-        Task(title = "Сходить в магазин в пятницу", height = 1),
-        Task(title = "Написать контрольную минимум на 4", height = 3),
-        Task(title = "Сходить в магазин в пятницу", height = 1),
-        Task(title = "Написать контрольную минимум на 4", height = 3),
-        Task(title = "Прибраться в комнате 5 дней подряд", height = 2)
     )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompletedTaskViewHolder {

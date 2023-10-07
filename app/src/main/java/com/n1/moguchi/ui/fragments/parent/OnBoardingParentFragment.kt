@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
@@ -38,6 +41,30 @@ class OnBoardingParentFragment : Fragment() {
             lifecycle
         )
         viewPager.adapter = adapter
+        binding.dotsLl.apply {
+            for (i in 0 until NUM_PAGES) {
+                val imageView = ImageView(requireContext())
+                val params = LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
+                params.setMargins(12, 0, 12, 0)
+                imageView.layoutParams = params
+                imageView.setBackgroundResource(R.drawable.default_dot)
+                this.addView(imageView, i)
+            }
+        }
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                for (i in 0 until NUM_PAGES) {
+                    if (i == position) {
+                        binding.dotsLl[i].setBackgroundResource(R.drawable.selected_dot)
+                    } else {
+                        binding.dotsLl[i].setBackgroundResource(R.drawable.default_dot)
+                    }
+                }
+            }
+        })
 
         binding.skipButton.setOnClickListener {
             (activity as MainActivity).navController.navigate(

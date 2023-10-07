@@ -5,8 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/onboarding_fragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#FFF2E3">
+        android:layout_height="match_parent">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -19,8 +18,7 @@
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/onboarding_pager"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-            </androidx.viewpager2.widget.ViewPager2>
+                android:layout_height="match_parent" />
 
             <TextView
                 android:id="@+id/skip_button"
@@ -30,28 +28,58 @@
                 android:layout_margin="16dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:textSize="14sp"
                 android:fontFamily="@font/onest_regular"
                 android:gravity="end"
-                android:textColor="@color/orange"
                 android:padding="16dp"
-                android:text="Пропустить" />
+                android:text="Пропустить"
+                android:textColor="@color/orange"
+                android:textSize="14sp" />
 
             <Button
                 android:id="@+id/next_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginBottom="16dp"
-                android:paddingVertical="16dp"
+                android:backgroundTint="@color/orange"
                 android:clickable="true"
                 android:focusable="true"
-                android:backgroundTint="@color/orange"
-                android:text="Продолжить"
                 android:fontFamily="@font/onest_regular"
-                android:textSize="14sp"
-                android:layout_gravity="bottom"
-                android:textColor="@color/white" />
+                android:paddingVertical="16dp"
+                android:text="Продолжить"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:id="@+id/dots_ll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="128dp"
+                android:orientation="horizontal">
+
+<!--                <ImageView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:foregroundGravity="center"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:background="@drawable/default_dot"-->
+<!--                    android:layout_height="wrap_content" />-->
+
+<!--                <ImageView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_marginHorizontal="4dp"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:background="@drawable/default_dot"-->
+<!--                    android:layout_height="wrap_content" />-->
+
+<!--                <ImageView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:background="@drawable/default_dot"-->
+<!--                    android:layout_height="wrap_content" />-->
+
+            </LinearLayout>
         </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
