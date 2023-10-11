@@ -68,16 +68,18 @@ class OnBoardingParentFragment : Fragment() {
 
         binding.skipButton.setOnClickListener {
             (activity as MainActivity).navController.navigate(
-                R.id.action_onBoardingParentFragment_to_addChildFragment
+                R.id.action_onBoardingParentFragment_to_afterOnBoardingFragment
             )
         }
 
         binding.nextButton.setOnClickListener {
             val currentItem = viewPager.currentItem
+            val bundle = Bundle()
+            bundle.putBoolean("isFromOnBoarding", true)
             if (currentItem != 2) {
                 viewPager.setCurrentItem(currentItem + 1, true)
             } else {
-                (activity as MainActivity).navController.navigate(R.id.action_onBoardingParentFragment_to_addChildFragment)
+                (activity as MainActivity).navController.navigate(R.id.action_onBoardingParentFragment_to_afterOnBoardingFragment, bundle)
             }
         }
     }

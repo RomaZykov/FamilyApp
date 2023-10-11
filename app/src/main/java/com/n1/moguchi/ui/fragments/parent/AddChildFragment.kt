@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -76,29 +75,23 @@ class AddChildFragment : Fragment() {
         }
 
         binding.saveChildrenButton.setOnClickListener {
-            saveChildrenToFirebase(navController)
+            val parentId = auth.currentUser?.uid
+            val isAfterOnBoarding = arguments?.getBoolean("isFromOnBoarding")
+            if (parentId != null) {
+                val childrenNamesList = childrenRecyclerAdapter.retrieveChildrenNames()
+                viewModel.saveChildrenList(parentId, childrenNamesList)
+                if (isAfterOnBoarding == true) {
+//                    navController.navigate(R.id.action_addChildFragment_to_goalCreationFragment)
+
+                } else {
+                    navController.navigate(R.id.parentHomeFragment)
+                }
+            }
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun saveChildrenToFirebase(navController: NavController) {
-        val parentId = auth.currentUser?.uid
-
-        val args = arguments
-        val isAfterOnBoarding = args?.getBoolean("onboarding_completed")
-
-        if (parentId != null) {
-            val childrenNamesList = childrenRecyclerAdapter.retrieveChildrenNames()
-            viewModel.saveChildrenList(parentId, childrenNamesList)
-            if (isAfterOnBoarding == true) {
-                navController.navigate(R.id.action_addChildFragment_to_goalCreationFragment)
-            } else {
-                navController.navigate(R.id.parentHomeFragment)
-            }
-        }
     }
 }

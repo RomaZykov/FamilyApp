@@ -15,12 +15,22 @@
 
         <LinearLayout
             android:id="@+id/spinner_linear_layout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="4dp"
+                android:fontFamily="@font/onest_regular"
+                android:text="Создайте цель для ребёнка, которую он должен достичь"
+                android:textSize="14sp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -100,7 +110,7 @@
             <LinearLayout
                 android:id="@+id/counter_linear_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginVertical="8dp"
                 android:gravity="center"
