@@ -71,15 +71,6 @@ class TasksFragment : Fragment() {
                 setupRecyclerViewByTasks(CompletedTasksRecyclerAdapter())
             }
         }
-//        binding.completedTasks.addOnCheckedChangeListener { button, isChecked ->
-//            if (isChecked) {
-//                button.setBackgroundColor(resources.getColor(R.color.light_orange))
-//                setupRecyclerViewByTasks(CompletedTasksRecyclerAdapter())
-//                button.isChecked = false
-//            } else {
-//                button.setBackgroundColor(resources.getColor(R.color.pink))
-//            }
-//        }
     }
 
     private fun setupRecyclerViewByTasks(specificAdapter: Adapter<*>) {
