@@ -47,4 +47,9 @@
         <item name="colorContainer">@color/orange</item>
         <item name="colorOnContainer">@color/pink</item>
     </style>
+
+    <style name="Theme.DatePicker" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/orange</item>
+        <item name="colorControlHighlight">@color/orange</item>
+    </style>
 </resources>

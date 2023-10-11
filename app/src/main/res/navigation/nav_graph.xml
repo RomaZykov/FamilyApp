@@ -15,8 +15,8 @@
         android:name="com.n1.moguchi.ui.fragments.parent.OnBoardingParentFragment"
         android:label="OnBoardingParentFragment">
         <action
-            android:id="@+id/action_onBoardingParentFragment_to_addChildFragment"
-            app:destination="@id/addChildFragment" />
+            android:id="@+id/action_onBoardingParentFragment_to_afterOnBoardingFragment"
+            app:destination="@id/afterOnBoardingFragment" />
     </fragment>
     <fragment
         android:id="@+id/addChildFragment"
@@ -120,5 +120,13 @@
         <action
             android:id="@+id/action_onBoardingChildFragment_to_homeChildFragment"
             app:destination="@id/homeChildFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/afterOnBoardingFragment"
+        android:name="com.n1.moguchi.ui.fragments.AfterOnBoardingFragment"
+        android:label="AfterOnBoardingFragment" >
+        <action
+            android:id="@+id/action_afterOnBoardingFragment_to_parentHomeFragment"
+            app:destination="@id/parentHomeFragment" />
     </fragment>
 </navigation>
