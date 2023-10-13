@@ -7,6 +7,7 @@
         style="@style/Widget.Material3.BottomSheet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/ultra_light_orange"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <LinearLayout
@@ -24,8 +25,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
+                android:layout_marginHorizontal="16dp"
                 android:layout_marginBottom="4dp"
+                android:layout_marginTop="8dp"
                 android:fontFamily="@font/onest_regular"
                 android:text="Добавьте задачи, которые ребенок должен выполнить, чтобы достичь цели"
                 android:textSize="14sp" />
