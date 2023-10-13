@@ -67,23 +67,24 @@ class AddChildFragment : Fragment() {
         childrenRecyclerAdapter = ChildrenRecyclerAdapter(childrenCardList)
         recyclerView.adapter = childrenRecyclerAdapter
 
+        val isFromParentHome = arguments?.getBoolean("isFromParentHome")
+
         binding.addChildButton.setOnClickListener {
             val childCard =
                 layoutInflater.inflate(R.layout.child_creation_card, recyclerView, false)
             childrenCardList.add(childCard)
-            childrenRecyclerAdapter.notifyItemInserted(0)
+            childrenRecyclerAdapter.notifyItemInserted(childrenCardList.size - 1)
         }
 
-        binding.saveChildrenButton.setOnClickListener {
-            val parentId = auth.currentUser?.uid
-            val isAfterOnBoarding = arguments?.getBoolean("isFromOnBoarding")
-            if (parentId != null) {
-                val childrenNamesList = childrenRecyclerAdapter.retrieveChildrenNames()
-                viewModel.saveChildrenList(parentId, childrenNamesList)
-                if (isAfterOnBoarding == true) {
-//                    navController.navigate(R.id.action_addChildFragment_to_goalCreationFragment)
+        if (isFromParentHome == true) {
+            binding.bottomBar.visibility = View.VISIBLE
+            binding.topAppBar.visibility = View.VISIBLE
 
-                } else {
+            binding.saveChildrenButton.setOnClickListener {
+                val parentId = auth.currentUser?.uid
+                if (parentId != null) {
+                    val childrenNamesList = childrenRecyclerAdapter.retrieveChildrenNames()
+                    viewModel.saveChildrenList(parentId, childrenNamesList)
                     navController.navigate(R.id.parentHomeFragment)
                 }
             }

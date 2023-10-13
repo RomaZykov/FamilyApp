@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -104,7 +105,8 @@ class ParentHomeFragment : Fragment() {
         }
 
         binding.buttonAddChild.setOnClickListener {
-            navController.navigate(R.id.action_parentHomeFragment_to_addChildFragment)
+            val bundle = bundleOf("isFromParentHome" to true)
+            navController.navigate(R.id.action_parentHomeFragment_to_addChildFragment, bundle)
         }
 
         binding.homeAppBar.setOnMenuItemClickListener { menuItem ->
