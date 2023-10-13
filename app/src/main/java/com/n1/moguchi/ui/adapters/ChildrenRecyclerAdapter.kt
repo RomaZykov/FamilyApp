@@ -86,6 +86,10 @@ class ChildrenRecyclerAdapter(
                 childrenNames.removeIf { it == childName }
                 notifyItemRemoved(position)
             }
+
+            binding.avatarsLl.setOnClickListener {
+                TODO()
+            }
         }
     }
 
