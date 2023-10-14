@@ -15,7 +15,7 @@ class SwitchToChildFragment : Fragment() {
     private var _binding: FragmentSwitchToChildBinding? = null
     private val binding get() = _binding!!
     private lateinit var childrenRecyclerAdapter: ChildrenRecyclerAdapter
-    private var mockNames: List<String> = listOf("Максимка", "Алена")
+    private var mockNames: List<String> = listOf("Максимка", "Алёна")
 
     override fun onCreateView(
         inflater: LayoutInflater,

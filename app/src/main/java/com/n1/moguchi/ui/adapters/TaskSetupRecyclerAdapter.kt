@@ -7,7 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.databinding.TaskCreationCardBinding
 import com.n1.moguchi.ui.TaskSettingsClickListener
 
-class TaskSetupRecyclerAdapter(private val tasksCard: MutableList<View>, private val taskSettingsClickListener: TaskSettingsClickListener) :
+class TaskSetupRecyclerAdapter(
+    private val tasksCard: MutableList<View>,
+    private val taskSettingsClickListener: TaskSettingsClickListener
+) :
     RecyclerView.Adapter<TaskSetupRecyclerAdapter.TaskCardViewHolder>() {
 
     inner class TaskCardViewHolder(val binding: TaskCreationCardBinding) :
@@ -33,6 +36,11 @@ class TaskSetupRecyclerAdapter(private val tasksCard: MutableList<View>, private
 
     override fun onBindViewHolder(holder: TaskCardViewHolder, position: Int) {
         val taskEmptyCard = tasksCard[position]
+
+        if (position == 0) {
+            holder.binding.deleteTaskButton.visibility = View.GONE
+        }
+
         holder.binding.deleteTaskButton.setOnClickListener {
             tasksCard.removeAt(position)
             this.notifyItemRemoved(position)

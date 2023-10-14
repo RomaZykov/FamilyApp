@@ -12,9 +12,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentTaskCreationBinding
+import com.n1.moguchi.ui.TaskSettingsClickListener
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.adapters.TaskSetupRecyclerAdapter
-import com.n1.moguchi.ui.TaskSettingsClickListener
 import com.n1.moguchi.ui.viewmodels.PrimaryBottomSheetViewModel
 import javax.inject.Inject
 
@@ -57,17 +57,19 @@ class TaskCreationFragment : BottomSheetDialogFragment(), TaskSettingsClickListe
         listener = this
 
         val recyclerView: RecyclerView = view.findViewById(R.id.rv_card_list)
+        val taskCard =
+            layoutInflater.inflate(R.layout.task_creation_card, recyclerView, false)
+        tasksCardList.add(taskCard)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         taskSetupRecyclerAdapter = TaskSetupRecyclerAdapter(tasksCardList, listener)
         recyclerView.adapter = taskSetupRecyclerAdapter
 
         binding.addTaskButton.setOnClickListener {
-            val taskCard =
-                layoutInflater.inflate(R.layout.task_creation_card, recyclerView, false)
             tasksCardList.add(taskCard)
             taskSetupRecyclerAdapter.notifyItemInserted(0)
         }
     }
+
     override fun onTaskSettingsItemClick(view: View) {
         showTaskSettingsBottomSheet()
     }

@@ -122,6 +122,11 @@ class ChildrenRecyclerAdapter(
 
         fun bind(childName: String) {
             binding.childName.text = childName
+            if (childName == "Максимка") {
+                binding.mediumChildAvatar.setImageResource(R.drawable.avatar_male_2)
+            } else {
+                binding.mediumChildAvatar.setImageResource(R.drawable.avatar_female_3)
+            }
         }
 
         override fun onClick(v: View) {
