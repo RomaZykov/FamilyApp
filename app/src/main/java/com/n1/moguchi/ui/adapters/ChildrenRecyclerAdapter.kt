@@ -81,15 +81,34 @@ class ChildrenRecyclerAdapter(
                 binding.childNameEditText.error = "Добавьте имя ребёнка"
             }
 
-            binding.deleteChildButton.setOnClickListener {
-                children.removeAt(position)
-                childrenNames.removeIf { it == childName }
-                notifyItemRemoved(position)
+            if (children.size > 1) {
+                binding.deleteChildButton.setOnClickListener {
+                    children.removeAt(position)
+                    childrenNames.removeIf { it == childName }
+                    notifyItemRemoved(position)
+                }
+            } else {
+                binding.deleteChildButton.visibility = View.GONE
             }
 
-            binding.avatarsLl.setOnClickListener {
-                TODO()
-            }
+            binding.avatars.setOnClickListener(object : View.OnClickListener {
+                override fun onClick(view: View) {
+                    when (view) {
+                        binding.avatarMale1 -> {
+                            TODO()
+                        }
+
+                        binding.avatarMale2 -> {
+                        }
+
+                        binding.avatarFemale2 -> {
+                        }
+
+                        binding.avatarFemale3 -> {
+                        }
+                    }
+                }
+            })
         }
     }
 

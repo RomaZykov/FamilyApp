@@ -63,15 +63,16 @@ class AddChildFragment : Fragment() {
         auth = Firebase.auth
 
         val recyclerView: RecyclerView = binding.rvChildrenList
+        val childCard =
+            layoutInflater.inflate(R.layout.child_creation_card, recyclerView, false)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        childrenCardList.add(childCard)
         childrenRecyclerAdapter = ChildrenRecyclerAdapter(childrenCardList)
         recyclerView.adapter = childrenRecyclerAdapter
 
         val isFromParentHome = arguments?.getBoolean("isFromParentHome")
 
         binding.addChildButton.setOnClickListener {
-            val childCard =
-                layoutInflater.inflate(R.layout.child_creation_card, recyclerView, false)
             childrenCardList.add(childCard)
             childrenRecyclerAdapter.notifyItemInserted(childrenCardList.size - 1)
         }
