@@ -57,7 +57,7 @@ class PrimaryBottomSheetFragment : BottomSheetDialogFragment() {
         val bottomSheetBehavior = BottomSheetBehavior.from(modalBottomSheet)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
 
-        setFragmentResultListener("requestKey") { key, bundle ->
+        setFragmentResultListener("requestKey") { _, bundle ->
             val result = bundle.getString("bundleKey")
             when (result) {
                 "TasksFragment" -> {

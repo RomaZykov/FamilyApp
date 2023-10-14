@@ -5,13 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.commit
 import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.R
 import com.n1.moguchi.data.models.Goal
 import com.n1.moguchi.data.models.Task
 import com.n1.moguchi.databinding.ZMockGoalCardBinding
+import com.n1.moguchi.ui.activity.MainActivity
 import com.n1.moguchi.ui.fragments.TasksFragment
 
 class GoalsRecyclerAdapter :
@@ -80,6 +80,7 @@ class GoalsRecyclerAdapter :
                 for (i in 0 until 3) {
                     val taskSmallItem =
                         LayoutInflater.from(context).inflate(R.layout.small_task_item, this, false)
+                    taskSmallItem.setBackgroundColor(resources.getColor(R.color.white_opacity_90))
                     taskSmallItem.findViewById<TextView>(R.id.task_title).text =
                         goal.taskList[i].title
                     addView(taskSmallItem, 0)
@@ -89,8 +90,8 @@ class GoalsRecyclerAdapter :
         }
 
         override fun onClick(v: View) {
-            val fragmentActivity = v.context as FragmentActivity
-            fragmentActivity.supportFragmentManager.commit {
+            val mainActivity = v.context as MainActivity
+            mainActivity.supportFragmentManager.commit {
                 replace(android.R.id.content, TasksFragment())
                 setReorderingAllowed(true)
             }
