@@ -14,8 +14,7 @@ class TaskSetupRecyclerAdapter(
     RecyclerView.Adapter<TaskSetupRecyclerAdapter.TaskCardViewHolder>() {
 
     inner class TaskCardViewHolder(val binding: TaskCreationCardBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-    }
+        RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskCardViewHolder {
         val taskCard = TaskCreationCardBinding.inflate(

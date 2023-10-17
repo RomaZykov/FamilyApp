@@ -21,7 +21,6 @@
             android:id="@+id/onboarding_welcome_parent"
             android:layout_width="match_parent"
             android:layout_height="480dp"
-            android:scaleType="fitXY"
             android:src="@drawable/onboarding_parent_1"
             app:layout_constraintBottom_toTopOf="@+id/title_name_1"
             app:layout_constraintEnd_toEndOf="parent"

@@ -14,20 +14,8 @@ class ThirdSlideFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentThirdSlidePageBinding.inflate(layoutInflater, container, false)
         return binding.root
-    }
-
-    companion object {
-        private const val AFTER_ONBOARDING = "after_onboarding"
-
-        fun newInstance(): Fragment {
-            return ThirdSlideFragment().apply {
-                arguments = Bundle().apply {
-                    putBoolean(AFTER_ONBOARDING, true)
-                }
-            }
-        }
     }
 }
