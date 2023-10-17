@@ -47,6 +47,9 @@
         <action
             android:id="@+id/action_parentHomeFragment_to_parentProfileFragment"
             app:destination="@id/parentProfileFragment" />
+        <action
+            android:id="@+id/action_parentHomeFragment_to_onBoardingChildFragment"
+            app:destination="@id/onBoardingChildFragment" />
     </fragment>
     <fragment
         android:id="@+id/parentProfileFragment"
@@ -86,17 +89,6 @@
         android:id="@+id/thirdSlideFragment"
         android:name="com.n1.moguchi.ui.fragments.parent.ThirdSlideFragment"
         android:label="ThirdSlideFragment" />
-    <fragment
-        android:id="@+id/switchToChildFragment"
-        android:name="com.n1.moguchi.ui.fragments.parent.SwitchToChildFragment"
-        android:label="SwitchToChildFragment" >
-        <action
-            android:id="@+id/action_switchToChildFragment_to_homeChildFragment"
-            app:destination="@id/homeChildFragment" />
-        <action
-            android:id="@+id/action_switchToChildFragment_to_onBoardingChildFragment"
-            app:destination="@id/onBoardingChildFragment" />
-    </fragment>
     <fragment
         android:id="@+id/homeChildFragment"
         android:name="com.n1.moguchi.ui.fragments.child.HomeChildFragment"

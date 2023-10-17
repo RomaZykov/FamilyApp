@@ -59,11 +59,14 @@ class GoalCreationFragment : Fragment() {
             viewModel.getChildren(parentId)
             viewModel.children.observe(viewLifecycleOwner) { children ->
                 children?.forEach { childrenNames.add(it.childName) }
-                val childrenLinearLayout =
-                    view.findViewById<LinearLayout>(R.id.children_list_ll)
+                val childrenLinearLayout = view.findViewById<LinearLayout>(R.id.children_list_ll)
                 childrenNames.mapIndexed { index, name ->
                     val childItem =
-                        layoutInflater.inflate(R.layout.small_child_item, childrenLinearLayout, false)
+                        layoutInflater.inflate(
+                            R.layout.small_child_item,
+                            childrenLinearLayout,
+                            false
+                        )
                     childItem.findViewById<TextView>(R.id.child_name).text = name
                     childrenLinearLayout.addView(childItem, index)
                 }

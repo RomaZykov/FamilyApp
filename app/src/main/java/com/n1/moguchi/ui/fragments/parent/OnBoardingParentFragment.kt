@@ -79,7 +79,10 @@ class OnBoardingParentFragment : Fragment() {
             if (currentItem != 2) {
                 viewPager.setCurrentItem(currentItem + 1, true)
             } else {
-                (activity as MainActivity).navController.navigate(R.id.action_onBoardingParentFragment_to_afterOnBoardingFragment, bundle)
+                (activity as MainActivity).navController.navigate(
+                    R.id.action_onBoardingParentFragment_to_afterOnBoardingFragment,
+                    bundle
+                )
             }
         }
     }
