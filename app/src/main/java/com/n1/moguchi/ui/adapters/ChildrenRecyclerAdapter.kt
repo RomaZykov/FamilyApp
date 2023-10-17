@@ -8,10 +8,11 @@ import com.google.android.material.textfield.TextInputEditText
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.ChildCreationCardBinding
 import com.n1.moguchi.databinding.MediumChildItemBinding
-import com.n1.moguchi.ui.activity.MainActivity
+import com.n1.moguchi.ui.ChildClickListener
 
 class ChildrenRecyclerAdapter(
-    private val children: MutableList<Any>
+    private val children: MutableList<Any>,
+    val childClickListener: ChildClickListener? = null
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var childrenNames: MutableList<String> = mutableListOf()
@@ -81,10 +82,10 @@ class ChildrenRecyclerAdapter(
                 binding.childNameEditText.error = "Добавьте имя ребёнка"
             }
 
-            if (children.size > 1) {
+            if (position > 0) {
                 binding.deleteChildButton.setOnClickListener {
                     children.removeAt(position)
-                    childrenNames.removeIf { it == childName }
+//                    childrenNames.removeIf { it == childName }
                     notifyItemRemoved(position)
                 }
             } else {
@@ -112,13 +113,8 @@ class ChildrenRecyclerAdapter(
         }
     }
 
-    inner class MediumChildViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
-        View.OnClickListener {
+    inner class MediumChildViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = MediumChildItemBinding.bind(itemView)
-
-        init {
-            itemView.setOnClickListener(this)
-        }
 
         fun bind(childName: String) {
             binding.childName.text = childName
@@ -127,11 +123,9 @@ class ChildrenRecyclerAdapter(
             } else {
                 binding.mediumChildAvatar.setImageResource(R.drawable.avatar_female_3)
             }
-        }
-
-        override fun onClick(v: View) {
-            val mainActivityContext = v.context as MainActivity
-            mainActivityContext.navController.navigate(R.id.action_switchToChildFragment_to_onBoardingChildFragment)
+            binding.root.setOnClickListener {
+                childClickListener?.onChildItemClick(itemView)
+            }
         }
     }
 }
