@@ -8,9 +8,11 @@ import androidx.core.view.isNotEmpty
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.ActivityMainBinding
 import com.n1.moguchi.ui.fragments.parent.PrimaryBottomSheetFragment
+import com.n1.moguchi.ui.fragments.parent.SwitchToChildBottomSheetFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,10 +35,6 @@ class MainActivity : AppCompatActivity() {
                     showUi()
                 }
 
-                R.id.switchToChildFragment -> {
-                    showUi()
-                }
-
                 R.id.homeChildFragment -> {
                     showUi()
                 }
@@ -54,7 +52,11 @@ class MainActivity : AppCompatActivity() {
         if (isParentProfile) {
             binding.bottomNavigationView.inflateMenu(R.menu.bottom_menu_parent)
             binding.bottomNavigationView.menu.findItem(R.id.addGoal).setOnMenuItemClickListener {
-                showGoalAndTaskCreationBottomSheet()
+                showBottomSheet(PrimaryBottomSheetFragment())
+                true
+            }
+            binding.bottomNavigationView.menu.findItem(R.id.switch_to_child).setOnMenuItemClickListener {
+                showBottomSheet(SwitchToChildBottomSheetFragment())
                 true
             }
         } else {
@@ -62,12 +64,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showGoalAndTaskCreationBottomSheet() {
+    private fun showBottomSheet(bottomSheetFragment: BottomSheetDialogFragment) {
         val fragmentManager = supportFragmentManager
-        val modalBottomSheet = PrimaryBottomSheetFragment()
         val mainActivityTag = TAG
         fragmentManager.setFragmentResult("requestKey", bundleOf("bundleKey" to mainActivityTag))
-        modalBottomSheet.show(fragmentManager, TAG)
+        bottomSheetFragment.show(fragmentManager, TAG)
     }
 
     private fun showUi() {

@@ -13,7 +13,7 @@
         android:title="Добавить цель" />
 
     <item
-        android:id="@+id/switchToChildFragment"
+        android:id="@+id/switch_to_child"
         android:icon="@drawable/rotate"
         android:title="Ребенку" />
 </menu>
