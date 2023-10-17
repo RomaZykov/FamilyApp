@@ -21,6 +21,7 @@
             app:layout_constraintVertical_chainStyle="packed">
 
             <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/top_common_app_bar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:navigationIcon="@drawable/baseline_arrow_back_24"
@@ -31,25 +32,22 @@
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/after_onboarding_fragment_container_view"
-            android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:defaultNavHost="true"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
             app:layout_constraintBottom_toTopOf="@id/common_bottom_bar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/commonAppBar"
-            app:navGraph="@navigation/nav_graph"
             tools:layout="@layout/fragment_add_child" />
 
         <LinearLayout
             android:id="@+id/common_bottom_bar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingVertical="16dp"
             android:gravity="center"
             android:orientation="horizontal"
+            android:paddingVertical="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">

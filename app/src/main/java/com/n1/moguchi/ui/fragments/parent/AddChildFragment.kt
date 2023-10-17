@@ -71,15 +71,20 @@ class AddChildFragment : Fragment() {
         recyclerView.adapter = childrenRecyclerAdapter
 
         val isFromParentHome = arguments?.getBoolean("isFromParentHome")
+        val isFromParentProfile = arguments?.getBoolean("isFromParentProfile")
 
         binding.addChildButton.setOnClickListener {
             childrenCardList.add(childCard)
             childrenRecyclerAdapter.notifyItemInserted(childrenCardList.size - 1)
         }
 
-        if (isFromParentHome == true) {
+        if (isFromParentHome == true || isFromParentProfile == true) {
             binding.bottomBar.visibility = View.VISIBLE
             binding.topAppBar.visibility = View.VISIBLE
+
+            if (isFromParentProfile == true) {
+                binding.addChildAppBar.title = "Мои дети"
+            }
 
             binding.saveChildrenButton.setOnClickListener {
                 val parentId = auth.currentUser?.uid
