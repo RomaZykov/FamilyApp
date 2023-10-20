@@ -22,6 +22,10 @@ class TaskRepositoryImpl @Inject constructor() : TaskRepository {
         TODO("Not yet implemented")
     }
 
+    override fun getTasks(goalId: String): List<Task> {
+        TODO("Not yet implemented")
+    }
+
 //    fun retrieveCompletedTodos(userId: String?): TaskList? {
 //        return TODO()
 //    }

@@ -15,18 +15,21 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
+import com.n1.moguchi.data.repositories.ParentRepository
 import com.n1.moguchi.databinding.FragmentAddChildBinding
+import com.n1.moguchi.ui.ChildCardListener
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.adapters.ChildrenRecyclerAdapter
 import com.n1.moguchi.ui.viewmodels.AddChildViewModel
 import javax.inject.Inject
 
-class AddChildFragment : Fragment() {
+class AddChildFragment(private val parentRepository: ParentRepository) : Fragment() {
 
     private var _binding: FragmentAddChildBinding? = null
     private val binding get() = _binding!!
     private lateinit var auth: FirebaseAuth
     private lateinit var childrenRecyclerAdapter: ChildrenRecyclerAdapter
+    private lateinit var childCardListener: ChildCardListener
 
     private var childrenCardList: MutableList<Any> = mutableListOf()
 
@@ -50,17 +53,20 @@ class AddChildFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAddChildBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        auth = Firebase.auth
 
         val navHostFragment =
             requireActivity().supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
         val navController = navHostFragment.navController
 
-        auth = Firebase.auth
+        val isFromParentHome = arguments?.getBoolean("isFromParentHome")
+        val isFromParentProfile = arguments?.getBoolean("isFromParentProfile")
 
         val recyclerView: RecyclerView = binding.rvChildrenList
         val childCard =
@@ -70,8 +76,23 @@ class AddChildFragment : Fragment() {
         childrenRecyclerAdapter = ChildrenRecyclerAdapter(childrenCardList)
         recyclerView.adapter = childrenRecyclerAdapter
 
-        val isFromParentHome = arguments?.getBoolean("isFromParentHome")
-        val isFromParentProfile = arguments?.getBoolean("isFromParentProfile")
+        val children = object : ChildCardListener {
+            override fun retrieveChildrenNamesFromCard(childrenByCardPosition: MutableMap<Int, String>) {
+                viewModel.childrenNames.observe(viewLifecycleOwner) {
+                    TODO()
+                }
+            }
+        }
+//        if ( && ) {
+//
+//            binding.addChildButton.background.alpha = 192
+//            binding.addChildButton.isEnabled = false
+//            binding.saveChildrenButton.isEnabled = false
+//            binding.saveChildrenButton.background.alpha = 192
+//        }
+//        else -> {
+//            binding.saveChildrenButton.isEnabled = true
+//        }
 
         binding.addChildButton.setOnClickListener {
             childrenCardList.add(childCard)
@@ -89,9 +110,9 @@ class AddChildFragment : Fragment() {
             binding.saveChildrenButton.setOnClickListener {
                 val parentId = auth.currentUser?.uid
                 if (parentId != null) {
-                    val childrenNamesList = childrenRecyclerAdapter.retrieveChildrenNames()
-                    viewModel.saveChildrenList(parentId, childrenNamesList)
-                    navController.navigate(R.id.parentHomeFragment)
+//                    val childrenNamesList = childrenRecyclerAdapter.retrieveChildrenNames()
+//                    viewModel.saveChildren(parentId, childrenNamesList.values.toList())
+//                    navController.navigate(R.id.parentHomeFragment)
                 }
             }
         }

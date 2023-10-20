@@ -1,4 +1,4 @@
-package com.n1.moguchi.modules
+package com.n1.moguchi.data
 
 import com.n1.moguchi.data.implementations.GoalRepositoryImpl
 import com.n1.moguchi.data.implementations.ParentRepositoryImpl

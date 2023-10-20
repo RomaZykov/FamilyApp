@@ -5,7 +5,6 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 import com.n1.moguchi.data.models.Goal
-import com.n1.moguchi.data.models.Task
 import com.n1.moguchi.data.repositories.GoalRepository
 import java.util.UUID
 import javax.inject.Inject
@@ -29,9 +28,5 @@ class GoalRepositoryImpl @Inject constructor() : GoalRepository {
                 // Write failed
             }
         return goal
-    }
-
-    override fun getTasks(goalId: String): List<Task> {
-        TODO("Not yet implemented")
     }
 }

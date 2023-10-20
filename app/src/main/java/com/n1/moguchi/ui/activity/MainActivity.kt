@@ -31,14 +31,10 @@ class MainActivity : AppCompatActivity() {
         setupBottomNavigationView()
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.parentHomeFragment -> {
-                    showUi()
-                }
-
+                R.id.parentHomeFragment,
                 R.id.homeChildFragment -> {
                     showUi()
                 }
-
                 else -> hideUi()
             }
         }
@@ -55,10 +51,11 @@ class MainActivity : AppCompatActivity() {
                 showBottomSheet(PrimaryBottomSheetFragment())
                 true
             }
-            binding.bottomNavigationView.menu.findItem(R.id.switch_to_child).setOnMenuItemClickListener {
-                showBottomSheet(SwitchToChildBottomSheetFragment())
-                true
-            }
+            binding.bottomNavigationView.menu.findItem(R.id.switch_to_child)
+                .setOnMenuItemClickListener {
+                    showBottomSheet(SwitchToChildBottomSheetFragment())
+                    true
+                }
         } else {
             binding.bottomNavigationView.inflateMenu(R.menu.bottom_menu_child)
         }

@@ -8,4 +8,6 @@ interface TaskRepository {
     fun deleteTask(taskId: String)
 
     fun markTaskCompleted(taskId: String, isCompleted: Boolean)
+
+    fun getTasks(goalId: String): List<Task>
 }

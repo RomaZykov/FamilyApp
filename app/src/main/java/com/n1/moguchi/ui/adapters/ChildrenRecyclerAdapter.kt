@@ -9,13 +9,13 @@ import com.n1.moguchi.R
 import com.n1.moguchi.databinding.ChildCreationCardBinding
 import com.n1.moguchi.databinding.MediumChildItemBinding
 import com.n1.moguchi.ui.ChildClickListener
+import com.n1.moguchi.ui.ChildCardListener
 
 class ChildrenRecyclerAdapter(
-    private val children: MutableList<Any>,
-    val childClickListener: ChildClickListener? = null
+    private val childrenCards: MutableList<Any>,
+    val childClickListener: ChildClickListener? = null,
+    val childCardListener: ChildCardListener? = null
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    private var childrenNames: MutableList<String> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -40,7 +40,7 @@ class ChildrenRecyclerAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (children[position] is View) {
+        return if (childrenCards[position] is View) {
             0
         } else {
             1
@@ -51,7 +51,7 @@ class ChildrenRecyclerAdapter(
         holder: RecyclerView.ViewHolder,
         position: Int
     ) {
-        val child = children[position]
+        val child = childrenCards[position]
         if (holder.itemViewType == 0) {
             (holder as ChildViewHolder).bind(child as View, position)
         } else {
@@ -60,12 +60,12 @@ class ChildrenRecyclerAdapter(
     }
 
     override fun getItemCount(): Int {
-        return children.size
+        return childrenCards.size
     }
 
-    fun retrieveChildrenNames(): List<String> {
-        return childrenNames
-    }
+//    fun retrieveChildrenNames(): Map<Int, String> {
+//        return childrenNamesByCardPosition
+//    }
 
     inner class ChildViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
@@ -74,17 +74,21 @@ class ChildrenRecyclerAdapter(
 
         fun bind(view: View, position: Int) {
             val childName =
-                view.findViewById<TextInputEditText>(R.id.child_name_edit_text).text.toString()
+                view.findViewById<TextInputEditText>(R.id.child_name_edit_text).text
+                    .toString()
                     .trim { it <= ' ' }
+            val childrenByCardPosition: MutableMap<Int, String> = mutableMapOf(Pair(position, childName))
             if (childName.isNotEmpty()) {
-                childrenNames.add(childName)
+                childrenByCardPosition[position] = childName
+                childCardListener?.retrieveChildrenNamesFromCard(childrenByCardPosition)
             } else {
                 binding.childNameEditText.error = "Добавьте имя ребёнка"
             }
 
             if (position > 0) {
                 binding.deleteChildButton.setOnClickListener {
-                    children.removeAt(position)
+                    childrenCards.remove(position)
+                    childrenCards.removeAt(position)
 //                    childrenNames.removeIf { it == childName }
                     notifyItemRemoved(position)
                 }
@@ -95,17 +99,11 @@ class ChildrenRecyclerAdapter(
             binding.avatars.setOnClickListener(object : View.OnClickListener {
                 override fun onClick(view: View) {
                     when (view) {
-                        binding.avatarMale1 -> {
-                            TODO()
-                        }
-
-                        binding.avatarMale2 -> {
-                        }
-
-                        binding.avatarFemale2 -> {
-                        }
-
+                        binding.avatarMale1,
+                        binding.avatarMale2,
+                        binding.avatarFemale2,
                         binding.avatarFemale3 -> {
+
                         }
                     }
                 }
