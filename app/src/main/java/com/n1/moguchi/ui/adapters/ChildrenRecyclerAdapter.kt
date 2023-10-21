@@ -4,18 +4,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.textfield.TextInputEditText
 import com.n1.moguchi.R
+import com.n1.moguchi.data.models.Child
 import com.n1.moguchi.databinding.ChildCreationCardBinding
 import com.n1.moguchi.databinding.MediumChildItemBinding
-import com.n1.moguchi.ui.ChildClickListener
-import com.n1.moguchi.ui.ChildCardListener
 
-class ChildrenRecyclerAdapter(
-    private val childrenCards: MutableList<Any>,
-    val childClickListener: ChildClickListener? = null,
-    val childCardListener: ChildCardListener? = null
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ChildrenRecyclerAdapter(val childrenCards: MutableList<Child>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private var childName: String = ""
+    var onNewChildAddClicked: (() -> Unit)? = null
+
+    fun retrieveData(): String {
+        return childName
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -40,55 +41,43 @@ class ChildrenRecyclerAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (childrenCards[position] is View) {
-            0
-        } else {
-            1
-        }
+        return 0
     }
 
     override fun onBindViewHolder(
         holder: RecyclerView.ViewHolder,
         position: Int
     ) {
-        val child = childrenCards[position]
         if (holder.itemViewType == 0) {
-            (holder as ChildViewHolder).bind(child as View, position)
-        } else {
-            (holder as MediumChildViewHolder).bind(child as String)
+            (holder as ChildViewHolder).bind(position)
         }
+//        else {
+//            (holder as MediumChildViewHolder).bind(child as String)
+//        }
     }
 
     override fun getItemCount(): Int {
         return childrenCards.size
     }
 
-//    fun retrieveChildrenNames(): Map<Int, String> {
-//        return childrenNamesByCardPosition
-//    }
-
     inner class ChildViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
 
         private val binding = ChildCreationCardBinding.bind(itemView)
 
-        fun bind(view: View, position: Int) {
-            val childName =
-                view.findViewById<TextInputEditText>(R.id.child_name_edit_text).text
-                    .toString()
-                    .trim { it <= ' ' }
-            val childrenByCardPosition: MutableMap<Int, String> = mutableMapOf(Pair(position, childName))
+        var deleteCardEvent: (() -> Unit)? = null
+
+        fun bind(position: Int) {
+            val childName = binding.childNameEditText.text.toString().trim { it <= ' ' }
             if (childName.isNotEmpty()) {
-                childrenByCardPosition[position] = childName
-                childCardListener?.retrieveChildrenNamesFromCard(childrenByCardPosition)
+                retrieveData()
             } else {
                 binding.childNameEditText.error = "Добавьте имя ребёнка"
             }
 
             if (position > 0) {
                 binding.deleteChildButton.setOnClickListener {
-                    childrenCards.remove(position)
-                    childrenCards.removeAt(position)
+                    deleteCardEvent?.invoke()
 //                    childrenNames.removeIf { it == childName }
                     notifyItemRemoved(position)
                 }
@@ -121,9 +110,9 @@ class ChildrenRecyclerAdapter(
             } else {
                 binding.mediumChildAvatar.setImageResource(R.drawable.avatar_female_3)
             }
-            binding.root.setOnClickListener {
-                childClickListener?.onChildItemClick(itemView)
-            }
+//            binding.root.setOnClickListener {
+//                childClickListener?.onChildItemClick(itemView)
+//            }
         }
     }
 }

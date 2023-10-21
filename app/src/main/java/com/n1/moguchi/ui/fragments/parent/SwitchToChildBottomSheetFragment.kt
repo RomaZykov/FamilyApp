@@ -44,7 +44,7 @@ class SwitchToChildBottomSheetFragment : BottomSheetDialogFragment(), ChildClick
 
         val recyclerView: RecyclerView = binding.rvChildrenList
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        childrenRecyclerAdapter = ChildrenRecyclerAdapter(mockNames.toMutableList(), listener)
+//        childrenRecyclerAdapter = ChildrenRecyclerAdapter(mockNames.toMutableList(), listener)
         recyclerView.adapter = childrenRecyclerAdapter
 
         binding.cancelButton.setOnClickListener {

@@ -15,23 +15,21 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
-import com.n1.moguchi.data.repositories.ParentRepository
+import com.n1.moguchi.data.models.Child
 import com.n1.moguchi.databinding.FragmentAddChildBinding
-import com.n1.moguchi.ui.ChildCardListener
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.adapters.ChildrenRecyclerAdapter
 import com.n1.moguchi.ui.viewmodels.AddChildViewModel
 import javax.inject.Inject
 
-class AddChildFragment(private val parentRepository: ParentRepository) : Fragment() {
+class AddChildFragment : Fragment() {
 
     private var _binding: FragmentAddChildBinding? = null
     private val binding get() = _binding!!
     private lateinit var auth: FirebaseAuth
     private lateinit var childrenRecyclerAdapter: ChildrenRecyclerAdapter
-    private lateinit var childCardListener: ChildCardListener
 
-    private var childrenCardList: MutableList<Any> = mutableListOf()
+    private val childrenList: MutableList<Child> = mutableListOf()
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -69,20 +67,19 @@ class AddChildFragment(private val parentRepository: ParentRepository) : Fragmen
         val isFromParentProfile = arguments?.getBoolean("isFromParentProfile")
 
         val recyclerView: RecyclerView = binding.rvChildrenList
-        val childCard =
-            layoutInflater.inflate(R.layout.child_creation_card, recyclerView, false)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        childrenCardList.add(childCard)
-        childrenRecyclerAdapter = ChildrenRecyclerAdapter(childrenCardList)
+        childrenRecyclerAdapter = ChildrenRecyclerAdapter(childrenList)
         recyclerView.adapter = childrenRecyclerAdapter
 
-        val children = object : ChildCardListener {
-            override fun retrieveChildrenNamesFromCard(childrenByCardPosition: MutableMap<Int, String>) {
-                viewModel.childrenNames.observe(viewLifecycleOwner) {
-                    TODO()
-                }
+        viewModel.children.observe(viewLifecycleOwner) {
+            if (it.isEmpty()) {
+                childrenRecyclerAdapter.childrenCards.add(0, Child())
+                childrenRecyclerAdapter.notifyDataSetChanged()
             }
+            val name = childrenRecyclerAdapter.retrieveData()
+            viewModel.createNewChild("0", Child(childName = name))
         }
+
 //        if ( && ) {
 //
 //            binding.addChildButton.background.alpha = 192
@@ -95,8 +92,12 @@ class AddChildFragment(private val parentRepository: ParentRepository) : Fragmen
 //        }
 
         binding.addChildButton.setOnClickListener {
-            childrenCardList.add(childCard)
-            childrenRecyclerAdapter.notifyItemInserted(childrenCardList.size - 1)
+//            viewModel.children.observe(viewLifecycleOwner) { children ->
+//                adapter.onNewChildAddClicked = {
+//                    childrenCardList.add(children.size, it)
+//                }
+//            }
+//            adapter.notifyItemInserted(childrenCardList.size - 1)
         }
 
         if (isFromParentHome == true || isFromParentProfile == true) {

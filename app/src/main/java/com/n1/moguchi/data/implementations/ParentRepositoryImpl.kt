@@ -44,20 +44,16 @@ class ParentRepositoryImpl @Inject constructor() : ParentRepository {
         return child[0]
     }
 
-    override fun saveChildrenByName(parentId: String, childrenNamesList: List<String>) {
+    override fun saveChild(parentId: String, child: Child) {
         val childrenRefByParentId = childrenRef.child(parentId)
-        for (childName in childrenNamesList) {
-            val newChildRef: DatabaseReference = childrenRefByParentId.push()
-            val childId: String? = newChildRef.key
-            val child = Child(
-                childId = childId,
-                parentOwnerId = parentId,
-                childName = childName
-            )
-            newChildRef.setValue(child)
-        }
+        val newChildRef: DatabaseReference = childrenRefByParentId.push()
+        val childId: String? = newChildRef.key
+        val child = Child(
+            childId = childId,
+            parentOwnerId = parentId
+        )
+        newChildRef.setValue(child)
     }
-
     override fun deleteChild(parentId: String, childId: String) {
         TODO("Not yet implemented")
     }
