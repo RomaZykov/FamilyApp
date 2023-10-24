@@ -57,7 +57,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Введите имя ребенка"
-                        android:inputType="text" />
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
+                        android:lines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
@@ -91,40 +93,40 @@
                             android:layout_width="52dp"
                             android:layout_height="52dp"
                             android:layout_marginHorizontal="4dp"
-                            android:foreground="@drawable/avatar_selector"
-                            android:button="@null"
                             android:background="@drawable/avatar_male_1_bg"
-                            android:checked="false" />
+                            android:button="@null"
+                            android:checked="false"
+                            android:foreground="@drawable/avatar_selector" />
 
                         <RadioButton
                             android:id="@+id/avatar_male_2"
                             android:layout_width="52dp"
                             android:layout_height="52dp"
                             android:layout_marginHorizontal="4dp"
-                            android:foreground="@drawable/avatar_selector"
-                            android:button="@null"
                             android:background="@drawable/avatar_male_2_bg"
-                            android:checked="false" />
+                            android:button="@null"
+                            android:checked="false"
+                            android:foreground="@drawable/avatar_selector" />
 
                         <RadioButton
                             android:id="@+id/avatar_female_2"
                             android:layout_width="52dp"
                             android:layout_height="52dp"
                             android:layout_marginHorizontal="4dp"
-                            android:foreground="@drawable/avatar_selector"
-                            android:button="@null"
                             android:background="@drawable/avatar_female_2_bg"
-                            android:checked="false" />
+                            android:button="@null"
+                            android:checked="false"
+                            android:foreground="@drawable/avatar_selector" />
 
                         <RadioButton
                             android:id="@+id/avatar_female_3"
                             android:layout_width="52dp"
                             android:layout_height="52dp"
                             android:layout_marginHorizontal="4dp"
-                            android:foreground="@drawable/avatar_selector"
-                            android:button="@null"
                             android:background="@drawable/avatar_female_3_bg"
-                            android:checked="false" />
+                            android:button="@null"
+                            android:checked="false"
+                            android:foreground="@drawable/avatar_selector" />
                     </RadioGroup>
                 </HorizontalScrollView>
             </LinearLayout>
@@ -134,10 +136,10 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_gravity="end"
-                android:visibility="visible"
                 android:background="@drawable/round_profile_button"
                 android:backgroundTint="@color/white"
-                android:src="@drawable/delete" />
+                android:src="@drawable/delete"
+                android:visibility="visible" />
         </FrameLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>

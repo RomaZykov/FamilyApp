@@ -66,38 +66,13 @@ class AddChildFragment : Fragment() {
         val isFromParentHome = arguments?.getBoolean("isFromParentHome")
         val isFromParentProfile = arguments?.getBoolean("isFromParentProfile")
 
-        val recyclerView: RecyclerView = binding.rvChildrenList
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        childrenRecyclerAdapter = ChildrenRecyclerAdapter(childrenList)
-        recyclerView.adapter = childrenRecyclerAdapter
-
-        viewModel.children.observe(viewLifecycleOwner) {
-            if (it.isEmpty()) {
-                childrenRecyclerAdapter.childrenCards.add(0, Child())
-                childrenRecyclerAdapter.notifyDataSetChanged()
-            }
-            val name = childrenRecyclerAdapter.retrieveData()
-            viewModel.createNewChild("0", Child(childName = name))
+        setupRecyclerView()
+        childrenRecyclerAdapter.onNewChildAddClicked = {
+            childrenList.add(Child())
+            childrenRecyclerAdapter.notifyItemInserted(childrenList.size - 1)
         }
-
-//        if ( && ) {
-//
-//            binding.addChildButton.background.alpha = 192
-//            binding.addChildButton.isEnabled = false
-//            binding.saveChildrenButton.isEnabled = false
-//            binding.saveChildrenButton.background.alpha = 192
-//        }
-//        else -> {
-//            binding.saveChildrenButton.isEnabled = true
-//        }
-
-        binding.addChildButton.setOnClickListener {
-//            viewModel.children.observe(viewLifecycleOwner) { children ->
-//                adapter.onNewChildAddClicked = {
-//                    childrenCardList.add(children.size, it)
-//                }
-//            }
-//            adapter.notifyItemInserted(childrenCardList.size - 1)
+        viewModel.children.observe(viewLifecycleOwner) {
+//            viewModel.createNewChild("0", Child(childName = name))
         }
 
         if (isFromParentHome == true || isFromParentProfile == true) {
@@ -122,5 +97,14 @@ class AddChildFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun setupRecyclerView() {
+        childrenList.add(0, Child())
+        val recyclerView: RecyclerView = binding.rvChildrenList
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        childrenRecyclerAdapter = ChildrenRecyclerAdapter(childrenList)
+        recyclerView.adapter = childrenRecyclerAdapter
+
     }
 }
