@@ -1,33 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.button.MaterialButton xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/add_child_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:background="@drawable/round_white_button"
         android:clickable="true"
         android:focusable="true"
+        android:fontFamily="@font/onest_regular"
         android:gravity="center"
-        android:padding="16dp">
-
-        <ImageView
-            android:id="@+id/plus_ic"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:src="@drawable/plus"
-            app:tint="@color/black" />
-
-        <TextView
-            android:id="@+id/add_child_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="16dp"
-            android:fontFamily="@font/onest_regular"
-            android:gravity="center"
-            android:text="Добавить ребёнка"
-            android:textSize="14sp" />
-    </LinearLayout>
+        android:padding="12dp"
+        android:text="Добавить ребёнка"
+        android:textColor="@color/black"
+        app:icon="@drawable/plus"
+        app:iconGravity="textStart"
+        app:iconSize="24dp"
+        app:iconTint="@color/black" />
 </layout>

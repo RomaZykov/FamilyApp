@@ -70,6 +70,7 @@ class AddChildFragment : Fragment() {
         childrenRecyclerAdapter.onNewChildAddClicked = {
             childrenList.add(Child())
             childrenRecyclerAdapter.notifyItemInserted(childrenList.size - 1)
+            childrenRecyclerAdapter.notifyItemChanged(childrenList.size)
         }
         viewModel.children.observe(viewLifecycleOwner) {
 //            viewModel.createNewChild("0", Child(childName = name))

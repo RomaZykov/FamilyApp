@@ -16,7 +16,7 @@ class ChildrenRecyclerAdapter(private val childrenCards: MutableList<Child>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val childrenNames = mutableListOf<String>()
-    private var cardCompletedMap: MutableMap<Int, Boolean> = mutableMapOf()
+    private var allCardsCompleted: MutableList<Boolean> = mutableListOf()
     var onNewChildAddClicked: (() -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -63,7 +63,7 @@ class ChildrenRecyclerAdapter(private val childrenCards: MutableList<Child>) :
         position: Int
     ) {
         if (holder.itemViewType == 0) {
-            (holder as ChildViewHolder).bind(position)
+            (holder as ChildViewHolder).bind()
         } else {
             (holder as BottomViewHolder).bind()
         }
@@ -79,14 +79,20 @@ class ChildrenRecyclerAdapter(private val childrenCards: MutableList<Child>) :
     inner class ChildViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = ChildCreationCardBinding.bind(itemView)
 
-        fun bind(position: Int) {
+        init {
+            allCardsCompleted.add(childrenCards.size - 1, false)
+        }
+
+        fun bind() {
             binding.childNameEditText.setOnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE) {
                     if (binding.childNameEditText.text?.isNotEmpty() == true) {
                         val childName = binding.childNameEditText.text.toString().replace(" ", "")
                         childrenNames.add(childName)
-                        cardCompletedMap[position] = true
+                        allCardsCompleted[adapterPosition] = true
                         notifyItemRangeChanged(itemCount - 1, itemCount)
+                    } else {
+                        binding.childNameEditText.error = "Добавьте ребёнка"
                     }
                 }
                 false
@@ -94,7 +100,9 @@ class ChildrenRecyclerAdapter(private val childrenCards: MutableList<Child>) :
 
             if (childrenCards.size != 1) {
                 binding.deleteChildButton.setOnClickListener {
-                    childrenCards.removeAt(position)
+                    childrenCards.removeAt(adapterPosition)
+                    allCardsCompleted.removeAt(adapterPosition)
+                    notifyItemChanged(itemCount)
 //                    childrenNames.removeIf { it == childName }
                     notifyItemRemoved(position)
                 }
@@ -123,14 +131,15 @@ class ChildrenRecyclerAdapter(private val childrenCards: MutableList<Child>) :
         var context: Context = itemView.context
 
         fun bind() {
-            if (cardCompletedMap.values.all { true }) {
+            if (allCardsCompleted.all { it }) {
+                binding.addChildButton.isEnabled = true
                 binding.addChildButton.backgroundTintList = context.getColorStateList(R.color.white)
                 itemView.setOnClickListener {
                     onNewChildAddClicked?.invoke()
                 }
             } else {
-                binding.addChildButton.backgroundTintList =
-                    context.getColorStateList(R.color.white_opacity_70)
+                binding.addChildButton.isEnabled = false
+                binding.addChildButton.backgroundTintList = context.getColorStateList(R.color.white_opacity_70)
             }
         }
     }
