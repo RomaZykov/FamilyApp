@@ -1,10 +1,12 @@
 package com.n1.moguchi.ui.adapters
 
 import android.content.Context
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.R
 import com.n1.moguchi.data.models.Child
@@ -12,12 +14,15 @@ import com.n1.moguchi.databinding.ChildCreationCardBinding
 import com.n1.moguchi.databinding.CreationChildSectionFooterBinding
 import com.n1.moguchi.databinding.MediumChildItemBinding
 
-class ChildrenRecyclerAdapter(private val childrenCards: MutableList<Child>) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ChildrenRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    val childrenNames = mutableListOf<String>()
-    private var allCardsCompleted: MutableList<Boolean> = mutableListOf()
+    var children: MutableList<Child> = ArrayList()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
     var onNewChildAddClicked: (() -> Unit)? = null
+    var onChildDeleteClicked: (() -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -51,7 +56,7 @@ class ChildrenRecyclerAdapter(private val childrenCards: MutableList<Child>) :
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (position == childrenCards.size) {
+        return if (position == children.size) {
             1
         } else {
             0
@@ -73,38 +78,36 @@ class ChildrenRecyclerAdapter(private val childrenCards: MutableList<Child>) :
     }
 
     override fun getItemCount(): Int {
-        return childrenCards.size + 1
+        return children.size + 1
     }
 
     inner class ChildViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = ChildCreationCardBinding.bind(itemView)
 
-        init {
-            allCardsCompleted.add(childrenCards.size - 1, false)
-        }
-
         fun bind() {
-            binding.childNameEditText.setOnEditorActionListener { _, actionId, _ ->
-                if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE) {
-                    if (binding.childNameEditText.text?.isNotEmpty() == true) {
-                        val childName = binding.childNameEditText.text.toString().replace(" ", "")
-                        childrenNames.add(childName)
-                        allCardsCompleted[adapterPosition] = true
-                        notifyItemRangeChanged(itemCount - 1, itemCount)
-                    } else {
-                        binding.childNameEditText.error = "Добавьте ребёнка"
-                    }
+            binding.childNameEditText.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 }
-                false
-            }
 
-            if (childrenCards.size != 1) {
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                }
+
+                override fun afterTextChanged(childName: Editable?) {
+                    children[adapterPosition].childName = childName.toString()
+                    if (childName.toString().isEmpty()) {
+                        binding.childNameEditText.error = "Выполните все условия"
+                    }
+                    Log.d("ChildrenRecycler", "ChildrenNames = $children, size = ${children.size}")
+                    notifyItemChanged(itemCount - 1)
+                }
+            })
+
+            if (children.size > 1) {
+                binding.deleteChildButton.visibility = View.VISIBLE
                 binding.deleteChildButton.setOnClickListener {
-                    childrenCards.removeAt(adapterPosition)
-                    allCardsCompleted.removeAt(adapterPosition)
-                    notifyItemChanged(itemCount)
-//                    childrenNames.removeIf { it == childName }
-                    notifyItemRemoved(position)
+                    onChildDeleteClicked?.invoke()
+                    notifyItemRemoved(adapterPosition)
+                    notifyItemChanged(itemCount - 1)
                 }
             } else {
                 binding.deleteChildButton.visibility = View.GONE
@@ -123,6 +126,7 @@ class ChildrenRecyclerAdapter(private val childrenCards: MutableList<Child>) :
                         }
                     }
                 })
+            Log.d("ChildrenRecycler", "ChildrenNames = $children, size = ${children.size}")
         }
     }
 
@@ -130,8 +134,9 @@ class ChildrenRecyclerAdapter(private val childrenCards: MutableList<Child>) :
         private val binding = CreationChildSectionFooterBinding.bind(itemView)
         var context: Context = itemView.context
 
+
         fun bind() {
-            if (allCardsCompleted.all { it }) {
+            if (children.all { it.childName.isNotEmpty() } && children.size == itemCount - 1) {
                 binding.addChildButton.isEnabled = true
                 binding.addChildButton.backgroundTintList = context.getColorStateList(R.color.white)
                 itemView.setOnClickListener {
@@ -139,7 +144,8 @@ class ChildrenRecyclerAdapter(private val childrenCards: MutableList<Child>) :
                 }
             } else {
                 binding.addChildButton.isEnabled = false
-                binding.addChildButton.backgroundTintList = context.getColorStateList(R.color.white_opacity_70)
+                binding.addChildButton.backgroundTintList =
+                    context.getColorStateList(R.color.white_opacity_70)
             }
         }
     }
