@@ -22,7 +22,7 @@ class ChildrenRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
             notifyDataSetChanged()
         }
     var onNewChildAddClicked: (() -> Unit)? = null
-    var onChildDeleteClicked: (() -> Unit)? = null
+    var onChildRemoveClicked: ((Child) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -105,7 +105,8 @@ class ChildrenRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
             if (children.size > 1) {
                 binding.deleteChildButton.visibility = View.VISIBLE
                 binding.deleteChildButton.setOnClickListener {
-                    onChildDeleteClicked?.invoke()
+                    onChildRemoveClicked?.invoke(children[adapterPosition])
+                    children.removeAt(adapterPosition)
                     notifyItemRemoved(adapterPosition)
                     notifyItemChanged(itemCount - 1)
                 }
@@ -133,7 +134,6 @@ class ChildrenRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
     inner class BottomViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = CreationChildSectionFooterBinding.bind(itemView)
         var context: Context = itemView.context
-
 
         fun bind() {
             if (children.all { it.childName.isNotEmpty() } && children.size == itemCount - 1) {

@@ -26,10 +26,11 @@ class AddChildViewModel @Inject constructor(
     }
 
     fun deleteChildProfile(parentId: String, childId: String) {
-        _children.value = _children.value?.apply {
-            this.find { it.childId == childId && it.parentOwnerId == parentId }
+        _children.value =
+            _children.value?.dropWhile { it.childId == childId && it.parentOwnerId == parentId }
+        viewModelScope.launch {
+            parentRepository.deleteChildProfile(parentId, childId)
         }
-        parentRepository.deleteChildProfile()
     }
 
     fun createNewChild(parentId: String, child: Child) {

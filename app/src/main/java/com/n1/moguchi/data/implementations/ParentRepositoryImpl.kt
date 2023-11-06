@@ -48,14 +48,15 @@ class ParentRepositoryImpl @Inject constructor() : ParentRepository {
         val childrenRefByParentId = childrenRef.child(parentId)
         val newChildRef: DatabaseReference = childrenRefByParentId.push()
         val childId: String? = newChildRef.key
-        val child = Child(
+        val newChild = child.copy(
             childId = childId,
             parentOwnerId = parentId
         )
-        newChildRef.setValue(child)
+        newChildRef.setValue(newChild)
     }
 
     override suspend fun deleteChildProfile(parentId: String, childId: String) {
-        TODO("Not yet implemented")
+        val childRefByParentId = childrenRef.child(parentId).child(childId)
+        childRefByParentId.removeValue()
     }
 }

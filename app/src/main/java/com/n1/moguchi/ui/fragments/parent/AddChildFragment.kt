@@ -30,8 +30,6 @@ class AddChildFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var childrenRecyclerAdapter: ChildrenRecyclerAdapter
 
-//    private val childrenList: MutableList<Child> = mutableListOf()
-
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private val viewModel by lazy {
@@ -68,31 +66,37 @@ class AddChildFragment : Fragment() {
         val isFromParentHome = arguments?.getBoolean("isFromParentHome")
         val isFromParentProfile = arguments?.getBoolean("isFromParentProfile")
 
-        if (parentId != null) {
-            viewModel.getChildren(parentId)
-        }
 
         val recyclerView: RecyclerView = binding.rvChildrenList
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         childrenRecyclerAdapter = ChildrenRecyclerAdapter()
         recyclerView.adapter = childrenRecyclerAdapter
 
+        if (parentId != null) {
+            viewModel.getChildren(parentId)
+        }
         viewModel.children.observe(viewLifecycleOwner) {
             val child = Child()
             if (it.isEmpty()) {
-                viewModel.createNewChild("0", child)
+                if (parentId != null) {
+                    viewModel.createNewChild(parentId, child)
+                }
                 childrenRecyclerAdapter.children.add(0, child)
                 childrenRecyclerAdapter.notifyItemInserted(0)
                 childrenRecyclerAdapter.notifyItemChanged(childrenRecyclerAdapter.itemCount - 1)
             }
             childrenRecyclerAdapter.onNewChildAddClicked = {
-                viewModel.createNewChild("0", Child())
-                childrenRecyclerAdapter.children = it.toMutableList()
-                childrenRecyclerAdapter.notifyItemInserted(it.size - 1)
+                if (parentId != null) {
+                    viewModel.createNewChild(parentId, child)
+                }
+                childrenRecyclerAdapter.children.add(it.size, it.last())
+                childrenRecyclerAdapter.notifyItemInserted(it.size)
                 childrenRecyclerAdapter.notifyItemChanged(childrenRecyclerAdapter.itemCount - 1)
             }
-            childrenRecyclerAdapter.onChildDeleteClicked = {
-                viewModel.deleteChildProfile()
+            childrenRecyclerAdapter.onChildRemoveClicked = { specificChild ->
+                if (parentId != null) {
+                    viewModel.deleteChildProfile(parentId, specificChild.childId!!)
+                }
             }
             Log.d("AddChildFragment", "Children = $it, count = ${it.size}")
         }
@@ -106,12 +110,8 @@ class AddChildFragment : Fragment() {
                 binding.addChildAppBar.title = "Мои дети"
             }
 
-            binding.saveChildrenButton.setOnClickListener {
-                if (parentId != null) {
-//                    val childrenNamesList = childrenRecyclerAdapter.retrieveChildrenNames()
-//                    viewModel.saveChildren(parentId, childrenNamesList.values.toList())
-//                    navController.navigate(R.id.parentHomeFragment)
-                }
+            binding.nextButton.setOnClickListener {
+
             }
         }
     }
