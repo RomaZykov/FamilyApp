@@ -10,5 +10,5 @@ interface ParentRepository {
 
     fun saveChild(parentId: String, child: Child)
 
-    fun deleteChild(parentId: String, childId: String)
+    suspend fun deleteChildProfile(parentId: String, childId: String)
 }

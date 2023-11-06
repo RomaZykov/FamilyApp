@@ -2,6 +2,7 @@ package com.n1.moguchi.ui.fragments.parent
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,7 +30,7 @@ class AddChildFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var childrenRecyclerAdapter: ChildrenRecyclerAdapter
 
-    private val childrenList: MutableList<Child> = mutableListOf()
+//    private val childrenList: MutableList<Child> = mutableListOf()
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -58,6 +59,7 @@ class AddChildFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         auth = Firebase.auth
+        val parentId = auth.currentUser?.uid
 
         val navHostFragment =
             requireActivity().supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
@@ -66,15 +68,35 @@ class AddChildFragment : Fragment() {
         val isFromParentHome = arguments?.getBoolean("isFromParentHome")
         val isFromParentProfile = arguments?.getBoolean("isFromParentProfile")
 
-        setupRecyclerView()
-        childrenRecyclerAdapter.onNewChildAddClicked = {
-            childrenList.add(Child())
-            childrenRecyclerAdapter.notifyItemInserted(childrenList.size - 1)
-            childrenRecyclerAdapter.notifyItemChanged(childrenList.size)
+        if (parentId != null) {
+            viewModel.getChildren(parentId)
         }
+
+        val recyclerView: RecyclerView = binding.rvChildrenList
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        childrenRecyclerAdapter = ChildrenRecyclerAdapter()
+        recyclerView.adapter = childrenRecyclerAdapter
+
         viewModel.children.observe(viewLifecycleOwner) {
-//            viewModel.createNewChild("0", Child(childName = name))
+            val child = Child()
+            if (it.isEmpty()) {
+                viewModel.createNewChild("0", child)
+                childrenRecyclerAdapter.children.add(0, child)
+                childrenRecyclerAdapter.notifyItemInserted(0)
+                childrenRecyclerAdapter.notifyItemChanged(childrenRecyclerAdapter.itemCount - 1)
+            }
+            childrenRecyclerAdapter.onNewChildAddClicked = {
+                viewModel.createNewChild("0", Child())
+                childrenRecyclerAdapter.children = it.toMutableList()
+                childrenRecyclerAdapter.notifyItemInserted(it.size - 1)
+                childrenRecyclerAdapter.notifyItemChanged(childrenRecyclerAdapter.itemCount - 1)
+            }
+            childrenRecyclerAdapter.onChildDeleteClicked = {
+                viewModel.deleteChildProfile()
+            }
+            Log.d("AddChildFragment", "Children = $it, count = ${it.size}")
         }
+
 
         if (isFromParentHome == true || isFromParentProfile == true) {
             binding.bottomBar.visibility = View.VISIBLE
@@ -85,7 +107,6 @@ class AddChildFragment : Fragment() {
             }
 
             binding.saveChildrenButton.setOnClickListener {
-                val parentId = auth.currentUser?.uid
                 if (parentId != null) {
 //                    val childrenNamesList = childrenRecyclerAdapter.retrieveChildrenNames()
 //                    viewModel.saveChildren(parentId, childrenNamesList.values.toList())
@@ -98,14 +119,5 @@ class AddChildFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun setupRecyclerView() {
-        childrenList.add(0, Child())
-        val recyclerView: RecyclerView = binding.rvChildrenList
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        childrenRecyclerAdapter = ChildrenRecyclerAdapter(childrenList)
-        recyclerView.adapter = childrenRecyclerAdapter
-
     }
 }

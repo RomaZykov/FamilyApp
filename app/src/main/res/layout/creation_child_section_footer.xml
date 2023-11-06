@@ -8,6 +8,7 @@
         android:layout_margin="8dp"
         android:clickable="true"
         android:focusable="true"
+        android:enabled="false"
         android:fontFamily="@font/onest_regular"
         android:gravity="center"
         android:padding="12dp"

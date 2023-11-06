@@ -48,11 +48,7 @@ class AfterOnBoardingFragment : Fragment() {
             .replace(R.id.after_onboarding_fragment_container_view, fragments[0])
             .commit()
 
-        binding.cancelButton.setOnClickListener {
-
-        }
-
-        binding.nextButton.setOnClickListener {
+        binding.goNextButton.setOnClickListener {
             val currentFragmentInContainer =
                 childFragmentManager.fragments.last()
             when (currentFragmentInContainer) {

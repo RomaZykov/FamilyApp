@@ -54,7 +54,8 @@ class ParentRepositoryImpl @Inject constructor() : ParentRepository {
         )
         newChildRef.setValue(child)
     }
-    override fun deleteChild(parentId: String, childId: String) {
+
+    override suspend fun deleteChildProfile(parentId: String, childId: String) {
         TODO("Not yet implemented")
     }
 }
