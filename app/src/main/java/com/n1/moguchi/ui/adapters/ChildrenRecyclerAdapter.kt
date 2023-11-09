@@ -16,7 +16,7 @@ import com.n1.moguchi.databinding.MediumChildItemBinding
 
 class ChildrenRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var children: MutableList<Child> = ArrayList()
+    var children: MutableList<Child> = mutableListOf()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -114,19 +114,18 @@ class ChildrenRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
                 binding.deleteChildButton.visibility = View.GONE
             }
 
-            binding.avatars.setOnClickListener(
-                object : View.OnClickListener {
-                    override fun onClick(view: View) {
-                        when (view) {
-                            binding.avatarMale1,
-                            binding.avatarMale2,
-                            binding.avatarFemale2,
-                            binding.avatarFemale3 -> {
-
-                            }
-                        }
+            binding.avatars.setOnCheckedChangeListener { _, checkedId ->
+                when (checkedId) {
+                    binding.avatarMale1.id,
+                    binding.avatarMale2.id,
+                    binding.avatarFemale2.id,
+                    binding.avatarFemale3.id -> {
+                        children[adapterPosition].isAvatarSelected = true
+                        notifyItemChanged(itemCount - 1)
                     }
-                })
+                }
+
+            }
             Log.d("ChildrenRecycler", "ChildrenNames = $children, size = ${children.size}")
         }
     }
@@ -136,7 +135,7 @@ class ChildrenRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
         var context: Context = itemView.context
 
         fun bind() {
-            if (children.all { it.childName.isNotEmpty() } && children.size == itemCount - 1) {
+            if (children.all { it.childName.isNotEmpty() && it.isAvatarSelected } && children.size == itemCount - 1) {
                 binding.addChildButton.isEnabled = true
                 binding.addChildButton.backgroundTintList = context.getColorStateList(R.color.white)
                 itemView.setOnClickListener {

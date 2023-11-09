@@ -66,41 +66,39 @@ class AddChildFragment : Fragment() {
         val isFromParentHome = arguments?.getBoolean("isFromParentHome")
         val isFromParentProfile = arguments?.getBoolean("isFromParentProfile")
 
-
         val recyclerView: RecyclerView = binding.rvChildrenList
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         childrenRecyclerAdapter = ChildrenRecyclerAdapter()
         recyclerView.adapter = childrenRecyclerAdapter
 
-        if (parentId != null) {
-            viewModel.getChildren(parentId)
-        }
         viewModel.children.observe(viewLifecycleOwner) {
             val child = Child()
-            if (it.isEmpty()) {
-                if (parentId != null) {
-                    viewModel.createNewChild(parentId, child)
+            if (parentId != null) {
+                if (it.isEmpty()) {
+                    childrenRecyclerAdapter.children.add(
+                        0,
+                        viewModel.createNewChild(parentId, child)
+                    )
+                    Log.d(
+                        "AddChildFragment",
+                        "After viewModel.createNewChild, Children = $it, count = ${it.size}"
+                    )
                 }
-                childrenRecyclerAdapter.children.add(0, child)
-                childrenRecyclerAdapter.notifyItemInserted(0)
-                childrenRecyclerAdapter.notifyItemChanged(childrenRecyclerAdapter.itemCount - 1)
-            }
-            childrenRecyclerAdapter.onNewChildAddClicked = {
-                if (parentId != null) {
-                    viewModel.createNewChild(parentId, child)
-                }
-                childrenRecyclerAdapter.children.add(it.size, it.last())
-                childrenRecyclerAdapter.notifyItemInserted(it.size)
-                childrenRecyclerAdapter.notifyItemChanged(childrenRecyclerAdapter.itemCount - 1)
-            }
-            childrenRecyclerAdapter.onChildRemoveClicked = { specificChild ->
-                if (parentId != null) {
-                    viewModel.deleteChildProfile(parentId, specificChild.childId!!)
+                childrenRecyclerAdapter.onNewChildAddClicked = {
+                    childrenRecyclerAdapter.children.add(
+                        it.size,
+                        viewModel.createNewChild(parentId, child)
+                    )
+                    childrenRecyclerAdapter.notifyItemInserted(it.size)
+                    childrenRecyclerAdapter.notifyItemChanged(childrenRecyclerAdapter.itemCount - 1)
                 }
             }
-            Log.d("AddChildFragment", "Children = $it, count = ${it.size}")
+            Log.d("AddChildFragment", "End of children.observe, Children = $it, count = ${it.size}")
         }
-
+        Log.d(
+            "AddChildFragment",
+            "Outside of viewModel.children.observe, Children = ${viewModel.children.value}, count = ${viewModel.children.value?.size}"
+        )
 
         if (isFromParentHome == true || isFromParentProfile == true) {
             binding.bottomBar.visibility = View.VISIBLE

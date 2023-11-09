@@ -5,6 +5,6 @@ data class Child(
     val childId: String? = null,
     val parentOwnerId: String? = null,
     var childName: String = "",
-    val isAvatarSelected: Boolean = false,
+    var isAvatarSelected: Boolean = false,
     val isChildMode: Boolean = false
 )

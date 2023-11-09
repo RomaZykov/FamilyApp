@@ -44,7 +44,7 @@ class ParentRepositoryImpl @Inject constructor() : ParentRepository {
         return child[0]
     }
 
-    override fun saveChild(parentId: String, child: Child) {
+    override fun saveChild(parentId: String, child: Child) : Child {
         val childrenRefByParentId = childrenRef.child(parentId)
         val newChildRef: DatabaseReference = childrenRefByParentId.push()
         val childId: String? = newChildRef.key
@@ -53,6 +53,7 @@ class ParentRepositoryImpl @Inject constructor() : ParentRepository {
             parentOwnerId = parentId
         )
         newChildRef.setValue(newChild)
+        return newChild
     }
 
     override suspend fun deleteChildProfile(parentId: String, childId: String) {

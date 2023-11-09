@@ -16,13 +16,8 @@ class AddChildViewModel @Inject constructor(
     private var _children = MutableLiveData<List<Child>>()
     val children: LiveData<List<Child>> = _children
 
-    fun getChildren(parentId: String) {
-        viewModelScope.launch {
-            val children = parentRepository.getChildren(parentId)
-            _children.value = children.map {
-                it.value
-            }
-        }
+    init {
+        _children.value = emptyList()
     }
 
     fun deleteChildProfile(parentId: String, childId: String) {
@@ -33,8 +28,9 @@ class AddChildViewModel @Inject constructor(
         }
     }
 
-    fun createNewChild(parentId: String, child: Child) {
-        _children.value = (_children.value ?: emptyList()) + child
-        parentRepository.saveChild(parentId, child)
+    fun createNewChild(parentId: String, child: Child): Child {
+        val newChild = parentRepository.saveChild(parentId, child)
+        _children.value = (_children.value ?: emptyList()) + newChild
+        return newChild
     }
 }
