@@ -139,7 +139,7 @@
                 android:background="@drawable/round_profile_button"
                 android:backgroundTint="@color/white"
                 android:src="@drawable/delete"
-                android:visibility="visible" />
+                android:visibility="gone" />
         </FrameLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>

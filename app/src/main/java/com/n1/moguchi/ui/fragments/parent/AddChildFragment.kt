@@ -2,7 +2,6 @@ package com.n1.moguchi.ui.fragments.parent
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +27,7 @@ class AddChildFragment : Fragment() {
     private var _binding: FragmentAddChildBinding? = null
     private val binding get() = _binding!!
     private lateinit var auth: FirebaseAuth
-    private lateinit var childrenRecyclerAdapter: ChildrenRecyclerAdapter
+    private lateinit var childrenAdapter: ChildrenRecyclerAdapter
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -68,37 +67,39 @@ class AddChildFragment : Fragment() {
 
         val recyclerView: RecyclerView = binding.rvChildrenList
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        childrenRecyclerAdapter = ChildrenRecyclerAdapter()
-        recyclerView.adapter = childrenRecyclerAdapter
+        childrenAdapter = ChildrenRecyclerAdapter()
+        recyclerView.adapter = childrenAdapter
+        recyclerView.recycledViewPool.setMaxRecycledViews(
+            ChildrenRecyclerAdapter.VIEW_TYPE_CHILD_CARD,
+            ChildrenRecyclerAdapter.MAX_POOL_SIZE
+        )
 
         viewModel.children.observe(viewLifecycleOwner) {
-            val child = Child()
             if (parentId != null) {
                 if (it.isEmpty()) {
-                    childrenRecyclerAdapter.children.add(
+                    childrenAdapter.children.add(
                         0,
-                        viewModel.createNewChild(parentId, child)
+                        viewModel.createNewChild(parentId, Child())
                     )
-                    Log.d(
-                        "AddChildFragment",
-                        "After viewModel.createNewChild, Children = $it, count = ${it.size}"
-                    )
+                    childrenAdapter.notifyItemInserted(0)
+                    childrenAdapter.notifyItemChanged(childrenAdapter.itemCount - 1)
                 }
-                childrenRecyclerAdapter.onNewChildAddClicked = {
-                    childrenRecyclerAdapter.children.add(
-                        it.size,
-                        viewModel.createNewChild(parentId, child)
+                childrenAdapter.onNewChildAddClicked = {
+                    childrenAdapter.children.add(
+                        viewModel.createNewChild(
+                            parentId,
+                            Child()
+                        )
                     )
-                    childrenRecyclerAdapter.notifyItemInserted(it.size)
-                    childrenRecyclerAdapter.notifyItemChanged(childrenRecyclerAdapter.itemCount - 1)
+                    childrenAdapter.notifyItemInserted(it.size)
+                    childrenAdapter.notifyItemChanged(childrenAdapter.itemCount - 1)
+                }
+                childrenAdapter.onChildRemoveClicked = { child ->
+                    viewModel.deleteChildProfile(parentId, child.childId!!)
                 }
             }
-            Log.d("AddChildFragment", "End of children.observe, Children = $it, count = ${it.size}")
         }
-        Log.d(
-            "AddChildFragment",
-            "Outside of viewModel.children.observe, Children = ${viewModel.children.value}, count = ${viewModel.children.value?.size}"
-        )
+
 
         if (isFromParentHome == true || isFromParentProfile == true) {
             binding.bottomBar.visibility = View.VISIBLE

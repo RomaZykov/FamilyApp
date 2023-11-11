@@ -3,7 +3,6 @@ package com.n1.moguchi.ui.adapters
 import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,17 +15,20 @@ import com.n1.moguchi.databinding.MediumChildItemBinding
 
 class ChildrenRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var children: MutableList<Child> = mutableListOf()
+    var children: MutableList<Child> = ArrayList()
         set(value) {
             field = value
-            notifyDataSetChanged()
+            if (field.size == 1) {
+                notifyItemChanged(0)
+            }
         }
     var onNewChildAddClicked: (() -> Unit)? = null
+    var onChildUpdate: ((String) -> Unit)? = null
     var onChildRemoveClicked: ((Child) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            0 -> {
+            VIEW_TYPE_CHILD_CARD -> {
                 val view = LayoutInflater.from(parent.context).inflate(
                     R.layout.child_creation_card,
                     parent,
@@ -35,7 +37,7 @@ class ChildrenRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
                 ChildViewHolder(view)
             }
 
-            1 -> {
+            VIEW_TYPE_FOOTER -> {
                 val view = LayoutInflater.from(parent.context).inflate(
                     R.layout.creation_child_section_footer,
                     parent,
@@ -57,9 +59,9 @@ class ChildrenRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
 
     override fun getItemViewType(position: Int): Int {
         return if (position == children.size) {
-            1
+            VIEW_TYPE_FOOTER
         } else {
-            0
+            VIEW_TYPE_CHILD_CARD
         }
     }
 
@@ -67,10 +69,10 @@ class ChildrenRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
         holder: RecyclerView.ViewHolder,
         position: Int
     ) {
-        if (holder.itemViewType == 0) {
-            (holder as ChildViewHolder).bind()
-        } else {
-            (holder as BottomViewHolder).bind()
+        when (holder.itemViewType) {
+            VIEW_TYPE_CHILD_CARD -> (holder as ChildViewHolder).bind()
+            VIEW_TYPE_FOOTER -> (holder as BottomViewHolder).bind()
+            else -> throw RuntimeException("Unknown viewType: ${holder.itemViewType}")
         }
 //        else {
 //            (holder as MediumChildViewHolder).bind(child as String)
@@ -96,8 +98,9 @@ class ChildrenRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
                     children[adapterPosition].childName = childName.toString()
                     if (childName.toString().isEmpty()) {
                         binding.childNameEditText.error = "Выполните все условия"
+                    } else {
+                        onChildUpdate?.invoke(children[adapterPosition].childName)
                     }
-                    Log.d("ChildrenRecycler", "ChildrenNames = $children, size = ${children.size}")
                     notifyItemChanged(itemCount - 1)
                 }
             })
@@ -124,9 +127,7 @@ class ChildrenRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
                         notifyItemChanged(itemCount - 1)
                     }
                 }
-
             }
-            Log.d("ChildrenRecycler", "ChildrenNames = $children, size = ${children.size}")
         }
     }
 
@@ -137,6 +138,8 @@ class ChildrenRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
         fun bind() {
             if (children.all { it.childName.isNotEmpty() && it.isAvatarSelected } && children.size == itemCount - 1) {
                 binding.addChildButton.isEnabled = true
+                binding.addChildButton.setTextColor(context.getColorStateList(R.color.black))
+                binding.addChildButton.iconTint = context.getColorStateList(R.color.black)
                 binding.addChildButton.backgroundTintList = context.getColorStateList(R.color.white)
                 itemView.setOnClickListener {
                     onNewChildAddClicked?.invoke()
@@ -145,6 +148,8 @@ class ChildrenRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
                 binding.addChildButton.isEnabled = false
                 binding.addChildButton.backgroundTintList =
                     context.getColorStateList(R.color.white_opacity_70)
+                binding.addChildButton.setTextColor(context.getColorStateList(R.color.black_opacity_70))
+                binding.addChildButton.iconTint = context.getColorStateList(R.color.black_opacity_70)
             }
         }
     }
@@ -163,5 +168,11 @@ class ChildrenRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
 //                childClickListener?.onChildItemClick(itemView)
 //            }
         }
+    }
+
+    companion object {
+        const val MAX_POOL_SIZE = 0
+        const val VIEW_TYPE_CHILD_CARD = 100
+        const val VIEW_TYPE_FOOTER = 101
     }
 }
