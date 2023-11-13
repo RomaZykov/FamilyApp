@@ -23,7 +23,7 @@ class ChildrenRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
             }
         }
     var onNewChildAddClicked: (() -> Unit)? = null
-    var onChildUpdate: ((String) -> Unit)? = null
+    var onChildUpdate: ((Child) -> Unit)? = null
     var onChildRemoveClicked: ((Child) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -99,7 +99,7 @@ class ChildrenRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
                     if (childName.toString().isEmpty()) {
                         binding.childNameEditText.error = "Выполните все условия"
                     } else {
-                        onChildUpdate?.invoke(children[adapterPosition].childName)
+                        onChildUpdate?.invoke(children[adapterPosition])
                     }
                     notifyItemChanged(itemCount - 1)
                 }
@@ -123,7 +123,8 @@ class ChildrenRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
                     binding.avatarMale2.id,
                     binding.avatarFemale2.id,
                     binding.avatarFemale3.id -> {
-                        children[adapterPosition].isAvatarSelected = true
+                        children[adapterPosition].imageResourceId = checkedId
+                        onChildUpdate?.invoke(children[adapterPosition])
                         notifyItemChanged(itemCount - 1)
                     }
                 }
@@ -136,24 +137,30 @@ class ChildrenRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
         var context: Context = itemView.context
 
         fun bind() {
-            if (children.all { it.childName.isNotEmpty() && it.isAvatarSelected } && children.size == itemCount - 1) {
-                binding.addChildButton.isEnabled = true
-                binding.addChildButton.setTextColor(context.getColorStateList(R.color.black))
-                binding.addChildButton.iconTint = context.getColorStateList(R.color.black)
-                binding.addChildButton.backgroundTintList = context.getColorStateList(R.color.white)
+            if (children.all {
+                    it.childName.toString().isNotEmpty() && it.imageResourceId != null
+                } && children.size == itemCount - 1) {
+                with(binding.addChildButton) {
+                    isEnabled = true
+                    setTextColor(context.getColorStateList(R.color.black))
+                    iconTint = context.getColorStateList(R.color.black)
+                    backgroundTintList = context.getColorStateList(R.color.white)
+                }
                 itemView.setOnClickListener {
                     onNewChildAddClicked?.invoke()
                 }
             } else {
-                binding.addChildButton.isEnabled = false
-                binding.addChildButton.backgroundTintList =
-                    context.getColorStateList(R.color.white_opacity_70)
-                binding.addChildButton.setTextColor(context.getColorStateList(R.color.black_opacity_70))
-                binding.addChildButton.iconTint = context.getColorStateList(R.color.black_opacity_70)
+                with(binding.addChildButton) {
+                    isEnabled = false
+                    backgroundTintList = context.getColorStateList(R.color.white_opacity_70)
+                    setTextColor(context.getColorStateList(R.color.black_opacity_70))
+                    iconTint = context.getColorStateList(R.color.black_opacity_70)
+                }
             }
         }
     }
 
+    // Need to remove
     inner class MediumChildViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = MediumChildItemBinding.bind(itemView)
 

@@ -7,14 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.n1.moguchi.MoguchiBaseApplication
-import com.n1.moguchi.R
 import com.n1.moguchi.data.models.Child
 import com.n1.moguchi.databinding.FragmentAddChildBinding
 import com.n1.moguchi.ui.ViewModelFactory
@@ -23,7 +21,6 @@ import com.n1.moguchi.ui.viewmodels.AddChildViewModel
 import javax.inject.Inject
 
 class AddChildFragment : Fragment() {
-
     private var _binding: FragmentAddChildBinding? = null
     private val binding get() = _binding!!
     private lateinit var auth: FirebaseAuth
@@ -58,22 +55,10 @@ class AddChildFragment : Fragment() {
         auth = Firebase.auth
         val parentId = auth.currentUser?.uid
 
-        val navHostFragment =
-            requireActivity().supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
-        val navController = navHostFragment.navController
-
         val isFromParentHome = arguments?.getBoolean("isFromParentHome")
         val isFromParentProfile = arguments?.getBoolean("isFromParentProfile")
 
-        val recyclerView: RecyclerView = binding.rvChildrenList
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        childrenAdapter = ChildrenRecyclerAdapter()
-        recyclerView.adapter = childrenAdapter
-        recyclerView.recycledViewPool.setMaxRecycledViews(
-            ChildrenRecyclerAdapter.VIEW_TYPE_CHILD_CARD,
-            ChildrenRecyclerAdapter.MAX_POOL_SIZE
-        )
-
+        setupRecyclerView()
         viewModel.children.observe(viewLifecycleOwner) {
             if (parentId != null) {
                 if (it.isEmpty()) {
@@ -84,6 +69,7 @@ class AddChildFragment : Fragment() {
                     childrenAdapter.notifyItemInserted(0)
                     childrenAdapter.notifyItemChanged(childrenAdapter.itemCount - 1)
                 }
+
                 childrenAdapter.onNewChildAddClicked = {
                     childrenAdapter.children.add(
                         viewModel.createNewChild(
@@ -94,17 +80,20 @@ class AddChildFragment : Fragment() {
                     childrenAdapter.notifyItemInserted(it.size)
                     childrenAdapter.notifyItemChanged(childrenAdapter.itemCount - 1)
                 }
+
                 childrenAdapter.onChildRemoveClicked = { child ->
                     viewModel.deleteChildProfile(parentId, child.childId!!)
+                }
+
+                childrenAdapter.onChildUpdate = { child ->
+                    viewModel.onChildUpdate(parentId, child)
                 }
             }
         }
 
-
         if (isFromParentHome == true || isFromParentProfile == true) {
             binding.bottomBar.visibility = View.VISIBLE
             binding.topAppBar.visibility = View.VISIBLE
-
             if (isFromParentProfile == true) {
                 binding.addChildAppBar.title = "Мои дети"
             }
@@ -113,6 +102,17 @@ class AddChildFragment : Fragment() {
 
             }
         }
+    }
+
+    private fun setupRecyclerView() {
+        val recyclerView: RecyclerView = binding.rvChildrenList
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        childrenAdapter = ChildrenRecyclerAdapter()
+        recyclerView.adapter = childrenAdapter
+        recyclerView.recycledViewPool.setMaxRecycledViews(
+            ChildrenRecyclerAdapter.VIEW_TYPE_CHILD_CARD,
+            ChildrenRecyclerAdapter.MAX_POOL_SIZE
+        )
     }
 
     override fun onDestroyView() {

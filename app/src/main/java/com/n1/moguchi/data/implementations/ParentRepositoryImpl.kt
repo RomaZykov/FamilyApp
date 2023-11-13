@@ -1,5 +1,6 @@
 package com.n1.moguchi.data.implementations
 
+import android.util.Log
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -44,16 +45,28 @@ class ParentRepositoryImpl @Inject constructor() : ParentRepository {
         return child[0]
     }
 
-    override fun saveChild(parentId: String, child: Child): Child {
+    override fun getAndSaveChildToDb(parentId: String, childUser: Child): Child {
         val childrenRefByParentId = childrenRef.child(parentId)
         val newChildRef: DatabaseReference = childrenRefByParentId.push()
         val childId: String? = newChildRef.key
-        val newChild = child.copy(
+        val newChild = childUser.copy(
             childId = childId,
             parentOwnerId = parentId
         )
         newChildRef.setValue(newChild)
+        Log.d("ParentRepositoryImpl", "$newChildRef")
         return newChild
+    }
+
+    override fun getAndUpdateChildInDb(parentId: String, childUser: Child): Child {
+        val specificChild = childrenRef.child(parentId).child(childUser.childId!!)
+        val updatedChild = childUser.copy(
+            childName = childUser.childName,
+            imageResourceId = childUser.imageResourceId
+        )
+        val childValues = updatedChild.toMap()
+        specificChild.updateChildren(childValues)
+        return updatedChild
     }
 
     override suspend fun deleteChildProfile(parentId: String, childId: String) {

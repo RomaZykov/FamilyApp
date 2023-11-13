@@ -8,7 +8,9 @@ interface ParentRepository {
 
     suspend fun getChild(parentId: String, childId: String): Child
 
-    fun saveChild(parentId: String, child: Child): Child
+    fun getAndSaveChildToDb(parentId: String, childUser: Child): Child
+
+    fun getAndUpdateChildInDb(parentId: String, childUser: Child): Child
 
     suspend fun deleteChildProfile(parentId: String, childId: String)
 }
