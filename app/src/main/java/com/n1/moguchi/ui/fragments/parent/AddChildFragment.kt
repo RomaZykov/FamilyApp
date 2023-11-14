@@ -2,9 +2,11 @@ package com.n1.moguchi.ui.fragments.parent
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +21,8 @@ import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.adapters.ChildrenRecyclerAdapter
 import com.n1.moguchi.ui.viewmodels.AddChildViewModel
 import javax.inject.Inject
+
+private const val ZERO_INDEX = 0
 
 class AddChildFragment : Fragment() {
     private var _binding: FragmentAddChildBinding? = null
@@ -62,23 +66,11 @@ class AddChildFragment : Fragment() {
         viewModel.children.observe(viewLifecycleOwner) {
             if (parentId != null) {
                 if (it.isEmpty()) {
-                    childrenAdapter.children.add(
-                        0,
-                        viewModel.createNewChild(parentId, Child())
-                    )
-                    childrenAdapter.notifyItemInserted(0)
-                    childrenAdapter.notifyItemChanged(childrenAdapter.itemCount - 1)
+                    addChild(parentId, ZERO_INDEX)
                 }
 
                 childrenAdapter.onNewChildAddClicked = {
-                    childrenAdapter.children.add(
-                        viewModel.createNewChild(
-                            parentId,
-                            Child()
-                        )
-                    )
-                    childrenAdapter.notifyItemInserted(it.size)
-                    childrenAdapter.notifyItemChanged(childrenAdapter.itemCount - 1)
+                    addChild(parentId, it.size)
                 }
 
                 childrenAdapter.onChildRemoveClicked = { child ->
@@ -87,6 +79,11 @@ class AddChildFragment : Fragment() {
 
                 childrenAdapter.onChildUpdate = { child ->
                     viewModel.onChildUpdate(parentId, child)
+                }
+
+                childrenAdapter.onCardsStatusUpdate = { isAllCardsCompleted ->
+                    parentFragmentManager.setFragmentResult("buttonIsEnabled", bundleOf("cardsCompletedKey" to isAllCardsCompleted))
+                    Log.d("AddChildFragment", "isButtonEnabled = $isAllCardsCompleted")
                 }
             }
         }
@@ -101,6 +98,21 @@ class AddChildFragment : Fragment() {
             binding.nextButton.setOnClickListener {
 
             }
+        }
+
+    }
+
+    private fun addChild(parentId: String?, index: Int) {
+        if (parentId != null) {
+            if (index == 0) {
+                childrenAdapter.children.add(index, viewModel.createNewChild(parentId, Child()))
+            } else {
+                childrenAdapter.children.add(viewModel.createNewChild(parentId, Child()))
+            }
+            childrenAdapter.notifyItemInserted(index)
+            childrenAdapter.notifyItemChanged(childrenAdapter.itemCount - 1)
+        } else {
+            TODO()
         }
     }
 

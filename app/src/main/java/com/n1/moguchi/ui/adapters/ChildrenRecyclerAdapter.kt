@@ -25,6 +25,7 @@ class ChildrenRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
     var onNewChildAddClicked: (() -> Unit)? = null
     var onChildUpdate: ((Child) -> Unit)? = null
     var onChildRemoveClicked: ((Child) -> Unit)? = null
+    var onCardsStatusUpdate: ((Boolean) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -140,6 +141,7 @@ class ChildrenRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
             if (children.all {
                     it.childName.toString().isNotEmpty() && it.imageResourceId != null
                 } && children.size == itemCount - 1) {
+                onCardsStatusUpdate?.invoke(true)
                 with(binding.addChildButton) {
                     isEnabled = true
                     setTextColor(context.getColorStateList(R.color.black))
@@ -150,6 +152,7 @@ class ChildrenRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
                     onNewChildAddClicked?.invoke()
                 }
             } else {
+                onCardsStatusUpdate?.invoke(false)
                 with(binding.addChildButton) {
                     isEnabled = false
                     backgroundTintList = context.getColorStateList(R.color.white_opacity_70)
