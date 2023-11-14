@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout>
 
     <com.google.android.material.button.MaterialButton xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/add_child_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:clickable="true"
-        android:focusable="true"
         android:enabled="false"
+        android:focusable="true"
         android:fontFamily="@font/onest_regular"
         android:gravity="center"
-        android:padding="12dp"
+        android:padding="16dp"
         android:text="Добавить ребёнка"
         android:textColor="@color/black"
         app:icon="@drawable/plus"
