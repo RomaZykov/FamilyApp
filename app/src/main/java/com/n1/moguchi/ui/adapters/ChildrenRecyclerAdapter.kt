@@ -86,6 +86,12 @@ class ChildrenRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
 
     inner class ChildViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = ChildCreationCardBinding.bind(itemView)
+        private val childAvatars: Map<Int, Int> = mapOf(
+           binding.avatarMale1.id to R.drawable.avatar_male_1,
+           binding.avatarMale2.id to R.drawable.avatar_male_2,
+           binding.avatarFemale2.id to R.drawable.avatar_female_2,
+           binding.avatarFemale3.id to R.drawable.avatar_female_3
+        )
 
         fun bind() {
             binding.childNameEditText.addTextChangedListener(object : TextWatcher {
@@ -118,13 +124,13 @@ class ChildrenRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
                 binding.deleteChildButton.visibility = View.GONE
             }
 
-            binding.avatars.setOnCheckedChangeListener { _, checkedId ->
+            binding.avatars.setOnCheckedChangeListener { button, checkedId ->
                 when (checkedId) {
                     binding.avatarMale1.id,
                     binding.avatarMale2.id,
                     binding.avatarFemale2.id,
                     binding.avatarFemale3.id -> {
-                        children[adapterPosition].imageResourceId = checkedId
+                        children[adapterPosition].imageResourceId = childAvatars[checkedId]
                         onChildUpdate?.invoke(children[adapterPosition])
                         notifyItemChanged(itemCount - 1)
                     }

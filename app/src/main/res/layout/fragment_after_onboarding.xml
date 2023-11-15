@@ -41,7 +41,7 @@
             app:layout_constraintTop_toBottomOf="@id/commonAppBar"
             tools:layout="@layout/fragment_add_child" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/go_next_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

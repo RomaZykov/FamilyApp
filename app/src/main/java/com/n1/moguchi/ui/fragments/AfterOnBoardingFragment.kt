@@ -60,6 +60,7 @@ class AfterOnBoardingFragment : Fragment() {
                     isEnabled = true
                     setTextColor(context?.getColorStateList(R.color.white))
                     backgroundTintList = context?.getColorStateList(R.color.orange)
+
                     setOnClickListener {
                         when (val currentFragmentInContainer =
                             childFragmentManager.fragments.last()) {

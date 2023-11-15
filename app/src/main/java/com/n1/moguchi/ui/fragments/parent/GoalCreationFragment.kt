@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -54,21 +55,20 @@ class GoalCreationFragment : Fragment() {
 
         val parentId = Firebase.auth.currentUser?.uid
 
-        val childrenNames = mutableListOf<String>()
         if (parentId != null) {
             viewModel.getChildren(parentId)
             viewModel.children.observe(viewLifecycleOwner) { children ->
-                children?.forEach { childrenNames.add(it.childName!!) }
                 val childrenLinearLayout = view.findViewById<LinearLayout>(R.id.children_list_ll)
-                childrenNames.mapIndexed { index, name ->
+                children?.forEach { child ->
                     val childItem =
                         layoutInflater.inflate(
                             R.layout.small_child_item,
                             childrenLinearLayout,
-                              false
+                            false
                         )
-                    childItem.findViewById<TextView>(R.id.child_name).text = name
-                    childrenLinearLayout.addView(childItem, index)
+                    childItem.findViewById<TextView>(R.id.small_child_name).text = child.childName
+                    childItem.findViewById<ImageView>(R.id.small_child_avatar).setImageResource(child.imageResourceId!!)
+                    childrenLinearLayout.addView(childItem)
                 }
             }
         } else {
