@@ -14,8 +14,7 @@ import com.n1.moguchi.databinding.ZMockGoalCardBinding
 import com.n1.moguchi.ui.activity.MainActivity
 import com.n1.moguchi.ui.fragments.TasksFragment
 
-class GoalsRecyclerAdapter :
-    RecyclerView.Adapter<GoalsRecyclerAdapter.CardViewHolder>() {
+class GoalsRecyclerAdapter : RecyclerView.Adapter<GoalsRecyclerAdapter.CardViewHolder>() {
 
     private val tasksList = mutableListOf(
         Task(title = "Прибраться в комнате 5 дней подряд", height = 2),

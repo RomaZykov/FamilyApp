@@ -17,7 +17,7 @@ import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.data.models.Child
 import com.n1.moguchi.databinding.FragmentAddChildBinding
 import com.n1.moguchi.ui.ViewModelFactory
-import com.n1.moguchi.ui.adapters.ChildrenRecyclerAdapter
+import com.n1.moguchi.ui.adapters.ChildrenCreationRecyclerAdapter
 import com.n1.moguchi.ui.viewmodels.AddChildViewModel
 import javax.inject.Inject
 
@@ -27,7 +27,7 @@ class AddChildFragment : Fragment() {
     private var _binding: FragmentAddChildBinding? = null
     private val binding get() = _binding!!
     private lateinit var auth: FirebaseAuth
-    private lateinit var childrenAdapter: ChildrenRecyclerAdapter
+    private lateinit var childrenCreationAdapter: ChildrenCreationRecyclerAdapter
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -68,20 +68,23 @@ class AddChildFragment : Fragment() {
                     addChild(parentId, ZERO_INDEX)
                 }
 
-                childrenAdapter.onNewChildAddClicked = {
+                childrenCreationAdapter.onNewChildAddClicked = {
                     addChild(parentId, it.size)
                 }
 
-                childrenAdapter.onChildRemoveClicked = { child ->
+                childrenCreationAdapter.onChildRemoveClicked = { child ->
                     viewModel.deleteChildProfile(parentId, child.childId!!)
                 }
 
-                childrenAdapter.onChildUpdate = { child ->
+                childrenCreationAdapter.onChildUpdate = { child ->
                     viewModel.onChildUpdate(parentId, child)
                 }
 
-                childrenAdapter.onCardsStatusUpdate = { isAllCardsCompleted ->
-                    parentFragmentManager.setFragmentResult("buttonIsEnabled", bundleOf("buttonIsReadyKey" to isAllCardsCompleted))
+                childrenCreationAdapter.onCardsStatusUpdate = { isAllCardsCompleted ->
+                    parentFragmentManager.setFragmentResult(
+                        "buttonIsEnabled",
+                        bundleOf("buttonIsReadyKey" to isAllCardsCompleted)
+                    )
                 }
             }
         }
@@ -103,25 +106,28 @@ class AddChildFragment : Fragment() {
     private fun addChild(parentId: String?, index: Int) {
         if (parentId != null) {
             if (index == 0) {
-                childrenAdapter.children.add(index, viewModel.createNewChild(parentId, Child()))
+                childrenCreationAdapter.children.add(
+                    index,
+                    viewModel.createNewChild(parentId, Child())
+                )
             } else {
-                childrenAdapter.children.add(viewModel.createNewChild(parentId, Child()))
+                childrenCreationAdapter.children.add(viewModel.createNewChild(parentId, Child()))
             }
-            childrenAdapter.notifyItemInserted(index)
-            childrenAdapter.notifyItemChanged(childrenAdapter.itemCount - 1)
+            childrenCreationAdapter.notifyItemInserted(index)
+            childrenCreationAdapter.notifyItemChanged(childrenCreationAdapter.itemCount - 1)
         } else {
             TODO()
         }
     }
 
     private fun setupRecyclerView() {
-        val recyclerView: RecyclerView = binding.rvChildrenList
+        val recyclerView: RecyclerView = binding.rvChildrenCreationList
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        childrenAdapter = ChildrenRecyclerAdapter()
-        recyclerView.adapter = childrenAdapter
+        childrenCreationAdapter = ChildrenCreationRecyclerAdapter()
+        recyclerView.adapter = childrenCreationAdapter
         recyclerView.recycledViewPool.setMaxRecycledViews(
-            ChildrenRecyclerAdapter.VIEW_TYPE_CHILD_CARD,
-            ChildrenRecyclerAdapter.MAX_POOL_SIZE
+            ChildrenCreationRecyclerAdapter.VIEW_TYPE_CHILD_CARD,
+            ChildrenCreationRecyclerAdapter.MAX_POOL_SIZE
         )
     }
 

@@ -13,13 +13,13 @@ import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentSwitchToChildBinding
 import com.n1.moguchi.ui.ChildClickListener
 import com.n1.moguchi.ui.activity.MainActivity
-import com.n1.moguchi.ui.adapters.ChildrenRecyclerAdapter
+import com.n1.moguchi.ui.adapters.ChildrenCreationRecyclerAdapter
 
 class SwitchToChildBottomSheetFragment : BottomSheetDialogFragment(), ChildClickListener {
 
     private var _binding: FragmentSwitchToChildBinding? = null
     private val binding get() = _binding!!
-    private lateinit var childrenRecyclerAdapter: ChildrenRecyclerAdapter
+    private lateinit var childrenCreationRecyclerAdapter: ChildrenCreationRecyclerAdapter
     lateinit var listener: ChildClickListener
 
     private var mockNames: List<String> = listOf("Максимка", "Алёна")
@@ -44,8 +44,8 @@ class SwitchToChildBottomSheetFragment : BottomSheetDialogFragment(), ChildClick
 
         val recyclerView: RecyclerView = binding.rvChildrenList
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-//        childrenRecyclerAdapter = ChildrenRecyclerAdapter(mockNames.toMutableList(), listener)
-        recyclerView.adapter = childrenRecyclerAdapter
+//        childrenCreationRecyclerAdapter = ChildrenCreationRecyclerAdapter(mockNames.toMutableList(), listener)
+        recyclerView.adapter = childrenCreationRecyclerAdapter
 
         binding.cancelButton.setOnClickListener {
             dismiss()
