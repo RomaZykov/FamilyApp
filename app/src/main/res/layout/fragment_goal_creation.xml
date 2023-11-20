@@ -43,26 +43,20 @@
                 android:text="Ребенок:"
                 android:textSize="14sp" />
 
-            <HorizontalScrollView
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_children_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="8dp"
-                android:scrollbars="none">
-
-                <RadioGroup
-                    android:id="@+id/children_radio_group"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="8dp"
-                    android:orientation="horizontal" />
-            </HorizontalScrollView>
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:orientation="horizontal"
+                app:layoutManager="LinearLayoutManager" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginVertical="8dp"
                 android:fontFamily="@font/onest_regular"
                 android:text="Название цели"
                 android:textSize="14sp" />
