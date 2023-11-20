@@ -54,66 +54,77 @@ class AfterOnBoardingFragment : Fragment() {
             "buttonIsEnabled",
             viewLifecycleOwner
         ) { _, bundle ->
-            isButtonEnabled = bundle.getBoolean("cardsCompletedKey")
-            if (isButtonEnabled == true) {
+            val currentFragmentInContainer = childFragmentManager.fragments.last()
+            isButtonEnabled = bundle.getBoolean("buttonIsReadyKey")
+            changeButton(isButtonEnabled)
+            binding.goNextButton.setOnClickListener {
+                when (currentFragmentInContainer) {
+                    fragments[0] -> {
+                        childFragmentManager.beginTransaction()
+                            .remove(currentFragmentInContainer)
+                            .replace(
+                                R.id.after_onboarding_fragment_container_view,
+                                fragments[1]
+                            )
+                            .addToBackStack(null)
+                            .commit()
+                    }
+
+                    fragments[1] -> {
+                        childFragmentManager.beginTransaction()
+                            .remove(currentFragmentInContainer)
+                            .replace(
+                                R.id.after_onboarding_fragment_container_view,
+                                fragments[2]
+                            )
+                            .addToBackStack(null)
+                            .commit()
+                    }
+
+                    fragments[2] -> {
+                        childFragmentManager.beginTransaction()
+                            .remove(currentFragmentInContainer)
+                            .replace(
+                                R.id.after_onboarding_fragment_container_view,
+                                fragments[3]
+                            )
+                            .addToBackStack(null)
+                            .commit()
+                    }
+
+                    fragments[3] -> {
+                        val navHostFragment = (activity as MainActivity)
+                            .supportFragmentManager
+                            .findFragmentById(R.id.fragment_container_view) as NavHostFragment
+                        val navController = navHostFragment.navController
+                        navController.navigate(R.id.action_afterOnBoardingFragment_to_parentHomeFragment)
+                    }
+                }
+                isButtonEnabled = false
+                changeButton(isButtonEnabled)
+            }
+        }
+    }
+
+    private fun changeButton(isButtonEnabled: Boolean?) {
+        when (isButtonEnabled) {
+            true -> {
                 with(binding.goNextButton) {
                     isEnabled = true
                     setTextColor(context?.getColorStateList(R.color.white))
                     backgroundTintList = context?.getColorStateList(R.color.orange)
-
-                    setOnClickListener {
-                        when (val currentFragmentInContainer =
-                            childFragmentManager.fragments.last()) {
-                            fragments[0] -> {
-                                childFragmentManager.beginTransaction()
-                                    .remove(currentFragmentInContainer)
-                                    .replace(
-                                        R.id.after_onboarding_fragment_container_view,
-                                        fragments[1]
-                                    )
-                                    .addToBackStack(null)
-                                    .commit()
-                            }
-
-                            fragments[1] -> {
-                                childFragmentManager.beginTransaction()
-                                    .remove(currentFragmentInContainer)
-                                    .replace(
-                                        R.id.after_onboarding_fragment_container_view,
-                                        fragments[2]
-                                    )
-                                    .addToBackStack(null)
-                                    .commit()
-                            }
-
-                            fragments[2] -> {
-                                childFragmentManager.beginTransaction()
-                                    .remove(currentFragmentInContainer)
-                                    .replace(
-                                        R.id.after_onboarding_fragment_container_view,
-                                        fragments[3]
-                                    )
-                                    .addToBackStack(null)
-                                    .commit()
-                            }
-
-                            fragments[3] -> {
-                                val navHostFragment = (activity as MainActivity)
-                                    .supportFragmentManager
-                                    .findFragmentById(R.id.fragment_container_view) as NavHostFragment
-                                val navController = navHostFragment.navController
-                                navController.navigate(R.id.action_afterOnBoardingFragment_to_parentHomeFragment)
-                            }
-                        }
-                    }
                 }
-            } else {
+            }
+
+            false -> {
                 with(binding.goNextButton) {
                     isEnabled = false
                     setTextColor(context?.getColorStateList(R.color.white_opacity_70))
                     backgroundTintList = context?.getColorStateList(R.color.orange_opacity_70)
                 }
             }
+
+            else -> throw NullPointerException("isButtonEnabled equals null")
         }
     }
 
