@@ -6,7 +6,7 @@ import com.n1.moguchi.ui.viewmodels.AddChildViewModel
 import com.n1.moguchi.ui.viewmodels.HomeViewModel
 import com.n1.moguchi.ui.viewmodels.TaskViewModel
 import com.n1.moguchi.ui.viewmodels.MainActivityViewModel
-import com.n1.moguchi.ui.viewmodels.PrimaryBottomSheetViewModel
+import com.n1.moguchi.ui.viewmodels.GoalCreationViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -20,9 +20,9 @@ interface ViewModelModule {
     fun bindAddChildViewModel(addChildViewModel: AddChildViewModel): ViewModel
 
     @IntoMap
-    @ViewModelKey(PrimaryBottomSheetViewModel::class)
+    @ViewModelKey(GoalCreationViewModel::class)
     @Binds
-    fun bindGoalCreationDialogViewModel(bottomSheetViewModel: PrimaryBottomSheetViewModel): ViewModel
+    fun bindGoalCreationDialogViewModel(bottomSheetViewModel: GoalCreationViewModel): ViewModel
 
     @IntoMap
     @ViewModelKey(TaskViewModel::class)

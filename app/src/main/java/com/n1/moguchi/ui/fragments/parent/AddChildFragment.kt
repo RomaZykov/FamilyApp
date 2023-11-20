@@ -2,7 +2,6 @@ package com.n1.moguchi.ui.fragments.parent
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -82,8 +81,7 @@ class AddChildFragment : Fragment() {
                 }
 
                 childrenAdapter.onCardsStatusUpdate = { isAllCardsCompleted ->
-                    parentFragmentManager.setFragmentResult("buttonIsEnabled", bundleOf("cardsCompletedKey" to isAllCardsCompleted))
-                    Log.d("AddChildFragment", "isButtonEnabled = $isAllCardsCompleted")
+                    parentFragmentManager.setFragmentResult("buttonIsEnabled", bundleOf("buttonIsReadyKey" to isAllCardsCompleted))
                 }
             }
         }

@@ -15,7 +15,7 @@ import com.n1.moguchi.databinding.FragmentTaskCreationBinding
 import com.n1.moguchi.ui.TaskSettingsClickListener
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.adapters.TaskSetupRecyclerAdapter
-import com.n1.moguchi.ui.viewmodels.PrimaryBottomSheetViewModel
+import com.n1.moguchi.ui.viewmodels.GoalCreationViewModel
 import javax.inject.Inject
 
 class TaskCreationFragment : BottomSheetDialogFragment(), TaskSettingsClickListener {
@@ -29,8 +29,8 @@ class TaskCreationFragment : BottomSheetDialogFragment(), TaskSettingsClickListe
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-    private val viewModel: PrimaryBottomSheetViewModel by lazy {
-        ViewModelProvider(this, viewModelFactory)[PrimaryBottomSheetViewModel::class.java]
+    private val viewModel: GoalCreationViewModel by lazy {
+        ViewModelProvider(this, viewModelFactory)[GoalCreationViewModel::class.java]
     }
 
     private val component by lazy {

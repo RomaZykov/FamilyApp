@@ -124,7 +124,7 @@ class ChildrenRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
                 binding.deleteChildButton.visibility = View.GONE
             }
 
-            binding.avatars.setOnCheckedChangeListener { button, checkedId ->
+            binding.avatars.setOnCheckedChangeListener { _, checkedId ->
                 when (checkedId) {
                     binding.avatarMale1.id,
                     binding.avatarMale2.id,

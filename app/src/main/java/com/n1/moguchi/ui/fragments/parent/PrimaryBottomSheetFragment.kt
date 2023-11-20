@@ -17,7 +17,7 @@ import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentPrimaryBottomSheetBinding
 import com.n1.moguchi.ui.ViewModelFactory
-import com.n1.moguchi.ui.viewmodels.PrimaryBottomSheetViewModel
+import com.n1.moguchi.ui.viewmodels.GoalCreationViewModel
 import javax.inject.Inject
 
 class PrimaryBottomSheetFragment : BottomSheetDialogFragment() {
@@ -28,7 +28,7 @@ class PrimaryBottomSheetFragment : BottomSheetDialogFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private val viewModel by lazy {
-        ViewModelProvider(this, viewModelFactory)[PrimaryBottomSheetViewModel::class.java]
+        ViewModelProvider(this, viewModelFactory)[GoalCreationViewModel::class.java]
     }
 
     private val component by lazy {
