@@ -1,9 +1,10 @@
-package com.n1.moguchi.ui.fragments.parent
+package com.n1.moguchi.ui.fragments.parent.goal_creation
 
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +21,7 @@ import com.n1.moguchi.data.models.Goal
 import com.n1.moguchi.databinding.FragmentGoalCreationBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.adapters.ChildrenRecyclerAdapter
-import com.n1.moguchi.ui.viewmodels.GoalCreationViewModel
+import java.util.UUID
 import javax.inject.Inject
 
 class GoalCreationFragment : Fragment() {
@@ -119,19 +120,20 @@ class GoalCreationFragment : Fragment() {
         ) { _, bundle ->
             isNextButtonPressed = bundle.getBoolean("buttonIsPressedKey")
             if (isNextButtonPressed == true) {
+                val goalId: String = UUID.randomUUID().toString()
+                parentFragment?.arguments?.putString(GOAL_ID_KEY, goalId)
+                arguments?.putString(GOAL_ID_KEY, goalId)
+                bundle.putString(GOAL_ID_KEY, goalId)
+                Log.d("GoalCreationFragment", "Bundle = ${bundle}")
                 viewModel.createGoal(
                     Goal(
+                        goalId = goalId,
                         title = binding.goalName.text.toString(),
                         height = goalHeight
                     ),
                     childId!!
                 )
             }
-        }
-
-        viewModel.goalID.observe(viewLifecycleOwner) {
-            val bundle = Bundle()
-            bundle.putString(GOAL_ID_KEY, it)
         }
     }
 
@@ -149,6 +151,6 @@ class GoalCreationFragment : Fragment() {
     }
 
     companion object {
-        const val GOAL_ID_KEY = "goalId"
+        const val GOAL_ID_KEY = "goalID"
     }
 }
