@@ -2,7 +2,6 @@
 <layout>
 
     <data>
-
         <variable
             name="viewmodel"
             type="com.n1.moguchi.ui.viewmodels.MainActivityViewModel" />
@@ -14,7 +13,8 @@
         android:id="@+id/task_material_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_marginVertical="8dp"
+        android:layout_marginHorizontal="16dp"
         android:backgroundTint="@color/ultra_soft_orange"
         android:checkable="true"
         android:clickable="true"

@@ -9,5 +9,5 @@ interface TaskRepository {
 
     fun markTaskCompleted(taskId: String, isCompleted: Boolean)
 
-    fun getTasks(goalId: String): List<Task>
+    suspend fun getTasks(goalId: String): List<Task>
 }
