@@ -9,7 +9,11 @@ import com.n1.moguchi.data.models.Child
 import com.n1.moguchi.databinding.MediumChildItemBinding
 import com.n1.moguchi.databinding.SmallChildItemBinding
 
-class ChildrenRecyclerAdapter(private val childrenList: List<Child>) : RecyclerView.Adapter<ChildrenRecyclerAdapter.SmallChildViewHolder>() {
+class ChildrenRecyclerAdapter(private val childrenList: List<Child>) :
+    RecyclerView.Adapter<ChildrenRecyclerAdapter.SmallChildViewHolder>() {
+
+    private var itemSelectedEvent: (() -> Unit)? = null
+    var selectedItem: Int = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SmallChildViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -19,7 +23,7 @@ class ChildrenRecyclerAdapter(private val childrenList: List<Child>) : RecyclerV
 
     override fun onBindViewHolder(holder: SmallChildViewHolder, position: Int) {
         val child: Child = childrenList[position]
-        holder.bind(child)
+        holder.bind(child, position)
 
 //        else -> {
 //            val view = LayoutInflater.from(parent.context).inflate(
@@ -38,9 +42,14 @@ class ChildrenRecyclerAdapter(private val childrenList: List<Child>) : RecyclerV
     inner class SmallChildViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = SmallChildItemBinding.bind(itemView)
 
-        fun bind(child: Child) {
+        fun bind(child: Child, position: Int) {
             binding.smallChildName.text = child.childName
             binding.smallChildAvatar.setImageResource(child.imageResourceId!!)
+            binding.root.isSelected = selectedItem == position
+//            selectedItem = position
+//            val previousItem = selectedItem
+//            notifyItemChanged(selectedItem)
+//            notifyItemChanged(previousItem)
         }
     }
 

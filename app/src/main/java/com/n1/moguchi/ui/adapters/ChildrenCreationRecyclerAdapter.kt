@@ -12,12 +12,14 @@ import com.n1.moguchi.data.models.Child
 import com.n1.moguchi.databinding.ChildCreationCardBinding
 import com.n1.moguchi.databinding.CreationChildSectionFooterBinding
 
+private const val FOOTER_ADD_CHILD_BUTTON = 1
+
 class ChildrenCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var children: MutableList<Child> = ArrayList()
         set(value) {
             field = value
-            if (field.size == 1) {
+            if (field.size == FOOTER_ADD_CHILD_BUTTON) {
                 notifyItemChanged(0)
             }
         }
@@ -75,7 +77,7 @@ class ChildrenCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     override fun getItemCount(): Int {
-        return children.size + 1
+        return children.size + FOOTER_ADD_CHILD_BUTTON
     }
 
     inner class ChildViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -102,17 +104,17 @@ class ChildrenCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHo
                     } else {
                         onChildUpdate?.invoke(children[adapterPosition])
                     }
-                    notifyItemChanged(itemCount - 1)
+                    notifyItemChanged(itemCount - FOOTER_ADD_CHILD_BUTTON)
                 }
             })
 
-            if (children.size > 1) {
+            if (children.size > FOOTER_ADD_CHILD_BUTTON) {
                 binding.deleteChildButton.visibility = View.VISIBLE
                 binding.deleteChildButton.setOnClickListener {
                     onChildRemoveClicked?.invoke(children[adapterPosition])
                     children.removeAt(adapterPosition)
                     notifyItemRemoved(adapterPosition)
-                    notifyItemChanged(itemCount - 1)
+                    notifyItemChanged(itemCount - FOOTER_ADD_CHILD_BUTTON)
                 }
             } else {
                 binding.deleteChildButton.visibility = View.GONE
@@ -126,7 +128,7 @@ class ChildrenCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHo
                     binding.avatarFemale3.id -> {
                         children[adapterPosition].imageResourceId = childAvatars[checkedId]
                         onChildUpdate?.invoke(children[adapterPosition])
-                        notifyItemChanged(itemCount - 1)
+                        notifyItemChanged(itemCount - FOOTER_ADD_CHILD_BUTTON)
                     }
                 }
             }
@@ -140,7 +142,7 @@ class ChildrenCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHo
         fun bind() {
             if (children.all {
                     it.childName.toString().isNotEmpty() && it.imageResourceId != null
-                } && children.size == itemCount - 1) {
+                } && children.size == itemCount - FOOTER_ADD_CHILD_BUTTON) {
                 onCardsStatusUpdate?.invoke(true)
                 with(binding.addChildButton) {
                     isEnabled = true
