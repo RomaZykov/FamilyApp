@@ -1,4 +1,4 @@
-package com.n1.moguchi.ui.fragments.parent
+package com.n1.moguchi.ui.fragments.parent.task_creation
 
 import android.content.Context
 import android.os.Bundle
@@ -14,17 +14,16 @@ import com.n1.moguchi.R
 import com.n1.moguchi.data.models.Task
 import com.n1.moguchi.databinding.FragmentTaskCreationBinding
 import com.n1.moguchi.ui.ViewModelFactory
-import com.n1.moguchi.ui.adapters.TaskSetupRecyclerAdapter
-import com.n1.moguchi.ui.viewmodels.TaskCreationViewModel
+import com.n1.moguchi.ui.adapters.TaskCreationRecyclerAdapter
+import com.n1.moguchi.ui.fragments.parent.SecondaryBottomSheetFragment
+import com.n1.moguchi.ui.fragments.parent.goal_creation.GoalCreationFragment
 import javax.inject.Inject
 
 class TaskCreationFragment : BottomSheetDialogFragment() {
 
     private var _binding: FragmentTaskCreationBinding? = null
     private val binding get() = _binding!!
-
-    private lateinit var taskSetupRecyclerAdapter: TaskSetupRecyclerAdapter
-    private var tasksCardList: MutableList<Task> = mutableListOf()
+    private lateinit var taskCreationRecyclerAdapter: TaskCreationRecyclerAdapter
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -53,33 +52,39 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val currentGoalID = arguments?.getString(GoalCreationFragment.GOAL_ID_KEY)
+        val currentGoalID = requireParentFragment().arguments?.getString(GoalCreationFragment.GOAL_ID_KEY)
 
+        val recyclerView: RecyclerView = view.findViewById(R.id.rv_card_list)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        taskCreationRecyclerAdapter = TaskCreationRecyclerAdapter()
+        recyclerView.adapter = taskCreationRecyclerAdapter
+        recyclerView.recycledViewPool.setMaxRecycledViews(
+            TaskCreationRecyclerAdapter.VIEW_TYPE_TASK_CARD,
+            TaskCreationRecyclerAdapter.MAX_POOL_SIZE
+        )
         if (currentGoalID != null) {
             viewModel.getTasksByGoalId(currentGoalID)
         }
         viewModel.tasks.observe(viewLifecycleOwner) {
-            val recyclerView: RecyclerView = view.findViewById(R.id.rv_card_list)
-            recyclerView.layoutManager = LinearLayoutManager(requireContext())
-            taskSetupRecyclerAdapter = TaskSetupRecyclerAdapter()
-            recyclerView.adapter = taskSetupRecyclerAdapter
-
-            if (it.isEmpty() && currentGoalID != null) {
-                taskSetupRecyclerAdapter.tasksCard.add(
+            if (it.isEmpty() && (currentGoalID != null)) {
+                taskCreationRecyclerAdapter.tasksCardList.add(
                     0,
                     viewModel.createTask(Task(), currentGoalID)
                 )
-                tasksCardList.add(viewModel.createTask(Task(), currentGoalID))
+                taskCreationRecyclerAdapter.notifyItemInserted(0)
+                taskCreationRecyclerAdapter.notifyItemChanged(taskCreationRecyclerAdapter.itemCount - 1)
             }
 
-            taskSetupRecyclerAdapter.onTaskSettingsClicked = {
+            taskCreationRecyclerAdapter.onNewTaskAddClicked = {
+                if (currentGoalID != null) {
+                    taskCreationRecyclerAdapter.tasksCardList.add(viewModel.createTask(Task(), currentGoalID))
+                    taskCreationRecyclerAdapter.notifyItemInserted(taskCreationRecyclerAdapter.itemCount - 1)
+                }
+            }
+
+            taskCreationRecyclerAdapter.onTaskSettingsClicked = {
                 showTaskSettingsBottomSheet()
             }
-        }
-
-        binding.addTaskButton.setOnClickListener {
-//            tasksCardList.add(taskCard)
-            taskSetupRecyclerAdapter.notifyItemInserted(0)
         }
     }
 

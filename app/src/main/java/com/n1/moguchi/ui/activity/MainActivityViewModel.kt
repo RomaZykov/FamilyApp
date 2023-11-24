@@ -1,4 +1,4 @@
-package com.n1.moguchi.ui.viewmodels
+package com.n1.moguchi.ui.activity
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

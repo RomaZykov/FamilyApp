@@ -1,4 +1,4 @@
-package com.n1.moguchi.data.implementations
+package com.n1.moguchi.data.impl
 
 import com.google.firebase.database.FirebaseDatabase
 import com.n1.moguchi.data.models.Task

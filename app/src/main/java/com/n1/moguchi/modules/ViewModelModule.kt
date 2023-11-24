@@ -2,11 +2,11 @@ package com.n1.moguchi.modules
 
 import androidx.lifecycle.ViewModel
 import com.n1.moguchi.helpers.ViewModelKey
-import com.n1.moguchi.ui.viewmodels.AddChildViewModel
+import com.n1.moguchi.ui.fragments.parent.children_creation.AddChildViewModel
 import com.n1.moguchi.ui.viewmodels.HomeViewModel
-import com.n1.moguchi.ui.viewmodels.TaskCreationViewModel
-import com.n1.moguchi.ui.viewmodels.MainActivityViewModel
-import com.n1.moguchi.ui.viewmodels.GoalCreationViewModel
+import com.n1.moguchi.ui.fragments.parent.task_creation.TaskCreationViewModel
+import com.n1.moguchi.ui.activity.MainActivityViewModel
+import com.n1.moguchi.ui.fragments.parent.goal_creation.GoalCreationViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

@@ -26,8 +26,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:layout_marginBottom="4dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="4dp"
                 android:fontFamily="@font/onest_regular"
                 android:text="Добавьте задачи, которые ребенок должен выполнить, чтобы достичь цели"
                 android:textSize="14sp" />
@@ -87,49 +87,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tasks_ll">
 
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_card_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_card_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false"
-                    app:layoutManager="LinearLayoutManager" />
-
-                <LinearLayout
-                    android:id="@+id/add_task_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/round_wide_button"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:src="@drawable/plus"
-                        app:tint="@color/black" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="16dp"
-                        android:fontFamily="@font/onest_regular"
-                        android:gravity="center"
-                        android:text="Добавить задачу"
-                        android:textSize="14sp" />
-                </LinearLayout>
-            </LinearLayout>
+                android:nestedScrollingEnabled="false"
+                app:layoutManager="LinearLayoutManager" />
         </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

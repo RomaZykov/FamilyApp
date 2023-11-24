@@ -1,4 +1,4 @@
-package com.n1.moguchi.data.implementations
+package com.n1.moguchi.data.impl
 
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase

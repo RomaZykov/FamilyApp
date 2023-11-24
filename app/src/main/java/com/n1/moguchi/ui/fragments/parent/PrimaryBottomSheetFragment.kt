@@ -17,7 +17,9 @@ import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentPrimaryBottomSheetBinding
 import com.n1.moguchi.ui.ViewModelFactory
-import com.n1.moguchi.ui.viewmodels.GoalCreationViewModel
+import com.n1.moguchi.ui.fragments.parent.goal_creation.GoalCreationFragment
+import com.n1.moguchi.ui.fragments.parent.task_creation.TaskCreationFragment
+import com.n1.moguchi.ui.fragments.parent.goal_creation.GoalCreationViewModel
 import javax.inject.Inject
 
 class PrimaryBottomSheetFragment : BottomSheetDialogFragment() {

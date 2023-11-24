@@ -1,4 +1,4 @@
-package com.n1.moguchi.ui.viewmodels
+package com.n1.moguchi.ui.fragments.parent.goal_creation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -24,9 +24,6 @@ class GoalCreationViewModel @Inject constructor(
 
     private val _children = MutableLiveData<List<Child>>()
     val children: LiveData<List<Child>> = _children
-
-    private val _goalID = MutableLiveData<String>()
-    val goalID: LiveData<String> = _goalID
 
     private val _tasks = MutableLiveData<List<Task>>()
     val tasks: LiveData<List<Task>> = _tasks
@@ -61,9 +58,7 @@ class GoalCreationViewModel @Inject constructor(
 //    }
 
     fun createGoal(goal: Goal, childId: String) {
-        goalRepository.createGoal(goal, childId).also {
-            _goalID.value = it.goalId!!
-        }
+        goalRepository.createGoal(goal, childId)
     }
 
     fun increaseGoalHeight() {

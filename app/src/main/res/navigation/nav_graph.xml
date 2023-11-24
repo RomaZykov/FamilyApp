@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/addChildFragment"
-        android:name="com.n1.moguchi.ui.fragments.parent.AddChildFragment"
+        android:name="com.n1.moguchi.ui.fragments.parent.children_creation.AddChildFragment"
         android:label="AddChildFragment">
         <action
             android:id="@+id/action_addChildFragment_to_goalCreationFragment"
@@ -67,7 +67,7 @@
     </fragment>
     <fragment
         android:id="@+id/goalCreationFragment"
-        android:name="com.n1.moguchi.ui.fragments.parent.GoalCreationFragment"
+        android:name="com.n1.moguchi.ui.fragments.parent.goal_creation.GoalCreationFragment"
         android:label="GoalCreationFragment" />
     <fragment
         android:id="@+id/firstSlideFragment"

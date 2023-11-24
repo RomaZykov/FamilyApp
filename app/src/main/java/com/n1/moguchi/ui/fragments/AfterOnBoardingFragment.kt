@@ -1,6 +1,7 @@
 package com.n1.moguchi.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,9 +12,9 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentAfterOnboardingBinding
 import com.n1.moguchi.ui.activity.MainActivity
-import com.n1.moguchi.ui.fragments.parent.AddChildFragment
-import com.n1.moguchi.ui.fragments.parent.GoalCreationFragment
-import com.n1.moguchi.ui.fragments.parent.TaskCreationFragment
+import com.n1.moguchi.ui.fragments.parent.children_creation.AddChildFragment
+import com.n1.moguchi.ui.fragments.parent.goal_creation.GoalCreationFragment
+import com.n1.moguchi.ui.fragments.parent.task_creation.TaskCreationFragment
 
 class AfterOnBoardingFragment : Fragment() {
 
@@ -84,6 +85,7 @@ class AfterOnBoardingFragment : Fragment() {
                             "nextButtonPressed",
                             bundleOf("buttonIsPressedKey" to true)
                         )
+                        Log.d("AfterOnBoardingFragment", "Bundle = ${bundle}")
                     }
 
                     fragments[2] -> {

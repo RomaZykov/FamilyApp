@@ -1,8 +1,8 @@
 package com.n1.moguchi.data
 
-import com.n1.moguchi.data.implementations.GoalRepositoryImpl
-import com.n1.moguchi.data.implementations.ParentRepositoryImpl
-import com.n1.moguchi.data.implementations.TaskRepositoryImpl
+import com.n1.moguchi.data.impl.GoalRepositoryImpl
+import com.n1.moguchi.data.impl.ParentRepositoryImpl
+import com.n1.moguchi.data.impl.TaskRepositoryImpl
 import com.n1.moguchi.data.repositories.GoalRepository
 import com.n1.moguchi.data.repositories.ParentRepository
 import com.n1.moguchi.data.repositories.TaskRepository

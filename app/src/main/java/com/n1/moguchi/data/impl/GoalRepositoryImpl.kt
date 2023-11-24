@@ -1,4 +1,4 @@
-package com.n1.moguchi.data.implementations
+package com.n1.moguchi.data.impl
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -6,7 +6,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 import com.n1.moguchi.data.models.Goal
 import com.n1.moguchi.data.repositories.GoalRepository
-import java.util.UUID
 import javax.inject.Inject
 
 class GoalRepositoryImpl @Inject constructor() : GoalRepository {
@@ -16,10 +15,8 @@ class GoalRepositoryImpl @Inject constructor() : GoalRepository {
     private val goalsRef = database.getReference("goals")
 
     override fun createGoal(goal: Goal, childId: String): Goal {
-        val goalId: String = UUID.randomUUID().toString()
-        val goalsRefByChildId = goalsRef.child(goalId)
+        val goalsRefByChildId = goalsRef.child(goal.goalId!!)
         val newGoal = goal.copy(
-            goalId = goalId,
             childOwnerId = childId,
             parentOwnerId = auth.currentUser?.uid
         )

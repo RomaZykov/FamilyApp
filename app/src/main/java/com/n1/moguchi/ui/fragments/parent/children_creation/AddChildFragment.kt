@@ -1,4 +1,4 @@
-package com.n1.moguchi.ui.fragments.parent
+package com.n1.moguchi.ui.fragments.parent.children_creation
 
 import android.content.Context
 import android.os.Bundle
@@ -18,7 +18,6 @@ import com.n1.moguchi.data.models.Child
 import com.n1.moguchi.databinding.FragmentAddChildBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.adapters.ChildrenCreationRecyclerAdapter
-import com.n1.moguchi.ui.viewmodels.AddChildViewModel
 import javax.inject.Inject
 
 private const val ZERO_INDEX = 0

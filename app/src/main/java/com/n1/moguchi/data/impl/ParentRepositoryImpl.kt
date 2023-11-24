@@ -1,4 +1,4 @@
-package com.n1.moguchi.data.implementations
+package com.n1.moguchi.data.impl
 
 import android.util.Log
 import com.google.firebase.database.DataSnapshot

@@ -1,4 +1,4 @@
-package com.n1.moguchi.ui.viewmodels
+package com.n1.moguchi.ui.fragments.parent.task_creation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -37,6 +37,7 @@ class TaskCreationViewModel @Inject constructor(
 
     init {
         _taskHeight.value = counterTaskHeight
+        _tasks.value = emptyList()
     }
 
     fun createTask(task: Task, goalId: String): Task {

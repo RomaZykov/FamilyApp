@@ -4,7 +4,7 @@
     <data>
         <variable
             name="viewmodel"
-            type="com.n1.moguchi.ui.viewmodels.MainActivityViewModel" />
+            type="com.n1.moguchi.ui.activity.MainActivityViewModel" />
     </data>
 
     <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
