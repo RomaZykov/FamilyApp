@@ -16,6 +16,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.data.models.Child
+import com.n1.moguchi.data.models.Goal
 import com.n1.moguchi.databinding.FragmentGoalCreationBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.adapters.ChildrenRecyclerAdapter
@@ -27,6 +28,9 @@ class GoalCreationFragment : Fragment() {
     private var _binding: FragmentGoalCreationBinding? = null
     private val binding get() = _binding!!
     private lateinit var childrenAdapter: ChildrenRecyclerAdapter
+    private var isNextButtonPressed: Boolean? = null
+    private var goalHeight: Int = 0
+    private var childId: String? = null
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -62,13 +66,23 @@ class GoalCreationFragment : Fragment() {
             viewModel.getChildren(parentId)
             viewModel.children.observe(viewLifecycleOwner) { children ->
                 setupRecyclerView(children)
+                childId = children[childrenAdapter.selectedItem].childId
             }
         } else {
             throw Exception("User not authorized")
         }
 
+        viewModel.goalHeight.observe(viewLifecycleOwner) {
+            goalHeight = it
+        }
+
         binding.goalName.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            override fun beforeTextChanged(
+                p0: CharSequence?,
+                p1: Int,
+                p2: Int,
+                p3: Int
+            ) {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -80,6 +94,7 @@ class GoalCreationFragment : Fragment() {
                         "buttonIsEnabled",
                         bundleOf("buttonIsReadyKey" to true)
                     )
+                    viewModel.setGoalTitle(text.toString())
                 } else {
                     binding.goalName.error = "Добавьте цель"
                     parentFragmentManager.setFragmentResult(
@@ -90,16 +105,33 @@ class GoalCreationFragment : Fragment() {
             }
         })
 
-        viewModel.goalHeight.observe(viewLifecycleOwner) {
-            binding.goalIncreaseButton.setOnClickListener {
-                viewModel.increaseHeight()
+        binding.goalIncreaseButton.setOnClickListener {
+            viewModel.increaseGoalHeight()
+        }
+
+        binding.goalDecreaseButton.setOnClickListener {
+            viewModel.decreaseGoalHeight()
+        }
+
+        parentFragmentManager.setFragmentResultListener(
+            "nextButtonPressed",
+            viewLifecycleOwner
+        ) { _, bundle ->
+            isNextButtonPressed = bundle.getBoolean("buttonIsPressedKey")
+            if (isNextButtonPressed == true) {
+                viewModel.createGoal(
+                    Goal(
+                        title = binding.goalName.text.toString(),
+                        height = goalHeight
+                    ),
+                    childId!!
+                )
             }
         }
 
-        viewModel.goalHeight.observe(viewLifecycleOwner) {
-            binding.goalDecreaseButton.setOnClickListener {
-                viewModel.decreaseHeight()
-            }
+        viewModel.goalID.observe(viewLifecycleOwner) {
+            val bundle = Bundle()
+            bundle.putString(GOAL_ID_KEY, it)
         }
     }
 
@@ -114,5 +146,9 @@ class GoalCreationFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        const val GOAL_ID_KEY = "goalId"
     }
 }

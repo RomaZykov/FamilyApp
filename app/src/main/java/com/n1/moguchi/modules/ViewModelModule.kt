@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.n1.moguchi.helpers.ViewModelKey
 import com.n1.moguchi.ui.viewmodels.AddChildViewModel
 import com.n1.moguchi.ui.viewmodels.HomeViewModel
-import com.n1.moguchi.ui.viewmodels.TaskViewModel
+import com.n1.moguchi.ui.viewmodels.TaskCreationViewModel
 import com.n1.moguchi.ui.viewmodels.MainActivityViewModel
 import com.n1.moguchi.ui.viewmodels.GoalCreationViewModel
 import dagger.Binds
@@ -25,9 +25,9 @@ interface ViewModelModule {
     fun bindGoalCreationDialogViewModel(bottomSheetViewModel: GoalCreationViewModel): ViewModel
 
     @IntoMap
-    @ViewModelKey(TaskViewModel::class)
+    @ViewModelKey(TaskCreationViewModel::class)
     @Binds
-    fun bindTaskViewModel(taskViewModel: TaskViewModel): ViewModel
+    fun bindTaskViewModel(taskCreationViewModel: TaskCreationViewModel): ViewModel
 
     @IntoMap
     @ViewModelKey(MainActivityViewModel::class)

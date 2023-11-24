@@ -80,8 +80,7 @@ class GoalsRecyclerAdapter : RecyclerView.Adapter<GoalsRecyclerAdapter.CardViewH
                     val taskSmallItem =
                         LayoutInflater.from(context).inflate(R.layout.small_task_item, this, false)
                     taskSmallItem.setBackgroundColor(resources.getColor(R.color.white_opacity_90))
-                    taskSmallItem.findViewById<TextView>(R.id.task_title).text =
-                        goal.taskList[i].title
+                    taskSmallItem.findViewById<TextView>(R.id.task_title).text = goal.taskList!![i].title
                     addView(taskSmallItem, 0)
                 }
             }

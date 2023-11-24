@@ -16,17 +16,23 @@ class GoalRepositoryImpl @Inject constructor() : GoalRepository {
     private val goalsRef = database.getReference("goals")
 
     override fun createGoal(goal: Goal, childId: String): Goal {
-        if (goal.goalId == null) {
-            goal.goalId = UUID.randomUUID().toString()
-        }
-        goal.parentOwnerId = auth.currentUser?.uid
-        goalsRef.child(goal.goalId!!).setValue(goal)
-            .addOnSuccessListener {
-                // Write was successful!
-            }
-            .addOnFailureListener {
-                // Write failed
-            }
-        return goal
+        val goalId: String = UUID.randomUUID().toString()
+        val goalsRefByChildId = goalsRef.child(goalId)
+        val newGoal = goal.copy(
+            goalId = goalId,
+            childOwnerId = childId,
+            parentOwnerId = auth.currentUser?.uid
+        )
+        goalsRefByChildId.setValue(newGoal)
+        return newGoal
     }
+
+//    override suspend fun getTasks(goalId: String): List<Task> {
+//        val tasksRefByGoalId = goalsRef.child(goalId)
+//        val tasks: MutableList<Task> = mutableListOf()
+//        tasksRefByGoalId.get().await().children.map {
+//            tasks.add(it.getValue(Task::class.java)!!)
+//        }
+//        return tasks
+//    }
 }
