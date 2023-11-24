@@ -10,19 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.R
 import com.n1.moguchi.data.models.Child
 import com.n1.moguchi.databinding.ChildCreationCardBinding
-import com.n1.moguchi.databinding.CreationChildSectionFooterBinding
+import com.n1.moguchi.databinding.CreationSectionFooterBinding
 
 private const val FOOTER_ADD_CHILD_BUTTON = 1
 
 class ChildrenCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var children: MutableList<Child> = ArrayList()
-        set(value) {
-            field = value
-            if (field.size == FOOTER_ADD_CHILD_BUTTON) {
-                notifyItemChanged(0)
-            }
-        }
     var onNewChildAddClicked: (() -> Unit)? = null
     var onChildUpdate: ((Child) -> Unit)? = null
     var onChildRemoveClicked: ((Child) -> Unit)? = null
@@ -41,11 +35,11 @@ class ChildrenCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHo
 
             VIEW_TYPE_FOOTER -> {
                 val view = LayoutInflater.from(parent.context).inflate(
-                    R.layout.creation_child_section_footer,
+                    R.layout.creation_section_footer,
                     parent,
                     false
                 )
-                BottomViewHolder(view)
+                FooterViewHolder(view)
             }
 
             else -> {
@@ -68,7 +62,7 @@ class ChildrenCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHo
     ) {
         when (holder.itemViewType) {
             VIEW_TYPE_CHILD_CARD -> (holder as ChildViewHolder).bind()
-            VIEW_TYPE_FOOTER -> (holder as BottomViewHolder).bind()
+            VIEW_TYPE_FOOTER -> (holder as FooterViewHolder).bind()
             else -> throw RuntimeException("Unknown viewType: ${holder.itemViewType}")
         }
 //        else {
@@ -135,8 +129,8 @@ class ChildrenCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 
-    inner class BottomViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val binding = CreationChildSectionFooterBinding.bind(itemView)
+    inner class FooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val binding = CreationSectionFooterBinding.bind(itemView)
         var context: Context = itemView.context
 
         fun bind() {

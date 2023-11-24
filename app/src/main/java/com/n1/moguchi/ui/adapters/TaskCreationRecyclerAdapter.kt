@@ -1,0 +1,121 @@
+package com.n1.moguchi.ui.adapters
+
+import android.content.Context
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import com.n1.moguchi.R
+import com.n1.moguchi.data.models.Task
+import com.n1.moguchi.databinding.CreationSectionFooterBinding
+import com.n1.moguchi.databinding.TaskCreationCardBinding
+
+private const val FOOTER_ADD_TASK_BUTTON = 1
+
+class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    var tasksCardList: MutableList<Task> = ArrayList()
+    var onTaskSettingsClicked: (() -> Unit)? = null
+    var onNewTaskAddClicked: (() -> Unit)? = null
+    var onCardsStatusUpdate: ((Boolean) -> Unit)? = null
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            VIEW_TYPE_TASK_CARD -> {
+                val view = LayoutInflater.from(parent.context).inflate(
+                    R.layout.task_creation_card,
+                    parent,
+                    false
+                )
+                TaskCardViewHolder (view)
+            }
+
+            VIEW_TYPE_FOOTER -> {
+                val view = LayoutInflater.from(parent.context).inflate(
+                    R.layout.creation_section_footer,
+                    parent,
+                    false
+                )
+                FooterViewHolder(view)
+            }
+
+            else -> {
+                TODO()
+            }
+        }
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (holder.itemViewType) {
+            VIEW_TYPE_TASK_CARD -> (holder as TaskCardViewHolder).bind(tasksCardList[position], position)
+            VIEW_TYPE_FOOTER -> (holder as FooterViewHolder).bind()
+            else -> throw RuntimeException("Unknown viewType: ${holder.itemViewType}")
+        }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (position == tasksCardList.size) {
+            VIEW_TYPE_FOOTER
+        } else {
+            VIEW_TYPE_TASK_CARD
+        }
+    }
+
+    override fun getItemCount(): Int {
+        return tasksCardList.size + FOOTER_ADD_TASK_BUTTON
+    }
+
+    inner class TaskCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val binding = TaskCreationCardBinding.bind(itemView)
+
+        fun bind(task: Task, position: Int) {
+            binding.deleteTaskButton.setOnClickListener {
+                tasksCardList.removeAt(position)
+                notifyItemRemoved(position)
+            }
+            binding.taskSettingsButton.setOnClickListener {
+                onTaskSettingsClicked?.invoke()
+            }
+        }
+    }
+
+    inner class FooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val binding = CreationSectionFooterBinding.bind(itemView)
+        var context: Context = itemView.context
+
+        init {
+            binding.addChildButton.text = "Добавить задачу"
+        }
+
+        fun bind() {
+            if (tasksCardList.all {
+                    it.title.isNotEmpty() && tasksCardList.size == itemCount - FOOTER_ADD_TASK_BUTTON
+                }) {
+                onCardsStatusUpdate?.invoke(true)
+                with(binding.addChildButton) {
+                    isEnabled = true
+                    setTextColor(context.getColorStateList(R.color.black))
+                    iconTint = context.getColorStateList(R.color.black)
+                    backgroundTintList = context.getColorStateList(R.color.white)
+                }
+                itemView.setOnClickListener {
+                    onNewTaskAddClicked?.invoke()
+                }
+            } else {
+                onCardsStatusUpdate?.invoke(false)
+                with(binding.addChildButton) {
+                    isEnabled = false
+                    backgroundTintList = context.getColorStateList(R.color.white_opacity_70)
+                    setTextColor(context.getColorStateList(R.color.black_opacity_70))
+                    iconTint = context.getColorStateList(R.color.black_opacity_70)
+                }
+            }
+        }
+    }
+
+    companion object {
+        const val MAX_POOL_SIZE = 0
+        const val VIEW_TYPE_TASK_CARD = 100
+        const val VIEW_TYPE_FOOTER = 101
+    }
+}
