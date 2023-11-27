@@ -6,7 +6,7 @@ data class Task(
     var goalOwnerId: String? = null,
     var childOwnerId: String? = null,
     val isTaskCompleted: Boolean = false,
-    val height: Int = 1
+    var height: Int = 1
 ) {
     fun toMap(): Map<String, Any?> {
         return mapOf(

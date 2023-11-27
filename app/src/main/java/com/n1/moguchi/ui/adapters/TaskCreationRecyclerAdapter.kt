@@ -19,10 +19,10 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
     var tasksCardList: MutableList<Task> = ArrayList()
     var onTaskSettingsClicked: (() -> Unit)? = null
     var onTaskUpdate: ((Task) -> Unit)? = null
-    var onTaskHeightUp: (() -> Unit)? = null
-    var onTaskHeightDown: (() -> Unit)? = null
+    var onTaskHeightUp: ((Task) -> Unit)? = null
+    var onTaskHeightDown: ((Task) -> Unit)? = null
     var onNewTaskAddClicked: (() -> Unit)? = null
-    var onTaskRemoveClicked: ((Task) -> Unit)? = null
+    var onTaskDeleteClicked: ((Task) -> Unit)? = null
     var onCardsStatusUpdate: ((Boolean) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -54,7 +54,6 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder.itemViewType) {
             VIEW_TYPE_TASK_CARD -> (holder as TaskCardViewHolder).bind(tasksCardList[position])
-
             VIEW_TYPE_FOOTER -> (holder as FooterViewHolder).bind()
             else -> throw RuntimeException("Unknown viewType: ${holder.itemViewType}")
         }
@@ -95,7 +94,7 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             })
             binding.deleteTaskButton.setOnClickListener {
-                onTaskRemoveClicked?.invoke(task)
+                onTaskDeleteClicked?.invoke(task)
                 tasksCardList.removeAt(adapterPosition)
                 notifyItemRemoved(adapterPosition)
             }
@@ -103,10 +102,18 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
                 onTaskSettingsClicked?.invoke()
             }
             binding.increaseButton.setOnClickListener {
-                onTaskHeightUp?.invoke()
+                if (task.height < MAX_TASK_HEIGHT) {
+                    binding.taskHeight.text = (++task.height).toString()
+                    onTaskHeightUp?.invoke(task)
+                    onTaskUpdate?.invoke(task)
+                }
             }
             binding.decreaseButton.setOnClickListener {
-                onTaskHeightDown?.invoke()
+                if (task.height > MIN_TASK_HEIGHT) {
+                    binding.taskHeight.text = (--task.height).toString()
+                    onTaskHeightDown?.invoke(task)
+                    onTaskUpdate?.invoke(task)
+                }
             }
         }
     }
@@ -149,5 +156,8 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
         const val MAX_POOL_SIZE = 0
         const val VIEW_TYPE_TASK_CARD = 100
         const val VIEW_TYPE_FOOTER = 101
+
+        private const val MIN_TASK_HEIGHT = 1
+        private const val MAX_TASK_HEIGHT = 3
     }
 }

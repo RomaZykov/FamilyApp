@@ -12,22 +12,23 @@ class TaskRepositoryImpl @Inject constructor() : TaskRepository {
     private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
     private val tasksRef = database.getReference("tasks")
 
-    override suspend fun createTask(task: Task, goalId: String): Task {
+    override suspend fun createTask(task: Task, goalID: String): Task {
         val taskId: String = UUID.randomUUID().toString()
         val taskRefByGoalId = tasksRef.child(taskId)
         val newTask = task.copy(
             taskId = taskId,
-            goalOwnerId = goalId
+            goalOwnerId = goalID
         )
         taskRefByGoalId.setValue(newTask)
         return newTask
     }
 
-    override fun deleteTask(taskId: String) {
-        TODO("Not yet implemented")
+    override suspend fun deleteTask(task: Task) {
+        val taskRefById = tasksRef.child(task.taskId)
+        taskRefById.removeValue()
     }
 
-    override fun markTaskCompleted(taskId: String, isCompleted: Boolean) {
+    override fun markTaskCompleted(taskID: String, isCompleted: Boolean) {
         TODO("Not yet implemented")
     }
 
@@ -41,8 +42,8 @@ class TaskRepositoryImpl @Inject constructor() : TaskRepository {
         return updatedTask
     }
 
-    override suspend fun getTasks(goalId: String): List<Task> {
-        val tasksRefByGoalId = tasksRef.child(goalId)
+    override suspend fun getTasks(goalID: String): List<Task> {
+        val tasksRefByGoalId = tasksRef.child(goalID)
         val tasks: MutableList<Task> = mutableListOf()
         tasksRefByGoalId.get().await().children.map {
             tasks.add(it.getValue(Task::class.java)!!)

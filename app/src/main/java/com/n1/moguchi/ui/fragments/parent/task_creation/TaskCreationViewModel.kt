@@ -13,8 +13,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
-private const val MAX_TASK_HEIGHT = 3
-private const val MIN_TASK_HEIGHT = 1
+private const val MIN_HEIGHT = 1
 
 class TaskCreationViewModel @Inject constructor(
     private val parentRepository: ParentRepository,
@@ -37,17 +36,19 @@ class TaskCreationViewModel @Inject constructor(
     private val _taskName = MutableLiveData<String>()
     val taskName: LiveData<String> = _taskName
 
-    private var counterTaskHeight = MIN_TASK_HEIGHT
+    private var counterTaskHeight = MIN_HEIGHT
 
     init {
         _taskHeightTotal.value = counterTaskHeight
     }
 
     fun createTask(task: Task, goalId: String): Task {
-        val result = runBlocking {
+        val newTask = runBlocking {
             taskRepository.createTask(task, goalId)
         }
-        return result
+        _taskHeightTotal.value?.plus(newTask.height)
+        _tasks.value = (_tasks.value ?: emptyList()) + newTask
+        return newTask
     }
 
     fun setupMaxPointsOfGoal(goalId: String) {
@@ -56,13 +57,14 @@ class TaskCreationViewModel @Inject constructor(
         }
     }
 
-//    fun removeTask(parentId: String, childId: String) {
-//        _children.value =
-//            _children.value?.dropWhile { it.childId == childId && it.parentOwnerId == parentId }
-//        viewModelScope.launch {
-//            parentRepository.deleteChildProfile(parentId, childId)
-//        }
-//    }
+    fun deleteTask(task: Task) {
+        viewModelScope.launch {
+            taskRepository.deleteTask(task)
+            _tasks.value =
+                _tasks.value?.dropWhile { it.taskId == task.taskId }
+            _taskHeightTotal.value?.minus(task.height)
+        }
+    }
 
     fun getTasksByGoalId(goalId: String) {
         viewModelScope.launch {
@@ -71,16 +73,19 @@ class TaskCreationViewModel @Inject constructor(
         }
     }
 
-    fun increaseTaskHeight() {
-        if (counterTaskHeight < MAX_TASK_HEIGHT) {
-            _taskHeightTotal.value = ++counterTaskHeight
-//            taskRepository.
+    fun updateTask(task: Task) {
+        viewModelScope.launch {
+            taskRepository.updateTask(task)
         }
     }
 
+    fun increaseTaskHeight() {
+        _taskHeightTotal.value = ++counterTaskHeight
+//        taskRepository.updateTask()
+    }
+
     fun decreaseTaskHeight() {
-        if (counterTaskHeight != MIN_TASK_HEIGHT) {
-            _taskHeightTotal.value = --counterTaskHeight
-        }
+        _taskHeightTotal.value = --counterTaskHeight
+//        taskRepository.updateTask()
     }
 }

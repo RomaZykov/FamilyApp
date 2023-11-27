@@ -19,18 +19,18 @@ class AddChildViewModel @Inject constructor(private val parentRepository: Parent
         _children.value = emptyList()
     }
 
+    fun createNewChild(parentId: String, child: Child): Child {
+        val newChild = parentRepository.getAndSaveChildToDb(parentId, child)
+        _children.value = (_children.value ?: emptyList()) + newChild
+        return newChild
+    }
+
     fun deleteChildProfile(parentId: String, childId: String) {
         _children.value =
             _children.value?.dropWhile { it.childId == childId && it.parentOwnerId == parentId }
         viewModelScope.launch {
             parentRepository.deleteChildProfile(parentId, childId)
         }
-    }
-
-    fun createNewChild(parentId: String, child: Child): Child {
-        val newChild = parentRepository.getAndSaveChildToDb(parentId, child)
-        _children.value = (_children.value ?: emptyList()) + newChild
-        return newChild
     }
 
     fun onChildUpdate(parentId: String, child: Child): Child {

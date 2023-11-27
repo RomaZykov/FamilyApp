@@ -88,16 +88,25 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
                         )
                     )
                     taskCreationRecyclerAdapter.notifyItemInserted(it.size)
-                    taskCreationRecyclerAdapter.notifyItemChanged(it.size + 1)
+                    taskCreationRecyclerAdapter.notifyItemChanged(taskCreationRecyclerAdapter.itemCount - 1)
                 }
             }
 
-            taskCreationRecyclerAdapter.onTaskSettingsClicked = {
-                showTaskSettingsBottomSheet()
+            taskCreationRecyclerAdapter.onTaskUpdate = { updatedTask ->
+                viewModel.updateTask(updatedTask)
             }
 
-            taskCreationRecyclerAdapter.onTaskRemoveClicked = {
-//                viewModel.
+            taskCreationRecyclerAdapter.onTaskDeleteClicked = { task ->
+                viewModel.deleteTask(task)
+            }
+
+            taskCreationRecyclerAdapter.onTaskHeightUp = { updatedTask ->
+                viewModel.increaseTaskHeight()
+                viewModel.updateTask(updatedTask)
+            }
+            taskCreationRecyclerAdapter.onTaskHeightDown = { updatedTask ->
+                viewModel.decreaseTaskHeight()
+                viewModel.updateTask(updatedTask)
             }
 
             taskCreationRecyclerAdapter.onCardsStatusUpdate = { isAllTasksCompleted ->
@@ -108,14 +117,10 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
                 )
             }
 
-            taskCreationRecyclerAdapter.onTaskHeightUp = {
-                viewModel.increaseTaskHeight()
-            }
-            taskCreationRecyclerAdapter.onTaskHeightUp = {
-                viewModel.decreaseTaskHeight()
+            taskCreationRecyclerAdapter.onTaskSettingsClicked = {
+                showTaskSettingsBottomSheet()
             }
         }
-
     }
 
     override fun onDestroyView() {
