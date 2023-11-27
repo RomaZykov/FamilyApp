@@ -1,11 +1,13 @@
 package com.n1.moguchi.data.impl
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 import com.n1.moguchi.data.models.Goal
 import com.n1.moguchi.data.repositories.GoalRepository
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class GoalRepositoryImpl @Inject constructor() : GoalRepository {
@@ -22,6 +24,12 @@ class GoalRepositoryImpl @Inject constructor() : GoalRepository {
         )
         goalsRefByChildId.setValue(newGoal)
         return newGoal
+    }
+
+    override suspend fun getGoal(goalID: String): Goal {
+        val goal = goalsRef.child(goalID).get().await().getValue(Goal::class.java)
+        Log.d("GoalRepository", "Goal = ${goalsRef.child(goalID).get().await().getValue(Goal::class.java)}")
+        return goal!!
     }
 
 //    override suspend fun getTasks(goalId: String): List<Task> {

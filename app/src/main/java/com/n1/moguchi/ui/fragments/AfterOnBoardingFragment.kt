@@ -1,7 +1,6 @@
 package com.n1.moguchi.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -85,7 +84,6 @@ class AfterOnBoardingFragment : Fragment() {
                             "nextButtonPressed",
                             bundleOf("buttonIsPressedKey" to true)
                         )
-                        Log.d("AfterOnBoardingFragment", "Bundle = ${bundle}")
                     }
 
                     fragments[2] -> {

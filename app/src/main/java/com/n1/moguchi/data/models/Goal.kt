@@ -5,7 +5,7 @@ data class Goal(
     var parentOwnerId: String? = null,
     var childOwnerId: String? = null,
     val taskList: List<Task>? = null,
-    val title: String = "Новая цель",
+    val title: String = "",
     val height: Int = 0,
     val isGoalCompleted: Boolean = false
 )
