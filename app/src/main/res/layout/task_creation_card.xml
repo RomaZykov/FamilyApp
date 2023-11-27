@@ -1,24 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
-    <data>
-        <variable
-            name="viewmodel"
-            type="com.n1.moguchi.ui.activity.MainActivityViewModel" />
-    </data>
-
     <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/task_material_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp"
         android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="8dp"
         android:backgroundTint="@color/ultra_soft_orange"
-        android:checkable="true"
-        android:clickable="true"
-        android:focusable="true"
         app:strokeWidth="0dp"
         card_view:cardCornerRadius="15dp">
 
@@ -44,7 +35,6 @@
                     android:textSize="14sp" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/task_name_edit_text"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -61,6 +51,7 @@
                     app:hintTextColor="@color/black">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/task_name_edit_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Например, помыть посуду"
@@ -110,6 +101,7 @@
                         android:src="@drawable/baseline_horizontal_rule_24" />
 
                     <TextView
+                        android:id="@+id/task_height"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_marginHorizontal="8dp"
@@ -117,7 +109,6 @@
                         android:backgroundTint="@color/white"
                         android:fontFamily="@font/onest_regular"
                         android:gravity="center"
-                        android:text="1"
                         android:textColor="@color/black" />
 
                     <ImageButton

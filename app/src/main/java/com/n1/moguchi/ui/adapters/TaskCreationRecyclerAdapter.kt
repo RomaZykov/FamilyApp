@@ -1,6 +1,8 @@
 package com.n1.moguchi.ui.adapters
 
 import android.content.Context
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +18,11 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
 
     var tasksCardList: MutableList<Task> = ArrayList()
     var onTaskSettingsClicked: (() -> Unit)? = null
+    var onTaskUpdate: ((Task) -> Unit)? = null
+    var onTaskHeightUp: (() -> Unit)? = null
+    var onTaskHeightDown: (() -> Unit)? = null
     var onNewTaskAddClicked: (() -> Unit)? = null
+    var onTaskRemoveClicked: ((Task) -> Unit)? = null
     var onCardsStatusUpdate: ((Boolean) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -27,7 +33,7 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
                     parent,
                     false
                 )
-                TaskCardViewHolder (view)
+                TaskCardViewHolder(view)
             }
 
             VIEW_TYPE_FOOTER -> {
@@ -47,7 +53,8 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder.itemViewType) {
-            VIEW_TYPE_TASK_CARD -> (holder as TaskCardViewHolder).bind(tasksCardList[position], position)
+            VIEW_TYPE_TASK_CARD -> (holder as TaskCardViewHolder).bind(tasksCardList[position])
+
             VIEW_TYPE_FOOTER -> (holder as FooterViewHolder).bind()
             else -> throw RuntimeException("Unknown viewType: ${holder.itemViewType}")
         }
@@ -68,13 +75,38 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
     inner class TaskCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = TaskCreationCardBinding.bind(itemView)
 
-        fun bind(task: Task, position: Int) {
+        fun bind(task: Task) {
+            binding.taskHeight.text = task.height.toString()
+            binding.taskNameEditText.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                }
+
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                }
+
+                override fun afterTextChanged(taskName: Editable?) {
+                    tasksCardList[adapterPosition].title = taskName.toString()
+                    if (taskName.toString().isEmpty()) {
+                        binding.taskNameEditText.error = "Выполните все условия"
+                    } else {
+                        onTaskUpdate?.invoke(task)
+                    }
+                    notifyItemChanged(itemCount - FOOTER_ADD_TASK_BUTTON)
+                }
+            })
             binding.deleteTaskButton.setOnClickListener {
-                tasksCardList.removeAt(position)
-                notifyItemRemoved(position)
+                onTaskRemoveClicked?.invoke(task)
+                tasksCardList.removeAt(adapterPosition)
+                notifyItemRemoved(adapterPosition)
             }
             binding.taskSettingsButton.setOnClickListener {
                 onTaskSettingsClicked?.invoke()
+            }
+            binding.increaseButton.setOnClickListener {
+                onTaskHeightUp?.invoke()
+            }
+            binding.decreaseButton.setOnClickListener {
+                onTaskHeightDown?.invoke()
             }
         }
     }

@@ -12,7 +12,7 @@ class TaskRepositoryImpl @Inject constructor() : TaskRepository {
     private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
     private val tasksRef = database.getReference("tasks")
 
-    override fun createTask(task: Task, goalId: String): Task {
+    override suspend fun createTask(task: Task, goalId: String): Task {
         val taskId: String = UUID.randomUUID().toString()
         val taskRefByGoalId = tasksRef.child(taskId)
         val newTask = task.copy(
@@ -29,6 +29,16 @@ class TaskRepositoryImpl @Inject constructor() : TaskRepository {
 
     override fun markTaskCompleted(taskId: String, isCompleted: Boolean) {
         TODO("Not yet implemented")
+    }
+
+    override suspend fun updateTask(task: Task): Task {
+        val taskRefByGoalId = tasksRef.child(task.taskId)
+        val updatedTask = task.copy(
+            height = task.height
+        )
+        val taskValues = updatedTask.toMap()
+        taskRefByGoalId.updateChildren(taskValues)
+        return updatedTask
     }
 
     override suspend fun getTasks(goalId: String): List<Task> {

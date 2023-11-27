@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.n1.moguchi.ui.fragments.parent.task_creation.TaskCreationViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/task_creation"
@@ -51,12 +59,33 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginEnd="8dp"
                     android:layout_weight="1"
                     android:fontFamily="@font/onest_regular"
                     android:gravity="center|end"
-                    android:text="0 / 10"
+                    android:text="@{viewModel.taskHeightTotal.toString()}"
+                    android:textSize="12sp"
+                    tools:text="5" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_weight="0"
+                    android:fontFamily="@font/onest_regular"
+                    android:gravity="center"
+                    android:text="/"
                     android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="0"
+                    android:fontFamily="@font/onest_regular"
+                    android:gravity="center|end"
+                    android:text="@{viewModel.goalHeight.toString()}"
+                    android:textSize="12sp"
+                    tools:text="10" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -71,7 +100,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
-                android:progress="25"
+                android:progress="@{viewModel.taskHeightTotal.intValue()}"
+                android:max="@{viewModel.goalHeight.intValue()}"
                 android:progressTint="@color/orange" />
         </LinearLayout>
 

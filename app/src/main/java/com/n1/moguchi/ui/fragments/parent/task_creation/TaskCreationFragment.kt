@@ -5,12 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.n1.moguchi.MoguchiBaseApplication
-import com.n1.moguchi.R
 import com.n1.moguchi.data.models.Task
 import com.n1.moguchi.databinding.FragmentTaskCreationBinding
 import com.n1.moguchi.ui.ViewModelFactory
@@ -46,15 +46,18 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentTaskCreationBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val currentGoalID = requireParentFragment().arguments?.getString(GoalCreationFragment.GOAL_ID_KEY)
+        val currentGoalID =
+            requireParentFragment().arguments?.getString(GoalCreationFragment.GOAL_ID_KEY)
 
-        val recyclerView: RecyclerView = view.findViewById(R.id.rv_card_list)
+        val recyclerView: RecyclerView = binding.rvCardList
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         taskCreationRecyclerAdapter = TaskCreationRecyclerAdapter()
         recyclerView.adapter = taskCreationRecyclerAdapter
@@ -63,6 +66,7 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
             TaskCreationRecyclerAdapter.MAX_POOL_SIZE
         )
         if (currentGoalID != null) {
+            viewModel.setupMaxPointsOfGoal(currentGoalID)
             viewModel.getTasksByGoalId(currentGoalID)
         }
         viewModel.tasks.observe(viewLifecycleOwner) {
@@ -77,15 +81,41 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
 
             taskCreationRecyclerAdapter.onNewTaskAddClicked = {
                 if (currentGoalID != null) {
-                    taskCreationRecyclerAdapter.tasksCardList.add(viewModel.createTask(Task(), currentGoalID))
-                    taskCreationRecyclerAdapter.notifyItemInserted(taskCreationRecyclerAdapter.itemCount - 1)
+                    taskCreationRecyclerAdapter.tasksCardList.add(
+                        viewModel.createTask(
+                            Task(),
+                            currentGoalID
+                        )
+                    )
+                    taskCreationRecyclerAdapter.notifyItemInserted(it.size)
+                    taskCreationRecyclerAdapter.notifyItemChanged(it.size + 1)
                 }
             }
 
             taskCreationRecyclerAdapter.onTaskSettingsClicked = {
                 showTaskSettingsBottomSheet()
             }
+
+            taskCreationRecyclerAdapter.onTaskRemoveClicked = {
+//                viewModel.
+            }
+
+            taskCreationRecyclerAdapter.onCardsStatusUpdate = { isAllTasksCompleted ->
+                parentFragmentManager.clearFragmentResult("buttonIsEnabled")
+                parentFragmentManager.setFragmentResult(
+                    "buttonIsEnabled",
+                    bundleOf("buttonIsReadyKey" to isAllTasksCompleted)
+                )
+            }
+
+            taskCreationRecyclerAdapter.onTaskHeightUp = {
+                viewModel.increaseTaskHeight()
+            }
+            taskCreationRecyclerAdapter.onTaskHeightUp = {
+                viewModel.decreaseTaskHeight()
+            }
         }
+
     }
 
     override fun onDestroyView() {
