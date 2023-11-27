@@ -5,5 +5,6 @@ data class Parent(
     val userName: String = "",
     val email: String,
     val childrenList: List<Child>? = null,
-    val isParentMode: Boolean = true
+    val isParentMode: Boolean = true,
+    val parentModePassword: String? = null
 )
