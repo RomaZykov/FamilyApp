@@ -11,8 +11,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.ActivityMainBinding
-import com.n1.moguchi.ui.fragments.parent.PrimaryBottomSheetFragment
-import com.n1.moguchi.ui.fragments.parent.SwitchToChildBottomSheetFragment
+import com.n1.moguchi.ui.fragment.parent.PrimaryBottomSheetFragment
+import com.n1.moguchi.ui.fragment.parent.SwitchToChildBottomSheetFragment
 
 class MainActivity : AppCompatActivity() {
 

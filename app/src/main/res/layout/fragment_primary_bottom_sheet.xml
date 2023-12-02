@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.n1.moguchi.ui.fragments.parent.goal_creation.GoalCreationViewModel" />
+            type="com.n1.moguchi.ui.fragment.parent.goal_creation.GoalCreationViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
