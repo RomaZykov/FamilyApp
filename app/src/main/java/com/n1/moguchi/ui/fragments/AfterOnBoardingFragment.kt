@@ -33,6 +33,10 @@ class AfterOnBoardingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val navHostFragment = (activity as MainActivity)
+            .supportFragmentManager
+            .findFragmentById(R.id.fragment_container_view) as NavHostFragment
+        val navController = navHostFragment.navController
 
         val topAppBar = requireActivity().findViewById<MaterialToolbar>(R.id.top_common_app_bar)
         val fragments = listOf(
@@ -61,63 +65,23 @@ class AfterOnBoardingFragment : Fragment() {
             binding.goNextButton.setOnClickListener {
                 when (currentFragmentInContainer) {
                     fragments[0] -> {
-                        childFragmentManager.beginTransaction()
-                            .remove(currentFragmentInContainer)
-                            .replace(
-                                R.id.after_onboarding_fragment_container_view,
-                                fragments[1]
-                            )
-                            .addToBackStack(null)
-                            .commit()
+                        moveToFragment(currentFragmentInContainer, fragments[1])
                     }
 
                     fragments[1] -> {
-                        childFragmentManager.beginTransaction()
-                            .remove(currentFragmentInContainer)
-                            .replace(
-                                R.id.after_onboarding_fragment_container_view,
-                                fragments[2]
-                            )
-                            .addToBackStack(null)
-                            .commit()
-                        childFragmentManager.setFragmentResult(
-                            "nextButtonPressed",
-                            bundleOf("buttonIsPressedKey" to true)
-                        )
+                        checkButtonPressed()
+                        moveToFragment(currentFragmentInContainer, fragments[2])
                     }
 
                     fragments[2] -> {
-                        childFragmentManager.beginTransaction()
-                            .remove(currentFragmentInContainer)
-                            .replace(
-                                R.id.after_onboarding_fragment_container_view,
-                                fragments[3]
-                            )
-                            .addToBackStack(null)
-                            .commit()
+                        moveToFragment(currentFragmentInContainer, fragments[3])
                     }
 
                     fragments[3] -> {
-                        childFragmentManager.setFragmentResult(
-                            "nextButtonPressed",
-                            bundleOf("buttonIsPressedKey" to true)
-                        )
-                        val navHostFragment = (activity as MainActivity)
-                            .supportFragmentManager
-                            .findFragmentById(R.id.fragment_container_view) as NavHostFragment
-                        val navController = navHostFragment.navController
+                        checkButtonPressed()
                         if (GoalCreationFragment.selectedChildIndex < GoalCreationFragment.childrenSize) {
-                            // If: return to GoalCreationFragment and continue set goal/task/password
-                            childFragmentManager.beginTransaction()
-                                .remove(currentFragmentInContainer)
-                                .replace(
-                                    R.id.after_onboarding_fragment_container_view,
-                                    fragments[1]
-                                )
-                                .addToBackStack(null)
-                                .commit()
+                            moveToFragment(currentFragmentInContainer, fragments[1])
                         } else {
-                            // Else: parent set goal/task/password for all children
                             navController.navigate(R.id.action_afterOnBoardingFragment_to_parentHomeFragment)
                         }
                     }
@@ -126,6 +90,32 @@ class AfterOnBoardingFragment : Fragment() {
                 changeButton(isButtonEnabled)
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun checkButtonPressed() {
+        childFragmentManager.setFragmentResult(
+            "nextButtonPressed",
+            bundleOf("buttonIsPressedKey" to true)
+        )
+    }
+
+    private fun moveToFragment(
+        currentFragmentInContainer: Fragment,
+        fragment: Fragment
+    ) {
+        childFragmentManager.beginTransaction()
+            .remove(currentFragmentInContainer)
+            .replace(
+                R.id.after_onboarding_fragment_container_view,
+                fragment
+            )
+            .addToBackStack(null)
+            .commit()
     }
 
     private fun changeButton(isButtonEnabled: Boolean?) {
@@ -148,10 +138,5 @@ class AfterOnBoardingFragment : Fragment() {
 
             else -> throw NullPointerException("isButtonEnabled equals null")
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

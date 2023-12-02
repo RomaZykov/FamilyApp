@@ -84,9 +84,9 @@ class PasswordFragment : Fragment() {
             isNextButtonPressed = bundle.getBoolean("buttonIsPressedKey")
             if (isNextButtonPressed == true) {
                 GoalCreationFragment.selectedChildIndex++
-                val currentChildID = requireParentFragment().arguments?.getString(GoalCreationFragment.CHILD_ID_KEY)
                 val password = binding.passwordForChildEditText.text.toString().toInt()
-                Log.d("CommonFragment", "CurrentChildID = $currentChildID, selectedChildIndex = ${GoalCreationFragment.selectedChildIndex}")
+                val currentChildID =
+                    requireParentFragment().arguments?.getString(GoalCreationFragment.CHILD_ID_KEY)
                 viewModel.setPassword(password, currentChildID!!)
             }
         }
