@@ -16,11 +16,10 @@ import com.n1.moguchi.data.repositories.ParentRepository
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-
 class ParentRepositoryImpl @Inject constructor() : ParentRepository {
 
-    private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
     private val auth: FirebaseAuth = Firebase.auth
+    private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
     private val childrenRef: DatabaseReference = database.getReference("children")
     private val parentsRef: DatabaseReference = database.getReference("parents")
 
@@ -44,7 +43,6 @@ class ParentRepositoryImpl @Inject constructor() : ParentRepository {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
             }
         }
         childRefByParentId.addListenerForSingleValueEvent(childListener)
@@ -86,7 +84,7 @@ class ParentRepositoryImpl @Inject constructor() : ParentRepository {
         childrenRef.child(parentId).child(childId).updateChildren(childValues!!)
 
         val specificParent = parentsRef.child(parentId).get().await().getValue(Parent::class.java)
-        specificParent?.passwordForChild = password
+        specificParent?.childrenPasswordsMap?.put(password, specificChild)
         val updatedParent = specificParent?.toMap()
         val parentValues = updatedParent?.toMap()
         parentsRef.child(parentId).updateChildren(parentValues!!)

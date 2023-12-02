@@ -3,10 +3,10 @@ package com.n1.moguchi.data.models
 data class Child(
     val childId: String? = null,
     val parentOwnerId: String? = null,
-    var childName: String? = "",
+    var childName: String? = null,
     var imageResourceId: Int? = null,
-    var passwordFromParent: Int? = null,
-    val isChildMode: Boolean = false
+    var passwordFromParent: Int = 0,
+    val childMode: Boolean = false
 ) {
     fun toMap(): Map<String, Any?> {
         return mapOf(
@@ -14,8 +14,8 @@ data class Child(
             "parentOwnerId" to parentOwnerId,
             "childName" to childName,
             "imageResourceId" to imageResourceId,
-            "password" to passwordFromParent,
-            "isChildMode" to isChildMode
+            "passwordFromParent" to passwordFromParent,
+            "childMode" to childMode
         )
     }
 }
