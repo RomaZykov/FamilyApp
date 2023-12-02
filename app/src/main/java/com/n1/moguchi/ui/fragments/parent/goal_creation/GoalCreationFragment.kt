@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +27,7 @@ class GoalCreationFragment : Fragment() {
 
     private var _binding: FragmentGoalCreationBinding? = null
     private val binding get() = _binding!!
+
     private lateinit var childrenAdapter: ChildrenRecyclerAdapter
     private var isNextButtonPressed: Boolean? = null
     private var goalHeight: Int = 0
@@ -66,8 +66,12 @@ class GoalCreationFragment : Fragment() {
         if (parentId != null) {
             viewModel.getChildren(parentId)
             viewModel.children.observe(viewLifecycleOwner) { children ->
-                setupRecyclerView(children)
-                childId = children[childrenAdapter.selectedItem].childId
+                childrenSize = children.size
+                if (selectedChildIndex < children.size) {
+                    setupRecyclerView(children, selectedChildIndex)
+                }
+                childId = children[selectedChildIndex].childId
+                bundleOf(CHILD_ID_KEY to childId)
             }
         } else {
             throw Exception("User not authorized")
@@ -78,26 +82,22 @@ class GoalCreationFragment : Fragment() {
         }
 
         binding.goalName.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(
-                p0: CharSequence?,
-                p1: Int,
-                p2: Int,
-                p3: Int
-            ) {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             }
 
             override fun afterTextChanged(text: Editable?) {
-                if (text.toString().isNotEmpty()) {
+                val regex = "^[a-zA-Zа-яА-Я0-9 ]+$".toRegex()
+                if (text.toString().isNotBlank() && text.toString().matches(regex)) {
                     parentFragmentManager.setFragmentResult(
                         "buttonIsEnabled",
                         bundleOf("buttonIsReadyKey" to true)
                     )
                     viewModel.setGoalTitle(text.toString())
                 } else {
-                    binding.goalName.error = "Добавьте цель"
+                    binding.goalName.error = "Присутствуют недопустимые символы либо пусто"
                     parentFragmentManager.setFragmentResult(
                         "buttonIsEnabled",
                         bundleOf("buttonIsReadyKey" to false)
@@ -121,10 +121,9 @@ class GoalCreationFragment : Fragment() {
             isNextButtonPressed = bundle.getBoolean("buttonIsPressedKey")
             if (isNextButtonPressed == true) {
                 val goalId: String = UUID.randomUUID().toString()
-                parentFragment?.arguments?.putString(GOAL_ID_KEY, goalId)
+                parentFragment?.arguments?.putString(GOAL_ID_KEY, goalId) // TODO -
                 arguments?.putString(GOAL_ID_KEY, goalId)
-                bundle.putString(GOAL_ID_KEY, goalId)
-                Log.d("GoalCreationFragment", "Bundle = ${bundle}")
+                Bundle().putString(GOAL_ID_KEY, goalId)
                 viewModel.createGoal(
                     Goal(
                         goalId = goalId,
@@ -137,20 +136,23 @@ class GoalCreationFragment : Fragment() {
         }
     }
 
-    private fun setupRecyclerView(children: List<Child>) {
-        val recyclerView: RecyclerView = binding.rvChildrenList
-        recyclerView.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        childrenAdapter = ChildrenRecyclerAdapter(children)
-        recyclerView.adapter = childrenAdapter
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
+    private fun setupRecyclerView(children: List<Child>, selectedChildIndex: Int) {
+        val recyclerView: RecyclerView = binding.rvChildrenList
+        recyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        childrenAdapter = ChildrenRecyclerAdapter(children, selectedChildIndex)
+        recyclerView.adapter = childrenAdapter
+    }
+
     companion object {
-        const val GOAL_ID_KEY = "goalID"
+        var selectedChildIndex = 0
+        var childrenSize = 0
+        const val GOAL_ID_KEY = "goalIDKey"
+        const val CHILD_ID_KEY = "childIDKey"
     }
 }
