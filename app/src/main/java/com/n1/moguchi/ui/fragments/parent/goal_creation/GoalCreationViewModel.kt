@@ -43,13 +43,6 @@ class GoalCreationViewModel @Inject constructor(
         _goalHeight.value = counterGoalHeight
     }
 
-    fun getChildren(parentId: String) {
-        viewModelScope.launch {
-            val children: Map<String, Child> = parentRepository.getChildren(parentId)
-            _children.value = children.values.toList()
-        }
-    }
-
 //    fun getTasksByGoalId(goalId: String) {
 //        viewModelScope.launch {
 //            val tasks: List<Task> = taskRepository.getTasks(goalId)
@@ -75,5 +68,12 @@ class GoalCreationViewModel @Inject constructor(
 
     fun setGoalTitle(title: String) {
         _goalName.value = title
+    }
+
+    fun getChildren(parentId: String) {
+        viewModelScope.launch {
+            val children: Map<String, Child> = parentRepository.getChildren(parentId)
+            _children.value = children.values.toList()
+        }
     }
 }

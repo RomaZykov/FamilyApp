@@ -28,7 +28,6 @@ class GoalRepositoryImpl @Inject constructor() : GoalRepository {
 
     override suspend fun getGoal(goalID: String): Goal {
         val goal = goalsRef.child(goalID).get().await().getValue(Goal::class.java)
-        Log.d("GoalRepository", "Goal = ${goalsRef.child(goalID).get().await().getValue(Goal::class.java)}")
         return goal!!
     }
 

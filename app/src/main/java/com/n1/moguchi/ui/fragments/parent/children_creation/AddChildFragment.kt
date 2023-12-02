@@ -82,7 +82,9 @@ class AddChildFragment : Fragment() {
                 childrenCreationAdapter.onCardsStatusUpdate = { isAllCardsCompleted ->
                     parentFragmentManager.setFragmentResult(
                         "buttonIsEnabled",
-                        bundleOf("buttonIsReadyKey" to isAllCardsCompleted)
+                        bundleOf(
+                            "buttonIsReadyKey" to isAllCardsCompleted
+                        ) // TODO - Implement const
                     )
                 }
             }

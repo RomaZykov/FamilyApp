@@ -77,10 +77,10 @@ class ChildrenCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHo
     inner class ChildViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = ChildCreationCardBinding.bind(itemView)
         private val childAvatars: Map<Int, Int> = mapOf(
-           binding.avatarMale1.id to R.drawable.avatar_male_1,
-           binding.avatarMale2.id to R.drawable.avatar_male_2,
-           binding.avatarFemale2.id to R.drawable.avatar_female_2,
-           binding.avatarFemale3.id to R.drawable.avatar_female_3
+            binding.avatarMale1.id to R.drawable.avatar_male_1,
+            binding.avatarMale2.id to R.drawable.avatar_male_2,
+            binding.avatarFemale2.id to R.drawable.avatar_female_2,
+            binding.avatarFemale3.id to R.drawable.avatar_female_3
         )
 
         fun bind() {
@@ -93,10 +93,12 @@ class ChildrenCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHo
 
                 override fun afterTextChanged(childName: Editable?) {
                     children[adapterPosition].childName = childName.toString()
-                    if (childName.toString().isEmpty()) {
-                        binding.childNameEditText.error = "Выполните все условия"
-                    } else {
+                    val regex = "^[a-zA-Zа-яА-Я]+$".toRegex()
+                    if (childName.toString().isNotBlank() && childName.toString().matches(regex)) {
                         onChildUpdate?.invoke(children[adapterPosition])
+                    } else {
+                        binding.childNameEditText.error =
+                            "Имя содержит недопустимые символы либо не выбран аватар"
                     }
                     notifyItemChanged(itemCount - FOOTER_ADD_CHILD_BUTTON)
                 }
@@ -134,8 +136,10 @@ class ChildrenCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHo
         var context: Context = itemView.context
 
         fun bind() {
+            val regex = "^[a-zA-Zа-яА-Я]+$".toRegex()
             if (children.all {
-                    it.childName.toString().isNotEmpty() && it.imageResourceId != null
+                    it.childName.toString().isNotBlank() && it.imageResourceId != null
+                            && it.childName.toString().matches(regex)
                 } && children.size == itemCount - FOOTER_ADD_CHILD_BUTTON) {
                 onCardsStatusUpdate?.invoke(true)
                 with(binding.addChildButton) {

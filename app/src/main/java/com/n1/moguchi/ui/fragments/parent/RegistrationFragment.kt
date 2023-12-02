@@ -171,7 +171,7 @@ class RegistrationFragment : Fragment() {
         val parentId = auth.currentUser?.uid
 
         val parent = Parent(
-            userName = "User-${parentId?.slice(0..7)}",
+            parentName = "User-${parentId?.slice(0..7)}",
             email = email
         )
         parentsRef.child(parentId!!).setValue(parent)
