@@ -5,6 +5,7 @@ data class Child(
     val parentOwnerId: String? = null,
     var childName: String? = "",
     var imageResourceId: Int? = null,
+    var passwordFromParent: Int? = null,
     val isChildMode: Boolean = false
 ) {
     fun toMap(): Map<String, Any?> {
@@ -13,6 +14,7 @@ data class Child(
             "parentOwnerId" to parentOwnerId,
             "childName" to childName,
             "imageResourceId" to imageResourceId,
+            "password" to passwordFromParent,
             "isChildMode" to isChildMode
         )
     }
