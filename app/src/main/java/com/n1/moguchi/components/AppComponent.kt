@@ -4,6 +4,7 @@ import android.app.Application
 import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.data.RepositoryModule
 import com.n1.moguchi.modules.ViewModelModule
+import com.n1.moguchi.ui.fragments.PasswordFragment
 import com.n1.moguchi.ui.fragments.parent.children_creation.AddChildFragment
 import com.n1.moguchi.ui.fragments.parent.goal_creation.GoalCreationFragment
 import com.n1.moguchi.ui.fragments.parent.ParentHomeFragment
@@ -18,6 +19,8 @@ import javax.inject.Singleton
 interface AppComponent {
 
     fun inject(addChildFragment: AddChildFragment)
+
+    fun inject(passwordFragment: PasswordFragment)
 
     fun inject(goalCreationFragment: GoalCreationFragment)
 

@@ -7,6 +7,7 @@ import com.n1.moguchi.ui.viewmodels.HomeViewModel
 import com.n1.moguchi.ui.fragments.parent.task_creation.TaskCreationViewModel
 import com.n1.moguchi.ui.activity.MainActivityViewModel
 import com.n1.moguchi.ui.fragments.parent.goal_creation.GoalCreationViewModel
+import com.n1.moguchi.ui.viewmodels.PasswordViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -18,6 +19,11 @@ interface ViewModelModule {
     @ViewModelKey(AddChildViewModel::class)
     @Binds
     fun bindAddChildViewModel(addChildViewModel: AddChildViewModel): ViewModel
+
+    @IntoMap
+    @ViewModelKey(PasswordViewModel::class)
+    @Binds
+    fun bindPasswordViewModel(passwordViewModel: PasswordViewModel): ViewModel
 
     @IntoMap
     @ViewModelKey(GoalCreationViewModel::class)
