@@ -9,11 +9,8 @@ import com.n1.moguchi.data.models.Child
 import com.n1.moguchi.databinding.MediumChildItemBinding
 import com.n1.moguchi.databinding.SmallChildItemBinding
 
-class ChildrenRecyclerAdapter(private val childrenList: List<Child>) :
+class ChildrenRecyclerAdapter(private val childrenList: List<Child>, private val selectedChildIndex: Int) :
     RecyclerView.Adapter<ChildrenRecyclerAdapter.SmallChildViewHolder>() {
-
-    private var itemSelectedEvent: (() -> Unit)? = null
-    var selectedItem: Int = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SmallChildViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -45,11 +42,7 @@ class ChildrenRecyclerAdapter(private val childrenList: List<Child>) :
         fun bind(child: Child, position: Int) {
             binding.smallChildName.text = child.childName
             binding.smallChildAvatar.setImageResource(child.imageResourceId!!)
-            binding.root.isSelected = selectedItem == position
-//            selectedItem = position
-//            val previousItem = selectedItem
-//            notifyItemChanged(selectedItem)
-//            notifyItemChanged(previousItem)
+            binding.root.isSelected = selectedChildIndex == position
         }
     }
 
