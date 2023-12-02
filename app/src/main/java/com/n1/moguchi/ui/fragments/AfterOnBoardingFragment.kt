@@ -98,11 +98,28 @@ class AfterOnBoardingFragment : Fragment() {
                     }
 
                     fragments[3] -> {
+                        childFragmentManager.setFragmentResult(
+                            "nextButtonPressed",
+                            bundleOf("buttonIsPressedKey" to true)
+                        )
                         val navHostFragment = (activity as MainActivity)
                             .supportFragmentManager
                             .findFragmentById(R.id.fragment_container_view) as NavHostFragment
                         val navController = navHostFragment.navController
-                        navController.navigate(R.id.action_afterOnBoardingFragment_to_parentHomeFragment)
+                        if (GoalCreationFragment.selectedChildIndex < GoalCreationFragment.childrenSize) {
+                            // If: return to GoalCreationFragment and continue set goal/task/password
+                            childFragmentManager.beginTransaction()
+                                .remove(currentFragmentInContainer)
+                                .replace(
+                                    R.id.after_onboarding_fragment_container_view,
+                                    fragments[1]
+                                )
+                                .addToBackStack(null)
+                                .commit()
+                        } else {
+                            // Else: parent set goal/task/password for all children
+                            navController.navigate(R.id.action_afterOnBoardingFragment_to_parentHomeFragment)
+                        }
                     }
                 }
                 isButtonEnabled = false
