@@ -1,13 +1,17 @@
 package com.n1.moguchi.data.impl
 
 import android.util.Log
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
+import com.google.firebase.ktx.Firebase
 import com.n1.moguchi.data.models.Child
+import com.n1.moguchi.data.models.Parent
 import com.n1.moguchi.data.repositories.ParentRepository
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -16,7 +20,9 @@ import javax.inject.Inject
 class ParentRepositoryImpl @Inject constructor() : ParentRepository {
 
     private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
+    private val auth: FirebaseAuth = Firebase.auth
     private val childrenRef: DatabaseReference = database.getReference("children")
+    private val parentsRef: DatabaseReference = database.getReference("parents")
 
     override suspend fun getChildren(parentId: String): Map<String, Child> {
         val childrenRefByParentId = childrenRef.child(parentId)
@@ -67,6 +73,23 @@ class ParentRepositoryImpl @Inject constructor() : ParentRepository {
         val childValues = updatedChild.toMap()
         specificChild.updateChildren(childValues)
         return updatedChild
+    }
+
+    override suspend fun setPassword(password: Int, childId: String) {
+        val parentId = auth.currentUser?.uid
+
+        val specificChild =
+            childrenRef.child(parentId!!).child(childId).get().await().getValue(Child::class.java)
+        specificChild?.passwordFromParent = password
+        val updatedChild = specificChild?.toMap()
+        val childValues = updatedChild?.toMap()
+        childrenRef.child(parentId).child(childId).updateChildren(childValues!!)
+
+        val specificParent = parentsRef.child(parentId).get().await().getValue(Parent::class.java)
+        specificParent?.passwordForChild = password
+        val updatedParent = specificParent?.toMap()
+        val parentValues = updatedParent?.toMap()
+        parentsRef.child(parentId).updateChildren(parentValues!!)
     }
 
     override suspend fun deleteChildProfile(parentId: String, childId: String) {

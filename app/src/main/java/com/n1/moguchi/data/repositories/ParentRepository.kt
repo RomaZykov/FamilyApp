@@ -8,6 +8,8 @@ interface ParentRepository {
 
     suspend fun getChild(parentId: String, childId: String): Child
 
+    suspend fun setPassword(password: Int, childId: String)
+
     fun getAndSaveChildToDb(parentId: String, childUser: Child): Child
 
     fun getAndUpdateChildInDb(parentId: String, childUser: Child): Child
