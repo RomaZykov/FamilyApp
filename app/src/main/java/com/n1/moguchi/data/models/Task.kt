@@ -5,7 +5,7 @@ data class Task(
     var title: String = "",
     var goalOwnerId: String? = null,
     var childOwnerId: String? = null,
-    val isTaskCompleted: Boolean = false,
+    val taskCompleted: Boolean = false,
     var height: Int = 1
 ) {
     fun toMap(): Map<String, Any?> {
@@ -14,7 +14,7 @@ data class Task(
             "title" to title,
             "goalOwnerId" to goalOwnerId,
             "childOwnerId" to childOwnerId,
-            "isTaskCompleted" to isTaskCompleted,
+            "taskCompleted" to taskCompleted,
             "height" to height
         )
     }

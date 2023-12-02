@@ -71,7 +71,6 @@ class GoalCreationFragment : Fragment() {
                     setupRecyclerView(children, selectedChildIndex)
                 }
                 childId = children[selectedChildIndex].childId
-                bundleOf(CHILD_ID_KEY to childId)
             }
         } else {
             throw Exception("User not authorized")
@@ -121,9 +120,8 @@ class GoalCreationFragment : Fragment() {
             isNextButtonPressed = bundle.getBoolean("buttonIsPressedKey")
             if (isNextButtonPressed == true) {
                 val goalId: String = UUID.randomUUID().toString()
-                parentFragment?.arguments?.putString(GOAL_ID_KEY, goalId) // TODO -
-                arguments?.putString(GOAL_ID_KEY, goalId)
-                Bundle().putString(GOAL_ID_KEY, goalId)
+                parentFragment?.arguments?.putString(CHILD_ID_KEY, childId)
+                bundle.putString(GOAL_ID_KEY, goalId)
                 viewModel.createGoal(
                     Goal(
                         goalId = goalId,

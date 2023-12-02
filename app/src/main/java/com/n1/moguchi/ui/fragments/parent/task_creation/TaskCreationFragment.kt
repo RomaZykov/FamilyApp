@@ -54,8 +54,6 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val currentGoalID =
-            requireParentFragment().arguments?.getString(GoalCreationFragment.GOAL_ID_KEY)
 
         val recyclerView: RecyclerView = binding.rvCardList
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -65,6 +63,8 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
             TaskCreationRecyclerAdapter.VIEW_TYPE_TASK_CARD,
             TaskCreationRecyclerAdapter.MAX_POOL_SIZE
         )
+        val currentGoalID =
+            requireParentFragment().arguments?.getString(GoalCreationFragment.GOAL_ID_KEY)
         if (currentGoalID != null) {
             viewModel.setupMaxPointsOfGoal(currentGoalID)
             viewModel.getTasksByGoalId(currentGoalID)
@@ -110,7 +110,6 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
             }
 
             taskCreationRecyclerAdapter.onCardsStatusUpdate = { isAllTasksCompleted ->
-                parentFragmentManager.clearFragmentResult("buttonIsEnabled")
                 parentFragmentManager.setFragmentResult(
                     "buttonIsEnabled",
                     bundleOf("buttonIsReadyKey" to isAllTasksCompleted)
