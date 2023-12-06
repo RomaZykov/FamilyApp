@@ -84,11 +84,6 @@ dependencies {
     // Feature module Support
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
 
-    // Tests
-    androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-
     // Material Design
     implementation 'com.google.android.material:material:1.10.0'
     implementation 'com.google.android.material:material:1.11.0-alpha03'
