@@ -1,4 +1,4 @@
-package com.n1.moguchi
+package com.n1.moguchi.core
 
 import android.content.res.Resources
 import android.view.View
@@ -27,7 +27,6 @@ class RecyclerViewMatcher(private val recyclerViewId: Int) {
                         String.format("%s (resource name not found)", recyclerViewId)
                     }
                 }
-
                 description.appendText("RecyclerView with id: $idDescription at position: $position")
             }
 
