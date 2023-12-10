@@ -98,9 +98,9 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
                 tasksCardList.removeAt(adapterPosition)
                 notifyItemRemoved(adapterPosition)
             }
-            binding.taskSettingsButton.setOnClickListener {
-                onTaskSettingsClicked?.invoke()
-            }
+//            binding.taskSettingsButton.setOnClickListener {
+//                onTaskSettingsClicked?.invoke()
+//            }
             binding.increaseButton.setOnClickListener {
                 if (task.height < MAX_TASK_HEIGHT) {
                     binding.taskHeight.text = (++task.height).toString()
