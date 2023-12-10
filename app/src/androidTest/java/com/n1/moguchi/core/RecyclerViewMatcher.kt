@@ -6,9 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
 
-/**
- * @author Asatryan on 23.07.2021
- **/
 class RecyclerViewMatcher(private val recyclerViewId: Int) {
 
     fun atPosition(position: Int, targetViewId: Int = -1) = atPositionOnView(position, targetViewId)
