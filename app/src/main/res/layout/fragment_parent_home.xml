@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/ultra_light_orange"
-        tools:context=".ui.fragment.parent.ParentHomeFragment">
+        tools:context=".ui.fragment.parent.home.ParentHomeFragment">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/topAppBar"
@@ -54,42 +54,14 @@
                     android:layout_marginTop="16dp"
                     android:scrollbars="none">
 
-                    <LinearLayout
-                        android:id="@+id/children_linear_layout"
-                        android:layout_width="wrap_content"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_children"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginStart="16dp"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:id="@+id/button_add_child"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginHorizontal="4dp"
-                            android:background="@drawable/round_white_button"
-                            android:backgroundTint="@color/ultra_soft_orange"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:padding="8dp">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:src="@drawable/plus"
-                                app:tint="@color/black" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginHorizontal="8dp"
-                                android:fontFamily="@font/onest_regular"
-                                android:text="Добавить ребёнка"
-                                android:textColor="@color/black"
-                                android:textSize="14sp" />
-                        </LinearLayout>
-                    </LinearLayout>
+                        android:nestedScrollingEnabled="false"
+                        android:orientation="horizontal"
+                        app:layoutManager="LinearLayoutManager" />
                 </HorizontalScrollView>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -100,27 +72,13 @@
                     android:nestedScrollingEnabled="false"
                     app:layoutManager="LinearLayoutManager" />
 
-                <TextView
-                    android:id="@+id/completed_goals_tv"
+                <include
+                    android:id="@+id/completed_goals_parent_side"
+                    layout="@layout/completed_goals_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="16dp"
-                    android:fontFamily="@font/onest_regular"
-                    android:text="Выполненные цели"
-                    android:textColor="@color/black"
-                    android:textSize="24sp" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_home_completed_goals_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:nestedScrollingEnabled="false"
-                    android:scrollbars="vertical"
-                    app:layoutManager="LinearLayoutManager" />
+                    android:layout_marginTop="8dp" />
             </LinearLayout>
         </ScrollView>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

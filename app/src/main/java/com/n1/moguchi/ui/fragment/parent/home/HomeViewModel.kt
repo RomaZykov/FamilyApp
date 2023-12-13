@@ -1,4 +1,4 @@
-package com.n1.moguchi.ui.viewmodel
+package com.n1.moguchi.ui.fragment.parent.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,14 +14,22 @@ class HomeViewModel @Inject constructor(private val parentRepository: ParentRepo
     private val _children = MutableLiveData<Map<String, Child>>()
     val children: LiveData<Map<String, Child>> = _children
 
-    fun getChildrenList(parentId: String) {
+    fun getChildren(parentId: String) {
         viewModelScope.launch {
             val children: Map<String, Child> = parentRepository.getChildren(parentId)
             _children.value = children
         }
     }
 
-    fun getTasksListByChildId() {
-        TODO()
+    fun getGoals() {
+
+    }
+
+    fun getCompletedGoals() {
+
+    }
+
+    fun getTasksByGoalID() {
+
     }
 }

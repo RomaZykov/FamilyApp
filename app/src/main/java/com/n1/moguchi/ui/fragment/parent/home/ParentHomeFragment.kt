@@ -1,11 +1,10 @@
-package com.n1.moguchi.ui.fragment.parent
+package com.n1.moguchi.ui.fragment.parent.home
 
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -18,9 +17,9 @@ import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentParentHomeBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.activity.MainActivity
+import com.n1.moguchi.ui.adapter.ChildrenRecyclerAdapter
 import com.n1.moguchi.ui.adapter.CompletedGoalsRecyclerAdapter
 import com.n1.moguchi.ui.adapter.GoalsRecyclerAdapter
-import com.n1.moguchi.ui.viewmodel.HomeViewModel
 import javax.inject.Inject
 
 class ParentHomeFragment : Fragment() {
@@ -30,6 +29,7 @@ class ParentHomeFragment : Fragment() {
 
     private lateinit var goalsRecyclerAdapter: GoalsRecyclerAdapter
     private lateinit var completedGoalsRecyclerAdapter: CompletedGoalsRecyclerAdapter
+    private lateinit var childrenRecyclerAdapter: ChildrenRecyclerAdapter
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -59,55 +59,38 @@ class ParentHomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val navController = Navigation.findNavController(activity as MainActivity, R.id.fragment_container_view)
+        val navController =
+            Navigation.findNavController(activity as MainActivity, R.id.fragment_container_view)
 
-        val recyclerViewGoals: RecyclerView = view.findViewById(R.id.rv_home_goals_list)
-        recyclerViewGoals.layoutManager = LinearLayoutManager(requireContext())
+        val goalsRecyclerView: RecyclerView = binding.rvHomeGoalsList
+        goalsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         goalsRecyclerAdapter = GoalsRecyclerAdapter()
-        recyclerViewGoals.adapter = goalsRecyclerAdapter
+        goalsRecyclerView.adapter = goalsRecyclerAdapter
 
-        val recyclerViewCompletedGoals: RecyclerView = view.findViewById(R.id.rv_home_completed_goals_list)
-        recyclerViewCompletedGoals.layoutManager = LinearLayoutManager(requireContext())
+        val completedGoalsRecyclerView: RecyclerView = binding.completedGoalsParentSide.rvHomeCompletedGoalsList
+        completedGoalsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         completedGoalsRecyclerAdapter = CompletedGoalsRecyclerAdapter()
-        recyclerViewCompletedGoals.adapter = completedGoalsRecyclerAdapter
+        completedGoalsRecyclerView.adapter = completedGoalsRecyclerAdapter
 
         val parentId = Firebase.auth.currentUser?.uid
 
-        val childrenLinearLayout = binding.childrenLinearLayout
-        val mockSelectedChildItem = layoutInflater.inflate(
-            R.layout.z_mock_selected_small_child_item,
-            childrenLinearLayout,
-            false
-        )
-        val mockChildItem = layoutInflater.inflate(
-            R.layout.z_mock_small_child_item,
-            childrenLinearLayout,
-            false
-        )
-        var index = 0
-        childrenLinearLayout.addView(mockSelectedChildItem, index++)
-        childrenLinearLayout.addView(mockChildItem, index)
-
         if (parentId != null) {
-            viewModel.getChildrenList(parentId)
-//            viewModel.children.observe(viewLifecycleOwner) { childrenList ->
-//                childrenList.map {
-//                    val childItem = layoutInflater.inflate(
-//                        R.layout.small_child_item,
-//                        childrenLinearLayout,
-//                        false
-//                    )
-//                    val childName = it.value.childName
-//                    childItem.findViewById<TextView>(R.id.child_name).text = childName
-//                    childrenLinearLayout.addView(childItem, 0)
-//                }
-//            }
+            viewModel.getChildren(parentId)
+            viewModel.children.observe(viewLifecycleOwner) { childrenList ->
+
+                val childrenRecyclerView: RecyclerView = binding.rvChildren
+                childrenRecyclerView.layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                childrenRecyclerAdapter = ChildrenRecyclerAdapter(childrenList.values.toList(), 0)
+                childrenRecyclerView.adapter = childrenRecyclerAdapter
+
+            }
         }
 
-        binding.buttonAddChild.setOnClickListener {
-            val bundle = bundleOf("isFromParentHome" to true)
-            navController.navigate(R.id.action_parentHomeFragment_to_addChildFragment, bundle)
-        }
+//        binding.buttonAddChild.setOnClickListener {
+//            val bundle = bundleOf("isFromParentHome" to true)
+//            navController.navigate(R.id.action_parentHomeFragment_to_addChildFragment, bundle)
+//        }
 
         binding.homeAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
@@ -115,6 +98,7 @@ class ParentHomeFragment : Fragment() {
                     navController.navigate(R.id.action_parentHomeFragment_to_parentProfileFragment)
                     true
                 }
+
                 else -> false
             }
         }

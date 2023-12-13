@@ -7,7 +7,7 @@ import com.n1.moguchi.di.modules.ViewModelModule
 import com.n1.moguchi.ui.fragment.parent.password.PasswordFragment
 import com.n1.moguchi.ui.fragment.parent.children_creation.AddChildFragment
 import com.n1.moguchi.ui.fragment.parent.goal_creation.GoalCreationFragment
-import com.n1.moguchi.ui.fragment.parent.ParentHomeFragment
+import com.n1.moguchi.ui.fragment.parent.home.ParentHomeFragment
 import com.n1.moguchi.ui.fragment.parent.PrimaryBottomSheetFragment
 import com.n1.moguchi.ui.fragment.parent.task_creation.TaskCreationFragment
 import dagger.BindsInstance

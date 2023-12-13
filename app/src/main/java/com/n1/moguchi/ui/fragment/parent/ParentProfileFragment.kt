@@ -16,7 +16,7 @@ import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentParentProfileBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.adapter.NotificationsRecyclerAdapter
-import com.n1.moguchi.ui.viewmodel.HomeViewModel
+import com.n1.moguchi.ui.fragment.parent.home.HomeViewModel
 import javax.inject.Inject
 
 class ParentProfileFragment : Fragment() {
