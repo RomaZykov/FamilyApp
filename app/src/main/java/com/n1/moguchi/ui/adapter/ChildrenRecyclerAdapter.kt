@@ -6,34 +6,64 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.R
 import com.n1.moguchi.data.models.Child
-import com.n1.moguchi.databinding.MediumChildItemBinding
+import com.n1.moguchi.databinding.SmallAddChildButtonBinding
 import com.n1.moguchi.databinding.SmallChildItemBinding
 
-class ChildrenRecyclerAdapter(private val childrenList: List<Child>, private val selectedChildIndex: Int) :
-    RecyclerView.Adapter<ChildrenRecyclerAdapter.SmallChildViewHolder>() {
+private const val ADD_CHILD_BUTTON = 1
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SmallChildViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.small_child_item, parent, false)
-        return SmallChildViewHolder(view)
+class ChildrenRecyclerAdapter(
+    private val childrenList: List<Child>,
+    private val selectedChildIndex: Int
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            VIEW_TYPE_SMALL_CHILD_CARD -> {
+                val view = LayoutInflater.from(parent.context).inflate(
+                    R.layout.small_child_item,
+                    parent,
+                    false
+                )
+                SmallChildViewHolder(view)
+            }
+
+            VIEW_TYPE_BUTTON -> {
+                val view = LayoutInflater.from(parent.context).inflate(
+                    R.layout.small_add_child_button,
+                    parent,
+                    false
+                )
+                SmallButtonViewHolder(view)
+            }
+
+            else -> {
+                TODO()
+            }
+        }
     }
 
-    override fun onBindViewHolder(holder: SmallChildViewHolder, position: Int) {
-        val child: Child = childrenList[position]
-        holder.bind(child, position)
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (holder.itemViewType) {
+            VIEW_TYPE_SMALL_CHILD_CARD -> {
+                val child: Child = childrenList[position]
+                (holder as SmallChildViewHolder).bind(child, position)
+            }
 
-//        else -> {
-//            val view = LayoutInflater.from(parent.context).inflate(
-//                R.layout.medium_child_item,
-//                parent,
-//                false
-//            )
-//            MediumChildViewHolder(view)
-//        }
+            VIEW_TYPE_BUTTON -> (holder as SmallButtonViewHolder).bind()
+            else -> throw RuntimeException("Unknown viewType: ${holder.itemViewType}")
+        }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (position == childrenList.size) {
+            VIEW_TYPE_BUTTON
+        } else {
+            VIEW_TYPE_SMALL_CHILD_CARD
+        }
     }
 
     override fun getItemCount(): Int {
-        return childrenList.size
+        return childrenList.size + ADD_CHILD_BUTTON
     }
 
     inner class SmallChildViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -46,19 +76,15 @@ class ChildrenRecyclerAdapter(private val childrenList: List<Child>, private val
         }
     }
 
-    inner class MediumChildViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val binding = MediumChildItemBinding.bind(itemView)
+    inner class SmallButtonViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val binding = SmallAddChildButtonBinding.bind(itemView)
 
-        fun bind(childName: String) {
-            binding.childName.text = childName
-            if (childName == "Максимка") {
-                binding.mediumChildAvatar.setImageResource(R.drawable.avatar_male_2)
-            } else {
-                binding.mediumChildAvatar.setImageResource(R.drawable.avatar_female_3)
-            }
-//            binding.root.setOnClickListener {
-//                childClickListener?.onChildItemClick(itemView)
-//            }
+        fun bind() {
         }
+    }
+
+    companion object {
+        private const val VIEW_TYPE_SMALL_CHILD_CARD = 100
+        private const val VIEW_TYPE_BUTTON = 101
     }
 }
