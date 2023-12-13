@@ -65,9 +65,6 @@ class ChildrenCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHo
             VIEW_TYPE_FOOTER -> (holder as FooterViewHolder).bind()
             else -> throw RuntimeException("Unknown viewType: ${holder.itemViewType}")
         }
-//        else {
-//            (holder as MediumChildViewHolder).bind(child as String)
-//        }
     }
 
     override fun getItemCount(): Int {
