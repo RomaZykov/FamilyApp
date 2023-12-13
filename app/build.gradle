@@ -40,9 +40,9 @@ android {
 }
 
 dependencies {
-    def nav_version = '2.7.4'
+    def nav_version = '2.7.5'
     def lifecycle_version = '2.6.2'
-    def activity_version = '1.8.0'
+    def activity_version = '1.8.1'
     def okhttp_version = '5.0.0-alpha.11'
     def retrofit_version = '2.9.0'
     def fragment_version = '1.6.2'
@@ -69,8 +69,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.android.gms:play-services-auth:20.7.0'
     implementation 'com.google.firebase:firebase-database:20.3.0'
-    implementation 'com.google.firebase:firebase-database-ktx:' +
-            '20.3.0'
+    implementation 'com.google.firebase:firebase-database-ktx:20.3.0'
 
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
