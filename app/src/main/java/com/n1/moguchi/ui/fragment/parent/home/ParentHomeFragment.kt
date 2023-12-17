@@ -30,11 +30,13 @@ class ParentHomeFragment : Fragment() {
     private lateinit var goalsRecyclerAdapter: GoalsRecyclerAdapter
     private lateinit var completedGoalsRecyclerAdapter: CompletedGoalsRecyclerAdapter
     private lateinit var childrenRecyclerAdapter: ChildrenRecyclerAdapter
+    private var selectedChildIndex = 0
+    private val childrenIDs = mutableListOf<String>()
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private val viewModel by lazy {
-        ViewModelProvider(this, viewModelFactory)[HomeViewModel::class.java]
+        ViewModelProvider(this, viewModelFactory)[ParentHomeViewModel::class.java]
     }
 
     private val component by lazy {
@@ -58,34 +60,39 @@ class ParentHomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        val parentID = Firebase.auth.currentUser?.uid
         val navController =
             Navigation.findNavController(activity as MainActivity, R.id.fragment_container_view)
 
-        val goalsRecyclerView: RecyclerView = binding.rvHomeGoalsList
-        goalsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        goalsRecyclerAdapter = GoalsRecyclerAdapter()
-        goalsRecyclerView.adapter = goalsRecyclerAdapter
-
-        val completedGoalsRecyclerView: RecyclerView = binding.completedGoalsParentSide.rvHomeCompletedGoalsList
-        completedGoalsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        completedGoalsRecyclerAdapter = CompletedGoalsRecyclerAdapter()
-        completedGoalsRecyclerView.adapter = completedGoalsRecyclerAdapter
-
-        val parentId = Firebase.auth.currentUser?.uid
-
-        if (parentId != null) {
-            viewModel.getChildren(parentId)
+        if (parentID != null) {
+            viewModel.getChildren(parentID)
             viewModel.children.observe(viewLifecycleOwner) { childrenList ->
+                childrenList.forEach {
+                    childrenIDs.add(it.key)
+                }
+                viewModel.getGoalsByChildID(childrenIDs[selectedChildIndex])
 
                 val childrenRecyclerView: RecyclerView = binding.rvChildren
                 childrenRecyclerView.layoutManager =
                     LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-                childrenRecyclerAdapter = ChildrenRecyclerAdapter(childrenList.values.toList(), 0)
+                childrenRecyclerAdapter =
+                    ChildrenRecyclerAdapter(childrenList.values.toList(), selectedChildIndex)
                 childrenRecyclerView.adapter = childrenRecyclerAdapter
-
             }
         }
+        viewModel.goals.observe(viewLifecycleOwner) {
+            val goalsRecyclerView: RecyclerView = binding.rvHomeGoalsList
+            goalsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+            goalsRecyclerAdapter = GoalsRecyclerAdapter(it)
+            goalsRecyclerView.adapter = goalsRecyclerAdapter
+        }
+
+        val completedGoalsRecyclerView: RecyclerView =
+            binding.completedGoalsParentSide.rvHomeCompletedGoalsList
+        completedGoalsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        completedGoalsRecyclerAdapter = CompletedGoalsRecyclerAdapter()
+        completedGoalsRecyclerView.adapter = completedGoalsRecyclerAdapter
+
 
 //        binding.buttonAddChild.setOnClickListener {
 //            val bundle = bundleOf("isFromParentHome" to true)

@@ -9,51 +9,18 @@ import androidx.fragment.app.commit
 import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.R
 import com.n1.moguchi.data.models.Goal
-import com.n1.moguchi.data.models.Task
-import com.n1.moguchi.databinding.ZMockGoalCardBinding
+import com.n1.moguchi.databinding.GoalCardBinding
 import com.n1.moguchi.ui.activity.MainActivity
 import com.n1.moguchi.ui.fragment.TasksFragment
+import com.n1.moguchi.ui.views.CustomShapesView
 
-class GoalsRecyclerAdapter : RecyclerView.Adapter<GoalsRecyclerAdapter.CardViewHolder>() {
-
-    private val tasksList = mutableListOf(
-        Task(title = "Прибраться в комнате 5 дней подряд", height = 2),
-        Task(title = "Сходить в магазин в пятницу", height = 1),
-        Task(title = "Написать контрольную минимум на 4", height = 3),
-        Task(title = "Сходить в магазин в пятницу", height = 1),
-        Task(title = "Написать контрольную минимум на 4", height = 3),
-        Task(title = "Сходить в магазин в пятницу", height = 1),
-        Task(title = "Сходить в магазин в пятницу", height = 1),
-        Task(title = "Написать контрольную минимум на 4", height = 3),
-        Task(title = "Сходить в магазин в пятницу", height = 1),
-        Task(title = "Сходить в магазин в пятницу", height = 1),
-        Task(title = "Написать контрольную минимум на 4", height = 3),
-        Task(title = "Сходить в магазин в пятницу", height = 1),
-        Task(title = "Написать контрольную минимум на 4", height = 3),
-        Task(title = "Прибраться в комнате 5 дней подряд", height = 2)
-    )
-    private val goalsList = mutableListOf(
-        Goal(
-            goalId = null,
-            parentOwnerId = null,
-            childOwnerId = null,
-            taskList = tasksList,
-            title = "Велосипед",
-            height = 5, false
-        ),
-        Goal(
-            goalId = null,
-            parentOwnerId = null,
-            childOwnerId = null,
-            taskList = tasksList,
-            title = "Приставка",
-            height = 3, false
-        )
-    )
+class GoalsRecyclerAdapter(
+    private val goalsList: List<Goal>
+) : RecyclerView.Adapter<GoalsRecyclerAdapter.CardViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.z_mock_goal_card, parent, false)
+            .inflate(R.layout.goal_card, parent, false)
         return CardViewHolder(view)
     }
 
@@ -68,13 +35,18 @@ class GoalsRecyclerAdapter : RecyclerView.Adapter<GoalsRecyclerAdapter.CardViewH
 
     inner class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
-        private val binding = ZMockGoalCardBinding.bind(itemView)
-        private var goal: Goal? = null
-        var context: Context = itemView.context
+        private val binding = GoalCardBinding.bind(itemView)
+        private val context: Context = itemView.context
+        private val customDrawableView: CustomShapesView = CustomShapesView(context)
+
+        init {
+            binding.root.background = customDrawableView
+        }
 
         fun bind(goal: Goal) {
-            this.goal = goal
-            binding.goalTitle.text = "Велосипед"
+            binding.goalTitle.text = goal.title
+            val buttonText: TextView = binding.allTasksButton.getChildAt(0) as TextView
+            buttonText.text = "Смотреть 5 задач(у)"
             binding.tasksContainerLl.apply {
                 for (i in 0 until 3) {
                     val taskSmallItem =

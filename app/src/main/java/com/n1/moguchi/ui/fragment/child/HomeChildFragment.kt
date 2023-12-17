@@ -36,10 +36,10 @@ class HomeChildFragment : Fragment() {
 
         MainActivity.isParentProfile = false
 
-        val recyclerViewGoals: RecyclerView = view.findViewById(R.id.rv_child_home_goals)
-        recyclerViewGoals.layoutManager = LinearLayoutManager(requireContext())
-        goalsRecyclerAdapter = GoalsRecyclerAdapter()
-        recyclerViewGoals.adapter = goalsRecyclerAdapter
+//        val recyclerViewGoals: RecyclerView = view.findViewById(R.id.rv_child_home_goals)
+//        recyclerViewGoals.layoutManager = LinearLayoutManager(requireContext())
+//        goalsRecyclerAdapter = GoalsRecyclerAdapter()
+//        recyclerViewGoals.adapter = goalsRecyclerAdapter
 
         val recyclerViewCompletedGoals: RecyclerView = view.findViewById(R.id.rv_child_home_completed_goals)
         recyclerViewCompletedGoals.layoutManager = LinearLayoutManager(requireContext())

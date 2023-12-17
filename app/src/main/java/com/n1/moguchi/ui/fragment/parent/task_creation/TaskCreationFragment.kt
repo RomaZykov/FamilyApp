@@ -77,6 +77,9 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
                 taskCreationRecyclerAdapter.notifyItemInserted(0)
                 taskCreationRecyclerAdapter.notifyItemChanged(taskCreationRecyclerAdapter.itemCount - 1)
             }
+            if (currentGoalID != null) {
+                viewModel.updateGoal(currentGoalID)
+            }
 
             taskCreationRecyclerAdapter.onNewTaskAddClicked = {
                 if (currentGoalID != null) {
