@@ -3,7 +3,7 @@ package com.n1.moguchi.di.modules
 import androidx.lifecycle.ViewModel
 import com.n1.moguchi.di.helpers.ViewModelKey
 import com.n1.moguchi.ui.fragment.parent.children_creation.AddChildViewModel
-import com.n1.moguchi.ui.fragment.parent.home.HomeViewModel
+import com.n1.moguchi.ui.fragment.parent.home.ParentHomeViewModel
 import com.n1.moguchi.ui.fragment.parent.task_creation.TaskCreationViewModel
 import com.n1.moguchi.ui.activity.MainActivityViewModel
 import com.n1.moguchi.ui.fragment.parent.goal_creation.GoalCreationViewModel
@@ -41,7 +41,7 @@ interface ViewModelModule {
     fun bindMainActivityViewModel(mainActivityViewModel: MainActivityViewModel): ViewModel
 
     @IntoMap
-    @ViewModelKey(HomeViewModel::class)
+    @ViewModelKey(ParentHomeViewModel::class)
     @Binds
-    fun bindHomeViewModel(homeViewModel: HomeViewModel): ViewModel
+    fun bindHomeViewModel(parentHomeViewModel: ParentHomeViewModel): ViewModel
 }

@@ -16,7 +16,7 @@ import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentParentProfileBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.adapter.NotificationsRecyclerAdapter
-import com.n1.moguchi.ui.fragment.parent.home.HomeViewModel
+import com.n1.moguchi.ui.fragment.parent.home.ParentHomeViewModel
 import javax.inject.Inject
 
 class ParentProfileFragment : Fragment() {
@@ -36,7 +36,7 @@ class ParentProfileFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private val viewModel by lazy {
-        ViewModelProvider(this, viewModelFactory)[HomeViewModel::class.java]
+        ViewModelProvider(this, viewModelFactory)[ParentHomeViewModel::class.java]
     }
 
     override fun onCreateView(
