@@ -16,7 +16,7 @@ import javax.inject.Inject
 private const val MAX_GOAL_HEIGHT = 10
 private const val MIN_GOAL_HEIGHT = 1
 
-class GoalCreationViewModel @Inject constructor(
+open class GoalCreationViewModel @Inject constructor(
     private val parentRepository: ParentRepository,
     private val goalRepository: GoalRepository,
     private val taskRepository: TaskRepository
@@ -42,13 +42,6 @@ class GoalCreationViewModel @Inject constructor(
     init {
         _goalHeight.value = counterGoalHeight
     }
-
-//    fun getTasksByGoalId(goalId: String) {
-//        viewModelScope.launch {
-//            val tasks: List<Task> = taskRepository.getTasks(goalId)
-//            _tasks.value = tasks.toList()
-//        }
-//    }
 
     fun createGoal(goal: Goal, childId: String) {
         goalRepository.createGoal(goal, childId)

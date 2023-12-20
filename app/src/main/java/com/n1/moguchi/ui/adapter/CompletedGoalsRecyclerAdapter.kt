@@ -29,7 +29,6 @@ class CompletedGoalsRecyclerAdapter :
             goalId = null,
             parentOwnerId = null,
             childOwnerId = null,
-            taskList = tasksList,
             title = "Новая игра на компьютер или приставку",
             height = 5, false
         ),
@@ -37,7 +36,6 @@ class CompletedGoalsRecyclerAdapter :
             goalId = null,
             parentOwnerId = null,
             childOwnerId = null,
-            taskList = tasksList,
             title = "Велосипед",
             height = 5, false
         ),
@@ -45,7 +43,6 @@ class CompletedGoalsRecyclerAdapter :
             goalId = null,
             parentOwnerId = null,
             childOwnerId = null,
-            taskList = tasksList,
             title = "Сноуборд",
             height = 10, false
         )

@@ -32,38 +32,25 @@ class GoalRepositoryImpl @Inject constructor() : GoalRepository {
         val goals = mutableListOf<Goal>()
         goalsRefByChildId.get().await().children.forEach { goal ->
             goals.add(goal.getValue(Goal::class.java)!!)
-
         }
         return goals
     }
 
-    override suspend fun updateGoal(goalID: String) {
-        TODO("Not yet implemented")
-//        val specificGoalRef = goalsRef.child(goalID)
-//        val goalRefByTasksId = tasksRef.orderByChild("goalOwnerId").equalTo(goalID)
-//        val specificGoal = goalsRef.child(goalID).get().await()
-//        val tasks = mutableListOf<Task>()
-//        val updatedGoal = specificGoal.value as Goal
-//        updatedGoal.taskList.apply {
-//            goalRefByTasksId.get().await().children.forEach {
-//                tasks.add(it.getValue(Task::class.java)!!)
-//            }
-//        }
-//        val goalValues = updatedGoal.toMap()
-//        specificGoalRef.updateChildren(goalValues)
+    override suspend fun fetchTasks(goals: List<Goal>): Map<Goal, List<Task>> {
+        val goalsWithTasks = mutableMapOf<Goal, List<Task>>()
+        goals.forEach { goal ->
+            val tasksRefByGoalId = tasksRef.orderByChild("goalOwnerId").equalTo(goal.goalId!!)
+            val tasks = mutableListOf<Task>()
+            tasksRefByGoalId.get().await().children.forEach { task ->
+                tasks.add(task.getValue(Task::class.java)!!)
+            }
+            goalsWithTasks[goal] = tasks
+        }
+        return goalsWithTasks
     }
 
     override suspend fun getGoal(goalID: String): Goal {
         val goal = goalsRef.child(goalID).get().await().getValue(Goal::class.java)
         return goal!!
     }
-
-//    override suspend fun getTasks(goalId: String): List<Task> {
-//        val tasksRefByGoalId = goalsRef.child(goalId)
-//        val tasks: MutableList<Task> = mutableListOf()
-//        tasksRefByGoalId.get().await().children.map {
-//            tasks.add(it.getValue(Task::class.java)!!)
-//        }
-//        return tasks
-//    }
 }

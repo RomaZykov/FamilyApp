@@ -1,6 +1,7 @@
 package com.n1.moguchi.data.repositories
 
 import com.n1.moguchi.data.models.Goal
+import com.n1.moguchi.data.models.Task
 
 interface GoalRepository {
 
@@ -10,5 +11,5 @@ interface GoalRepository {
 
     suspend fun getChildGoals(childID: String): List<Goal>
 
-    suspend fun updateGoal(goalID: String)
+    suspend fun fetchTasks(goals: List<Goal>): Map<Goal, List<Task>>
 }
