@@ -9,13 +9,15 @@ import androidx.fragment.app.commit
 import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.R
 import com.n1.moguchi.data.models.Goal
+import com.n1.moguchi.data.models.Task
 import com.n1.moguchi.databinding.GoalCardBinding
 import com.n1.moguchi.ui.activity.MainActivity
 import com.n1.moguchi.ui.fragment.TasksFragment
 import com.n1.moguchi.ui.views.CustomShapesView
 
 class GoalsRecyclerAdapter(
-    private val goalsList: List<Goal>
+    private val goalsList: List<Goal>,
+    private val tasksByGoalList: List<Task>
 ) : RecyclerView.Adapter<GoalsRecyclerAdapter.CardViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
@@ -26,7 +28,7 @@ class GoalsRecyclerAdapter(
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
         val goal: Goal = goalsList[position]
-        holder.bind(goal)
+        holder.bind(goal, tasksByGoalList)
     }
 
     override fun getItemCount(): Int {
@@ -43,17 +45,21 @@ class GoalsRecyclerAdapter(
             binding.root.background = customDrawableView
         }
 
-        fun bind(goal: Goal) {
+        fun bind(goal: Goal, tasksByGoalList: List<Task>) {
             binding.goalTitle.text = goal.title
             val buttonText: TextView = binding.allTasksButton.getChildAt(0) as TextView
             buttonText.text = "Смотреть 5 задач(у)"
             binding.tasksContainerLl.apply {
-                for (i in 0 until 3) {
-                    val taskSmallItem =
-                        LayoutInflater.from(context).inflate(R.layout.small_task_item, this, false)
-                    taskSmallItem.setBackgroundColor(resources.getColor(R.color.white_opacity_90))
-                    taskSmallItem.findViewById<TextView>(R.id.task_title).text = goal.taskList!![i].title
-                    addView(taskSmallItem, 0)
+                for (i in 1..3) {
+                    if (tasksByGoalList.size - i >= 0) {
+                        val taskSmallItem =
+                            LayoutInflater.from(context)
+                                .inflate(R.layout.small_task_item, this, false)
+                        taskSmallItem.setBackgroundColor(resources.getColor(R.color.white_opacity_90))
+                        taskSmallItem.findViewById<TextView>(R.id.task_title).text =
+                            tasksByGoalList[i - 1].title
+                        addView(taskSmallItem)
+                    }
                 }
             }
             binding.allTasksButton.setOnClickListener(this)

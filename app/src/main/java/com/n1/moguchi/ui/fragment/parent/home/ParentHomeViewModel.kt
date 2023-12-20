@@ -22,11 +22,8 @@ class ParentHomeViewModel @Inject constructor(
     private val _children = MutableLiveData<Map<String, Child>>()
     val children: LiveData<Map<String, Child>> = _children
 
-    private val _goals = MutableLiveData<List<Goal>>()
-    val goals: LiveData<List<Goal>> = _goals
-
-    private val _tasks = MutableLiveData<List<Task>>()
-    val tasks: LiveData<List<Task>> = _tasks
+    private val _goalsWithTasks = MutableLiveData<Map<Goal, List<Task>>>()
+    val goalsWithTasks: LiveData<Map<Goal, List<Task>>> = _goalsWithTasks
 
     private val _totalTasks = MutableLiveData<Int>()
     val totalTasks: LiveData<Int> = _totalTasks
@@ -38,21 +35,18 @@ class ParentHomeViewModel @Inject constructor(
         }
     }
 
-    fun getGoalsByChildID(childID: String) {
+    fun fetchGoalsAndTasks(childID: String) {
         viewModelScope.launch {
             val goals = goalRepository.getChildGoals(childID)
-            _goals.value = goals
+            val goalsWithTasksMap = goalRepository.fetchTasks(goals)
+            _goalsWithTasks.value = goalsWithTasksMap
         }
     }
 
-    fun getCompletedGoals() {
-
-    }
-
-    fun getTasksByGoalID(goalID: String) {
-        viewModelScope.launch {
-            val tasks = taskRepository.getTasks(goalID)
-            _tasks.value = tasks
-        }
-    }
+//    fun getTasksByGoalID(goalID: String) {
+//        viewModelScope.launch {
+//            val tasks = taskRepository.getTasks(goalID)
+//            _goalsWithTasks.value = tasks
+//        }
+//    }
 }

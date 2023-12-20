@@ -75,6 +75,7 @@ class AfterOnBoardingFragment : Fragment() {
                     }
 
                     fragments[2] -> {
+                        checkButtonPressed()
                         moveToFragment(currentFragmentInContainer, fragments[3])
                     }
 

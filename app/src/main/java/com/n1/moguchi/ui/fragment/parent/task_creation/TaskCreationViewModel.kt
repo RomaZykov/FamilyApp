@@ -79,12 +79,6 @@ class TaskCreationViewModel @Inject constructor(
         }
     }
 
-    fun updateGoal(goalID: String) {
-        viewModelScope.launch {
-            goalRepository.updateGoal(goalID)
-        }
-    }
-
     fun increaseTaskHeight() {
         _taskHeightTotal.value = ++counterTaskHeight
 //        taskRepository.updateTask()

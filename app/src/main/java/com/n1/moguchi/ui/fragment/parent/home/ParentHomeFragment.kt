@@ -31,7 +31,7 @@ class ParentHomeFragment : Fragment() {
     private lateinit var completedGoalsRecyclerAdapter: CompletedGoalsRecyclerAdapter
     private lateinit var childrenRecyclerAdapter: ChildrenRecyclerAdapter
     private var selectedChildIndex = 0
-    private val childrenIDs = mutableListOf<String>()
+    private val childrenIdList = mutableListOf<String>()
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -68,9 +68,9 @@ class ParentHomeFragment : Fragment() {
             viewModel.getChildren(parentID)
             viewModel.children.observe(viewLifecycleOwner) { childrenList ->
                 childrenList.forEach {
-                    childrenIDs.add(it.key)
+                    childrenIdList.add(it.key)
                 }
-                viewModel.getGoalsByChildID(childrenIDs[selectedChildIndex])
+                viewModel.fetchGoalsAndTasks(childrenIdList[selectedChildIndex])
 
                 val childrenRecyclerView: RecyclerView = binding.rvChildren
                 childrenRecyclerView.layoutManager =
@@ -79,12 +79,12 @@ class ParentHomeFragment : Fragment() {
                     ChildrenRecyclerAdapter(childrenList.values.toList(), selectedChildIndex)
                 childrenRecyclerView.adapter = childrenRecyclerAdapter
             }
-        }
-        viewModel.goals.observe(viewLifecycleOwner) {
-            val goalsRecyclerView: RecyclerView = binding.rvHomeGoalsList
-            goalsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-            goalsRecyclerAdapter = GoalsRecyclerAdapter(it)
-            goalsRecyclerView.adapter = goalsRecyclerAdapter
+            viewModel.goalsWithTasks.observe(viewLifecycleOwner) {
+                val goalsRecyclerView: RecyclerView = binding.rvHomeGoalsList
+                goalsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+                goalsRecyclerAdapter = GoalsRecyclerAdapter(it.keys.toList(), it.values.flatten())
+                goalsRecyclerView.adapter = goalsRecyclerAdapter
+            }
         }
 
         val completedGoalsRecyclerView: RecyclerView =
@@ -92,7 +92,6 @@ class ParentHomeFragment : Fragment() {
         completedGoalsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         completedGoalsRecyclerAdapter = CompletedGoalsRecyclerAdapter()
         completedGoalsRecyclerView.adapter = completedGoalsRecyclerAdapter
-
 
 //        binding.buttonAddChild.setOnClickListener {
 //            val bundle = bundleOf("isFromParentHome" to true)

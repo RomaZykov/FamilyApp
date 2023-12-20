@@ -2,6 +2,7 @@ package com.n1.moguchi.ui.fragment.parent.task_creation
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,8 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentTaskCreationBinding? = null
     private val binding get() = _binding!!
     private lateinit var taskCreationRecyclerAdapter: TaskCreationRecyclerAdapter
+
+    private var isNextButtonPressed: Boolean? = null
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -68,17 +71,14 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
             viewModel.setupMaxPointsOfGoal(currentGoalID)
             viewModel.getTasksByGoalId(currentGoalID)
         }
-        viewModel.tasks.observe(viewLifecycleOwner) {
-            if (it.isEmpty() && (currentGoalID != null)) {
+        viewModel.tasks.observe(viewLifecycleOwner) { tasks ->
+            if (tasks.isEmpty() && (currentGoalID != null)) {
                 taskCreationRecyclerAdapter.tasksCardList.add(
                     0,
                     viewModel.createTask(Task(), currentGoalID)
                 )
                 taskCreationRecyclerAdapter.notifyItemInserted(0)
                 taskCreationRecyclerAdapter.notifyItemChanged(taskCreationRecyclerAdapter.itemCount - 1)
-            }
-            if (currentGoalID != null) {
-                viewModel.updateGoal(currentGoalID)
             }
 
             taskCreationRecyclerAdapter.onNewTaskAddClicked = {
@@ -89,7 +89,7 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
                             currentGoalID
                         )
                     )
-                    taskCreationRecyclerAdapter.notifyItemInserted(it.size)
+                    taskCreationRecyclerAdapter.notifyItemInserted(tasks.size)
                     taskCreationRecyclerAdapter.notifyItemChanged(taskCreationRecyclerAdapter.itemCount - 1)
                 }
             }
@@ -120,6 +120,19 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
 
             taskCreationRecyclerAdapter.onTaskSettingsClicked = {
                 showTaskSettingsBottomSheet()
+            }
+
+            parentFragmentManager.setFragmentResultListener(
+                "nextButtonPressed",
+                viewLifecycleOwner
+            ) { _, bundle ->
+                isNextButtonPressed = bundle.getBoolean("buttonIsPressedKey")
+                if (isNextButtonPressed == true) {
+                    parentFragment?.arguments?.putParcelableArrayList(
+                        "tasks",
+                        tasks as ArrayList<out Parcelable>?
+                    )
+                }
             }
         }
     }
