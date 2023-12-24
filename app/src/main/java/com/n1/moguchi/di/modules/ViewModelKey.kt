@@ -1,4 +1,4 @@
-package com.n1.moguchi.di.helpers
+package com.n1.moguchi.di.modules
 
 import androidx.lifecycle.ViewModel
 import dagger.MapKey
