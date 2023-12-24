@@ -7,7 +7,6 @@ import com.n1.moguchi.data.repositories.GoalRepository
 import com.n1.moguchi.di.components.ApplicationScope
 import dagger.Module
 import dagger.Provides
-import javax.inject.Singleton
 
 @Module
 interface GoalModule {

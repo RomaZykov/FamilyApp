@@ -17,7 +17,6 @@ import com.n1.moguchi.ui.fragment.parent.PrimaryBottomSheetFragment
 import com.n1.moguchi.ui.fragment.parent.task_creation.TaskCreationFragment
 import dagger.BindsInstance
 import dagger.Component
-import javax.inject.Singleton
 
 @ApplicationScope
 @Component(modules = [GoalModule::class, TaskModule::class, ChildUserModule::class, ParentUserModule::class, FirebaseModule::class, ViewModelModule::class])
