@@ -1,4 +1,4 @@
-package com.n1.moguchi.ui.fragment.parent
+package com.n1.moguchi.ui.fragment.parent.view_pager
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -1,4 +1,4 @@
-package com.n1.moguchi.ui.fragment.parent
+package com.n1.moguchi.ui.fragment.parent.view_pager
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,7 +18,7 @@ import com.n1.moguchi.ui.activity.MainActivity
 
 private const val NUM_PAGES = 3
 
-class OnBoardingParentFragment : Fragment() {
+class OnBoardingViewPager : Fragment() {
 
     private lateinit var viewPager: ViewPager2
     private var _binding: FragmentOnboardingBinding? = null
