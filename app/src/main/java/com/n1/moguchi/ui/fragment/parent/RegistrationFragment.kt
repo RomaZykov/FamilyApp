@@ -2,7 +2,6 @@ package com.n1.moguchi.ui.fragment.parent
 
 import android.app.Activity
 import android.app.PendingIntent
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.IntentSender
 import android.os.Bundle
@@ -21,7 +20,10 @@ import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.n1.moguchi.R
 import com.n1.moguchi.data.models.Parent
@@ -34,6 +36,7 @@ class RegistrationFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var auth: FirebaseAuth
+    private lateinit var database: FirebaseDatabase
     private lateinit var signInClient: SignInClient
 
     private val signInLauncher =
@@ -56,23 +59,13 @@ class RegistrationFragment : Fragment() {
         signInClient = Identity.getSignInClient(requireActivity())
         auth = Firebase.auth
 
-        binding.googleLoginButton.setOnClickListener {
-            signIn() // login
-        }
-
         val currentUser = auth.currentUser
         if (currentUser == null) {
-            oneTapSignIn() // registration
+            oneTapSignIn()
         }
-    }
 
-    override fun onStart() {
-        super.onStart()
-
-        val currentUser = auth.currentUser
-        if (currentUser != null) {
-            Navigation.findNavController(binding.root)
-                .navigate(R.id.action_registrationFragment_to_homeFragment)
+        binding.googleLoginButton.setOnClickListener {
+            signIn()
         }
     }
 
@@ -88,7 +81,7 @@ class RegistrationFragment : Fragment() {
                 val idToken = credential.googleIdToken
                 when {
                     idToken != null -> {
-                        Log.d(TAG, "firebaseAuthWithGoogle: ${credential.id}")
+                        Log.d("RegistrationFragment", "RegistrationFragment: ${credential.id}")
                         firebaseAuthWithGoogle(idToken)
                     }
 
@@ -97,7 +90,7 @@ class RegistrationFragment : Fragment() {
                     }
                 }
             } catch (e: IntentSender.SendIntentException) {
-                Log.e(TAG, "Couldn't start One Tap UI: ${e.localizedMessage}")
+                Log.e("RegistrationFragment", "Couldn't start One Tap UI: ${e.localizedMessage}")
             }
         }
     }
@@ -107,13 +100,30 @@ class RegistrationFragment : Fragment() {
         auth.signInWithCredential(firebaseCredential)
             .addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) {
-                    Log.d(TAG, "signInWithCredential:success")
-                    val email = task.result.user?.email
-                    saveParentToFirebase(email = email.toString())
-                    Navigation.findNavController(binding.root)
-                        .navigate(R.id.action_registrationFragment_to_onBoardingParentFragment)
+                    Log.d("RegistrationFragment", "signInWithCredential:success")
+                    val uid = auth.currentUser?.uid
+                    val rootRef = FirebaseDatabase.getInstance().reference
+                    val uidRef = rootRef.child("parents").child(uid!!)
+                    val eventListener: ValueEventListener = object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            if (!dataSnapshot.exists()) {
+                                val email = task.result.user?.email
+                                saveParentToFirebase(email = email.toString())
+                                Navigation.findNavController(binding.root)
+                                    .navigate(R.id.action_registrationFragment_to_onBoardingParentFragment)
+                            } else {
+                                Navigation.findNavController(binding.root)
+                                    .navigate(R.id.action_registrationFragment_to_homeFragment)
+                            }
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            Log.d("TAG", error.message) //Don't ignore potential errors!
+                        }
+                    }
+                    uidRef.addListenerForSingleValueEvent(eventListener)
                 } else {
-                    Log.w(TAG, "signInWithCredential:failure", task.exception)
+                    Log.w("RegistrationFragment", "signInWithCredential:failure", task.exception)
                 }
             }
     }
@@ -128,7 +138,7 @@ class RegistrationFragment : Fragment() {
                 launchSignIn(pendingIntent)
             }
             .addOnFailureListener { e ->
-                Log.e(TAG, "Google Sign-in failed", e)
+                Log.e("RegistrationFragment", "Google Sign-in failed", e)
             }
     }
 
@@ -159,10 +169,11 @@ class RegistrationFragment : Fragment() {
             val intentSenderRequest = IntentSenderRequest.Builder(pendingIntent).build()
             signInLauncher.launch(intentSenderRequest)
         } catch (e: IntentSender.SendIntentException) {
-            Log.e(TAG, "Couldn't start Sign In: ${e.localizedMessage}")
+            Log.e("RegistrationFragment", "Couldn't start Sign In: ${e.localizedMessage}")
         }
     }
 
+    // Warning TODO("Logic in UI")
     private fun saveParentToFirebase(
         email: String
     ) {
@@ -178,6 +189,7 @@ class RegistrationFragment : Fragment() {
     }
 
     companion object {
-        private const val BASE_URL = "https://moguchi-app-default-rtdb.europe-west1.firebasedatabase.app"
+        private const val BASE_URL =
+            "https://moguchi-app-default-rtdb.europe-west1.firebasedatabase.app"
     }
 }
