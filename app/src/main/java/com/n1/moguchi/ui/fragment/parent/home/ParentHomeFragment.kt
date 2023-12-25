@@ -71,6 +71,7 @@ class ParentHomeFragment : Fragment() {
                     childrenIdList.add(it.key)
                 }
                 viewModel.fetchGoalsAndTasks(childrenIdList[selectedChildIndex])
+                viewModel.getCompletedGoals(childrenIdList[selectedChildIndex])
 
                 val childrenRecyclerView: RecyclerView = binding.rvChildren
                 childrenRecyclerView.layoutManager =
@@ -79,24 +80,26 @@ class ParentHomeFragment : Fragment() {
                     ChildrenRecyclerAdapter(childrenList.values.toList(), selectedChildIndex)
                 childrenRecyclerView.adapter = childrenRecyclerAdapter
             }
-            viewModel.goalsWithTasks.observe(viewLifecycleOwner) {
+            viewModel.goals.observe(viewLifecycleOwner) {
                 val goalsRecyclerView: RecyclerView = binding.rvHomeGoalsList
                 goalsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
                 goalsRecyclerAdapter = GoalsRecyclerAdapter(it.keys.toList(), it.values.flatten())
                 goalsRecyclerView.adapter = goalsRecyclerAdapter
             }
+            viewModel.completedGoals.observe(viewLifecycleOwner) { completedGoals ->
+                if (completedGoals.isEmpty()) {
+                    binding.completedGoalsParentSide.root.visibility = View.GONE
+                } else {
+                    binding.completedGoalsParentSide.root.visibility = View.VISIBLE
+                    val completedGoalsRecyclerView: RecyclerView =
+                        binding.completedGoalsParentSide.rvHomeCompletedGoalsList
+                    completedGoalsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+                    completedGoalsRecyclerAdapter = CompletedGoalsRecyclerAdapter(completedGoals)
+                    completedGoalsRecyclerView.adapter = completedGoalsRecyclerAdapter
+                }
+            }
         }
 
-        val completedGoalsRecyclerView: RecyclerView =
-            binding.completedGoalsParentSide.rvHomeCompletedGoalsList
-        completedGoalsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        completedGoalsRecyclerAdapter = CompletedGoalsRecyclerAdapter()
-        completedGoalsRecyclerView.adapter = completedGoalsRecyclerAdapter
-
-//        binding.buttonAddChild.setOnClickListener {
-//            val bundle = bundleOf("isFromParentHome" to true)
-//            navController.navigate(R.id.action_parentHomeFragment_to_addChildFragment, bundle)
-//        }
 
         binding.homeAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {

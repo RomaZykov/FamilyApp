@@ -3,33 +3,23 @@ package com.n1.moguchi.ui.activity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.n1.moguchi.data.models.Task
+import androidx.lifecycle.viewModelScope
+import com.n1.moguchi.data.models.Child
+import com.n1.moguchi.data.repositories.ParentRepository
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class MainActivityViewModel @Inject constructor() : ViewModel() {
+class MainActivityViewModel @Inject constructor(
+    private val parentRepository: ParentRepository
+) : ViewModel() {
 
-    private val _task = MutableLiveData<Task>()
-    val task: LiveData<Task> = _task
+    private val _children = MutableLiveData<List<Child>>()
+    val children: LiveData<List<Child>> = _children
 
-    private val _isTaskCompleted = MutableLiveData<Boolean>()
-    val isTaskCompleted: LiveData<Boolean> = _isTaskCompleted
-
-    private val _isGoalCompleted = MutableLiveData<Boolean>()
-    val isGoalCompleted: LiveData<Boolean> = _isGoalCompleted
-
-    fun getTasksList() {
-
-    }
-
-    fun getGoalsList() {
-
-    }
-
-    private fun updateProgress() {
-
-    }
-
-    fun isAuthenticated(): Boolean {
-        return TODO()
+    fun getChildren(parentId: String) {
+        viewModelScope.launch {
+            val children: Map<String, Child> = parentRepository.getChildren(parentId)
+            _children.value = children.values.toList()
+        }
     }
 }

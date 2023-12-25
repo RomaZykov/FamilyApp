@@ -7,46 +7,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.commit
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.n1.moguchi.R
 import com.n1.moguchi.data.models.Goal
 import com.n1.moguchi.data.models.Task
 import com.n1.moguchi.databinding.ZMockCompletedGoalCardBinding
 import com.n1.moguchi.ui.fragment.parent.CompletedTasksFragment
 
-class CompletedGoalsRecyclerAdapter :
-    RecyclerView.Adapter<CompletedGoalsRecyclerAdapter.CardViewHolder>() {
-
-    private val tasksList = mutableListOf(
-        Task(title = "Прибраться в комнате 5 дней подряд", height = 2),
-        Task(title = "Сходить в магазин в пятницу", height = 1),
-        Task(title = "Написать контрольную минимум на 4", height = 3),
-        Task(title = "Сходить в магазин в пятницу", height = 1),
-        Task(title = "Написать контрольную минимум на 4", height = 3),
-        Task(title = "Сходить в магазин в пятницу", height = 1)
-    )
-    private val goalsList = mutableListOf(
-        Goal(
-            goalId = null,
-            parentOwnerId = null,
-            childOwnerId = null,
-            title = "Новая игра на компьютер или приставку",
-            height = 5, false
-        ),
-        Goal(
-            goalId = null,
-            parentOwnerId = null,
-            childOwnerId = null,
-            title = "Велосипед",
-            height = 5, false
-        ),
-        Goal(
-            goalId = null,
-            parentOwnerId = null,
-            childOwnerId = null,
-            title = "Сноуборд",
-            height = 10, false
-        )
-    )
+class CompletedGoalsRecyclerAdapter(private val goalsList: List<Goal>) :
+    RecyclerView.Adapter<ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -54,16 +23,16 @@ class CompletedGoalsRecyclerAdapter :
         return CardViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val completedGoal: Goal = goalsList[position]
-        holder.bind(completedGoal)
+        (holder as CardViewHolder).bind(completedGoal)
     }
 
     override fun getItemCount(): Int {
         return goalsList.size
     }
 
-    inner class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+    inner class CardViewHolder(itemView: View) : ViewHolder(itemView),
         View.OnClickListener {
         private val binding = ZMockCompletedGoalCardBinding.bind(itemView)
         private var goal: Goal? = null

@@ -36,17 +36,12 @@ class HomeChildFragment : Fragment() {
 
         MainActivity.isParentProfile = false
 
-//        val recyclerViewGoals: RecyclerView = view.findViewById(R.id.rv_child_home_goals)
-//        recyclerViewGoals.layoutManager = LinearLayoutManager(requireContext())
-//        goalsRecyclerAdapter = GoalsRecyclerAdapter()
-//        recyclerViewGoals.adapter = goalsRecyclerAdapter
+//        val recyclerViewCompletedGoals: RecyclerView = view.findViewById(R.id.rv_child_home_completed_goals)
+//        recyclerViewCompletedGoals.layoutManager = LinearLayoutManager(requireContext())
+//        childCompletedGoalsRecyclerAdapter = CompletedGoalsRecyclerAdapter()
+//        recyclerViewCompletedGoals.adapter = childCompletedGoalsRecyclerAdapter
 
-        val recyclerViewCompletedGoals: RecyclerView = view.findViewById(R.id.rv_child_home_completed_goals)
-        recyclerViewCompletedGoals.layoutManager = LinearLayoutManager(requireContext())
-        childCompletedGoalsRecyclerAdapter = CompletedGoalsRecyclerAdapter()
-        recyclerViewCompletedGoals.adapter = childCompletedGoalsRecyclerAdapter
-
-        updateBottomNavigationView()
+//        updateBottomNavigationView()
 
         (activity as MainActivity).findViewById<BottomNavigationView>(R.id.bottom_navigation_view).menu.findItem(R.id.switchToParent).setOnMenuItemClickListener {
             showToParentChangeBottomSheet()
@@ -66,7 +61,7 @@ class HomeChildFragment : Fragment() {
         modalBottomSheet.show(fragmentManager, mainActivityTag)
     }
 
-    private fun updateBottomNavigationView() {
-        (activity as MainActivity).setupBottomNavigationView()
-    }
+//    private fun updateBottomNavigationView() {
+//        (activity as MainActivity).setupBottomNavigationView(children)
+//    }
 }

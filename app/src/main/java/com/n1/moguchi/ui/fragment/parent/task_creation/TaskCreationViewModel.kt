@@ -13,7 +13,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
-private const val MIN_HEIGHT = 1
+private const val MIN_TASK_HEIGHT = 1
+private const val MAX_TASK_HEIGHT = 3
+private const val MIN_GOAL_HEIGHT = 0
 
 class TaskCreationViewModel @Inject constructor(
     private val parentRepository: ParentRepository,
@@ -27,8 +29,11 @@ class TaskCreationViewModel @Inject constructor(
     private val _tasks = MutableLiveData<List<Task>>()
     val tasks: LiveData<List<Task>> = _tasks
 
-    private val _goalHeight = MutableLiveData<Int>()
-    val goalHeight: LiveData<Int> = _goalHeight
+    private val _totalGoalPoints = MutableLiveData<Int>()
+    val totalGoalPoints: LiveData<Int> = _totalGoalPoints
+
+    private val _currentGoalPoints = MutableLiveData<Int>()
+    val currentGoalPoints: LiveData<Int> = _currentGoalPoints
 
     private val _taskHeightTotal = MutableLiveData<Int>()
     val taskHeightTotal: LiveData<Int> = _taskHeightTotal
@@ -36,10 +41,11 @@ class TaskCreationViewModel @Inject constructor(
     private val _taskName = MutableLiveData<String>()
     val taskName: LiveData<String> = _taskName
 
-    private var counterTaskHeight = MIN_HEIGHT
+    private var counterTaskHeight = MIN_TASK_HEIGHT
 
     init {
         _taskHeightTotal.value = counterTaskHeight
+        _currentGoalPoints.value = MIN_GOAL_HEIGHT
     }
 
     fun createTask(task: Task, goalId: String): Task {
@@ -47,13 +53,14 @@ class TaskCreationViewModel @Inject constructor(
             taskRepository.createTask(task, goalId)
         }
         _taskHeightTotal.value?.plus(newTask.height)
+        _currentGoalPoints.value = _taskHeightTotal.value
         _tasks.value = (_tasks.value ?: emptyList()) + newTask
         return newTask
     }
 
     fun setupMaxPointsOfGoal(goalId: String) {
         viewModelScope.launch {
-            _goalHeight.postValue(goalRepository.getGoal(goalId).height)
+            _totalGoalPoints.postValue(goalRepository.getGoal(goalId).totalPoints)
         }
     }
 
@@ -63,6 +70,7 @@ class TaskCreationViewModel @Inject constructor(
             _tasks.value =
                 _tasks.value?.dropWhile { it.taskId == task.taskId }
             _taskHeightTotal.value?.minus(task.height)
+            _currentGoalPoints.value = _taskHeightTotal.value
         }
     }
 
@@ -81,11 +89,13 @@ class TaskCreationViewModel @Inject constructor(
 
     fun increaseTaskHeight() {
         _taskHeightTotal.value = ++counterTaskHeight
-//        taskRepository.updateTask()
+        _currentGoalPoints.value = _taskHeightTotal.value
+//            taskRepository.updateTask()
     }
 
     fun decreaseTaskHeight() {
         _taskHeightTotal.value = --counterTaskHeight
+        _currentGoalPoints.value = _taskHeightTotal.value
 //        taskRepository.updateTask()
     }
 }

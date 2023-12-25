@@ -12,7 +12,7 @@
         tools:layout="@layout/activity_main" />
     <fragment
         android:id="@+id/onBoardingParentFragment"
-        android:name="com.n1.moguchi.ui.fragment.parent.OnBoardingParentFragment"
+        android:name="com.n1.moguchi.ui.fragment.parent.view_pager.OnBoardingViewPager"
         android:label="OnBoardingParentFragment">
         <action
             android:id="@+id/action_onBoardingParentFragment_to_afterOnBoardingFragment"
@@ -71,7 +71,7 @@
         android:label="GoalCreationFragment" />
     <fragment
         android:id="@+id/firstSlideFragment"
-        android:name="com.n1.moguchi.ui.fragment.parent.FirstSlideFragment"
+        android:name="com.n1.moguchi.ui.fragment.parent.view_pager.FirstSlideFragment"
         android:label="FirstSlideFragment" >
         <action
             android:id="@+id/action_firstSlideFragment_to_secondSlideFragment"
@@ -79,7 +79,7 @@
     </fragment>
     <fragment
         android:id="@+id/secondSlideFragment"
-        android:name="com.n1.moguchi.ui.fragment.parent.SecondSlideFragment"
+        android:name="com.n1.moguchi.ui.fragment.parent.view_pager.SecondSlideFragment"
         android:label="SecondSlideFragment" >
         <action
             android:id="@+id/action_secondSlideFragment_to_thirdSlideFragment"
@@ -87,7 +87,7 @@
     </fragment>
     <fragment
         android:id="@+id/thirdSlideFragment"
-        android:name="com.n1.moguchi.ui.fragment.parent.ThirdSlideFragment"
+        android:name="com.n1.moguchi.ui.fragment.parent.view_pager.ThirdSlideFragment"
         android:label="ThirdSlideFragment" />
     <fragment
         android:id="@+id/homeChildFragment"

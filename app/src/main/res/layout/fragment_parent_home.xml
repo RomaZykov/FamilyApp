@@ -55,21 +55,14 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <HorizontalScrollView
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_children"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:scrollbars="none">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_children"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="16dp"
-                        android:nestedScrollingEnabled="false"
-                        android:orientation="horizontal"
-                        app:layoutManager="LinearLayoutManager" />
-                </HorizontalScrollView>
+                    android:layout_marginTop="8dp"
+                    android:nestedScrollingEnabled="false"
+                    android:orientation="horizontal"
+                    app:layoutManager="LinearLayoutManager" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_home_goals_list"

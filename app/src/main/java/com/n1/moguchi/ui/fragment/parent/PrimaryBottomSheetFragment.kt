@@ -86,7 +86,7 @@ class PrimaryBottomSheetFragment : BottomSheetDialogFragment() {
             }
         }
         binding.nextButton.setOnClickListener {
-            val currentGoalHeight = viewModel.goalHeight.value
+            val currentGoalHeight = viewModel.totalGoalPoints.value
 //            val goal = Goal(
 //
 //            )
