@@ -31,8 +31,8 @@ open class GoalCreationViewModel @Inject constructor(
 //    private val _progressGoalHeight = MutableLiveData<String>()
 //    val progressGoalHeight: LiveData<String> = _progressGoalHeight
 
-    private val _goalHeight = MutableLiveData<Int>()
-    val goalHeight: LiveData<Int> = _goalHeight
+    private val _totalGoalPoints = MutableLiveData<Int>()
+    val totalGoalPoints: LiveData<Int> = _totalGoalPoints
 
     private val _goalName = MutableLiveData<String>()
     val goalName: LiveData<String> = _goalName
@@ -40,7 +40,7 @@ open class GoalCreationViewModel @Inject constructor(
     private var counterGoalHeight = MIN_GOAL_HEIGHT
 
     init {
-        _goalHeight.value = counterGoalHeight
+        _totalGoalPoints.value = counterGoalHeight
     }
 
     fun createGoal(goal: Goal, childId: String) {
@@ -49,13 +49,13 @@ open class GoalCreationViewModel @Inject constructor(
 
     fun increaseGoalHeight() {
         if (counterGoalHeight < MAX_GOAL_HEIGHT) {
-            _goalHeight.value = ++counterGoalHeight
+            _totalGoalPoints.value = ++counterGoalHeight
         }
     }
 
     fun decreaseGoalHeight() {
         if (counterGoalHeight != MIN_GOAL_HEIGHT) {
-            _goalHeight.value = --counterGoalHeight
+            _totalGoalPoints.value = --counterGoalHeight
         }
     }
 

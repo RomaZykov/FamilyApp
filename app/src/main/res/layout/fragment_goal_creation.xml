@@ -129,7 +129,7 @@
                     android:layout_marginHorizontal="8dp"
                     android:background="@drawable/round_wide_button"
                     android:gravity="center"
-                    android:text="@{viewModel.goalHeight.toString()}"
+                    android:text="@{viewModel.totalGoalPoints.toString()}"
                     android:textColor="@color/black" />
 
                 <ImageButton

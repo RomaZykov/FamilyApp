@@ -76,7 +76,7 @@ class GoalCreationFragment : Fragment() {
             throw Exception("User not authorized")
         }
 
-        viewModel.goalHeight.observe(viewLifecycleOwner) {
+        viewModel.totalGoalPoints.observe(viewLifecycleOwner) {
             goalHeight = it
         }
 
@@ -126,7 +126,7 @@ class GoalCreationFragment : Fragment() {
                     Goal(
                         goalId = goalId,
                         title = binding.goalName.text.toString(),
-                        height = goalHeight
+                        totalPoints = goalHeight
                     ),
                     childId!!
                 )

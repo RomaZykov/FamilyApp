@@ -18,7 +18,7 @@ import com.n1.moguchi.ui.views.CustomShapesView
 class GoalsRecyclerAdapter(
     private val goalsList: List<Goal>,
     private val tasksByGoalList: List<Task>
-) : RecyclerView.Adapter<GoalsRecyclerAdapter.CardViewHolder>() {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -26,9 +26,9 @@ class GoalsRecyclerAdapter(
         return CardViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val goal: Goal = goalsList[position]
-        holder.bind(goal, tasksByGoalList)
+        (holder as CardViewHolder).bind(goal, tasksByGoalList)
     }
 
     override fun getItemCount(): Int {
