@@ -10,13 +10,13 @@ import com.n1.moguchi.data.repositories.GoalRepository
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class GoalRepositoryImpl @Inject constructor() : GoalRepository {
+class GoalRepositoryImpl @Inject constructor(
+    database: FirebaseDatabase,
+    private val auth: FirebaseAuth
+) : GoalRepository {
 
-    private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
-    private val auth: FirebaseAuth = Firebase.auth
     private val goalsRef = database.getReference("goals")
     private val tasksRef = database.getReference("tasks")
-
     override fun createGoal(goal: Goal, childId: String): Goal {
         val goalsRefByChildId = goalsRef.child(goal.goalId!!)
         val newGoal = goal.copy(
@@ -52,5 +52,14 @@ class GoalRepositoryImpl @Inject constructor() : GoalRepository {
     override suspend fun getGoal(goalID: String): Goal {
         val goal = goalsRef.child(goalID).get().await().getValue(Goal::class.java)
         return goal!!
+    }
+
+    override suspend fun getCompletedGoals(childID: String): List<Goal> {
+        val completedGoalsRef = goalsRef.orderByChild("goalCompleted").equalTo(false)
+        val completedGoals = mutableListOf<Goal>()
+        completedGoalsRef.get().await().children.forEach { completedGoal ->
+            completedGoals.add(completedGoal.getValue(Goal::class.java)!!)
+        }
+        return completedGoals
     }
 }

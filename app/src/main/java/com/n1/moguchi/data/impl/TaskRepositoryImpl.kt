@@ -7,9 +7,10 @@ import kotlinx.coroutines.tasks.await
 import java.util.UUID
 import javax.inject.Inject
 
-class TaskRepositoryImpl @Inject constructor() : TaskRepository {
+class TaskRepositoryImpl @Inject constructor(
+    database: FirebaseDatabase
+) : TaskRepository {
 
-    private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
     private val tasksRef = database.getReference("tasks")
 
     override suspend fun createTask(task: Task, goalID: String): Task {
@@ -51,7 +52,7 @@ class TaskRepositoryImpl @Inject constructor() : TaskRepository {
         return tasks
     }
 
-//    fun retrieveCompletedTodos(userId: String?): TaskList? {
+//    fun retrieveCompletedTasks(userId: String?): TaskList {
 //        return TODO()
 //    }
 }

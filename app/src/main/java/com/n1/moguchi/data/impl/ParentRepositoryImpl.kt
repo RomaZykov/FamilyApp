@@ -9,17 +9,17 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
-import com.google.firebase.ktx.Firebase
 import com.n1.moguchi.data.models.Child
 import com.n1.moguchi.data.models.Parent
 import com.n1.moguchi.data.repositories.ParentRepository
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class ParentRepositoryImpl @Inject constructor() : ParentRepository {
+class ParentRepositoryImpl @Inject constructor(
+    database: FirebaseDatabase,
+    private val auth: FirebaseAuth
+) : ParentRepository {
 
-    private val auth: FirebaseAuth = Firebase.auth
-    private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
     private val childrenRef: DatabaseReference = database.getReference("children")
     private val parentsRef: DatabaseReference = database.getReference("parents")
 
