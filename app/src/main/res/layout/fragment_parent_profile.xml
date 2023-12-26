@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:navigationIcon="@drawable/baseline_arrow_back_24"
-                app:title="Профиль"
+                app:title="@string/profile_title"
                 app:titleCentered="true"
                 app:titleTextAppearance="@style/ActionBar.TitleText.Medium"
                 app:titleTextColor="@color/black" />
@@ -38,7 +38,7 @@
             layout="@layout/parent_profile_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
+            android:layout_marginHorizontal="@dimen/medium_margin"
             app:layout_constraintBottom_toTopOf="@id/profile_ll"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +48,7 @@
             android:id="@+id/profile_ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/medium_margin"
             android:orientation="vertical"
             app:layout_constraintBottom_toTopOf="@id/top_notifications_ll"
             app:layout_constraintEnd_toEndOf="parent"
@@ -59,12 +59,13 @@
                 android:id="@+id/my_children_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginVertical="4dp"
+                android:layout_marginHorizontal="@dimen/medium_margin"
+                android:layout_marginVertical="@dimen/tiny_margin"
                 android:background="@drawable/round_wide_button"
                 android:clickable="true"
                 android:focusable="true"
-                android:paddingVertical="16dp"
+                android:orientation="horizontal"
+                android:paddingVertical="@dimen/medium_padding"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
@@ -72,25 +73,25 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="24dp"
+                    android:layout_marginStart="@dimen/large_margin"
                     android:gravity="center"
                     android:src="@drawable/profile" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="@dimen/medium_margin"
                     android:layout_weight="1"
                     android:fontFamily="@font/onest_regular"
                     android:gravity="start|center"
-                    android:text="Мои дети"
-                    android:textSize="14sp" />
+                    android:text="@string/my_children"
+                    android:textSize="@dimen/semi_small_font_size" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="end"
-                    android:paddingHorizontal="8dp"
+                    android:paddingHorizontal="@dimen/small_padding"
                     android:src="@drawable/chevron_r" />
             </LinearLayout>
 
@@ -98,47 +99,49 @@
                 android:id="@+id/notifications_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginVertical="4dp"
+                android:layout_marginHorizontal="@dimen/medium_margin"
+                android:layout_marginVertical="@dimen/tiny_margin"
                 android:background="@drawable/round_wide_button"
                 android:clickable="true"
                 android:focusable="true"
-                android:paddingVertical="4dp">
+                android:orientation="horizontal"
+                android:paddingVertical="@dimen/tiny_padding">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="24dp"
+                    android:layout_marginStart="@dimen/large_margin"
                     android:gravity="center"
                     android:src="@drawable/notification_bing" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="@dimen/medium_margin"
                     android:layout_weight="1"
                     android:fontFamily="@font/onest_regular"
                     android:gravity="start|center"
-                    android:text="Уведомления"
-                    android:textSize="14sp" />
+                    android:text="@string/notifications"
+                    android:textSize="@dimen/semi_small_font_size" />
 
                 <com.google.android.material.materialswitch.MaterialSwitch
                     android:id="@+id/notifications_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:paddingHorizontal="16dp" />
+                    android:paddingHorizontal="@dimen/large_padding" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/sign_out_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginVertical="4dp"
+                android:layout_marginHorizontal="@dimen/medium_margin"
+                android:layout_marginVertical="@dimen/tiny_margin"
                 android:background="@drawable/round_wide_button"
                 android:clickable="true"
                 android:focusable="true"
-                android:paddingVertical="16dp"
+                android:orientation="horizontal"
+                android:paddingVertical="@dimen/medium_padding"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
@@ -147,18 +150,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="start"
-                    android:layout_marginStart="24dp"
+                    android:layout_marginStart="@dimen/large_margin"
                     android:gravity="center"
                     android:src="@drawable/logout" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="@dimen/medium_margin"
                     android:fontFamily="@font/onest_regular"
                     android:gravity="center"
-                    android:text="Выйти из аккаунта"
-                    android:textSize="14sp" />
+                    android:text="@string/log_out"
+                    android:textSize="@dimen/semi_small_font_size" />
             </LinearLayout>
         </LinearLayout>
 
@@ -166,10 +169,10 @@
             android:id="@+id/top_notifications_ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_margin="@dimen/medium_margin"
             android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/rv_notifications_list"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/profile_ll">
 
@@ -180,26 +183,25 @@
                 android:layout_gravity="center"
                 android:fontFamily="@font/onest_regular"
                 android:gravity="start"
-                android:text="Уведомления"
-                android:textSize="16sp" />
+                android:text="@string/notifications"
+                android:textSize="@dimen/medium_font_size" />
 
             <TextView
                 android:id="@+id/notifications_title_badge"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="@dimen/small_icon_size"
+                android:layout_height="@dimen/small_icon_size"
                 android:layout_gravity="center"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="@dimen/small_margin"
                 android:background="@drawable/badge_circle_red"
                 android:gravity="center"
-                android:minWidth="24dp"
-                android:text="1"
                 android:textColor="@color/white"
-                android:textSize="12sp" />
+                android:textSize="@dimen/tiny_font_size"
+                tools:text="99" />
 
             <Space
                 android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/delete_notifications_button"
@@ -209,9 +211,9 @@
                 android:focusable="true"
                 android:fontFamily="@font/onest_regular"
                 android:gravity="center"
-                android:text="Удалить всё"
+                android:text="@string/delete_all_notifications"
                 android:textColor="@color/red"
-                android:textSize="14sp"
+                android:textSize="@dimen/semi_small_font_size"
                 android:visibility="gone" />
         </LinearLayout>
 
@@ -219,13 +221,13 @@
             android:id="@+id/empty_notifications_hint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="@dimen/medium_margin"
+            android:layout_marginTop="@dimen/medium_margin"
             android:fontFamily="@font/onest_regular"
             android:gravity="start"
-            android:text="Уведомлений нет"
+            android:text="@string/empty_notifications"
             android:textColor="@color/gray"
-            android:textSize="14sp"
+            android:textSize="@dimen/semi_small_font_size"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/top_notifications_ll" />
 
@@ -233,8 +235,8 @@
             android:id="@+id/rv_notifications_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginHorizontal="@dimen/medium_margin"
+            android:layout_marginTop="@dimen/small_margin"
             android:nestedScrollingEnabled="false"
             android:visibility="gone"
             app:layoutManager="LinearLayoutManager"

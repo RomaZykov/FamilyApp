@@ -35,7 +35,7 @@
                 android:layout_height="?attr/actionBarSize"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:menu="@menu/parent_profile_app_bar"
-                app:title="Мои дети"
+                app:title="@string/my_children_title"
                 app:titleTextAppearance="@style/Toolbar.TitleText.Large"
                 app:titleTextColor="@color/black" />
         </com.google.android.material.appbar.AppBarLayout>
@@ -59,7 +59,7 @@
                     android:id="@+id/rv_children"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/small_margin"
                     android:nestedScrollingEnabled="false"
                     android:orientation="horizontal"
                     app:layoutManager="LinearLayoutManager" />
@@ -68,7 +68,7 @@
                     android:id="@+id/rv_home_goals_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
+                    android:layout_margin="@dimen/small_margin"
                     android:nestedScrollingEnabled="false"
                     app:layoutManager="LinearLayoutManager" />
 
@@ -77,7 +77,7 @@
                     layout="@layout/completed_goals_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp" />
+                    android:layout_marginTop="@dimen/small_margin" />
             </LinearLayout>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

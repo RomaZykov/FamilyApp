@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools">
 
     <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -36,7 +36,7 @@
                     android:layout_gravity="center"
                     android:fontFamily="@font/onest_regular"
                     android:gravity="start"
-                    android:text="Велосипед"
+                    tools:text="Велосипед"
                     android:textSize="16sp" />
 
                 <include

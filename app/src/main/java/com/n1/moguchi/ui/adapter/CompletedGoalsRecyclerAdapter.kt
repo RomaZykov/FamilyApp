@@ -10,8 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.n1.moguchi.R
 import com.n1.moguchi.data.models.Goal
-import com.n1.moguchi.data.models.Task
-import com.n1.moguchi.databinding.ZMockCompletedGoalCardBinding
+import com.n1.moguchi.databinding.CompletedGoalCardBinding
 import com.n1.moguchi.ui.fragment.parent.CompletedTasksFragment
 
 class CompletedGoalsRecyclerAdapter(private val goalsList: List<Goal>) :
@@ -19,7 +18,7 @@ class CompletedGoalsRecyclerAdapter(private val goalsList: List<Goal>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.z_mock_completed_goal_card, parent, false)
+            .inflate(R.layout.completed_goal_card, parent, false)
         return CardViewHolder(view)
     }
 
@@ -34,7 +33,7 @@ class CompletedGoalsRecyclerAdapter(private val goalsList: List<Goal>) :
 
     inner class CardViewHolder(itemView: View) : ViewHolder(itemView),
         View.OnClickListener {
-        private val binding = ZMockCompletedGoalCardBinding.bind(itemView)
+        private val binding = CompletedGoalCardBinding.bind(itemView)
         private var goal: Goal? = null
         var context: Context = itemView.context
 

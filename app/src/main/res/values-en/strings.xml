@@ -3,7 +3,7 @@
     <string name="greetings">Hello! Давай познакомимся, как тебя зовут?</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
+    <string name="e_mail">E-mail</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
@@ -12,8 +12,8 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="registration">Registration:</string>
+    <string name="login_button">Login</string>
 
-    <string name="e_mail">E-mail</string>
     <string name="new_password">New password</string>
     <string name="repeat_password">Repeat password</string>
     <string name="next">Next</string>
@@ -31,7 +31,6 @@
     <string name="start_journey">Start journey</string>
     <string name="sign_in_as_parent">Sign in as parent</string>
     <string name="registration_button">Registration</string>
-    <string name="login_button">Login</string>
     <string name="skip_button">Skip</string>
     <string name="child_welcome">Отлично, $name! Это приложение поможет тебе быстрее получить то, о чем ты мечтаешь.</string>
     <string name="sign_in_intent_for_parents">Попроси родителей войти в родительский аккаунт</string>
@@ -51,5 +50,54 @@
     <string name="alternative_way">Or</string>
     <string name="add_task_text_button">Добавить задачу</string>
     <string name="n_moguchi">Добро пожаловать \nв Moguchi!</string>
+    <string name="set_date_hint">Укажите дату</string>
+    <string name="avatar">Аватар</string>
+    <string name="set_child_name_hint">Введите имя ребенка</string>
+    <string name="add_child_button_text">Добавить ребёнка</string>
+    <string name="save">Сохранить</string>
+    <string name="cancel">Отмена</string>
+    <string name="switch_to_parent">Передать родителю</string>
+    <string name="switch_to_parent_mode_description">Чтобы перейти в режим родителя введите пароль</string>
+    <string name="set_password_hint">Введите пароль</string>
+    <string name="forgot_password">Забыли пароль?</string>
+    <string name="welcome_to_moguchi">Добро пожаловать \nв Moguchi!</string>
+    <string name="welcome_page_description">Выполняй задачи и достигай \nцели вместе с нами</string>
+    <string name="completed_goals">Выполненные цели</string>
+    <string name="complete_tasks">Выполняй задачи</string>
+    <string name="complete_tasks_description">и получай баллы за каждую \nвыполненную задачу</string>
+    <string name="points_received">Получено баллов</string>
+    <string name="task_completed">Задача выполнена</string>
+    <string name="pull_to_complete">Потяни, чтобы завершить</string>
+    <string name="delete_profile">Удаление профиля</string>
+    <string name="delete_child_profile">Удалить профиль ребёнка</string>
+    <string name="delete_warning_description">Все цели и задачи ребёнка так же будут удалены</string>
+    <string name="delete">Удалить</string>
+    <string name="delete_account">Удалить аккаунт?</string>
+    <string name="delete_account_description">Все цели и прогресс детей потеряются, \nвосстановить их не получится</string>
+    <string name="parent_child_mode">Режим родителя и ребёнка</string>
+    <string name="parent_child_mode_description">позволит ограничить доступ ребёнка \nк редактированию и созданию целей</string>
+    <string name="goal_creation_desription">Создайте цель для ребёнка, которую он должен достичь</string>
+    <string name="children_counter">Ребенок:</string>
+    <string name="name_goal">Название цели</string>
+    <string name="goal_example_hint">Например, велосипед</string>
+    <string name="points_to_achieve_goal">Количество баллов для достижения</string>
+    <string name="points_total_warning">Не больше 10 баллов</string>
+    <string name="skip">Пропустить</string>
+    <string name="my_children_title">Мои дети</string>
+    <string name="exit">Выход</string>
+    <string name="yes">Да</string>
+    <string name="profile_title">Профиль</string>
+    <string name="my_children">Мои дети</string>
+    <string name="notifications">Уведомления</string>
+    <string name="delete_all_notifications">Удалить всё</string>
+    <string name="empty_notifications">Уведомлений нет</string>
+    <string name="add_child_title">Добавление ребёнка</string>
+    <string name="set_password_description">Установите 4-х значный пароль, чтобы ограничить доступ ребёнку к редактированию целей и задач</string>
+    <string name="new_goal">Новая цель</string>
+    <string name="congrats">Отлично</string>
+    <string name="edit">Редактирование</string>
+    <string name="sign_in_google">Войти с помощью Google</string>
+    <string name="create_goals">Создавайте цели</string>
+    <string name="creation_goal_onboarding_description">и отслеживайте успехи вашего \nребёнка вместе с нами</string>
 
 </resources>

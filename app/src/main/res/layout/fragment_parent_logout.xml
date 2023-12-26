@@ -23,11 +23,11 @@
                 android:id="@+id/top_title_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="@dimen/extra_large_margin"
                 android:fontFamily="@font/onest_regular"
                 android:gravity="center"
-                android:text="Выход"
-                android:textSize="16sp"
+                android:text="@string/exit"
+                android:textSize="@dimen/medium_font_size"
                 app:layout_constraintBottom_toTopOf="@+id/sign_out_iv"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +39,7 @@
                 android:id="@+id/sign_out_iv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/medium_margin"
                 android:src="@drawable/sign_out_image"
                 app:layout_constraintBottom_toTopOf="@+id/exit_tv"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -50,11 +50,11 @@
                 android:id="@+id/exit_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="@dimen/large_margin"
                 android:fontFamily="@font/onest_regular"
                 android:gravity="center"
-                android:text="Выйти из аккаунта?"
-                android:textSize="24sp"
+                android:text="@string/log_out"
+                android:textSize="@dimen/large_font_size"
                 app:layout_constraintBottom_toTopOf="@+id/bottom_linear_layout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -64,7 +64,7 @@
                 android:id="@id/bottom_linear_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="@dimen/medium_margin"
                 android:gravity="center"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -73,31 +73,31 @@
 
                 <Button
                     android:id="@+id/cancel_button"
-                    android:layout_width="161dp"
+                    android:layout_width="@dimen/cancel_continue_button_width"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
                     android:fontFamily="@font/onest_regular"
-                    android:paddingHorizontal="24dp"
-                    android:paddingVertical="16dp"
-                    android:text="Отмена"
+                    android:paddingHorizontal="@dimen/large_padding"
+                    android:paddingVertical="@dimen/medium_padding"
+                    android:text="@string/cancel"
                     android:textColor="@color/black"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/semi_small_font_size" />
 
                 <Space
-                    android:layout_width="8dp"
+                    android:layout_width="@dimen/small_space_width"
                     android:layout_height="wrap_content" />
 
                 <Button
                     android:id="@+id/exit_button"
-                    android:layout_width="161dp"
+                    android:layout_width="@dimen/cancel_continue_button_width"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/orange"
                     android:fontFamily="@font/onest_regular"
-                    android:paddingHorizontal="24dp"
-                    android:paddingVertical="16dp"
-                    android:text="Да"
+                    android:paddingHorizontal="@dimen/large_padding"
+                    android:paddingVertical="@dimen/medium_padding"
+                    android:text="@string/yes"
                     android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/semi_small_font_size" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

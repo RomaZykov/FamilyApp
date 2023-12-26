@@ -28,51 +28,51 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginBottom="4dp"
+                android:layout_marginHorizontal="@dimen/medium_margin"
+                android:layout_marginBottom="@dimen/tiny_margin"
                 android:fontFamily="@font/onest_regular"
-                android:text="Создайте цель для ребёнка, которую он должен достичь"
-                android:textSize="14sp" />
+                android:text="@string/goal_creation_desription"
+                android:textSize="@dimen/semi_small_font_size" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginHorizontal="@dimen/medium_margin"
+                android:layout_marginTop="@dimen/medium_margin"
                 android:fontFamily="@font/onest_regular"
-                android:text="Ребенок:"
-                android:textSize="14sp" />
+                android:text="@string/children_counter"
+                android:textSize="@dimen/semi_small_font_size" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_children_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="@dimen/small_margin"
+                android:layout_marginTop="@dimen/small_margin"
                 android:orientation="horizontal"
                 app:layoutManager="LinearLayoutManager" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginVertical="8dp"
+                android:layout_marginHorizontal="@dimen/medium_margin"
+                android:layout_marginVertical="@dimen/small_margin"
                 android:fontFamily="@font/onest_regular"
-                android:text="Название цели"
-                android:textSize="14sp" />
+                android:text="@string/name_goal"
+                android:textSize="@dimen/semi_small_font_size" />
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
+                android:layout_marginHorizontal="@dimen/medium_margin"
                 app:boxBackgroundColor="@color/white"
-                app:boxCornerRadiusBottomEnd="18dp"
-                app:boxCornerRadiusBottomStart="18dp"
-                app:boxCornerRadiusTopEnd="18dp"
-                app:boxCornerRadiusTopStart="18dp"
+                app:boxCornerRadiusBottomEnd="@dimen/medium_box_corner_radius"
+                app:boxCornerRadiusBottomStart="@dimen/medium_box_corner_radius"
+                app:boxCornerRadiusTopEnd="@dimen/medium_box_corner_radius"
+                app:boxCornerRadiusTopStart="@dimen/medium_box_corner_radius"
                 app:boxStrokeColor="@color/orange"
-                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidth="@dimen/box_stroke_width"
                 app:hintEnabled="false"
                 app:hintTextAppearance="@style/TextAppearance.Design.Hint.Small"
                 app:hintTextColor="@color/black">
@@ -81,27 +81,27 @@
                     android:id="@+id/goal_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Например, велосипед"
+                    android:hint="@string/goal_example_hint"
                     android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="16dp">
+                android:layout_marginHorizontal="@dimen/medium_margin"
+                android:layout_marginTop="@dimen/medium_margin">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/onest_regular"
                     android:gravity="center"
-                    android:text="Количество баллов для достижения" />
+                    android:text="@string/points_to_achieve_goal" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="@dimen/small_margin"
                     android:src="@drawable/points" />
             </LinearLayout>
 
@@ -109,24 +109,24 @@
                 android:id="@+id/counter_linear_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginVertical="8dp"
+                android:layout_marginHorizontal="@dimen/medium_margin"
+                android:layout_marginVertical="@dimen/small_margin"
                 android:gravity="center"
                 android:orientation="horizontal">
 
                 <ImageButton
                     android:id="@+id/goal_decrease_button"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="50dp"
+                    android:layout_width="@dimen/super_icon_size"
+                    android:layout_height="@dimen/super_icon_size"
+                    android:layout_marginStart="@dimen/super_margin"
                     android:background="@drawable/round_profile_button"
                     android:backgroundTint="@color/white"
                     android:src="@drawable/baseline_horizontal_rule_24" />
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginHorizontal="8dp"
+                    android:layout_height="@dimen/super_layout_height"
+                    android:layout_marginHorizontal="@dimen/small_margin"
                     android:background="@drawable/round_wide_button"
                     android:gravity="center"
                     android:text="@{viewModel.totalGoalPoints.toString()}"
@@ -134,23 +134,23 @@
 
                 <ImageButton
                     android:id="@+id/goal_increase_button"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginEnd="50dp"
+                    android:layout_width="@dimen/super_icon_size"
+                    android:layout_height="@dimen/super_icon_size"
+                    android:layout_marginEnd="@dimen/super_margin"
                     android:background="@drawable/round_profile_button"
                     android:backgroundTint="@color/white"
                     android:src="@drawable/baseline_add_24"
-                    android:textSize="25sp" />
+                    android:textSize="@dimen/large_font_size" />
             </LinearLayout>
 
             <TextView
                 android:id="@+id/goal_height_limit_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="@dimen/medium_margin"
                 android:fontFamily="@font/onest_regular"
-                android:text="Не больше 10 баллов"
-                android:textSize="12sp" />
+                android:text="@string/points_total_warning"
+                android:textSize="@dimen/small_font_size" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
