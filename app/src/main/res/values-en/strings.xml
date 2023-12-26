@@ -66,6 +66,7 @@
     <string name="complete_tasks">Выполняй задачи</string>
     <string name="complete_tasks_description">и получай баллы за каждую \nвыполненную задачу</string>
     <string name="points_received">Получено баллов</string>
+    <string name="goal_title">Цель</string>
     <string name="task_completed">Задача выполнена</string>
     <string name="pull_to_complete">Потяни, чтобы завершить</string>
     <string name="delete_profile">Удаление профиля</string>

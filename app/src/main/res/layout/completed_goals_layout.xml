@@ -11,9 +11,9 @@
         android:layout_marginHorizontal="@dimen/medium_margin"
         android:layout_marginTop="@dimen/medium_margin"
         android:fontFamily="@font/onest_regular"
-        android:text="Выполненные цели"
+        android:text="@string/completed_goals"
         android:textColor="@color/black"
-        android:textSize="24sp" />
+        android:textSize="@dimen/large_font_size" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_home_completed_goals_list"
