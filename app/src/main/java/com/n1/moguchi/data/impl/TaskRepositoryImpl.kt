@@ -36,7 +36,8 @@ class TaskRepositoryImpl @Inject constructor(
     override suspend fun updateTask(task: Task): Task {
         val taskRefByGoalId = tasksRef.child(task.taskId)
         val updatedTask = task.copy(
-            height = task.height
+            height = task.height,
+            title = task.title
         )
         val taskValues = updatedTask.toMap()
         taskRefByGoalId.updateChildren(taskValues)

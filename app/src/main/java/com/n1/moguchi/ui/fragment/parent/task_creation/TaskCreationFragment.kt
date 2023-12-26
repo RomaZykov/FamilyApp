@@ -94,21 +94,12 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
                 }
             }
 
-            taskCreationRecyclerAdapter.onTaskUpdate = { updatedTask ->
-                viewModel.updateTask(updatedTask)
+            taskCreationRecyclerAdapter.onTaskUpdate = { updatedTask, taskPointsChanged, taskTitleChanged ->
+                viewModel.updateTask(updatedTask, taskPointsChanged, taskTitleChanged)
             }
 
             taskCreationRecyclerAdapter.onTaskDeleteClicked = { task ->
                 viewModel.deleteTask(task)
-            }
-
-            taskCreationRecyclerAdapter.onTaskHeightUp = { updatedTask ->
-                viewModel.increaseTaskHeight()
-                viewModel.updateTask(updatedTask)
-            }
-            taskCreationRecyclerAdapter.onTaskHeightDown = { updatedTask ->
-                viewModel.decreaseTaskHeight()
-                viewModel.updateTask(updatedTask)
             }
 
             taskCreationRecyclerAdapter.onCardsStatusUpdate = { isAllTasksCompleted ->
@@ -130,7 +121,7 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
                 if (isNextButtonPressed == true) {
                     parentFragment?.arguments?.putParcelableArrayList(
                         "tasks",
-                        tasks as ArrayList<out Parcelable>?
+                        tasks as ArrayList<out Parcelable>
                     )
                 }
             }

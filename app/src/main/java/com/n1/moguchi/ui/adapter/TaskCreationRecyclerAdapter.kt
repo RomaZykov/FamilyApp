@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.R
 import com.n1.moguchi.data.models.Task
 import com.n1.moguchi.databinding.CreationSectionFooterBinding
-import com.n1.moguchi.databinding.TaskCreationCardBinding
+import com.n1.moguchi.databinding.TaskCardBinding
 
 private const val FOOTER_ADD_TASK_BUTTON = 1
 
@@ -18,9 +18,7 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
 
     var tasksCardList: MutableList<Task> = ArrayList()
     var onTaskSettingsClicked: (() -> Unit)? = null
-    var onTaskUpdate: ((Task) -> Unit)? = null
-    var onTaskHeightUp: ((Task) -> Unit)? = null
-    var onTaskHeightDown: ((Task) -> Unit)? = null
+    var onTaskUpdate: ((Task, Boolean, Boolean) -> Unit)? = null
     var onNewTaskAddClicked: (() -> Unit)? = null
     var onTaskDeleteClicked: ((Task) -> Unit)? = null
     var onCardsStatusUpdate: ((Boolean) -> Unit)? = null
@@ -29,7 +27,7 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
         return when (viewType) {
             VIEW_TYPE_TASK_CARD -> {
                 val view = LayoutInflater.from(parent.context).inflate(
-                    R.layout.task_creation_card,
+                    R.layout.task_card,
                     parent,
                     false
                 )
@@ -72,7 +70,7 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     inner class TaskCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val binding = TaskCreationCardBinding.bind(itemView)
+        private val binding = TaskCardBinding.bind(itemView)
 
         fun bind(task: Task) {
             binding.taskHeight.text = task.height.toString()
@@ -88,7 +86,7 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
                     if (taskName.toString().isEmpty()) {
                         binding.taskNameEditText.error = "Выполните все условия"
                     } else {
-                        onTaskUpdate?.invoke(task)
+                        onTaskUpdate?.invoke(task, false, true)
                     }
                     notifyItemChanged(itemCount - FOOTER_ADD_TASK_BUTTON)
                 }
@@ -104,15 +102,13 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
             binding.increaseButton.setOnClickListener {
                 if (task.height < MAX_TASK_HEIGHT) {
                     binding.taskHeight.text = (++task.height).toString()
-                    onTaskHeightUp?.invoke(task)
-                    onTaskUpdate?.invoke(task)
+                    onTaskUpdate?.invoke(task, true, false)
                 }
             }
             binding.decreaseButton.setOnClickListener {
                 if (task.height > MIN_TASK_HEIGHT) {
                     binding.taskHeight.text = (--task.height).toString()
-                    onTaskHeightDown?.invoke(task)
-                    onTaskUpdate?.invoke(task)
+                    onTaskUpdate?.invoke(task, false, false)
                 }
             }
         }
