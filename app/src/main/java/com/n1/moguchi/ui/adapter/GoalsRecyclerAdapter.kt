@@ -47,6 +47,8 @@ class GoalsRecyclerAdapter(
 
         fun bind(goal: Goal, tasksByGoalList: List<Task>) {
             binding.goalTitle.text = goal.title
+            binding.goalPointsLayout.root.findViewById<TextView>(R.id.goal_points).text =
+                "${goal.currentPoints} / ${goal.totalPoints}"
             val buttonText: TextView = binding.allTasksButton.getChildAt(0) as TextView
             buttonText.text = "Смотреть 5 задач(у)"
             binding.tasksContainerLl.apply {
@@ -58,6 +60,8 @@ class GoalsRecyclerAdapter(
                         taskSmallItem.setBackgroundColor(resources.getColor(R.color.white_opacity_90))
                         taskSmallItem.findViewById<TextView>(R.id.task_title).text =
                             tasksByGoalList[i - 1].title
+                        taskSmallItem.findViewById<TextView>(R.id.task_item_points).text =
+                            tasksByGoalList[i - 1].height.toString()
                         addView(taskSmallItem)
                     }
                 }
