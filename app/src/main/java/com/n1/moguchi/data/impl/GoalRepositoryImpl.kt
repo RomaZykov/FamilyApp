@@ -53,7 +53,7 @@ class GoalRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getCompletedGoals(childID: String): List<Goal> {
-        val completedGoalsRef = goalsRef.orderByChild("goalCompleted").equalTo(false)
+        val completedGoalsRef = goalsRef.orderByChild("goalCompleted").equalTo(true)
         val completedGoals = mutableListOf<Goal>()
         completedGoalsRef.get().await().children.forEach { completedGoal ->
             completedGoals.add(completedGoal.getValue(Goal::class.java)!!)
