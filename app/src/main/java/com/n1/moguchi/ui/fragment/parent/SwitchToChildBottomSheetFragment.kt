@@ -34,7 +34,6 @@ class SwitchToChildBottomSheetFragment(private val children: List<Child>) : Bott
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val parentID = Firebase.auth.currentUser?.uid
 
         val modalBottomSheet =

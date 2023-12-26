@@ -17,7 +17,7 @@ data class Goal(
             "title" to title,
             "totalPoints" to totalPoints,
             "currentPoints" to currentPoints,
-            "isGoalCompleted" to goalCompleted
+            "goalCompleted" to goalCompleted
         )
     }
 }
