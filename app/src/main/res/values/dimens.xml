@@ -5,11 +5,15 @@
     <dimen name="bottom_navigation_icons_padding">18dp</dimen>
 
     <dimen name="medium_box_corner_radius">18dp</dimen>
-    <dimen name="box_stroke_width">0dp</dimen>
+    <dimen name="zero_box_stroke_width">0dp</dimen>
 
+    <dimen name="super_layout_width">48dp</dimen>
     <dimen name="super_layout_height">48dp</dimen>
 
     <dimen name="icon_padding">8dp</dimen>
+
+    <dimen name="badge_size">8dp</dimen>
+
     <dimen name="super_icon_size">48dp</dimen>
     <dimen name="large_icon_size">32dp</dimen>
     <dimen name="medium_icon_size">24dp</dimen>
@@ -18,6 +22,7 @@
     <dimen name="large_padding">24dp</dimen>
     <dimen name="semi_medium_padding">18dp</dimen>
     <dimen name="medium_padding">16dp</dimen>
+    <dimen name="semi_small_padding">12dp</dimen>
     <dimen name="small_padding">8dp</dimen>
     <dimen name="tiny_padding">4dp</dimen>
     <dimen name="extra_tiny_padding">2dp</dimen>
@@ -55,9 +60,36 @@
     <dimen name="welcome_page_height">480dp</dimen>
     <dimen name="common_page_height">450dp</dimen>
 
-    <dimen name="elevation">6dp</dimen>
+    <dimen name="medium_elevation">6dp</dimen>
+    <dimen name="zero_elevation">0dp</dimen>
 
     <dimen name="slider_height">72dp</dimen>
     <dimen name="slider_border_radius">2dp</dimen>
     <dimen name="profile_image_size">120dp</dimen>
+
+    <dimen name="divider_inset">20dp</dimen>
+
+    <dimen name="date_box_width">170dp</dimen>
+
+    <dimen name="set_date_width">184dp</dimen>
+
+    <dimen name="date_picker_width">24dp</dimen>
+
+    <dimen name="set_repeat_counter_date_width">200dp</dimen>
+
+    <dimen name="medium_child_card_height">68dp</dimen>
+
+    <dimen name="notification_height">68dp</dimen>
+
+    <dimen name="profile_photo_size">56dp</dimen>
+
+    <dimen name="add_child_button_width">48dp</dimen>
+
+    <dimen name="small_child_width">130dp</dimen>
+    <dimen name="small_child_height">48dp</dimen>
+
+    <dimen name="medium_task_height">68dp</dimen>
+    <dimen name="task_title_width">240dp</dimen>
+
+    <dimen name="task_creation_stroke_width">0dp</dimen>
 </resources>

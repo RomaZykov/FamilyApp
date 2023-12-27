@@ -3,5 +3,5 @@
     <item
         android:id="@+id/not_done"
         android:icon="@drawable/done"
-        android:title="Не выполнено" />
+        android:title="@string/task_not_done" />
 </menu>

@@ -4,10 +4,10 @@
     <item
         android:id="@+id/homeChildFragment"
         android:icon="@drawable/home"
-        android:title="Главная" />
+        android:title="@string/home_bottom" />
 
     <item
         android:id="@+id/switchToParent"
         android:icon="@drawable/rotate"
-        android:title="Родителю" />
+        android:title="@string/switch_to_parent_bottom" />
 </menu>

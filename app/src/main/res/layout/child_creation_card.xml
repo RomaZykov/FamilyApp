@@ -12,7 +12,7 @@
         android:checkable="true"
         android:clickable="true"
         android:focusable="true"
-        app:strokeWidth="@dimen/box_stroke_width"
+        app:strokeWidth="@dimen/zero_box_stroke_width"
         card_view:cardCornerRadius="@dimen/medium_corners_radius">
 
         <FrameLayout
@@ -47,7 +47,7 @@
                     app:boxCornerRadiusTopEnd="@dimen/semi_medium_corner_radius"
                     app:boxCornerRadiusTopStart="@dimen/semi_medium_corner_radius"
                     app:boxStrokeColor="@color/orange"
-                    app:boxStrokeWidth="@dimen/box_stroke_width"
+                    app:boxStrokeWidth="@dimen/zero_box_stroke_width"
                     app:hintEnabled="false"
                     app:hintTextAppearance="@style/TextAppearance.Design.Hint.Small"
                     app:hintTextColor="@color/black">

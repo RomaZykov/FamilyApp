@@ -7,11 +7,11 @@
         android:id="@+id/task_material_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginVertical="8dp"
+        android:layout_marginHorizontal="@dimen/medium_margin"
+        android:layout_marginVertical="@dimen/small_margin"
         android:backgroundTint="@color/ultra_soft_orange"
-        app:strokeWidth="0dp"
-        card_view:cardCornerRadius="15dp">
+        app:strokeWidth="@dimen/task_creation_stroke_width"
+        card_view:cardCornerRadius="@dimen/medium_box_corner_radius">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -25,27 +25,27 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="4dp"
+                    android:layout_marginHorizontal="@dimen/medium_margin"
+                    android:layout_marginTop="@dimen/medium_margin"
+                    android:layout_marginBottom="@dimen/tiny_margin"
                     android:fontFamily="@font/onest_regular"
                     android:gravity="start"
-                    android:text="Задача"
+                    android:text="@string/task"
                     android:textColor="@color/black"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/semi_small_font_size" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginHorizontal="@dimen/medium_margin"
                     app:boxBackgroundColor="@color/white"
-                    app:boxCornerRadiusBottomEnd="18dp"
-                    app:boxCornerRadiusBottomStart="18dp"
-                    app:boxCornerRadiusTopEnd="18dp"
-                    app:boxCornerRadiusTopStart="18dp"
+                    app:boxCornerRadiusBottomEnd="@dimen/medium_box_corner_radius"
+                    app:boxCornerRadiusBottomStart="@dimen/medium_box_corner_radius"
+                    app:boxCornerRadiusTopEnd="@dimen/medium_box_corner_radius"
+                    app:boxCornerRadiusTopStart="@dimen/medium_box_corner_radius"
                     app:boxStrokeColor="@color/orange"
-                    app:boxStrokeWidth="0dp"
+                    app:boxStrokeWidth="@dimen/zero_box_stroke_width"
                     app:hintEnabled="false"
                     app:hintTextAppearance="@style/TextAppearance.Design.Hint.Small"
                     app:hintTextColor="@color/black">
@@ -54,16 +54,16 @@
                         android:id="@+id/task_name_edit_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Например, помыть посуду"
+                        android:hint="@string/task_example_hint"
                         android:inputType="text" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="4dp"
+                    android:layout_marginHorizontal="@dimen/medium_margin"
+                    android:layout_marginTop="@dimen/medium_margin"
+                    android:layout_marginBottom="@dimen/tiny_margin"
                     android:orientation="horizontal">
 
                     <TextView
@@ -71,31 +71,30 @@
                         android:layout_height="match_parent"
                         android:fontFamily="@font/onest_regular"
                         android:gravity="center"
-                        android:text="Награда в баллах"
+                        android:text="@string/points_reward"
                         android:textColor="@color/black"
-                        android:textSize="14sp" />
+                        android:textSize="@dimen/semi_small_font_size" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginStart="@dimen/small_margin"
                         android:src="@drawable/points" />
-
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/counter_linear_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginHorizontal="@dimen/medium_margin"
                     android:gravity="center"
                     android:orientation="horizontal">
 
                     <ImageButton
                         android:id="@+id/decrease_button"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_marginStart="50dp"
+                        android:layout_width="@dimen/super_icon_size"
+                        android:layout_height="@dimen/super_icon_size"
+                        android:layout_marginStart="@dimen/super_margin"
                         android:background="@drawable/round_profile_button"
                         android:backgroundTint="@color/white"
                         android:src="@drawable/baseline_horizontal_rule_24" />
@@ -103,8 +102,8 @@
                     <TextView
                         android:id="@+id/task_height"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_marginHorizontal="8dp"
+                        android:layout_height="@dimen/super_layout_height"
+                        android:layout_marginHorizontal="@dimen/small_margin"
                         android:background="@drawable/round_wide_button"
                         android:backgroundTint="@color/white"
                         android:fontFamily="@font/onest_regular"
@@ -113,41 +112,41 @@
 
                     <ImageButton
                         android:id="@+id/increase_button"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_marginEnd="50dp"
+                        android:layout_width="@dimen/super_icon_size"
+                        android:layout_height="@dimen/super_icon_size"
+                        android:layout_marginEnd="@dimen/super_margin"
                         android:background="@drawable/round_profile_button"
                         android:backgroundTint="@color/white"
                         android:src="@drawable/baseline_add_24"
-                        android:textSize="24sp" />
+                        android:textSize="@dimen/large_font_size" />
                 </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginStart="@dimen/medium_margin"
+                    android:layout_marginTop="@dimen/small_margin"
+                    android:layout_marginBottom="@dimen/small_margin"
                     android:fontFamily="@font/onest_regular"
                     android:gravity="start"
-                    android:text="Не больше 3 баллов"
+                    android:text="@string/barier_points_task"
                     android:textColor="@color/black"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/semi_small_font_size" />
 
                 <com.google.android.material.divider.MaterialDivider
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/small_margin"
                     app:dividerColor="@color/soft_orange"
-                    app:dividerInsetEnd="20dp"
-                    app:dividerInsetStart="20dp" />
+                    app:dividerInsetEnd="@dimen/divider_inset"
+                    app:dividerInsetStart="@dimen/divider_inset" />
 
                 <LinearLayout
                     android:id="@+id/task_settings_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginVertical="8dp"
+                    android:layout_marginHorizontal="@dimen/medium_margin"
+                    android:layout_marginVertical="@dimen/small_margin"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -158,18 +157,18 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
+                        android:layout_margin="@dimen/small_margin"
                         android:fontFamily="@font/onest_regular"
-                        android:text="Настроить повторение задачи"
+                        android:text="@string/setup_repeating_task"
                         android:textColor="@color/orange"
-                        android:textSize="14sp" />
+                        android:textSize="@dimen/semi_small_font_size" />
                 </LinearLayout>
             </LinearLayout>
 
             <ImageButton
                 android:id="@+id/delete_task_button"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="@dimen/large_icon_size"
+                android:layout_height="@dimen/large_icon_size"
                 android:layout_gravity="end"
                 android:background="@drawable/round_profile_button"
                 android:backgroundTint="@color/white"

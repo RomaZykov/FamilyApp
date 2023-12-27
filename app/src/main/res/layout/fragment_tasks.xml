@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:navigationIcon="@drawable/baseline_arrow_back_24"
-                app:title="Цель"
+                app:title="@string/goal_title"
                 app:titleCentered="true"
                 app:titleTextAppearance="@style/ActionBar.TitleText.Medium"
                 app:titleTextColor="@color/black" />
@@ -32,7 +32,7 @@
             android:id="@+id/goal_points_ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
+            android:layout_marginHorizontal="@dimen/medium_margin"
             android:orientation="horizontal"
             app:layout_constraintBottom_toTopOf="@+id/tasks_progress_bar"
             app:layout_constraintEnd_toEndOf="parent"
@@ -42,29 +42,29 @@
             app:layout_constraintVertical_chainStyle="packed">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:fontFamily="@font/onest_regular"
-                android:text="Получено баллов"
+                android:text="@string/points_received"
                 android:textColor="@color/black"
-                android:textSize="12sp" />
+                android:textSize="@dimen/small_font_size" />
 
             <TextView
                 android:id="@+id/tasks_points_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginHorizontal="8dp"
+                android:layout_marginHorizontal="@dimen/small_margin"
                 android:fontFamily="@font/onest_regular"
-                android:text="6 / 10"
                 android:textColor="@color/black"
-                android:textSize="12sp" />
+                android:textSize="@dimen/small_font_size"
+                tools:text="6 / 10" />
 
             <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="@dimen/small_icon_size"
+                android:layout_height="@dimen/small_icon_size"
                 android:src="@drawable/points" />
         </LinearLayout>
 
@@ -73,7 +73,7 @@
             style="@android:style/Widget.Holo.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
+            android:layout_marginHorizontal="@dimen/medium_margin"
             android:progress="25"
             android:progressTint="@color/orange"
             app:layout_constraintBottom_toTopOf="@+id/active_completed_tasks_ll"
@@ -85,9 +85,9 @@
             android:id="@+id/active_completed_tasks_ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="8dp"
+            android:layout_marginVertical="@dimen/small_margin"
             android:orientation="horizontal"
-            android:paddingVertical="2dp"
+            android:paddingVertical="@dimen/extra_tiny_padding"
             app:layout_constraintBottom_toTopOf="@+id/rv_tasks_list"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -97,44 +97,44 @@
                 android:id="@+id/active_tasks"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="2dp"
+                android:layout_marginStart="@dimen/medium_margin"
+                android:layout_marginEnd="@dimen/extra_tiny_margin"
                 android:background="@drawable/checked_button"
                 android:checked="true"
                 android:clickable="true"
                 android:focusable="true"
                 android:fontFamily="@font/onest_regular"
-                android:paddingHorizontal="16dp"
+                android:paddingHorizontal="@dimen/medium_padding"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
-                android:textOff="Активные 10"
-                android:textOn="Активные 10"
-                android:textSize="14sp" />
+                android:textSize="@dimen/semi_small_font_size"
+                tools:textOff="Активные 10"
+                tools:textOn="Активные 10" />
 
             <ToggleButton
                 android:id="@+id/completed_tasks"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="2dp"
+                android:layout_marginHorizontal="@dimen/extra_tiny_margin"
                 android:background="@drawable/checked_button"
                 android:checked="false"
                 android:clickable="true"
                 android:focusable="true"
                 android:fontFamily="@font/onest_regular"
-                android:paddingHorizontal="16dp"
+                android:paddingHorizontal="@dimen/medium_padding"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
-                android:textOff="Выполненные 4"
-                android:textOn="Выполненные 4"
-                android:textSize="14sp" />
+                android:textSize="@dimen/semi_small_font_size"
+                tools:textOff="Выполненные 4"
+                tools:textOn="Выполненные 4" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_tasks_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginVertical="8dp"
+            android:layout_marginHorizontal="@dimen/medium_margin"
+            android:layout_marginVertical="@dimen/small_margin"
             android:scrollbars="none"
             app:layoutManager="LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -148,11 +148,11 @@
             style="@style/Widget.App.ExtendedFloatingActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="32dp"
+            android:layout_margin="@dimen/extra_large_margin"
             android:fontFamily="@font/onest_regular"
-            android:text="Добавить задачу"
+            android:text="@string/add_task_fab_button_text"
             android:textColor="@color/white"
-            android:textSize="14sp"
+            android:textSize="@dimen/semi_small_font_size"
             app:icon="@drawable/plus"
             app:iconTint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"

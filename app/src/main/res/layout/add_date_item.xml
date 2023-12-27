@@ -21,7 +21,7 @@
             app:boxCornerRadiusTopEnd="@dimen/medium_box_corner_radius"
             app:boxCornerRadiusTopStart="@dimen/medium_box_corner_radius"
             app:boxStrokeColor="@color/orange"
-            app:boxStrokeWidth="@dimen/box_stroke_width"
+            app:boxStrokeWidth="@dimen/zero_box_stroke_width"
             app:hintTextAppearance="@style/TextAppearance.Design.Hint.Small"
             app:hintTextColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"

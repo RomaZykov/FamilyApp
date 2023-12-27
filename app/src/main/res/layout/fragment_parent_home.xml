@@ -74,7 +74,7 @@
 
                 <include
                     android:id="@+id/completed_goals_parent_side"
-                    layout="@layout/completed_goals_layout"
+                    layout="@layout/fragment_completed_goals"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/small_margin" />

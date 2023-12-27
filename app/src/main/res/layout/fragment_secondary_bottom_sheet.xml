@@ -23,7 +23,7 @@
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="@dimen/extra_large_margin"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toTopOf="@id/bottom_linear_layout"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -45,9 +45,9 @@
                             android:id="@+id/back_button"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_marginHorizontal="8dp"
+                            android:layout_marginHorizontal="@dimen/small_margin"
                             android:background="@drawable/arrow_l"
-                            android:padding="16dp" />
+                            android:padding="@dimen/medium_padding" />
 
                         <TextView
                             android:id="@+id/title"
@@ -56,8 +56,8 @@
                             android:layout_gravity="center"
                             android:fontFamily="@font/onest_regular"
                             android:gravity="center"
-                            android:text="Повторение задачи"
-                            android:textSize="16sp" />
+                            android:text="@string/repeat_task"
+                            android:textSize="@dimen/medium_font_size" />
                     </FrameLayout>
 
                     <LinearLayout
@@ -70,8 +70,8 @@
                             android:id="@+id/radio_group_1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="16dp"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginHorizontal="@dimen/medium_margin"
+                            android:layout_marginTop="@dimen/small_margin"
                             android:orientation="vertical">
 
                             <RadioButton
@@ -81,8 +81,8 @@
                                 android:layout_height="wrap_content"
                                 android:checked="true"
                                 android:fontFamily="@font/onest_regular"
-                                android:text="Каждый день"
-                                android:textSize="14sp" />
+                                android:text="@string/radio_every_day"
+                                android:textSize="@dimen/semi_small_font_size" />
 
                             <RadioButton
                                 android:id="@+id/radio_per_week"
@@ -90,8 +90,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/onest_regular"
-                                android:text="Несколько раз в неделю"
-                                android:textSize="14sp" />
+                                android:text="@string/radio_per_week"
+                                android:textSize="@dimen/semi_small_font_size" />
 
                             <RadioButton
                                 android:id="@+id/radio_per_month"
@@ -99,8 +99,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/onest_regular"
-                                android:text="Несколько раз в месяц"
-                                android:textSize="14sp" />
+                                android:text="@string/radio_per_month"
+                                android:textSize="@dimen/semi_small_font_size" />
                         </RadioGroup>
 
                         <com.google.android.material.divider.MaterialDivider
@@ -109,15 +109,15 @@
                             android:layout_height="wrap_content"
                             android:visibility="gone"
                             app:dividerColor="@color/soft_orange"
-                            app:dividerInsetEnd="20dp"
-                            app:dividerInsetStart="20dp" />
+                            app:dividerInsetEnd="@dimen/divider_inset"
+                            app:dividerInsetStart="@dimen/divider_inset" />
 
                         <LinearLayout
                             android:id="@+id/month_days_ll"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="20dp"
-                            android:layout_marginVertical="16dp"
+                            android:layout_marginHorizontal="@dimen/semi_medium_margin"
+                            android:layout_marginVertical="@dimen/medium_margin"
                             android:orientation="vertical"
                             android:visibility="gone">
 
@@ -125,26 +125,26 @@
                                 android:id="@+id/days_of_month_to_repeat_tv"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginBottom="16dp"
+                                android:layout_marginBottom="@dimen/medium_margin"
                                 android:fontFamily="@font/onest_regular"
                                 android:gravity="start"
-                                android:text="В какие даты месяца повторять"
-                                android:textSize="16sp" />
+                                android:text="@string/days_of_month_to_repeat"
+                                android:textSize="@dimen/medium_font_size" />
 
                             <com.google.android.material.textfield.TextInputLayout
                                 android:id="@+id/set_date_edit_text"
                                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                                android:layout_width="170dp"
+                                android:layout_width="@dimen/date_box_width"
                                 android:layout_height="wrap_content"
-                                android:layout_marginBottom="8dp"
-                                android:hint="Укажите дату"
+                                android:layout_marginBottom="@dimen/small_margin"
+                                android:hint="@string/set_date_hint"
                                 app:boxBackgroundColor="@color/white"
-                                app:boxCornerRadiusBottomEnd="12dp"
-                                app:boxCornerRadiusBottomStart="12dp"
-                                app:boxCornerRadiusTopEnd="12dp"
-                                app:boxCornerRadiusTopStart="12dp"
+                                app:boxCornerRadiusBottomEnd="@dimen/medium_box_corner_radius"
+                                app:boxCornerRadiusBottomStart="@dimen/medium_box_corner_radius"
+                                app:boxCornerRadiusTopEnd="@dimen/medium_box_corner_radius"
+                                app:boxCornerRadiusTopStart="@dimen/medium_box_corner_radius"
                                 app:boxStrokeColor="@color/orange"
-                                app:boxStrokeWidth="0dp"
+                                app:boxStrokeWidth="@dimen/zero_box_stroke_width"
                                 app:hintTextAppearance="@style/TextAppearance.Design.Hint.Small"
                                 app:hintTextColor="@color/black">
 
@@ -156,14 +156,14 @@
 
                             <LinearLayout
                                 android:id="@+id/add_date"
-                                android:layout_width="170dp"
+                                android:layout_width="@dimen/date_box_width"
                                 android:layout_height="match_parent"
-                                android:layout_marginTop="8dp"
+                                android:layout_marginTop="@dimen/small_margin"
                                 android:background="@drawable/round_white_button"
                                 android:clickable="true"
                                 android:focusable="true"
                                 android:gravity="center"
-                                android:padding="8dp"
+                                android:padding="@dimen/small_padding"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent">
@@ -178,11 +178,11 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
-                                    android:layout_marginStart="16dp"
+                                    android:layout_marginStart="@dimen/medium_margin"
                                     android:fontFamily="@font/onest_regular"
                                     android:gravity="center"
-                                    android:text="Добавить дату"
-                                    android:textSize="14sp" />
+                                    android:text="@string/set_date"
+                                    android:textSize="@dimen/semi_small_font_size" />
                             </LinearLayout>
                         </LinearLayout>
 
@@ -190,37 +190,37 @@
                             android:id="@+id/days_to_repeat_tv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="20dp"
-                            android:layout_marginTop="16dp"
+                            android:layout_marginHorizontal="@dimen/semi_small_font_size"
+                            android:layout_marginTop="@dimen/medium_margin"
                             android:fontFamily="@font/onest_regular"
                             android:gravity="start"
-                            android:text="В какие дни повторять"
-                            android:textSize="16sp"
+                            android:text="@string/days_to_repeat"
+                            android:textSize="@dimen/medium_font_size"
                             android:visibility="gone" />
 
                         <LinearLayout
                             android:id="@+id/weekdays_ll"
                             android:layout_width="match_parent"
-                            android:layout_height="48dp"
-                            android:layout_marginHorizontal="16dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginBottom="16dp"
+                            android:layout_height="@dimen/super_layout_height"
+                            android:layout_marginHorizontal="@dimen/medium_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginBottom="@dimen/medium_margin"
                             android:orientation="horizontal"
                             android:visibility="gone">
 
                             <ToggleButton
                                 android:id="@+id/monday"
-                                android:layout_width="48dp"
+                                android:layout_width="@dimen/super_layout_height"
                                 android:layout_height="match_parent"
                                 android:background="@drawable/checked_weekdays_button"
                                 android:checked="false"
                                 android:clickable="true"
-                                android:elevation="0dp"
+                                android:elevation="@dimen/zero_elevation"
                                 android:focusable="true"
                                 android:fontFamily="@font/onest_regular"
                                 android:textColor="@color/black"
-                                android:textOff="Пн"
-                                android:textOn="Пн" />
+                                android:textOff="@string/monday_short"
+                                android:textOn="@string/monday_short" />
 
                             <Space
                                 android:layout_width="0dp"
@@ -229,7 +229,7 @@
 
                             <ToggleButton
                                 android:id="@+id/tuesday"
-                                android:layout_width="48dp"
+                                android:layout_width="@dimen/super_layout_width"
                                 android:layout_height="match_parent"
                                 android:background="@drawable/checked_weekdays_button"
                                 android:checked="false"
@@ -237,8 +237,8 @@
                                 android:focusable="true"
                                 android:fontFamily="@font/onest_regular"
                                 android:textColor="@color/black"
-                                android:textOff="Вт"
-                                android:textOn="Вт" />
+                                android:textOff="@string/tuesday_short"
+                                android:textOn="@string/tuesday_short" />
 
                             <Space
                                 android:layout_width="0dp"
@@ -247,7 +247,7 @@
 
                             <ToggleButton
                                 android:id="@+id/wednesday"
-                                android:layout_width="48dp"
+                                android:layout_width="@dimen/super_layout_width"
                                 android:layout_height="match_parent"
                                 android:background="@drawable/checked_weekdays_button"
                                 android:checked="false"
@@ -255,8 +255,8 @@
                                 android:focusable="true"
                                 android:fontFamily="@font/onest_regular"
                                 android:textColor="@color/black"
-                                android:textOff="Ср"
-                                android:textOn="Ср" />
+                                android:textOff="@string/wednesday_short"
+                                android:textOn="@string/wednesday_short" />
 
                             <Space
                                 android:layout_width="0dp"
@@ -265,7 +265,7 @@
 
                             <ToggleButton
                                 android:id="@+id/thursday"
-                                android:layout_width="48dp"
+                                android:layout_width="@dimen/super_layout_width"
                                 android:layout_height="match_parent"
                                 android:background="@drawable/checked_weekdays_button"
                                 android:checked="false"
@@ -273,8 +273,8 @@
                                 android:focusable="true"
                                 android:fontFamily="@font/onest_regular"
                                 android:textColor="@color/black"
-                                android:textOff="Чт"
-                                android:textOn="Чт" />
+                                android:textOff="@string/thursday_short"
+                                android:textOn="@string/thursday_short" />
 
                             <Space
                                 android:layout_width="0dp"
@@ -283,7 +283,7 @@
 
                             <ToggleButton
                                 android:id="@+id/friday"
-                                android:layout_width="48dp"
+                                android:layout_width="@dimen/super_layout_width"
                                 android:layout_height="match_parent"
                                 android:background="@drawable/checked_weekdays_button"
                                 android:checked="false"
@@ -291,8 +291,8 @@
                                 android:focusable="true"
                                 android:fontFamily="@font/onest_regular"
                                 android:textColor="@color/black"
-                                android:textOff="Пт"
-                                android:textOn="Пт" />
+                                android:textOff="@string/friday_short"
+                                android:textOn="@string/friday_short" />
 
                             <Space
                                 android:layout_width="0dp"
@@ -301,7 +301,7 @@
 
                             <ToggleButton
                                 android:id="@+id/saturday"
-                                android:layout_width="48dp"
+                                android:layout_width="@dimen/super_layout_width"
                                 android:layout_height="match_parent"
                                 android:background="@drawable/checked_weekdays_button"
                                 android:checked="false"
@@ -309,8 +309,8 @@
                                 android:focusable="true"
                                 android:fontFamily="@font/onest_regular"
                                 android:textColor="@color/black"
-                                android:textOff="Сб"
-                                android:textOn="Сб" />
+                                android:textOff="@string/saturday_short"
+                                android:textOn="@string/saturday_short" />
 
                             <Space
                                 android:layout_width="0dp"
@@ -319,7 +319,7 @@
 
                             <ToggleButton
                                 android:id="@+id/sunday"
-                                android:layout_width="48dp"
+                                android:layout_width="@dimen/super_layout_width"
                                 android:layout_height="match_parent"
                                 android:background="@drawable/checked_weekdays_button"
                                 android:checked="false"
@@ -327,8 +327,8 @@
                                 android:focusable="true"
                                 android:fontFamily="@font/onest_regular"
                                 android:textColor="@color/black"
-                                android:textOff="Вс"
-                                android:textOn="Вс" />
+                                android:textOff="@string/sunday_short"
+                                android:textOn="@string/sunday_short" />
                         </LinearLayout>
 
                         <com.google.android.material.divider.MaterialDivider
@@ -336,25 +336,25 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:dividerColor="@color/soft_orange"
-                            app:dividerInsetEnd="20dp"
-                            app:dividerInsetStart="20dp" />
+                            app:dividerInsetEnd="@dimen/divider_inset"
+                            app:dividerInsetStart="@dimen/divider_inset" />
 
                         <TextView
                             android:id="@+id/when_to_stop_tv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="16dp"
-                            android:layout_marginTop="16dp"
+                            android:layout_marginHorizontal="@dimen/medium_margin"
+                            android:layout_marginTop="@dimen/medium_margin"
                             android:fontFamily="@font/onest_regular"
                             android:gravity="start"
-                            android:text="Когда закончить повторение"
-                            android:textSize="16sp" />
+                            android:text="@string/when_to_stop"
+                            android:textSize="@dimen/medium_font_size" />
 
                         <RadioGroup
                             android:id="@+id/radio_group_2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="16dp"
+                            android:layout_marginHorizontal="@dimen/medium_margin"
                             android:orientation="vertical">
 
                             <RadioButton
@@ -364,8 +364,8 @@
                                 android:layout_height="wrap_content"
                                 android:checked="true"
                                 android:fontFamily="@font/onest_regular"
-                                android:text="Никогда"
-                                android:textSize="14sp" />
+                                android:text="@string/radio_never"
+                                android:textSize="@dimen/semi_small_font_size" />
 
                             <RadioButton
                                 android:id="@+id/radio_on_specific_date"
@@ -373,12 +373,12 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/onest_regular"
-                                android:text="В определенную дату"
-                                android:textSize="14sp" />
+                                android:text="@string/radio_on_specific_date"
+                                android:textSize="@dimen/semi_small_font_size" />
 
                             <LinearLayout
                                 android:id="@+id/specific_date_edit_text"
-                                android:layout_width="184dp"
+                                android:layout_width="@dimen/set_date_width"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/round_bg"
                                 android:orientation="horizontal"
@@ -397,16 +397,16 @@
                                     <com.google.android.material.textfield.TextInputEditText
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:hint="Укажите дату"
+                                        android:hint="@string/set_date_hint"
                                         android:inputType="date" />
                                 </com.google.android.material.textfield.TextInputLayout>
 
                                 <ImageButton
                                     android:id="@+id/date_picker_button"
-                                    android:layout_width="24dp"
+                                    android:layout_width="@dimen/date_picker_width"
                                     android:layout_height="match_parent"
+                                    android:layout_marginEnd="@dimen/medium_margin"
                                     android:backgroundTint="@color/transparent"
-                                    android:layout_marginEnd="16dp"
                                     android:src="@drawable/calendar" />
                             </LinearLayout>
 
@@ -416,27 +416,27 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/onest_regular"
-                                android:text="После нескольких повторений"
-                                android:textSize="14sp" />
+                                android:text="@string/radio_after_repeats"
+                                android:textSize="@dimen/semi_small_font_size" />
                         </RadioGroup>
 
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/repeat_counter_edit_text"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="200dp"
+                            android:layout_width="@dimen/set_repeat_counter_date_width"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="16dp"
-                            android:layout_marginBottom="8dp"
-                            android:hint="Укажите количество"
+                            android:layout_marginHorizontal="@dimen/medium_margin"
+                            android:layout_marginBottom="@dimen/small_margin"
+                            android:hint="@string/set_counter_of_day"
                             android:visibility="gone"
                             app:boxBackgroundColor="@color/white"
-                            app:boxCornerRadiusBottomEnd="18dp"
-                            app:boxCornerRadiusBottomStart="18dp"
-                            app:boxCornerRadiusTopEnd="18dp"
-                            app:boxCornerRadiusTopStart="18dp"
+                            app:boxCornerRadiusBottomEnd="@dimen/medium_box_corner_radius"
+                            app:boxCornerRadiusBottomStart="@dimen/medium_box_corner_radius"
+                            app:boxCornerRadiusTopEnd="@dimen/medium_box_corner_radius"
+                            app:boxCornerRadiusTopStart="@dimen/medium_box_corner_radius"
                             app:boxStrokeColor="@color/orange"
-                            app:boxStrokeWidth="0dp"
+                            app:boxStrokeWidth="@dimen/zero_box_stroke_width"
                             app:hintTextAppearance="@style/TextAppearance.Design.Hint.Small"
                             app:hintTextColor="@color/black">
 
@@ -453,7 +453,7 @@
                 android:id="@id/bottom_linear_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="16dp"
+                android:layout_marginVertical="@dimen/medium_margin"
                 android:gravity="center"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -462,28 +462,28 @@
 
                 <Button
                     android:id="@+id/cancel_button"
-                    android:layout_width="178dp"
+                    android:layout_width="@dimen/cancel_continue_button_width"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
                     android:fontFamily="@font/onest_regular"
-                    android:paddingHorizontal="24dp"
-                    android:paddingVertical="16dp"
-                    android:text="Отмена"
+                    android:paddingHorizontal="@dimen/large_padding"
+                    android:paddingVertical="@dimen/medium_padding"
+                    android:text="@string/cancel"
                     android:textColor="@color/black" />
 
                 <Space
-                    android:layout_width="8dp"
+                    android:layout_width="@dimen/small_space_width"
                     android:layout_height="wrap_content" />
 
                 <Button
                     android:id="@+id/next_button"
-                    android:layout_width="178dp"
+                    android:layout_width="@dimen/cancel_continue_button_width"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/orange"
                     android:fontFamily="@font/onest_regular"
-                    android:paddingHorizontal="24dp"
-                    android:paddingVertical="16dp"
-                    android:text="Сохранить"
+                    android:paddingHorizontal="@dimen/large_padding"
+                    android:paddingVertical="@dimen/medium_padding"
+                    android:text="@string/save"
                     android:textColor="@color/white" />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

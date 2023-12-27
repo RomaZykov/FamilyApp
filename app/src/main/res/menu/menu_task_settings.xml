@@ -3,9 +3,9 @@
     <item
         android:id="@+id/done"
         android:icon="@drawable/done"
-        android:title="Выполнено" />
+        android:title="@string/task_done" />
     <item
         android:id="@+id/delete"
         android:icon="@drawable/delete"
-        android:title="Удалить" />
+        android:title="@string/delete" />
 </menu>
