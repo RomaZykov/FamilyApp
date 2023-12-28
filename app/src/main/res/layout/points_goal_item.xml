@@ -7,8 +7,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/white"
-        card_view:cardCornerRadius="@dimen/medium_box_corner_radius"
-        card_view:strokeWidth="@dimen/zero_box_stroke_width">
+        card_view:cardCornerRadius="@dimen/medium_corner_radius"
+        card_view:strokeWidth="@dimen/zero_stroke_width">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,6 +23,7 @@
                 android:layout_height="match_parent"
                 android:fontFamily="@font/onest_regular"
                 android:gravity="center"
+                android:paddingHorizontal="@dimen/tiny_padding"
                 tools:text="5 / 10" />
 
             <ImageView

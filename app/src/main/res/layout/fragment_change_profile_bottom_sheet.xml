@@ -74,7 +74,7 @@
                     app:boxCornerRadiusTopEnd="@dimen/semi_medium_corner_radius"
                     app:boxCornerRadiusTopStart="@dimen/semi_medium_corner_radius"
                     app:boxStrokeColor="@color/orange"
-                    app:boxStrokeWidth="@dimen/zero_box_stroke_width"
+                    app:boxStrokeWidth="@dimen/zero_stroke_width"
                     app:hintEnabled="false">
 
                     <com.google.android.material.textfield.TextInputEditText

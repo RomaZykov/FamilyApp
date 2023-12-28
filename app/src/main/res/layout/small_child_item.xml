@@ -6,9 +6,9 @@
     android:layout_height="@dimen/small_child_height"
     android:layout_marginHorizontal="@dimen/tiny_margin"
     android:backgroundTint="@color/child_item_selector"
-    card_view:cardCornerRadius="@dimen/medium_box_corner_radius"
+    card_view:cardCornerRadius="@dimen/small_child_card_corner_radius"
     card_view:checkedIcon="@color/transparent"
-    card_view:strokeWidth="@dimen/zero_box_stroke_width">
+    card_view:strokeWidth="@dimen/zero_stroke_width">
 
     <LinearLayout
         android:layout_width="match_parent"

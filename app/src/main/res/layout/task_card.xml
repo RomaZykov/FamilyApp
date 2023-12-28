@@ -11,7 +11,7 @@
         android:layout_marginVertical="@dimen/small_margin"
         android:backgroundTint="@color/ultra_soft_orange"
         app:strokeWidth="@dimen/task_creation_stroke_width"
-        card_view:cardCornerRadius="@dimen/medium_box_corner_radius">
+        card_view:cardCornerRadius="@dimen/medium_corner_radius">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -40,12 +40,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/medium_margin"
                     app:boxBackgroundColor="@color/white"
-                    app:boxCornerRadiusBottomEnd="@dimen/medium_box_corner_radius"
-                    app:boxCornerRadiusBottomStart="@dimen/medium_box_corner_radius"
-                    app:boxCornerRadiusTopEnd="@dimen/medium_box_corner_radius"
-                    app:boxCornerRadiusTopStart="@dimen/medium_box_corner_radius"
+                    app:boxCornerRadiusBottomEnd="@dimen/medium_corner_radius"
+                    app:boxCornerRadiusBottomStart="@dimen/medium_corner_radius"
+                    app:boxCornerRadiusTopEnd="@dimen/medium_corner_radius"
+                    app:boxCornerRadiusTopStart="@dimen/medium_corner_radius"
                     app:boxStrokeColor="@color/orange"
-                    app:boxStrokeWidth="@dimen/zero_box_stroke_width"
+                    app:boxStrokeWidth="@dimen/zero_stroke_width"
                     app:hintEnabled="false"
                     app:hintTextAppearance="@style/TextAppearance.Design.Hint.Small"
                     app:hintTextColor="@color/black">
@@ -129,7 +129,7 @@
                     android:layout_marginBottom="@dimen/small_margin"
                     android:fontFamily="@font/onest_regular"
                     android:gravity="start"
-                    android:text="@string/barier_points_task"
+                    android:text="@string/barrier_points_task"
                     android:textColor="@color/black"
                     android:textSize="@dimen/semi_small_font_size" />
 

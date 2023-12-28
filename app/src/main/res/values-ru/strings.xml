@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Moguchi</string>
-    <string name="greetings">Hello! Давай познакомимся, как тебя зовут?</string>
+    <string name="greetings">Привет! Давай познакомимся, как тебя зовут?</string>
 
     <!-- Strings related to login -->
     <string name="e_mail">E-mail</string>
@@ -11,30 +11,30 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
-    <string name="registration">Registration:</string>
-    <string name="login_button">Login</string>
+    <string name="registration">Регистрация:</string>
 
-    <string name="new_password">New password</string>
-    <string name="repeat_password">Repeat password</string>
-    <string name="next">Next</string>
-    <string name="name">First name</string>
-    <string name="last_name">Last name</string>
-    <string name="status">Mother/Dad/Other</string>
-    <string name="add_child">Add child:</string>
-    <string name="years_old">Years</string>
-    <string name="start_page_description">Great, we can start setting goals.</string>
-    <string name="add_another_child">Add another child</string>
+    <string name="new_password">Новый пароль</string>
+    <string name="repeat_password">Повторить пароль</string>
+    <string name="next">Продолжить</string>
+    <string name="name">Имя</string>
+    <string name="last_name">Фамилия</string>
+    <string name="status">Мама/Папа/Другое</string>
+    <string name="add_child">Добавить ребенка:</string>
+    <string name="years_old">Возраст</string>
+    <string name="start_page_description">Отлично, можем приступить к постановке целей.</string>
+    <string name="add_another_child">Добавить другого ребенка</string>
     <string name="welcome_description_1"><![CDATA[Вы создаете цели, которые ребенок должен достичь, например, <Новый велосипед>.]]></string>
     <string name="welcome_description_2">У каждой цели есть ключевые результаты, они же задачи, которые должны быть выполнены для достижения цели.</string>
     <string name="welcome_description_3_1">При выполнении каждой задачи ребенок будет видеть, насколько он близок к цели.</string>
     <string name="welcome_description_3_2">Схожая концепция под названием OKR применяется в таких компаниях, как Google.</string>
-    <string name="start_journey">Start journey</string>
-    <string name="sign_in_as_parent">Sign in as parent</string>
-    <string name="registration_button">Registration</string>
-    <string name="skip_button">Skip</string>
-    <string name="child_welcome">Отлично, $name! Это приложение поможет тебе быстрее получить то, о чем ты мечтаешь.</string>
+    <string name="start_journey">Начать приключение</string>
+    <string name="sign_in_as_parent">Войти как родитель</string>
+    <string name="registration_button">Регистрация</string>
+    <string name="login_button">Войти</string>
+    <string name="skip_button">Пропустить</string>
+    <string name="child_welcome">Отлично, $s! Это приложение поможет тебе быстрее получить то, о чем ты мечтаешь.</string>
     <string name="sign_in_intent_for_parents">Попроси родителей войти в родительский аккаунт</string>
-    <string name="connection_with_parents">Устанавить связь с родителем</string>
+    <string name="connection_with_parents">Установить связь \nс родителем</string>
     <string name="password">Пароль</string>
     <string name="sign_in">Войти:</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -46,8 +46,8 @@
     <string name="web_client_id">868557684546-bk9a2umde9evges2mi6t9n47elnmg6hl.apps.googleusercontent.com</string>
     <string name="tasks_title">Задачи:</string>
     <string name="alternative_way">Or</string>
-    <string name="add_task_text_button">Добавить задачу</string>
-    <string name="n_moguchi">Добро пожаловать \nв Moguchi!</string>
+    <string name="add_task_text_button"><u>Добавить задачу underline</u></string>
+    <string name="n_moguchi">Добро пожаловать \nв <font color='#FA824C'>Moguchi</font>!</string>
     <string name="set_date_hint">Укажите дату</string>
     <string name="avatar">Аватар</string>
     <string name="set_child_name_hint">Введите имя ребенка</string>
@@ -75,7 +75,7 @@
     <string name="delete_account_description">Все цели и прогресс детей потеряются, \nвосстановить их не получится</string>
     <string name="parent_child_mode">Режим родителя и ребёнка</string>
     <string name="parent_child_mode_description">позволит ограничить доступ ребёнка \nк редактированию и созданию целей</string>
-    <string name="goal_creation_desription">Создайте цель для ребёнка, которую он должен достичь</string>
+    <string name="goal_creation_description">Создайте цель для ребёнка, которую он должен достичь</string>
     <string name="children_counter">Ребенок:</string>
     <string name="name_goal">Название цели</string>
     <string name="goal_example_hint">Например, велосипед</string>
@@ -129,7 +129,7 @@
     <string name="task">Задача</string>
     <string name="task_example_hint">Например, помыть посуду</string>
     <string name="points_reward">Награда в баллах</string>
-    <string name="barier_points_task">Не больше 3 баллов</string>
+    <string name="barrier_points_task">Не больше 3 баллов</string>
     <string name="setup_repeating_task">Настроить повторение задачи</string>
     <string name="home_bottom">Главная</string>
     <string name="switch_to_parent_bottom">Родителю</string>
@@ -138,5 +138,10 @@
     <string name="top_app_profile_title">Profile</string>
     <string name="task_not_done">Не выполнено</string>
     <string name="task_done">Выполнено</string>
+    <string name="see_all_tasks_button_text">Смотреть %d задач(у)</string>
+    <string name="go_to_tasks_button_text">Перейти в управление задачами</string>
+    <string name="current_total_goal_points">%1$d / %2$d</string>
+    <string name="active_tasks">Активные %d</string>
+    <string name="non_active_tasks">Выполненные %d</string>
 
 </resources>

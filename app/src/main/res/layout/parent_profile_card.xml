@@ -12,8 +12,8 @@
         android:checkable="true"
         android:clickable="true"
         android:focusable="true"
-        card_view:cardCornerRadius="@dimen/medium_box_corner_radius"
-        card_view:strokeWidth="@dimen/zero_box_stroke_width">
+        card_view:cardCornerRadius="@dimen/medium_corner_radius"
+        card_view:strokeWidth="@dimen/zero_stroke_width">
 
         <FrameLayout
             android:layout_width="match_parent"

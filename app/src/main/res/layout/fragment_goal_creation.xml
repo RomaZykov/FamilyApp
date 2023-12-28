@@ -31,7 +31,7 @@
                 android:layout_marginHorizontal="@dimen/medium_margin"
                 android:layout_marginBottom="@dimen/tiny_margin"
                 android:fontFamily="@font/onest_regular"
-                android:text="@string/goal_creation_desription"
+                android:text="@string/goal_creation_description"
                 android:textSize="@dimen/semi_small_font_size" />
 
             <TextView
@@ -67,12 +67,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/medium_margin"
                 app:boxBackgroundColor="@color/white"
-                app:boxCornerRadiusBottomEnd="@dimen/medium_box_corner_radius"
-                app:boxCornerRadiusBottomStart="@dimen/medium_box_corner_radius"
-                app:boxCornerRadiusTopEnd="@dimen/medium_box_corner_radius"
-                app:boxCornerRadiusTopStart="@dimen/medium_box_corner_radius"
+                app:boxCornerRadiusBottomEnd="@dimen/medium_corner_radius"
+                app:boxCornerRadiusBottomStart="@dimen/medium_corner_radius"
+                app:boxCornerRadiusTopEnd="@dimen/medium_corner_radius"
+                app:boxCornerRadiusTopStart="@dimen/medium_corner_radius"
                 app:boxStrokeColor="@color/orange"
-                app:boxStrokeWidth="@dimen/zero_box_stroke_width"
+                app:boxStrokeWidth="@dimen/zero_stroke_width"
                 app:hintEnabled="false"
                 app:hintTextAppearance="@style/TextAppearance.Design.Hint.Small"
                 app:hintTextColor="@color/black">
