@@ -9,7 +9,7 @@ import com.n1.moguchi.data.repositories.ParentRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class AddChildViewModel @Inject constructor(private val parentRepository: ParentRepository) :
+class ChildCreationViewModel @Inject constructor(private val parentRepository: ParentRepository) :
     ViewModel() {
 
     private var _children = MutableLiveData<List<Child>>()

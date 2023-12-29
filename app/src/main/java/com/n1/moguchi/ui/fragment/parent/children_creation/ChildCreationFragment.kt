@@ -17,12 +17,11 @@ import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.data.models.Child
 import com.n1.moguchi.databinding.FragmentAddChildBinding
 import com.n1.moguchi.ui.ViewModelFactory
-import com.n1.moguchi.ui.adapter.ChildrenCreationRecyclerAdapter
 import javax.inject.Inject
 
 private const val ZERO_INDEX = 0
 
-class AddChildFragment : Fragment() {
+class ChildCreationFragment : Fragment() {
     private var _binding: FragmentAddChildBinding? = null
     private val binding get() = _binding!!
     private lateinit var auth: FirebaseAuth
@@ -31,7 +30,7 @@ class AddChildFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private val viewModel by lazy {
-        ViewModelProvider(this, viewModelFactory)[AddChildViewModel::class.java]
+        ViewModelProvider(this, viewModelFactory)[ChildCreationViewModel::class.java]
     }
 
     private val component by lazy {

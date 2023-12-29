@@ -1,4 +1,4 @@
-package com.n1.moguchi.ui.adapter
+package com.n1.moguchi.ui.fragment.parent.children_creation
 
 import android.content.Context
 import android.text.Editable

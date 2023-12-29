@@ -10,7 +10,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.n1.moguchi.core.RecyclerViewMatcher
 import com.n1.moguchi.ui.activity.MainActivity
-import com.n1.moguchi.ui.fragment.parent.children_creation.AddChildFragment
+import com.n1.moguchi.ui.fragment.parent.children_creation.ChildCreationFragment
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -19,7 +19,7 @@ class AddChildRecyclerViewTest {
 
     @get:Rule
     val activityTestRule = ActivityScenarioRule(MainActivity::class.java)
-    private lateinit var fragmentScenario: FragmentScenario<AddChildFragment>
+    private lateinit var fragmentScenario: FragmentScenario<ChildCreationFragment>
 
     @Before
     fun setUp() {

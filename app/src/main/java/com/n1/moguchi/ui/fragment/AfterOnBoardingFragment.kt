@@ -12,7 +12,7 @@ import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentAfterOnboardingBinding
 import com.n1.moguchi.ui.activity.MainActivity
 import com.n1.moguchi.ui.fragment.parent.password.PasswordFragment
-import com.n1.moguchi.ui.fragment.parent.children_creation.AddChildFragment
+import com.n1.moguchi.ui.fragment.parent.children_creation.ChildCreationFragment
 import com.n1.moguchi.ui.fragment.parent.goal_creation.GoalCreationFragment
 import com.n1.moguchi.ui.fragment.parent.task_creation.TaskCreationFragment
 
@@ -41,7 +41,7 @@ class AfterOnBoardingFragment : Fragment() {
 
         val topAppBar = requireActivity().findViewById<MaterialToolbar>(R.id.top_common_app_bar)
         val fragments = listOf(
-            AddChildFragment(),
+            ChildCreationFragment(),
             GoalCreationFragment(),
             TaskCreationFragment(),
             PasswordFragment()

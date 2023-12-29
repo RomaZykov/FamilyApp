@@ -8,7 +8,7 @@ import org.junit.Test
 
 //class AddChildViewModelTest {
 //
-//    private lateinit var addChildViewModel: AddChildViewModel
+//    private lateinit var addChildViewModel: ChildCreationViewModel
 //
 //    private lateinit var parentRepository: FakeParentRepository
 //

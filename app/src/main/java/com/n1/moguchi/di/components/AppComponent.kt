@@ -10,11 +10,12 @@ import com.n1.moguchi.di.modules.parent_user.ParentUserModule
 import com.n1.moguchi.di.modules.task.TaskModule
 import com.n1.moguchi.ui.activity.MainActivity
 import com.n1.moguchi.ui.fragment.parent.password.PasswordFragment
-import com.n1.moguchi.ui.fragment.parent.children_creation.AddChildFragment
+import com.n1.moguchi.ui.fragment.parent.children_creation.ChildCreationFragment
 import com.n1.moguchi.ui.fragment.parent.goal_creation.GoalCreationFragment
 import com.n1.moguchi.ui.fragment.parent.home.ParentHomeFragment
 import com.n1.moguchi.ui.fragment.parent.PrimaryBottomSheetFragment
 import com.n1.moguchi.ui.fragment.parent.task_creation.TaskCreationFragment
+import com.n1.moguchi.ui.fragment.tasks.TasksFragment
 import dagger.BindsInstance
 import dagger.Component
 
@@ -24,7 +25,9 @@ interface AppComponent {
 
     fun inject(activity: MainActivity)
 
-    fun inject(addChildFragment: AddChildFragment)
+    fun inject(childCreationFragment: ChildCreationFragment)
+
+    fun inject(tasksFragment: TasksFragment)
 
     fun inject(passwordFragment: PasswordFragment)
 
