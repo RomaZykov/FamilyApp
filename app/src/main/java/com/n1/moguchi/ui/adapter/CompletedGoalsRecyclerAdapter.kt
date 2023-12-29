@@ -4,14 +4,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.commit
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.n1.moguchi.R
 import com.n1.moguchi.data.models.Goal
 import com.n1.moguchi.databinding.CompletedGoalCardBinding
-import com.n1.moguchi.ui.fragment.parent.CompletedTasksFragment
 
 class CompletedGoalsRecyclerAdapter(private val goalsList: List<Goal>) :
     RecyclerView.Adapter<ViewHolder>() {
@@ -31,8 +28,8 @@ class CompletedGoalsRecyclerAdapter(private val goalsList: List<Goal>) :
         return goalsList.size
     }
 
-    inner class CardViewHolder(itemView: View) : ViewHolder(itemView),
-        View.OnClickListener {
+    inner class CardViewHolder(itemView: View) : ViewHolder(itemView) {
+//        View.OnClickListener
         private val binding = CompletedGoalCardBinding.bind(itemView)
         private var goal: Goal? = null
         var context: Context = itemView.context
@@ -40,17 +37,17 @@ class CompletedGoalsRecyclerAdapter(private val goalsList: List<Goal>) :
         fun bind(goal: Goal) {
             this.goal = goal
             binding.goalTitle.text = goal.title
-            binding.allCompletedTasksButton.setOnClickListener(this)
+//            binding.allCompletedTasksButton.setOnClickListener(this)
         }
 
-        override fun onClick(v: View) {
-            val fragmentActivity = v.context as FragmentActivity
-            fragmentActivity.supportFragmentManager.commit {
-                replace(android.R.id.content, CompletedTasksFragment())
-                setReorderingAllowed(true)
-                addToBackStack(TAG)
-            }
-        }
+//        override fun onClick(v: View) {
+//            val fragmentActivity = v.context as FragmentActivity
+//            fragmentActivity.supportFragmentManager.commit {
+//                replace(android.R.id.content, CompletedTasksFragment())
+//                setReorderingAllowed(true)
+//                addToBackStack(TAG)
+//            }
+//        }
     }
 
     companion object {

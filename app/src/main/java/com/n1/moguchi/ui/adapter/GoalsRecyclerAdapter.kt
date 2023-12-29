@@ -12,7 +12,7 @@ import com.n1.moguchi.data.models.Goal
 import com.n1.moguchi.data.models.Task
 import com.n1.moguchi.databinding.GoalCardBinding
 import com.n1.moguchi.ui.activity.MainActivity
-import com.n1.moguchi.ui.fragment.TasksFragment
+import com.n1.moguchi.ui.fragment.tasks.TasksFragment
 import com.n1.moguchi.ui.views.CustomShapesView
 
 class GoalsRecyclerAdapter(
@@ -48,25 +48,35 @@ class GoalsRecyclerAdapter(
         fun bind(goal: Goal, tasksByGoalList: List<Task>) {
             binding.goalTitle.text = goal.title
             binding.goalPointsLayout.root.findViewById<TextView>(R.id.goal_points).text =
-                "${goal.currentPoints} / ${goal.totalPoints}"
-            val buttonText: TextView = binding.allTasksButton.getChildAt(0) as TextView
-            buttonText.text = "Смотреть 5 задач(у)"
+                context.getString(
+                    R.string.current_total_goal_points,
+                    goal.currentPoints,
+                    goal.totalPoints
+                )
+
+            val buttonText: TextView = binding.allTasksButton.root.getChildAt(0) as TextView
+            if (tasksByGoalList.size - 3 != 0) {
+                buttonText.text = context.getString(R.string.see_all_tasks_button_text, tasksByGoalList.size)
+            } else {
+                buttonText.text = context.getString(R.string.go_to_tasks_button_text)
+            }
+            binding.allTasksButton.root.setOnClickListener(this)
+
             binding.tasksContainerLl.apply {
                 for (i in 1..3) {
                     if (tasksByGoalList.size - i >= 0) {
                         val taskSmallItem =
                             LayoutInflater.from(context)
-                                .inflate(R.layout.small_task_item, this, false)
+                                .inflate(R.layout.task_item, this, false)
                         taskSmallItem.setBackgroundColor(resources.getColor(R.color.white_opacity_90))
                         taskSmallItem.findViewById<TextView>(R.id.task_title).text =
                             tasksByGoalList[i - 1].title
-                        taskSmallItem.findViewById<TextView>(R.id.task_item_points).text =
+                        taskSmallItem.rootView.findViewById<TextView>(R.id.task_points).text =
                             tasksByGoalList[i - 1].height.toString()
                         addView(taskSmallItem)
                     }
                 }
             }
-            binding.allTasksButton.setOnClickListener(this)
         }
 
         override fun onClick(v: View) {
