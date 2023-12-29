@@ -66,7 +66,7 @@ class TaskCreationViewModel @Inject constructor(
 
     fun getTasksByGoalId(goalId: String) {
         viewModelScope.launch {
-            val tasks: List<Task> = taskRepository.getTasks(goalId)
+            val tasks: List<Task> = taskRepository.fetchActiveTasks(goalId)
             _tasks.value = (_tasks.value ?: emptyList()) + tasks
         }
     }

@@ -44,7 +44,7 @@ class TaskRepositoryImpl @Inject constructor(
         return updatedTask
     }
 
-    override suspend fun getTasks(goalID: String): List<Task> {
+    override suspend fun fetchActiveTasks(goalID: String): List<Task> {
         val tasksRefByGoalId = tasksRef.child(goalID)
         val tasks: MutableList<Task> = mutableListOf()
         tasksRefByGoalId.get().await().children.map {
@@ -53,7 +53,13 @@ class TaskRepositoryImpl @Inject constructor(
         return tasks
     }
 
-//    fun retrieveCompletedTasks(userId: String?): TaskList {
-//        return TODO()
-//    }
+    override suspend fun fetchCompletedTasks(goalID: String): List<Task> {
+        val completedTasksRefByGoalId =
+            tasksRef.child(goalID).orderByChild("taskCompleted").equalTo(true)
+        val completedTasks: MutableList<Task> = mutableListOf()
+        completedTasksRefByGoalId.get().await().children.map {
+            completedTasks.add(it.getValue(Task::class.java)!!)
+        }
+        return completedTasks
+    }
 }
