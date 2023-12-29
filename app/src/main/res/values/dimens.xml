@@ -4,8 +4,10 @@
 
     <dimen name="bottom_navigation_icons_padding">18dp</dimen>
 
-    <dimen name="medium_box_corner_radius">18dp</dimen>
-    <dimen name="zero_box_stroke_width">0dp</dimen>
+    <dimen name="small_child_card_corner_radius">32dp</dimen>
+
+    <dimen name="medium_corner_radius">18dp</dimen>
+    <dimen name="zero_stroke_width">0dp</dimen>
 
     <dimen name="super_layout_width">48dp</dimen>
     <dimen name="super_layout_height">48dp</dimen>
@@ -89,7 +91,6 @@
     <dimen name="small_child_height">48dp</dimen>
 
     <dimen name="medium_task_height">68dp</dimen>
-    <dimen name="task_title_width">240dp</dimen>
 
     <dimen name="task_creation_stroke_width">0dp</dimen>
 </resources>

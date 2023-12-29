@@ -1,6 +1,5 @@
 package com.n1.moguchi.ui.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -14,24 +13,7 @@ import com.n1.moguchi.databinding.EditableTaskItemBinding
 import com.n1.moguchi.ui.activity.MainActivity
 import com.n1.moguchi.ui.fragment.child.TaskConfirmationBottomSheetFragment
 
-class TasksRecyclerAdapter : RecyclerView.Adapter<TasksRecyclerAdapter.EditableTaskViewHolder>() {
-
-    private val tasksList = mutableListOf(
-        Task(title = "Прибраться в комнате 5 дней подряд", height = 2),
-        Task(title = "Сходить в магазин в пятницу", height = 1),
-        Task(title = "Написать контрольную минимум на 4", height = 3),
-        Task(title = "Сходить в магазин в пятницу", height = 1),
-        Task(title = "Написать контрольную минимум на 4", height = 3),
-        Task(title = "Сходить в магазин в пятницу", height = 1),
-        Task(title = "Сходить в магазин в пятницу", height = 1),
-        Task(title = "Написать контрольную минимум на 4", height = 3),
-        Task(title = "Сходить в магазин в пятницу", height = 1),
-        Task(title = "Сходить в магазин в пятницу", height = 1),
-        Task(title = "Написать контрольную минимум на 4", height = 3),
-        Task(title = "Сходить в магазин в пятницу", height = 1),
-        Task(title = "Написать контрольную минимум на 4", height = 3),
-        Task(title = "Прибраться в комнате 5 дней подряд", height = 2)
-    )
+class TasksRecyclerAdapter(private val relatedTasksList: List<Task>) : RecyclerView.Adapter<TasksRecyclerAdapter.EditableTaskViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EditableTaskViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -40,27 +22,24 @@ class TasksRecyclerAdapter : RecyclerView.Adapter<TasksRecyclerAdapter.EditableT
     }
 
     override fun onBindViewHolder(holder: EditableTaskViewHolder, position: Int) {
-        val task: Task = tasksList[position]
+        val task: Task = relatedTasksList[position]
         holder.bind(task)
     }
 
     override fun getItemCount(): Int {
-        return tasksList.size
+        return relatedTasksList.size
     }
 
     inner class EditableTaskViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView), PopupMenu.OnMenuItemClickListener, View.OnClickListener {
 
         private val binding = EditableTaskItemBinding.bind(itemView)
-        private var task: Task? = null
-        var context: Context = itemView.context
 
         init {
             itemView.setOnClickListener(this)
         }
 
         fun bind(task: Task) {
-            this.task = task
 
             binding.taskTitle.text = task.title
             if (MainActivity.isParentProfile) {
@@ -101,6 +80,24 @@ class TasksRecyclerAdapter : RecyclerView.Adapter<TasksRecyclerAdapter.EditableT
             }
             return true
         }
+
+//        private fun showOptionsPopup() {
+//            val popup = PopupMenu(itemView.context, binding.taskSettingsButton)
+//            popup.setOnMenuItemClickListener(this)
+//            val inflater = popup.menuInflater
+//            inflater.inflate(R.menu.menu_child_completed_task_settings, popup.menu)
+//            popup.setForceShowIcon(true)
+//            popup.show()
+//        }
+//
+//        override fun onMenuItemClick(item: MenuItem?): Boolean {
+//            when (item?.itemId) {
+//                R.id.not_done -> {
+//                    TODO("Not yet implemented")
+//                }
+//            }
+//            return true
+//        }
     }
 
     companion object {

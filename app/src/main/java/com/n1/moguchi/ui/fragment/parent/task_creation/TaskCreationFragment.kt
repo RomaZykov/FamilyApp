@@ -15,7 +15,6 @@ import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.data.models.Task
 import com.n1.moguchi.databinding.FragmentTaskCreationBinding
 import com.n1.moguchi.ui.ViewModelFactory
-import com.n1.moguchi.ui.adapter.TaskCreationRecyclerAdapter
 import com.n1.moguchi.ui.fragment.parent.SecondaryBottomSheetFragment
 import com.n1.moguchi.ui.fragment.parent.goal_creation.GoalCreationFragment
 import javax.inject.Inject

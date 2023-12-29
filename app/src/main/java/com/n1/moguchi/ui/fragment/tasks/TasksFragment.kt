@@ -20,7 +20,6 @@ import com.n1.moguchi.databinding.FragmentTasksBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.adapter.TasksRecyclerAdapter
 import com.n1.moguchi.ui.fragment.parent.PrimaryBottomSheetFragment
-import com.n1.moguchi.ui.fragment.parent.home.ParentHomeViewModel
 import javax.inject.Inject
 
 class TasksFragment : Fragment() {
