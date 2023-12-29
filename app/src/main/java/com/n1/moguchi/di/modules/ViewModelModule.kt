@@ -1,12 +1,13 @@
 package com.n1.moguchi.di.modules
 
 import androidx.lifecycle.ViewModel
-import com.n1.moguchi.ui.fragment.parent.children_creation.AddChildViewModel
+import com.n1.moguchi.ui.fragment.parent.children_creation.ChildCreationViewModel
 import com.n1.moguchi.ui.fragment.parent.home.ParentHomeViewModel
 import com.n1.moguchi.ui.fragment.parent.task_creation.TaskCreationViewModel
 import com.n1.moguchi.ui.activity.MainActivityViewModel
 import com.n1.moguchi.ui.fragment.parent.goal_creation.GoalCreationViewModel
 import com.n1.moguchi.ui.fragment.parent.password.PasswordViewModel
+import com.n1.moguchi.ui.fragment.tasks.TasksViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -15,9 +16,14 @@ import dagger.multibindings.IntoMap
 interface ViewModelModule {
 
     @IntoMap
-    @ViewModelKey(AddChildViewModel::class)
+    @ViewModelKey(ChildCreationViewModel::class)
     @Binds
-    fun bindAddChildViewModel(addChildViewModel: AddChildViewModel): ViewModel
+    fun bindAddChildViewModel(childCreationViewModel: ChildCreationViewModel): ViewModel
+
+    @IntoMap
+    @ViewModelKey(TasksViewModel::class)
+    @Binds
+    fun bindTasksViewModel(tasksViewModel: TasksViewModel): ViewModel
 
     @IntoMap
     @ViewModelKey(PasswordViewModel::class)

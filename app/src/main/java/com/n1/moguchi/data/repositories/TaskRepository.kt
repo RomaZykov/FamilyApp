@@ -11,5 +11,7 @@ interface TaskRepository {
 
     fun markTaskCompleted(taskID: String, isCompleted: Boolean)
 
-    suspend fun getTasks(goalID: String): List<Task>
+    suspend fun fetchActiveTasks(goalID: String): List<Task>
+
+    suspend fun fetchCompletedTasks(goalID: String): List<Task>
 }
