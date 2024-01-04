@@ -13,7 +13,7 @@ import com.n1.moguchi.databinding.EditableTaskItemBinding
 import com.n1.moguchi.ui.activity.MainActivity
 import com.n1.moguchi.ui.fragment.child.TaskConfirmationBottomSheetFragment
 
-class TasksRecyclerAdapter(private val relatedTasksList: List<Task>) : RecyclerView.Adapter<TasksRecyclerAdapter.EditableTaskViewHolder>() {
+class TasksRecyclerAdapter(private val relatedTasksList: List<Task>, isActive: Boolean) : RecyclerView.Adapter<TasksRecyclerAdapter.EditableTaskViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EditableTaskViewHolder {
         val view = LayoutInflater.from(parent.context)

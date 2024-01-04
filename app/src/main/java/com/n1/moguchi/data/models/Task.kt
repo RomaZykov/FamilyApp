@@ -4,7 +4,6 @@ data class Task(
     val taskId: String = "",
     var title: String = "",
     var goalOwnerId: String? = null,
-    var childOwnerId: String? = null,
     val taskCompleted: Boolean = false,
     var height: Int = 1
 ) {
@@ -13,7 +12,6 @@ data class Task(
             "taskId" to taskId,
             "title" to title,
             "goalOwnerId" to goalOwnerId,
-            "childOwnerId" to childOwnerId,
             "taskCompleted" to taskCompleted,
             "height" to height
         )

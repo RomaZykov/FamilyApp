@@ -101,6 +101,7 @@
                 android:layout_marginEnd="@dimen/tiny_margin"
                 android:background="@drawable/checked_button"
                 android:button="@null"
+                android:checked="true"
                 android:textSize="@dimen/semi_small_font_size"
                 android:fontFamily="@font/onest_regular"
                 android:padding="@dimen/medium_padding"

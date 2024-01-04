@@ -15,10 +15,11 @@ class TaskRepositoryImpl @Inject constructor(
 
     override suspend fun createTask(task: Task, goalID: String): Task {
         val taskId: String = UUID.randomUUID().toString()
-        val taskRefByGoalId = tasksRef.child(taskId)
+        val taskRefByGoalId = tasksRef.child(goalID).child(taskId)
         val newTask = task.copy(
             taskId = taskId,
-            goalOwnerId = goalID
+            goalOwnerId = goalID,
+            taskCompleted = false
         )
         taskRefByGoalId.setValue(newTask)
         return newTask
@@ -34,7 +35,7 @@ class TaskRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateTask(task: Task): Task {
-        val taskRefByGoalId = tasksRef.child(task.taskId)
+        val taskRefByGoalId = tasksRef.child(task.goalOwnerId!!).child(task.taskId)
         val updatedTask = task.copy(
             height = task.height,
             title = task.title
@@ -45,17 +46,20 @@ class TaskRepositoryImpl @Inject constructor(
     }
 
     override suspend fun fetchActiveTasks(goalID: String): List<Task> {
-        val tasksRefByGoalId = tasksRef.child(goalID)
+        val tasksRefByCompletion = tasksRef
+            .orderByChild("taskCompleted")
+            .equalTo(false)
         val tasks: MutableList<Task> = mutableListOf()
-        tasksRefByGoalId.get().await().children.map {
+        tasksRefByCompletion.get().await().children.map {
             tasks.add(it.getValue(Task::class.java)!!)
         }
         return tasks
     }
 
     override suspend fun fetchCompletedTasks(goalID: String): List<Task> {
-        val completedTasksRefByGoalId =
-            tasksRef.child(goalID).orderByChild("taskCompleted").equalTo(true)
+        val completedTasksRefByGoalId = tasksRef
+            .orderByChild("taskCompleted")
+            .equalTo(true)
         val completedTasks: MutableList<Task> = mutableListOf()
         completedTasksRefByGoalId.get().await().children.map {
             completedTasks.add(it.getValue(Task::class.java)!!)

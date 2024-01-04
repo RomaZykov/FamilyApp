@@ -2,6 +2,7 @@ package com.n1.moguchi.ui.fragment.tasks
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,7 +58,6 @@ class TasksFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         val topAppBar = requireActivity().findViewById<Toolbar>(R.id.top_tasks_app_bar)
         topAppBar.setNavigationOnClickListener {
             parentFragmentManager.commit {
@@ -65,20 +65,28 @@ class TasksFragment : Fragment() {
             }
         }
 
+        val relatedGoalId = arguments?.getString("goalId")
+        if (relatedGoalId != null) {
+            viewModel.fetchActiveTasks(relatedGoalId)
+            viewModel.fetchCompletedTasks(relatedGoalId)
+        }
+
         viewModel.activeTasks.observe(viewLifecycleOwner) {
             binding.activeTasks.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
-                    setupRecyclerViewByTasks(it)
+                    setupRecyclerViewByRelatedTasks(it, true)
                 }
             }
+            Log.d("TasksFragment", "Active tasks =$it")
         }
 
         viewModel.completedTasks.observe(viewLifecycleOwner) {
             binding.completedTasks.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
-                    setupRecyclerViewByTasks(it)
+                    setupRecyclerViewByRelatedTasks(it, false)
                 }
             }
+            Log.d("TasksFragment", "Non-Active tasks =$it")
         }
 
         binding.addTaskFab.setOnClickListener {
@@ -90,10 +98,10 @@ class TasksFragment : Fragment() {
         }
     }
 
-    private fun setupRecyclerViewByTasks(relatedTasks: List<Task>) {
+    private fun setupRecyclerViewByRelatedTasks(relatedTasks: List<Task>, isActive: Boolean) {
         val recyclerView: RecyclerView = binding.rvTasksList
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        tasksRecyclerAdapter = TasksRecyclerAdapter(relatedTasks)
+        tasksRecyclerAdapter = TasksRecyclerAdapter(relatedTasks, isActive)
         recyclerView.adapter = tasksRecyclerAdapter
     }
 
