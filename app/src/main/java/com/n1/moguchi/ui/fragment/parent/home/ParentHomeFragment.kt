@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -80,12 +81,21 @@ class ParentHomeFragment : Fragment() {
                     ChildrenRecyclerAdapter(childrenList.values.toList(), selectedChildIndex)
                 childrenRecyclerView.adapter = childrenRecyclerAdapter
             }
+
             viewModel.goals.observe(viewLifecycleOwner) {
                 val goalsRecyclerView: RecyclerView = binding.rvHomeGoalsList
                 goalsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-                goalsRecyclerAdapter = GoalsRecyclerAdapter(it.keys.toList(), it.values.flatten())
+                goalsRecyclerAdapter = GoalsRecyclerAdapter(it.keys.toList(), it.flatMap { map ->
+                    map.value
+                })
                 goalsRecyclerView.adapter = goalsRecyclerAdapter
+
+                goalsRecyclerAdapter.onGoalButtonClicked = {
+                    val bundle = bundleOf("goalId" to it)
+                    navController.navigate(R.id.action_parentHomeFragment_to_tasksFragment, bundle)
+                }
             }
+
             viewModel.completedGoals.observe(viewLifecycleOwner) { completedGoals ->
                 if (completedGoals.isEmpty()) {
                     binding.completedGoalsParentSide.root.visibility = View.GONE
@@ -98,8 +108,8 @@ class ParentHomeFragment : Fragment() {
                     completedGoalsRecyclerView.adapter = completedGoalsRecyclerAdapter
                 }
             }
-        }
 
+        }
 
         binding.homeAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {

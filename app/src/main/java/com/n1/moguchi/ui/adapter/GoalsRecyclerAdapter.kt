@@ -5,20 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.fragment.app.commit
 import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.R
 import com.n1.moguchi.data.models.Goal
 import com.n1.moguchi.data.models.Task
 import com.n1.moguchi.databinding.GoalCardBinding
-import com.n1.moguchi.ui.activity.MainActivity
-import com.n1.moguchi.ui.fragment.tasks.TasksFragment
 import com.n1.moguchi.ui.views.CustomShapesView
 
 class GoalsRecyclerAdapter(
     private val goalsList: List<Goal>,
     private val tasksByGoalList: List<Task>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    var onGoalButtonClicked: ((String) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -35,8 +34,7 @@ class GoalsRecyclerAdapter(
         return goalsList.size
     }
 
-    inner class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
-        View.OnClickListener {
+    inner class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = GoalCardBinding.bind(itemView)
         private val context: Context = itemView.context
         private val customDrawableView: CustomShapesView = CustomShapesView(context)
@@ -55,12 +53,15 @@ class GoalsRecyclerAdapter(
                 )
 
             val buttonText: TextView = binding.allTasksButton.root.getChildAt(0) as TextView
-            if (tasksByGoalList.size - 3 != 0) {
+            if (tasksByGoalList.size - 3 >= 0) {
                 buttonText.text = context.getString(R.string.see_all_tasks_button_text, tasksByGoalList.size)
             } else {
                 buttonText.text = context.getString(R.string.go_to_tasks_button_text)
             }
-            binding.allTasksButton.root.setOnClickListener(this)
+
+            binding.allTasksButton.root.setOnClickListener {
+                onGoalButtonClicked?.invoke(goal.goalId!!)
+            }
 
             binding.tasksContainerLl.apply {
                 for (i in 1..3) {
@@ -76,14 +77,6 @@ class GoalsRecyclerAdapter(
                         addView(taskSmallItem)
                     }
                 }
-            }
-        }
-
-        override fun onClick(v: View) {
-            val mainActivity = v.context as MainActivity
-            mainActivity.supportFragmentManager.commit {
-                replace(android.R.id.content, TasksFragment())
-                setReorderingAllowed(true)
             }
         }
     }

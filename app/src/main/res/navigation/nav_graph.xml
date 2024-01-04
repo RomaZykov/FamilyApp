@@ -50,6 +50,9 @@
         <action
             android:id="@+id/action_parentHomeFragment_to_onBoardingChildFragment"
             app:destination="@id/onBoardingChildFragment" />
+        <action
+            android:id="@+id/action_parentHomeFragment_to_tasksFragment"
+            app:destination="@id/tasksFragment" />
     </fragment>
     <fragment
         android:id="@+id/parentProfileFragment"
@@ -121,4 +124,8 @@
             android:id="@+id/action_afterOnBoardingFragment_to_parentHomeFragment"
             app:destination="@id/parentHomeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/tasksFragment"
+        android:name="com.n1.moguchi.ui.fragment.tasks.TasksFragment"
+        android:label="TasksFragment" />
 </navigation>

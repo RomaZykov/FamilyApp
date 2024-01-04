@@ -37,7 +37,7 @@ class GoalRepositoryImpl @Inject constructor(
     override suspend fun fetchTasks(goals: List<Goal>): Map<Goal, List<Task>> {
         val goalsWithTasks = mutableMapOf<Goal, List<Task>>()
         goals.forEach { goal ->
-            val tasksRefByGoalId = tasksRef.orderByChild("goalOwnerId").equalTo(goal.goalId!!)
+            val tasksRefByGoalId = tasksRef.child(goal.goalId!!)
             val tasks = mutableListOf<Task>()
             tasksRefByGoalId.get().await().children.forEach { task ->
                 tasks.add(task.getValue(Task::class.java)!!)
