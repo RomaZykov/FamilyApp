@@ -142,6 +142,6 @@
     <string name="go_to_tasks_button_text">Перейти в управление задачами</string>
     <string name="current_total_goal_points">%1$d / %2$d</string>
     <string name="active_tasks">Активные %d</string>
-    <string name="non_active_tasks">Выполненные %d</string>
+    <string name="completed_tasks">Выполненные %d</string>
 
 </resources>

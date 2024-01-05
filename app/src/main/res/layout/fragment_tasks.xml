@@ -52,7 +52,7 @@
                 android:textSize="@dimen/small_font_size" />
 
             <TextView
-                android:id="@+id/tasks_points_tv"
+                android:id="@+id/tasks_points"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -116,7 +116,7 @@
                 android:button="@null"
                 android:fontFamily="@font/onest_regular"
                 android:padding="@dimen/medium_padding"
-                android:text="@string/non_active_tasks"
+                android:text="@string/completed_tasks"
                 android:textSize="@dimen/semi_small_font_size" />
         </RadioGroup>
 
