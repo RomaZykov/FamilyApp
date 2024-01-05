@@ -90,8 +90,8 @@ class ParentHomeFragment : Fragment() {
                 })
                 goalsRecyclerView.adapter = goalsRecyclerAdapter
 
-                goalsRecyclerAdapter.onGoalButtonClicked = {
-                    val bundle = bundleOf("goalId" to it)
+                goalsRecyclerAdapter.onGoalButtonClicked = { goalId ->
+                    val bundle = bundleOf("goalId" to goalId)
                     navController.navigate(R.id.action_parentHomeFragment_to_tasksFragment, bundle)
                 }
             }

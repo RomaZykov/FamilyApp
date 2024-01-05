@@ -2,7 +2,6 @@ package com.n1.moguchi.ui.fragment.tasks
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -67,26 +66,36 @@ class TasksFragment : Fragment() {
 
         val relatedGoalId = arguments?.getString("goalId")
         if (relatedGoalId != null) {
+            viewModel.setCurrentProgression(relatedGoalId)
             viewModel.fetchActiveTasks(relatedGoalId)
             viewModel.fetchCompletedTasks(relatedGoalId)
         }
 
+        viewModel.currentAndTotalGoalPoints.observe(viewLifecycleOwner) {
+            binding.tasksPoints.text = getString(
+                R.string.current_total_goal_points,
+                it.keys.toString().trim('[',']').toInt(),
+                it.values.toString().trim('[',']').toInt()
+            )
+        }
+
         viewModel.activeTasks.observe(viewLifecycleOwner) {
+            binding.activeTasks.text = getString(R.string.active_tasks, it.size)
+            setupRecyclerViewByRelatedTasks(it, true)
             binding.activeTasks.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     setupRecyclerViewByRelatedTasks(it, true)
                 }
             }
-            Log.d("TasksFragment", "Active tasks =$it")
         }
 
         viewModel.completedTasks.observe(viewLifecycleOwner) {
+            binding.completedTasks.text = getString(R.string.completed_tasks, it?.size ?: 0)
             binding.completedTasks.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     setupRecyclerViewByRelatedTasks(it, false)
                 }
             }
-            Log.d("TasksFragment", "Non-Active tasks =$it")
         }
 
         binding.addTaskFab.setOnClickListener {

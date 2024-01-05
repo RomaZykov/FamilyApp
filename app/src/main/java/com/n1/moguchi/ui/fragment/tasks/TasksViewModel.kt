@@ -5,12 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.n1.moguchi.data.models.Task
+import com.n1.moguchi.data.repositories.GoalRepository
 import com.n1.moguchi.data.repositories.TaskRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class TasksViewModel @Inject constructor(
-    private val taskRepository: TaskRepository
+    private val taskRepository: TaskRepository,
+    private val goalRepository: GoalRepository
 ) : ViewModel() {
 
     private val _activeTasks = MutableLiveData<List<Task>>()
@@ -18,6 +20,9 @@ class TasksViewModel @Inject constructor(
 
     private val _completedTasks = MutableLiveData<List<Task>>()
     val completedTasks: LiveData<List<Task>> = _completedTasks
+
+    private val _currentAndTotalGoalPoints = MutableLiveData<Map<Int, Int>>()
+    val currentAndTotalGoalPoints: LiveData<Map<Int, Int>> = _currentAndTotalGoalPoints
 
     fun fetchActiveTasks(goalId: String) {
         viewModelScope.launch {
@@ -30,6 +35,16 @@ class TasksViewModel @Inject constructor(
         viewModelScope.launch {
             val completedTasks = taskRepository.fetchCompletedTasks(goalId)
             _completedTasks.value = completedTasks
+        }
+    }
+
+    fun setCurrentProgression(goalId: String) {
+        viewModelScope.launch {
+            goalRepository.getGoal(goalId).also {
+                val currentAndTotalGoalPointsMap: MutableMap<Int, Int> = mutableMapOf()
+                currentAndTotalGoalPointsMap[it.currentPoints] = it.totalPoints
+                _currentAndTotalGoalPoints.value = currentAndTotalGoalPointsMap
+            }
         }
     }
 }

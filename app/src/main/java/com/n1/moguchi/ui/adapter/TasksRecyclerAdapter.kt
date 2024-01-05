@@ -40,8 +40,8 @@ class TasksRecyclerAdapter(private val relatedTasksList: List<Task>, isActive: B
         }
 
         fun bind(task: Task) {
-
             binding.taskTitle.text = task.title
+            binding.taskPoints.text = task.height.toString()
             if (MainActivity.isParentProfile) {
                 binding.taskSettingsButton.visibility = View.VISIBLE
                 binding.taskSettingsButton.setOnClickListener {

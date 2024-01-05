@@ -46,7 +46,7 @@ class TaskRepositoryImpl @Inject constructor(
     }
 
     override suspend fun fetchActiveTasks(goalID: String): List<Task> {
-        val tasksRefByCompletion = tasksRef
+        val tasksRefByCompletion = tasksRef.child(goalID)
             .orderByChild("taskCompleted")
             .equalTo(false)
         val tasks: MutableList<Task> = mutableListOf()
@@ -57,7 +57,7 @@ class TaskRepositoryImpl @Inject constructor(
     }
 
     override suspend fun fetchCompletedTasks(goalID: String): List<Task> {
-        val completedTasksRefByGoalId = tasksRef
+        val completedTasksRefByGoalId = tasksRef.child(goalID)
             .orderByChild("taskCompleted")
             .equalTo(true)
         val completedTasks: MutableList<Task> = mutableListOf()
