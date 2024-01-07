@@ -1,19 +1,24 @@
 package com.n1.moguchi.ui.adapter
 
+import android.os.Build
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
-import androidx.fragment.app.FragmentActivity
+import androidx.core.view.get
 import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.R
 import com.n1.moguchi.data.models.Task
 import com.n1.moguchi.databinding.EditableTaskItemBinding
 import com.n1.moguchi.ui.activity.MainActivity
-import com.n1.moguchi.ui.fragment.child.TaskConfirmationBottomSheetFragment
 
-class TasksRecyclerAdapter(private val relatedTasksList: List<Task>) : RecyclerView.Adapter<TasksRecyclerAdapter.EditableTaskViewHolder>() {
+class TasksRecyclerAdapter(
+    private val relatedTasksList: List<Task>,
+    private val isActiveTasks: Boolean
+) : RecyclerView.Adapter<TasksRecyclerAdapter.EditableTaskViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EditableTaskViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -23,7 +28,7 @@ class TasksRecyclerAdapter(private val relatedTasksList: List<Task>) : RecyclerV
 
     override fun onBindViewHolder(holder: EditableTaskViewHolder, position: Int) {
         val task: Task = relatedTasksList[position]
-        holder.bind(task)
+        holder.bind(task, isActiveTasks)
     }
 
     override fun getItemCount(): Int {
@@ -31,46 +36,60 @@ class TasksRecyclerAdapter(private val relatedTasksList: List<Task>) : RecyclerV
     }
 
     inner class EditableTaskViewHolder(itemView: View) :
-        RecyclerView.ViewHolder(itemView), PopupMenu.OnMenuItemClickListener, View.OnClickListener {
-
+        RecyclerView.ViewHolder(itemView), PopupMenu.OnMenuItemClickListener {
         private val binding = EditableTaskItemBinding.bind(itemView)
 
-        init {
-            itemView.setOnClickListener(this)
-        }
+//        init {
+//            itemView.setOnClickListener(this)
+//        }
 
-        fun bind(task: Task) {
+        fun bind(task: Task, isActiveTasks: Boolean) {
             binding.taskTitle.text = task.title
             binding.taskPoints.text = task.height.toString()
             if (MainActivity.isParentProfile) {
                 binding.taskSettingsButton.visibility = View.VISIBLE
                 binding.taskSettingsButton.setOnClickListener {
-                    showOptionsPopup()
+                    showOptionsPopup(isActiveTasks)
                 }
             } else {
                 binding.taskSettingsButton.visibility = View.GONE
             }
         }
 
-        private fun showOptionsPopup() {
-            val popup = PopupMenu(itemView.context, binding.taskSettingsButton)
-            popup.setOnMenuItemClickListener(this)
-            val inflater = popup.menuInflater
-            inflater.inflate(R.menu.menu_task_settings, popup.menu)
-            popup.setForceShowIcon(true)
-            popup.show()
-        }
-
-        override fun onClick(v: View) {
-            val fragmentActivity = v.context as FragmentActivity
-            val fragmentManager = fragmentActivity.supportFragmentManager
-            val modalBottomSheet = TaskConfirmationBottomSheetFragment()
-            modalBottomSheet.show(fragmentManager, TAG)
+        private fun showOptionsPopup(isActiveTasks: Boolean) {
+            val popUpMenu = PopupMenu(
+                itemView.context,
+                binding.taskSettingsButton,
+                0,
+                0,
+                R.style.PopupMenuStyle
+            )
+            popUpMenu.setOnMenuItemClickListener(this)
+            val inflater = popUpMenu.menuInflater
+            if (isActiveTasks) {
+                inflater.inflate(R.menu.menu_task_settings_done, popUpMenu.menu)
+            } else {
+                inflater.inflate(R.menu.menu_task_settings_not_done, popUpMenu.menu)
+            }
+            val spanTitle = SpannableString(popUpMenu.menu[1].title.toString())
+            spanTitle.setSpan(
+                ForegroundColorSpan(itemView.context.getColor(R.color.red)),
+                0,
+                spanTitle.length,
+                0
+            )
+            popUpMenu.menu[1].title = spanTitle
+            popUpMenu.setForceShowIcon(true)
+            popUpMenu.show()
         }
 
         override fun onMenuItemClick(item: MenuItem?): Boolean {
             when (item?.itemId) {
-                R.id.done -> {
+                R.id.task_done -> {
+                    TODO("Not yet implemented")
+                }
+
+                R.id.task_not_done -> {
                     TODO("Not yet implemented")
                 }
 
@@ -81,22 +100,11 @@ class TasksRecyclerAdapter(private val relatedTasksList: List<Task>) : RecyclerV
             return true
         }
 
-//        private fun showOptionsPopup() {
-//            val popup = PopupMenu(itemView.context, binding.taskSettingsButton)
-//            popup.setOnMenuItemClickListener(this)
-//            val inflater = popup.menuInflater
-//            inflater.inflate(R.menu.menu_child_completed_task_settings, popup.menu)
-//            popup.setForceShowIcon(true)
-//            popup.show()
-//        }
-//
-//        override fun onMenuItemClick(item: MenuItem?): Boolean {
-//            when (item?.itemId) {
-//                R.id.not_done -> {
-//                    TODO("Not yet implemented")
-//                }
-//            }
-//            return true
+//        override fun onClick(v: View) {
+//            val fragmentActivity = v.context as FragmentActivity
+//            val fragmentManager = fragmentActivity.supportFragmentManager
+//            val modalBottomSheet = TaskConfirmationBottomSheetFragment()
+//            modalBottomSheet.show(fragmentManager, TAG)
 //        }
     }
 

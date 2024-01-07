@@ -4,6 +4,7 @@
 
     <dimen name="bottom_navigation_icons_padding">18dp</dimen>
 
+    <dimen name="menu_radius">24dp</dimen>
     <dimen name="small_child_card_corner_radius">32dp</dimen>
 
     <dimen name="medium_corner_radius">18dp</dimen>
