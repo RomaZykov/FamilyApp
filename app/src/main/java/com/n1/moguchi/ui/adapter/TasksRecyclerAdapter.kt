@@ -1,6 +1,5 @@
 package com.n1.moguchi.ui.adapter
 
-import android.os.Build
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater

@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun setupBottomNavigationView(children: List<Child>) {
+    private fun setupBottomNavigationView(children: List<Child>) {
         binding.bottomNavigationView.setupWithNavController(navController)
         if (binding.bottomNavigationView.menu.isNotEmpty()) {
             binding.bottomNavigationView.menu.clear()

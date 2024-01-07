@@ -58,9 +58,9 @@
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="@dimen/small_margin"
                 android:fontFamily="@font/onest_regular"
+                android:text="@string/current_total_goal_points"
                 android:textColor="@color/black"
                 android:textSize="@dimen/small_font_size"
-                android:text="@string/current_total_goal_points"
                 tools:text="6 / 10" />
 
             <ImageView
@@ -75,12 +75,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/medium_margin"
-            android:progress="25"
             android:progressTint="@color/orange"
             app:layout_constraintBottom_toTopOf="@+id/active_completed_tasks_radio_group"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/goal_points_ll" />
+            app:layout_constraintTop_toBottomOf="@+id/goal_points_ll"
+            tools:progress="25" />
 
         <RadioGroup
             android:id="@+id/active_completed_tasks_radio_group"
@@ -102,10 +102,10 @@
                 android:background="@drawable/checked_button"
                 android:button="@null"
                 android:checked="true"
-                android:textSize="@dimen/semi_small_font_size"
                 android:fontFamily="@font/onest_regular"
                 android:padding="@dimen/medium_padding"
-                android:text="@string/active_tasks" />
+                android:text="@string/active_tasks"
+                android:textSize="@dimen/semi_small_font_size" />
 
             <RadioButton
                 android:id="@+id/completed_tasks"
