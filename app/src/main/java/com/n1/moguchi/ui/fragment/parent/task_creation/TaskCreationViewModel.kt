@@ -55,9 +55,9 @@ class TaskCreationViewModel @Inject constructor(
         }
     }
 
-    fun deleteTask(task: Task) {
+    fun deleteTask(goalId: String, task: Task) {
         viewModelScope.launch {
-            taskRepository.deleteTask(task)
+            taskRepository.deleteTask(goalId, task)
             _tasks.value =
                 _tasks.value?.dropWhile { it.taskId == task.taskId }
             _taskHeightTotal.value = _taskHeightTotal.value?.minus(task.height)

@@ -19,6 +19,9 @@ class TasksRecyclerAdapter(
     private val isActiveTasks: Boolean
 ) : RecyclerView.Adapter<TasksRecyclerAdapter.EditableTaskViewHolder>() {
 
+    var onTaskCompleteClicked: ((Task) -> Unit)? = null
+    var onTaskDeleteClicked: ((Task, Boolean) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EditableTaskViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.editable_task_item, parent, false)
@@ -37,12 +40,14 @@ class TasksRecyclerAdapter(
     inner class EditableTaskViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView), PopupMenu.OnMenuItemClickListener {
         private val binding = EditableTaskItemBinding.bind(itemView)
+        private var task: Task? = null
 
 //        init {
 //            itemView.setOnClickListener(this)
 //        }
 
         fun bind(task: Task, isActiveTasks: Boolean) {
+            this.task = task
             binding.taskTitle.text = task.title
             binding.taskPoints.text = task.height.toString()
             if (MainActivity.isParentProfile) {
@@ -85,7 +90,7 @@ class TasksRecyclerAdapter(
         override fun onMenuItemClick(item: MenuItem?): Boolean {
             when (item?.itemId) {
                 R.id.task_done -> {
-                    TODO("Not yet implemented")
+
                 }
 
                 R.id.task_not_done -> {
@@ -93,7 +98,8 @@ class TasksRecyclerAdapter(
                 }
 
                 R.id.delete -> {
-                    TODO("Not yet implemented")
+                    onTaskDeleteClicked?.invoke(task!!, isActiveTasks)
+                    notifyItemRemoved(adapterPosition)
                 }
             }
             return true

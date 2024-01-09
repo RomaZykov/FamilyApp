@@ -24,6 +24,9 @@ class TasksViewModel @Inject constructor(
     private val _currentAndTotalGoalPoints = MutableLiveData<Map<Int, Int>>()
     val currentAndTotalGoalPoints: LiveData<Map<Int, Int>> = _currentAndTotalGoalPoints
 
+    private val currentGoalPoints = _currentAndTotalGoalPoints.value?.keys
+    private val totalGoalPoints = _currentAndTotalGoalPoints.value?.values
+
     fun fetchActiveTasks(goalId: String) {
         viewModelScope.launch {
             val activeTasks = taskRepository.fetchActiveTasks(goalId)
@@ -35,6 +38,17 @@ class TasksViewModel @Inject constructor(
         viewModelScope.launch {
             val completedTasks = taskRepository.fetchCompletedTasks(goalId)
             _completedTasks.value = completedTasks
+        }
+    }
+
+    fun deleteTask(goalId: String, task: Task, isActiveTask: Boolean) {
+        viewModelScope.launch {
+            taskRepository.deleteTask(goalId, task)
+            if (isActiveTask) {
+                _activeTasks.value = _activeTasks.value?.dropWhile { it.taskId == task.taskId }
+            } else {
+                _completedTasks.value = _completedTasks.value?.dropWhile { it.taskId == task.taskId }
+            }
         }
     }
 

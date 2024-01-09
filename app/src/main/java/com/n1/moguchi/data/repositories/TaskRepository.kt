@@ -7,7 +7,7 @@ interface TaskRepository {
 
     suspend fun updateTask(task: Task): Task
 
-    suspend fun deleteTask(task: Task)
+    suspend fun deleteTask(goalID: String, task: Task)
 
     fun markTaskCompleted(taskID: String, isCompleted: Boolean)
 

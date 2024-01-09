@@ -25,8 +25,8 @@ class TaskRepositoryImpl @Inject constructor(
         return newTask
     }
 
-    override suspend fun deleteTask(task: Task) {
-        val taskRefById = tasksRef.child(task.taskId)
+    override suspend fun deleteTask(goalID: String, task: Task) {
+        val taskRefById = tasksRef.child(goalID).child(task.taskId)
         taskRefById.removeValue()
     }
 
