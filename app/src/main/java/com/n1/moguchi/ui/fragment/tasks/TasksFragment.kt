@@ -74,8 +74,8 @@ class TasksFragment : Fragment() {
         viewModel.currentAndTotalGoalPoints.observe(viewLifecycleOwner) {
             binding.tasksPoints.text = getString(
                 R.string.current_total_goal_points,
-                it.keys.toString().trim('[',']').toInt(),
-                it.values.toString().trim('[',']').toInt()
+                it.keys.toString().trim('[', ']').toInt(),
+                it.values.toString().trim('[', ']').toInt()
             )
         }
 
@@ -85,6 +85,12 @@ class TasksFragment : Fragment() {
             binding.activeTasks.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     setupRecyclerViewByRelatedTasks(it, true)
+                }
+            }
+
+            tasksRecyclerAdapter.onTaskDeleteClicked = { task, isActive ->
+                if (relatedGoalId != null) {
+                    viewModel.deleteTask(relatedGoalId, task, isActive)
                 }
             }
         }
@@ -99,11 +105,11 @@ class TasksFragment : Fragment() {
         }
 
         binding.addTaskFab.setOnClickListener {
-            val fragmentManager = requireActivity().supportFragmentManager
-            val fragmentTag = TAG
+            val fragmentManager = parentFragmentManager
+            val fragmentTag = TASK_CREATION_TAG
             setFragmentResult("requestKey", bundleOf("bundleKey" to fragmentTag))
             val bottomSheet = PrimaryBottomSheetFragment()
-            bottomSheet.show(fragmentManager, TAG)
+            bottomSheet.show(fragmentManager, TASK_CREATION_TAG)
         }
     }
 
@@ -120,6 +126,6 @@ class TasksFragment : Fragment() {
     }
 
     companion object {
-        private const val TAG = "TasksFragment"
+        private const val TASK_CREATION_TAG = "TaskCreationIntent"
     }
 }

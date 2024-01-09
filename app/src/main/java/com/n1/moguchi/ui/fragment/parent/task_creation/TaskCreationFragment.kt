@@ -98,7 +98,9 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
             }
 
             taskCreationRecyclerAdapter.onTaskDeleteClicked = { task ->
-                viewModel.deleteTask(task)
+                if (currentGoalID != null) {
+                    viewModel.deleteTask(currentGoalID, task)
+                }
             }
 
             taskCreationRecyclerAdapter.onCardsStatusUpdate = { isAllTasksCompleted ->
