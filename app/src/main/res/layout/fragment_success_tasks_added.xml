@@ -29,13 +29,13 @@
             android:fontFamily="@font/onest_regular"
             android:text="@string/new_tasks_added"
             android:textSize="@dimen/large_font_size"
-            app:layout_constraintBottom_toTopOf="@+id/add_task_button"
+            app:layout_constraintBottom_toTopOf="@+id/task_added_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tasks_added_image" />
 
         <Button
-            android:id="@+id/add_task_button"
+            android:id="@+id/task_added_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/medium_margin"

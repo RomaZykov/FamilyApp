@@ -30,7 +30,7 @@ class ParentEditProfileFragment : Fragment() {
             parentFragmentManager.commit {
                 remove(ParentEditProfileFragment())
                 replace<DeleteParentFragment>(
-                    R.id.child_fragment_container, "DeleteParentFragment"
+                    R.id.primary_child_fragment_container, "DeleteParentFragment"
                 )
                 setReorderingAllowed(true)
             }

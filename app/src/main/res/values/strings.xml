@@ -93,6 +93,7 @@
     <string name="add_child_title">Добавление ребёнка</string>
     <string name="set_password_description">Установите 4-х значный пароль, чтобы ограничить доступ ребёнку к редактированию целей и задач</string>
     <string name="new_goal">Новая цель</string>
+    <string name="new_task">Новая задача</string>
     <string name="congrats">Отлично</string>
     <string name="edit">Редактирование</string>
     <string name="sign_in_google">Войти с помощью Google</string>
@@ -143,5 +144,6 @@
     <string name="current_total_goal_points">%1$d / %2$d</string>
     <string name="active_tasks">Активные %d</string>
     <string name="completed_tasks">Выполненные %d</string>
+    <string name="ready_button">Готово</string>
 
 </resources>

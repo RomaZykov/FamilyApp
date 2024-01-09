@@ -36,7 +36,7 @@ class ParentEditProfileBottomSheetFragment : BottomSheetDialogFragment() {
 
         childFragmentManager.commit {
             replace<ParentEditProfileFragment>(
-                R.id.child_fragment_container,
+                R.id.primary_child_fragment_container,
                 "ParentEditProfileFragment"
             )
             setReorderingAllowed(true)

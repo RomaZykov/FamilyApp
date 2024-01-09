@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -34,17 +35,17 @@
                 android:layout_marginTop="@dimen/extra_large_margin"
                 android:fontFamily="@font/onest_regular"
                 android:gravity="center"
-                android:text="@string/new_goal"
                 android:textSize="@dimen/medium_font_size"
-                app:layout_constraintBottom_toTopOf="@+id/child_fragment_container"
+                app:layout_constraintBottom_toTopOf="@+id/primary_child_fragment_container"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/drag_handle"
                 app:layout_constraintVertical_bias="0"
-                app:layout_constraintVertical_chainStyle="packed" />
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="@string/new_goal" />
 
             <FrameLayout
-                android:id="@+id/child_fragment_container"
+                android:id="@+id/primary_child_fragment_container"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginVertical="@dimen/medium_margin"

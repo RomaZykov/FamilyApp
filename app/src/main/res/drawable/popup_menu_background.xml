@@ -5,7 +5,7 @@
     <corners android:radius="@dimen/menu_radius" />
 
     <padding
-        android:bottom="@dimen/small_padding"
-        android:top="@dimen/small_padding" />
+        android:bottom="@dimen/tiny_padding"
+        android:top="@dimen/tiny_padding" />
 
 </shape>
