@@ -6,6 +6,8 @@
     android:layout_height="@dimen/small_child_height"
     android:layout_marginHorizontal="@dimen/tiny_margin"
     android:backgroundTint="@color/child_item_selector"
+    android:clickable="true"
+    android:focusable="true"
     card_view:cardCornerRadius="@dimen/small_child_card_corner_radius"
     card_view:checkedIcon="@color/transparent"
     card_view:strokeWidth="@dimen/zero_stroke_width">

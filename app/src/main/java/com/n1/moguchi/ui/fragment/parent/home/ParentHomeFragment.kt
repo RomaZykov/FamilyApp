@@ -80,6 +80,12 @@ class ParentHomeFragment : Fragment() {
                 childrenRecyclerAdapter =
                     ChildrenRecyclerAdapter(childrenList.values.toList(), selectedChildIndex)
                 childrenRecyclerView.adapter = childrenRecyclerAdapter
+
+                childrenRecyclerAdapter.onChildClicked = {
+                    selectedChildIndex = it
+                    viewModel.fetchGoalsAndTasks(childrenIdList[selectedChildIndex])
+                    viewModel.getCompletedGoals(childrenIdList[selectedChildIndex])
+                }
             }
 
             viewModel.goals.observe(viewLifecycleOwner) {
