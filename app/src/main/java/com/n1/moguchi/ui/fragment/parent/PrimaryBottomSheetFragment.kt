@@ -1,6 +1,5 @@
 package com.n1.moguchi.ui.fragment.parent
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,37 +9,17 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.fragment.app.setFragmentResultListener
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentPrimaryBottomSheetBinding
-import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.fragment.parent.goal_creation.GoalCreationFragment
 import com.n1.moguchi.ui.fragment.parent.task_creation.TaskCreationFragment
-import com.n1.moguchi.ui.fragment.parent.goal_creation.GoalCreationViewModel
-import javax.inject.Inject
 
 class PrimaryBottomSheetFragment : BottomSheetDialogFragment() {
 
     private var _binding: FragmentPrimaryBottomSheetBinding? = null
     private val binding get() = _binding!!
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-    private val viewModel by lazy {
-        ViewModelProvider(this, viewModelFactory)[GoalCreationViewModel::class.java]
-    }
-
-    private val component by lazy {
-        (requireActivity().application as MoguchiBaseApplication).appComponent
-    }
-
-    override fun onAttach(context: Context) {
-        component.inject(this)
-        super.onAttach(context)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,7 +27,6 @@ class PrimaryBottomSheetFragment : BottomSheetDialogFragment() {
     ): View {
         _binding = FragmentPrimaryBottomSheetBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.viewModel = viewModel
         return binding.root
     }
 
@@ -60,24 +38,24 @@ class PrimaryBottomSheetFragment : BottomSheetDialogFragment() {
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
 
         setFragmentResultListener("requestKey") { _, bundle ->
-            val result = bundle.getString("bundleKey")
-            when (result) {
-                "TasksFragment" -> {
+            when (bundle.getString("bundleKey")) {
+                "TaskCreationIntent" -> {
                     childFragmentManager.commit {
                         replace(
-                            R.id.child_fragment_container,
+                            R.id.primary_child_fragment_container,
                             TaskCreationFragment(),
                             TO_TASKS_COMPLETE_TAG
                         )
                     }
-                    binding.nextButton.text = "Готово"
+                    binding.title.text = getString(R.string.new_task)
+                    binding.nextButton.text = getString(R.string.ready_button)
                     binding.nextButton.setCompoundDrawablesRelative(null, null, null, null)
                 }
 
                 "MainActivity" -> {
                     childFragmentManager.commit {
                         replace(
-                            R.id.child_fragment_container,
+                            R.id.primary_child_fragment_container,
                             GoalCreationFragment(),
                             TO_TASK_CREATION_TAG
                         )
@@ -85,19 +63,15 @@ class PrimaryBottomSheetFragment : BottomSheetDialogFragment() {
                 }
             }
         }
+
         binding.nextButton.setOnClickListener {
-            val currentGoalHeight = viewModel.totalGoalPoints.value
-//            val goal = Goal(
-//
-//            )
-//            viewModel.createGoal(goal = goal)
             val currentFragmentInContainer = childFragmentManager.fragments[0]
             when (currentFragmentInContainer.tag) {
                 TO_TASK_CREATION_TAG -> {
                     childFragmentManager.commit {
                         remove(currentFragmentInContainer)
                         replace(
-                            R.id.child_fragment_container,
+                            R.id.primary_child_fragment_container,
                             TaskCreationFragment(),
                             TO_GOAL_COMPLETE_TAG
                         )
@@ -115,17 +89,25 @@ class PrimaryBottomSheetFragment : BottomSheetDialogFragment() {
                         View.VISIBLE
                     childFragmentManager.commit {
                         remove(currentFragmentInContainer)
-                        replace<SuccessGoalAddedFragment>(R.id.child_fragment_container)
+                        replace<SuccessGoalAddedFragment>(R.id.primary_child_fragment_container)
                     }
                 }
 
                 TO_TASKS_COMPLETE_TAG -> {
                     binding.title.visibility = View.GONE
                     binding.bottomLinearLayout.visibility = View.GONE
-                    binding.childFragmentContainer.visibility = View.GONE
+                    binding.primaryChildFragmentContainer.visibility = View.GONE
                     childFragmentManager.commit {
                         remove(currentFragmentInContainer)
                         replace<SuccessTasksAddedFragment>(R.id.full_fragment_container)
+                    }
+                    childFragmentManager.setFragmentResultListener(
+                        "secondaryRequestKey",
+                        viewLifecycleOwner
+                    ) { _, bundle ->
+                        if (bundle.getBoolean("buttonPressedKey")) {
+                            dismiss()
+                        }
                     }
                 }
             }
@@ -134,6 +116,7 @@ class PrimaryBottomSheetFragment : BottomSheetDialogFragment() {
         binding.cancelButton.setOnClickListener {
             dismiss()
         }
+
         binding.addGoalButton.setOnClickListener {
             dismiss()
         }
