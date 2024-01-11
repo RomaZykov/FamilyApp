@@ -81,16 +81,10 @@ class TasksFragment : Fragment() {
 
         viewModel.activeTasks.observe(viewLifecycleOwner) {
             binding.activeTasks.text = getString(R.string.active_tasks, it.size)
-            setupRecyclerViewByRelatedTasks(it, true)
+            setupRecyclerViewByRelatedTasks(relatedGoalId, it, true)
             binding.activeTasks.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
-                    setupRecyclerViewByRelatedTasks(it, true)
-                }
-            }
-
-            tasksRecyclerAdapter.onTaskDeleteClicked = { task, isActive ->
-                if (relatedGoalId != null) {
-                    viewModel.deleteTask(relatedGoalId, task, isActive)
+                    setupRecyclerViewByRelatedTasks(relatedGoalId, it, true)
                 }
             }
         }
@@ -99,7 +93,7 @@ class TasksFragment : Fragment() {
             binding.completedTasks.text = getString(R.string.completed_tasks, it?.size ?: 0)
             binding.completedTasks.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
-                    setupRecyclerViewByRelatedTasks(it, false)
+                    setupRecyclerViewByRelatedTasks(relatedGoalId, it, false)
                 }
             }
         }
@@ -113,11 +107,25 @@ class TasksFragment : Fragment() {
         }
     }
 
-    private fun setupRecyclerViewByRelatedTasks(relatedTasks: List<Task>, isActive: Boolean) {
+    private fun setupRecyclerViewByRelatedTasks(
+        relatedGoalId: String?,
+        relatedTasks: List<Task>,
+        isActive: Boolean
+    ) {
         val recyclerView: RecyclerView = binding.rvTasksList
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         tasksRecyclerAdapter = TasksRecyclerAdapter(relatedTasks, isActive)
         recyclerView.adapter = tasksRecyclerAdapter
+
+        tasksRecyclerAdapter.onTaskDeleteClicked = { task, isActiveTask ->
+            if (relatedGoalId != null) {
+                viewModel.deleteTask(relatedGoalId, task, isActiveTask)
+            }
+        }
+
+        tasksRecyclerAdapter.onTaskStatusChangedClicked = { task, isActiveTask ->
+            viewModel.updateTaskStatus(task, isActiveTask)
+        }
     }
 
     override fun onDestroyView() {

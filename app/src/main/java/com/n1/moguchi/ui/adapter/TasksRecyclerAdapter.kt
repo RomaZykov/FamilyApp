@@ -19,7 +19,7 @@ class TasksRecyclerAdapter(
     private val isActiveTasks: Boolean
 ) : RecyclerView.Adapter<TasksRecyclerAdapter.EditableTaskViewHolder>() {
 
-    var onTaskCompleteClicked: ((Task) -> Unit)? = null
+    var onTaskStatusChangedClicked: ((Task, Boolean) -> Unit)? = null
     var onTaskDeleteClicked: ((Task, Boolean) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EditableTaskViewHolder {
@@ -90,11 +90,13 @@ class TasksRecyclerAdapter(
         override fun onMenuItemClick(item: MenuItem?): Boolean {
             when (item?.itemId) {
                 R.id.task_done -> {
-
+                    onTaskStatusChangedClicked?.invoke(task!!, isActiveTasks)
+                    notifyItemRemoved(adapterPosition)
                 }
 
                 R.id.task_not_done -> {
-                    TODO("Not yet implemented")
+                    onTaskStatusChangedClicked?.invoke(task!!, isActiveTasks)
+                    notifyItemRemoved(adapterPosition)
                 }
 
                 R.id.delete -> {

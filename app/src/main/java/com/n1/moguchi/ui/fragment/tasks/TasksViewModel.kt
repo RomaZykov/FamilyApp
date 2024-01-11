@@ -47,7 +47,8 @@ class TasksViewModel @Inject constructor(
             if (isActiveTask) {
                 _activeTasks.value = _activeTasks.value?.dropWhile { it.taskId == task.taskId }
             } else {
-                _completedTasks.value = _completedTasks.value?.dropWhile { it.taskId == task.taskId }
+                _completedTasks.value =
+                    _completedTasks.value?.dropWhile { it.taskId == task.taskId }
             }
         }
     }
@@ -57,6 +58,44 @@ class TasksViewModel @Inject constructor(
             goalRepository.getGoal(goalId).also {
                 val currentAndTotalGoalPointsMap: MutableMap<Int, Int> = mutableMapOf()
                 currentAndTotalGoalPointsMap[it.currentPoints] = it.totalPoints
+                _currentAndTotalGoalPoints.value = currentAndTotalGoalPointsMap
+            }
+        }
+    }
+
+    fun updateTaskStatus(task: Task, isActiveTask: Boolean) {
+        viewModelScope.launch {
+            if (isActiveTask) {
+                val taskToUpdate = _activeTasks.value?.single { it.taskId == task.taskId }.also {
+                    it?.taskCompleted = true
+                }
+                _activeTasks.value = _activeTasks.value?.dropWhile { it.taskId == task.taskId }
+                if (taskToUpdate != null) {
+                    _completedTasks.value =
+                        _completedTasks.value?.plus(taskToUpdate)
+                }
+                updateProgression(task)
+            } else {
+                val taskToUpdate = _completedTasks.value?.single { it.taskId == task.taskId }.also {
+                    it?.taskCompleted = false
+                }
+                _completedTasks.value =
+                    _completedTasks.value?.dropWhile { it.taskId == task.taskId }
+                if (taskToUpdate != null) {
+                    _activeTasks.value =
+                        _activeTasks.value?.plus(taskToUpdate)
+                }
+                updateProgression(task)
+            }
+            taskRepository.updateTask(task)
+        }
+    }
+
+    private fun updateProgression(task: Task) {
+        viewModelScope.launch {
+            goalRepository.getGoal(task.goalOwnerId!!).also {
+                val currentAndTotalGoalPointsMap: MutableMap<Int, Int> = mutableMapOf()
+                currentAndTotalGoalPointsMap[it.currentPoints + task.height] = it.totalPoints
                 _currentAndTotalGoalPoints.value = currentAndTotalGoalPointsMap
             }
         }

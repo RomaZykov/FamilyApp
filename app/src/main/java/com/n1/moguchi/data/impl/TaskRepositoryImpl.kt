@@ -38,7 +38,8 @@ class TaskRepositoryImpl @Inject constructor(
         val taskRefByGoalId = tasksRef.child(task.goalOwnerId!!).child(task.taskId)
         val updatedTask = task.copy(
             height = task.height,
-            title = task.title
+            title = task.title,
+            taskCompleted = task.taskCompleted
         )
         val taskValues = updatedTask.toMap()
         taskRefByGoalId.updateChildren(taskValues)
