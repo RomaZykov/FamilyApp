@@ -19,7 +19,7 @@
         android:layout_marginStart="@dimen/medium_margin"
         android:fontFamily="@font/onest_regular"
         android:gravity="center"
-        tools:text="Смотреть 5 задач(у)"
+        tools:text="Смотреть 5 задач(и)"
         android:textSize="@dimen/semi_small_font_size" />
 
     <ImageView
