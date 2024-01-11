@@ -15,7 +15,7 @@ import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.data.models.Task
 import com.n1.moguchi.databinding.FragmentTaskCreationBinding
 import com.n1.moguchi.ui.ViewModelFactory
-import com.n1.moguchi.ui.fragment.parent.SecondaryBottomSheetFragment
+import com.n1.moguchi.ui.fragment.parent.TaskSettingsSecondaryBottomSheetFragment
 import com.n1.moguchi.ui.fragment.parent.goal_creation.GoalCreationFragment
 import javax.inject.Inject
 
@@ -136,8 +136,8 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
 
     private fun showTaskSettingsBottomSheet() {
         val fragmentManager = childFragmentManager
-        val modalBottomSheet = SecondaryBottomSheetFragment()
-        modalBottomSheet.show(fragmentManager, SecondaryBottomSheetFragment.TAG)
+        val modalBottomSheet = TaskSettingsSecondaryBottomSheetFragment()
+        modalBottomSheet.show(fragmentManager, TaskSettingsSecondaryBottomSheetFragment.TAG)
     }
 
     companion object {

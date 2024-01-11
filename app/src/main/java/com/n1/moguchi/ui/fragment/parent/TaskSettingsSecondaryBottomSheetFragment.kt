@@ -16,7 +16,7 @@ import com.n1.moguchi.databinding.FragmentSecondaryBottomSheetBinding
 import java.util.Calendar
 
 
-class SecondaryBottomSheetFragment : BottomSheetDialogFragment() {
+class TaskSettingsSecondaryBottomSheetFragment : BottomSheetDialogFragment() {
 
     private var _binding: FragmentSecondaryBottomSheetBinding? = null
     private val binding get() = _binding!!
@@ -79,9 +79,13 @@ class SecondaryBottomSheetFragment : BottomSheetDialogFragment() {
                         val year = calendar.get(Calendar.YEAR)
                         val month = calendar.get(Calendar.MONTH)
                         val day = calendar.get(Calendar.DAY_OF_MONTH)
-                        val datePicker = DatePickerDialog(requireContext(), R.style.Theme_DatePicker, DatePickerDialog.OnDateSetListener { datePicker, year, monthOfYear, dayOfMonth ->
-                            TODO()
-                        }, year, month, day)
+                        val datePicker =
+                            DatePickerDialog(
+                                requireContext(), R.style.Theme_DatePicker,
+                                { datePicker, datePickerYear, monthOfYear, dayOfMonth ->
+                                    TODO()
+                                }, year, month, day
+                            )
                         datePicker.show()
                     }
                 }
@@ -106,7 +110,8 @@ class SecondaryBottomSheetFragment : BottomSheetDialogFragment() {
         }
 
         binding.addDate.setOnClickListener {
-            val newDate = LayoutInflater.from(requireContext()).inflate(R.layout.add_date_item, null)
+            val newDate =
+                LayoutInflater.from(requireContext()).inflate(R.layout.add_date_item, null)
             val params = LinearLayout.LayoutParams(
                 LayoutParams.WRAP_CONTENT,
                 LayoutParams.WRAP_CONTENT
