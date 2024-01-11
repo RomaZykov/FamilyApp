@@ -26,31 +26,35 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
     buildFeatures {
         dataBinding true
         viewBinding true
     }
 }
 
+
 dependencies {
-    def nav_version = '2.7.5'
-    def lifecycle_version = '2.6.2'
-    def activity_version = '1.8.1'
+    def nav_version = '2.7.6'
+    def lifecycle_version = '2.7.0'
+    def activity_version = '1.8.2'
     def okhttp_version = '5.0.0-alpha.11'
     def retrofit_version = '2.9.0'
     def fragment_version = '1.6.2'
 
-    implementation 'androidx.compose.ui:ui-desktop:1.6.0-beta03'
+    implementation 'androidx.compose.ui:ui-desktop:1.6.0-rc01'
     debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
 
-    implementation 'androidx.annotation:annotation:1.7.0'
+    implementation 'androidx.annotation:annotation:1.7.1'
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation "androidx.activity:activity-ktx:$activity_version"
@@ -88,8 +92,8 @@ dependencies {
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
 
     // Material Design
-    implementation 'com.google.android.material:material:1.10.0'
-    implementation 'com.google.android.material:material:1.11.0-alpha03'
+    implementation 'com.google.android.material:material:1.11.0'
+    implementation 'com.google.android.material:material:1.11.0'
 
     // UI
     implementation "com.ncorti:slidetoact:0.10.0"
