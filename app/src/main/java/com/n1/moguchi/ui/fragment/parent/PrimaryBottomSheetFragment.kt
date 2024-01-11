@@ -13,6 +13,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentPrimaryBottomSheetBinding
+import com.n1.moguchi.ui.fragment.parent.children_creation.ChildCreationFragment
 import com.n1.moguchi.ui.fragment.parent.goal_creation.GoalCreationFragment
 import com.n1.moguchi.ui.fragment.parent.task_creation.TaskCreationFragment
 
@@ -48,7 +49,20 @@ class PrimaryBottomSheetFragment : BottomSheetDialogFragment() {
                         )
                     }
                     binding.title.text = getString(R.string.new_task)
-                    binding.nextButton.text = getString(R.string.ready_button)
+                    binding.nextButton.text = getString(R.string.done)
+                    binding.nextButton.setCompoundDrawablesRelative(null, null, null, null)
+                }
+
+                "ChildCreationIntent" -> {
+                    childFragmentManager.commit {
+                        replace(
+                            R.id.primary_child_fragment_container,
+                            ChildCreationFragment(),
+                            TO_CHILD_CREATION_TAG
+                        )
+                    }
+                    binding.title.text = getString(R.string.add_child_title)
+                    binding.nextButton.text = getString(R.string.done)
                     binding.nextButton.setCompoundDrawablesRelative(null, null, null, null)
                 }
 
@@ -76,7 +90,7 @@ class PrimaryBottomSheetFragment : BottomSheetDialogFragment() {
                             TO_GOAL_COMPLETE_TAG
                         )
                     }
-                    binding.nextButton.text = "Готово"
+                    binding.nextButton.text = getString(R.string.done)
                     binding.nextButton.setCompoundDrawablesRelative(null, null, null, null)
                 }
 
@@ -129,6 +143,7 @@ class PrimaryBottomSheetFragment : BottomSheetDialogFragment() {
 
     companion object {
         private const val TO_TASK_CREATION_TAG = "TaskCreationFragment"
+        private const val TO_CHILD_CREATION_TAG = "ChildCreationFragment"
         private const val TO_GOAL_COMPLETE_TAG = "SuccessGoalFragment"
         private const val TO_TASKS_COMPLETE_TAG = "SuccessTaskFragment"
     }

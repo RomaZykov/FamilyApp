@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.n1.moguchi.MoguchiBaseApplication
@@ -21,6 +22,7 @@ import com.n1.moguchi.ui.activity.MainActivity
 import com.n1.moguchi.ui.adapter.ChildrenRecyclerAdapter
 import com.n1.moguchi.ui.adapter.CompletedGoalsRecyclerAdapter
 import com.n1.moguchi.ui.adapter.GoalsRecyclerAdapter
+import com.n1.moguchi.ui.fragment.parent.PrimaryBottomSheetFragment
 import javax.inject.Inject
 
 class ParentHomeFragment : Fragment() {
@@ -86,6 +88,10 @@ class ParentHomeFragment : Fragment() {
                     viewModel.fetchGoalsAndTasks(childrenIdList[selectedChildIndex])
                     viewModel.getCompletedGoals(childrenIdList[selectedChildIndex])
                 }
+
+                childrenRecyclerAdapter.onChildAddClicked = {
+                    showBottomSheet(PrimaryBottomSheetFragment())
+                }
             }
 
             viewModel.goals.observe(viewLifecycleOwner) {
@@ -114,7 +120,6 @@ class ParentHomeFragment : Fragment() {
                     completedGoalsRecyclerView.adapter = completedGoalsRecyclerAdapter
                 }
             }
-
         }
 
         binding.homeAppBar.setOnMenuItemClickListener { menuItem ->
@@ -127,6 +132,12 @@ class ParentHomeFragment : Fragment() {
                 else -> false
             }
         }
+    }
+
+    // TODO
+    private fun showBottomSheet(bottomSheetFragment: BottomSheetDialogFragment) {
+        val childFragmentManager = childFragmentManager
+        bottomSheetFragment.show(childFragmentManager, (bottomSheetFragment as PrimaryBottomSheetFragment).tag)
     }
 
     override fun onDestroyView() {

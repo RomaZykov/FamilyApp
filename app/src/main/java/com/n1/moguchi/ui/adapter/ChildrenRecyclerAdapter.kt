@@ -18,6 +18,7 @@ class ChildrenRecyclerAdapter(
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var onChildClicked: ((Int) -> Unit)? = null
+    var onChildAddClicked: (() -> Unit)? = null
 
     constructor(childrenList: List<Child>) : this(childrenList, selectedChildIndex = -1)
 
@@ -130,6 +131,9 @@ class ChildrenRecyclerAdapter(
         private val binding = SmallAddChildButtonBinding.bind(itemView)
 
         fun bind() {
+            binding.root.setOnClickListener {
+                onChildAddClicked?.invoke()
+            }
         }
     }
 
