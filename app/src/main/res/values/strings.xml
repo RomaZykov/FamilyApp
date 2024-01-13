@@ -145,5 +145,6 @@
     <string name="active_tasks">Активные %d</string>
     <string name="completed_tasks">Выполненные %d</string>
     <string name="done">Готово</string>
+    <string name="error_goal_title">Присутствуют недопустимые символы либо пусто</string>
 
 </resources>
