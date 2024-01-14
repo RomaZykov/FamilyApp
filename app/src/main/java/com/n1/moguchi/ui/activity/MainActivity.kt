@@ -72,12 +72,15 @@ class MainActivity : AppCompatActivity() {
         if (isParentProfile) {
             binding.bottomNavigationView.inflateMenu(R.menu.bottom_menu_parent)
             binding.bottomNavigationView.menu.findItem(R.id.addGoal).setOnMenuItemClickListener {
-                showBottomSheet(PrimaryBottomSheetFragment())
+                showBottomSheet(PrimaryBottomSheetFragment(), GOAL_CREATION_INTENT_TAG)
                 true
             }
             binding.bottomNavigationView.menu.findItem(R.id.switch_to_child)
                 .setOnMenuItemClickListener {
-                    showBottomSheet(SwitchToChildBottomSheetFragment(children))
+                    showBottomSheet(
+                        SwitchToChildBottomSheetFragment(children),
+                        SWITCH_TO_USER_INTENT_TAG
+                    )
                     true
                 }
         } else {
@@ -85,11 +88,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showBottomSheet(bottomSheetFragment: BottomSheetDialogFragment) {
+    private fun showBottomSheet(
+        bottomSheetFragment: BottomSheetDialogFragment,
+        tag: String
+    ) {
         val fragmentManager = supportFragmentManager
-        val mainActivityTag = TAG
-        fragmentManager.setFragmentResult("requestKey", bundleOf("bundleKey" to mainActivityTag))
-        bottomSheetFragment.show(fragmentManager, TAG)
+        fragmentManager.setFragmentResult("requestKey", bundleOf("bundleKey" to tag))
+        bottomSheetFragment.show(fragmentManager, tag)
     }
 
     private fun showUi() {
@@ -101,7 +106,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val TAG = "MainActivity"
+        private const val GOAL_CREATION_INTENT_TAG = "GoalCreationIntentMainActivity"
+
+        const val SWITCH_TO_USER_INTENT_TAG = "SwitchToUserIntentMainActivity"
+
         var isParentProfile = true
     }
 }

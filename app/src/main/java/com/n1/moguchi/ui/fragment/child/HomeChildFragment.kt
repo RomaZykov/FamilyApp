@@ -55,7 +55,7 @@ class HomeChildFragment : Fragment() {
     private fun showToParentChangeBottomSheet() {
         val fragmentManager = (activity as MainActivity).supportFragmentManager
         val modalBottomSheet = ChangeProfileBottomSheetFragment()
-        val mainActivityTag = MainActivity.TAG
+        val mainActivityTag = MainActivity.SWITCH_TO_USER_INTENT_TAG
         modalBottomSheet.show(fragmentManager, mainActivityTag)
     }
 
