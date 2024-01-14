@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.os.bundleOf
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.fragment.app.setFragmentResultListener
@@ -66,7 +67,8 @@ class PrimaryBottomSheetFragment : BottomSheetDialogFragment() {
                     binding.nextButton.setCompoundDrawablesRelative(null, null, null, null)
                 }
 
-                "MainActivity" -> {
+                "GoalCreationIntentMainActivity" -> {
+                    binding.title.text = getString(R.string.new_goal)
                     childFragmentManager.commit {
                         replace(
                             R.id.primary_child_fragment_container,
@@ -82,6 +84,10 @@ class PrimaryBottomSheetFragment : BottomSheetDialogFragment() {
             val currentFragmentInContainer = childFragmentManager.fragments[0]
             when (currentFragmentInContainer.tag) {
                 TO_TASK_CREATION_TAG -> {
+                    childFragmentManager.setFragmentResult(
+                        "nextButtonPressed",
+                        bundleOf("buttonIsPressedKey" to true)
+                    )
                     childFragmentManager.commit {
                         remove(currentFragmentInContainer)
                         replace(
