@@ -64,6 +64,7 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
             TaskCreationRecyclerAdapter.VIEW_TYPE_TASK_CARD,
             TaskCreationRecyclerAdapter.MAX_POOL_SIZE
         )
+
         val currentGoalID =
             requireParentFragment().arguments?.getString(GoalCreationFragment.GOAL_ID_KEY)
         if (currentGoalID != null) {
@@ -93,9 +94,10 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
                 }
             }
 
-            taskCreationRecyclerAdapter.onTaskUpdate = { updatedTask, taskPointsChanged, taskTitleChanged ->
-                viewModel.updateTask(updatedTask, taskPointsChanged, taskTitleChanged)
-            }
+            taskCreationRecyclerAdapter.onTaskUpdate =
+                { updatedTask, taskPointsChanged, taskTitleChanged ->
+                    viewModel.updateTask(updatedTask, taskPointsChanged, taskTitleChanged)
+                }
 
             taskCreationRecyclerAdapter.onTaskDeleteClicked = { task ->
                 if (currentGoalID != null) {
