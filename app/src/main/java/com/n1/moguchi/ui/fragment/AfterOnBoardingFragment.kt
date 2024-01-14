@@ -34,6 +34,7 @@ class AfterOnBoardingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val navHostFragment = (activity as MainActivity)
             .supportFragmentManager
             .findFragmentById(R.id.fragment_container_view) as NavHostFragment
@@ -81,11 +82,11 @@ class AfterOnBoardingFragment : Fragment() {
 
                     fragments[3] -> {
                         checkButtonPressed()
-                        if (GoalCreationFragment.selectedChildIndex < GoalCreationFragment.childrenSize) {
-                            moveToFragment(currentFragmentInContainer, fragments[1])
-                        } else {
-                            navController.navigate(R.id.action_afterOnBoardingFragment_to_parentHomeFragment)
-                        }
+//                        if (GoalCreationFragment.selectedChildIndex < GoalCreationFragment.childrenSize) {
+//                            moveToFragment(currentFragmentInContainer, fragments[1])
+//                        } else {
+//                            navController.navigate(R.id.action_afterOnBoardingFragment_to_parentHomeFragment)
+//                        }
                     }
                 }
                 isButtonEnabled = false

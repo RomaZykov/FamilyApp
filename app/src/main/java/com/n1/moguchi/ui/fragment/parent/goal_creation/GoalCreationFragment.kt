@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.n1.moguchi.MoguchiBaseApplication
+import com.n1.moguchi.R
 import com.n1.moguchi.data.models.Child
 import com.n1.moguchi.data.models.Goal
 import com.n1.moguchi.databinding.FragmentGoalCreationBinding
@@ -32,6 +33,8 @@ class GoalCreationFragment : Fragment() {
     private var isNextButtonPressed: Boolean? = null
     private var goalHeight: Int = 0
     private var childId: String? = null
+
+    private var selectedChildIndex = 0
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -66,7 +69,6 @@ class GoalCreationFragment : Fragment() {
         if (parentId != null) {
             viewModel.getChildren(parentId)
             viewModel.children.observe(viewLifecycleOwner) { children ->
-                childrenSize = children.size
                 if (selectedChildIndex < children.size) {
                     setupRecyclerView(children, selectedChildIndex)
                 }
@@ -80,7 +82,7 @@ class GoalCreationFragment : Fragment() {
             goalHeight = it
         }
 
-        binding.goalName.addTextChangedListener(object : TextWatcher {
+        binding.goalTitle.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
@@ -96,7 +98,7 @@ class GoalCreationFragment : Fragment() {
                     )
                     viewModel.setGoalTitle(text.toString())
                 } else {
-                    binding.goalName.error = "Присутствуют недопустимые символы либо пусто"
+                    binding.goalTitle.error = getString(R.string.error_goal_title)
                     parentFragmentManager.setFragmentResult(
                         "buttonIsEnabled",
                         bundleOf("buttonIsReadyKey" to false)
@@ -125,7 +127,7 @@ class GoalCreationFragment : Fragment() {
                 viewModel.createGoal(
                     Goal(
                         goalId = goalId,
-                        title = binding.goalName.text.toString(),
+                        title = binding.goalTitle.text.toString(),
                         totalPoints = goalHeight
                     ),
                     childId!!
@@ -139,17 +141,19 @@ class GoalCreationFragment : Fragment() {
         _binding = null
     }
 
-    private fun setupRecyclerView(children: List<Child>, selectedChildIndex: Int) {
+    private fun setupRecyclerView(
+        children: List<Child>,
+        selectedChildIndex: Int
+    ) {
         val recyclerView: RecyclerView = binding.rvChildrenList
         recyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        childrenAdapter = ChildrenRecyclerAdapter(children, selectedChildIndex)
+        childrenAdapter = ChildrenRecyclerAdapter(children, selectedChildIndex, true)
         recyclerView.adapter = childrenAdapter
     }
 
     companion object {
-        var selectedChildIndex = 0
-        var childrenSize = 0
+
         const val GOAL_ID_KEY = "goalIDKey"
         const val CHILD_ID_KEY = "childIDKey"
     }
