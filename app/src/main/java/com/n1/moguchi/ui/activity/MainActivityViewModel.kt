@@ -18,7 +18,7 @@ class MainActivityViewModel @Inject constructor(
 
     fun getChildren(parentId: String) {
         viewModelScope.launch {
-            val children: Map<String, Child> = parentRepository.getChildren(parentId)
+            val children: Map<String, Child> = parentRepository.fetchChildren(parentId)
             _children.value = children.values.toList()
         }
     }

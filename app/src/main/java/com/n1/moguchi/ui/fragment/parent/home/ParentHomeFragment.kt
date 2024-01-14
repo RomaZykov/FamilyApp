@@ -68,7 +68,7 @@ class ParentHomeFragment : Fragment() {
             Navigation.findNavController(activity as MainActivity, R.id.fragment_container_view)
 
         if (parentID != null) {
-            viewModel.getChildren(parentID)
+            viewModel.fetchChildren(parentID)
             viewModel.children.observe(viewLifecycleOwner) { childrenList ->
                 childrenList.forEach {
                     childrenIdList.add(it.key)

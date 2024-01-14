@@ -22,7 +22,7 @@ class ParentRepositoryImpl @Inject constructor(
     private val childrenRef: DatabaseReference = database.getReference("children")
     private val parentsRef: DatabaseReference = database.getReference("parents")
 
-    override suspend fun getChildren(parentId: String): Map<String, Child> {
+    override suspend fun fetchChildren(parentId: String): Map<String, Child> {
         val childrenRefByParentId = childrenRef.child(parentId)
         val children: MutableMap<String, Child> = mutableMapOf()
         childrenRefByParentId.get().await().children.map {

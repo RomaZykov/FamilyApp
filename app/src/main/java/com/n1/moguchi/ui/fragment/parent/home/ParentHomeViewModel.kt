@@ -31,16 +31,16 @@ class ParentHomeViewModel @Inject constructor(
     private val _completedGoals = MutableLiveData<List<Goal>>()
     val completedGoals: LiveData<List<Goal>> = _completedGoals
 
-    fun getChildren(parentId: String) {
+    fun fetchChildren(parentId: String) {
         viewModelScope.launch {
-            val children: Map<String, Child> = parentRepository.getChildren(parentId)
+            val children: Map<String, Child> = parentRepository.fetchChildren(parentId)
             _children.value = children
         }
     }
 
     fun fetchGoalsAndTasks(childID: String) {
         viewModelScope.launch {
-            val goals = goalRepository.getChildGoals(childID)
+            val goals = goalRepository.fetchChildGoals(childID)
             val goalsWithTasksMap = goalRepository.fetchTasks(goals)
             _goals.value = goalsWithTasksMap
         }

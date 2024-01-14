@@ -9,7 +9,7 @@ interface GoalRepository {
 
     suspend fun getGoal(goalID: String): Goal
 
-    suspend fun getChildGoals(childID: String): List<Goal>
+    suspend fun fetchChildGoals(childID: String): List<Goal>
 
     suspend fun getCompletedGoals(childID: String): List<Goal>
 
