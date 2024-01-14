@@ -14,13 +14,23 @@ private const val ADD_CHILD_BUTTON = 1
 
 class ChildrenRecyclerAdapter(
     private val childrenList: List<Child>,
-    private var selectedChildIndex: Int
+    private var selectedChildIndex: Int,
+    private val goalCreationFlag: Boolean
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var onChildClicked: ((Int) -> Unit)? = null
     var onChildAddClicked: (() -> Unit)? = null
 
     constructor(childrenList: List<Child>) : this(childrenList, selectedChildIndex = -1)
+
+    constructor(
+        childrenList: List<Child>,
+        selectedChildIndex: Int
+    ) : this(
+        childrenList,
+        selectedChildIndex,
+        goalCreationFlag = false
+    )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -88,7 +98,7 @@ class ChildrenRecyclerAdapter(
     }
 
     override fun getItemCount(): Int {
-        return if (selectedChildIndex != -1) {
+        return if (selectedChildIndex != -1 && !goalCreationFlag) {
             childrenList.size + ADD_CHILD_BUTTON
         } else {
             childrenList.size
