@@ -80,8 +80,4 @@ class GoalsRecyclerAdapter(
             }
         }
     }
-
-    companion object {
-        const val TAG = "GoalItem"
-    }
 }
