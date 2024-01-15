@@ -24,7 +24,10 @@ import com.n1.moguchi.ui.adapter.ChildrenRecyclerAdapter
 import java.util.UUID
 import javax.inject.Inject
 
-class GoalCreationFragment : Fragment() {
+class GoalCreationFragment(
+    private val addChildButtonEnable: Boolean,
+    private val childSelectionEnable: Boolean
+) : Fragment() {
 
     private var _binding: FragmentGoalCreationBinding? = null
     private val binding get() = _binding!!
@@ -35,6 +38,7 @@ class GoalCreationFragment : Fragment() {
     private var childId: String? = null
 
     private var selectedChildIndex = 0
+    private var childrenSize = 0
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -69,10 +73,11 @@ class GoalCreationFragment : Fragment() {
         if (parentId != null) {
             viewModel.getChildren(parentId)
             viewModel.children.observe(viewLifecycleOwner) { children ->
+                childrenSize = children.size
                 if (selectedChildIndex < children.size) {
-                    setupRecyclerView(children, selectedChildIndex)
+                    setupRecyclerView(children, selectedChildIndex, childSelectionEnable)
+                    childId = children[selectedChildIndex].childId
                 }
-                childId = children[selectedChildIndex].childId
             }
         } else {
             throw Exception("User not authorized")
@@ -124,14 +129,27 @@ class GoalCreationFragment : Fragment() {
                 val goalId: String = UUID.randomUUID().toString()
                 parentFragment?.arguments?.putString(CHILD_ID_KEY, childId)
                 parentFragment?.arguments?.putString(GOAL_ID_KEY, goalId)
-                viewModel.createGoal(
-                    Goal(
-                        goalId = goalId,
-                        title = binding.goalTitle.text.toString(),
-                        totalPoints = goalHeight
-                    ),
-                    childId!!
-                )
+
+                if (selectedChildIndex < childrenSize) {
+                    selectedChildIndex++
+                    bundle.putBoolean(GOAL_SETTING_FOR_CHILDREN_COMPLETED_KEY, false)
+                    if (selectedChildIndex == childrenSize) {
+                        bundle.putBoolean(GOAL_SETTING_FOR_CHILDREN_COMPLETED_KEY, true)
+                        selectedChildIndex = 0
+                    }
+                }
+                this.arguments = bundle
+
+                childId?.let {
+                    viewModel.createGoal(
+                        Goal(
+                            goalId = goalId,
+                            title = binding.goalTitle.text.toString(),
+                            totalPoints = goalHeight
+                        ),
+                        it
+                    )
+                }
             }
         }
     }
@@ -143,18 +161,26 @@ class GoalCreationFragment : Fragment() {
 
     private fun setupRecyclerView(
         children: List<Child>,
-        selectedChildIndex: Int
+        selectedChildIndex: Int,
+        childSelectionEnable: Boolean
     ) {
         val recyclerView: RecyclerView = binding.rvChildrenList
         recyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        childrenAdapter = ChildrenRecyclerAdapter(children, selectedChildIndex, true)
+        childrenAdapter =
+            ChildrenRecyclerAdapter(
+                children,
+                selectedChildIndex,
+                addChildButtonEnable,
+                childSelectionEnable
+            )
         recyclerView.adapter = childrenAdapter
     }
 
     companion object {
-
         const val GOAL_ID_KEY = "goalIDKey"
         const val CHILD_ID_KEY = "childIDKey"
+
+        const val GOAL_SETTING_FOR_CHILDREN_COMPLETED_KEY = "goalSettingForChildrenCompletedKey"
     }
 }

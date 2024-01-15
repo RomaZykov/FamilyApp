@@ -72,7 +72,7 @@ class PrimaryBottomSheetFragment : BottomSheetDialogFragment() {
                     childFragmentManager.commit {
                         replace(
                             R.id.primary_child_fragment_container,
-                            GoalCreationFragment(),
+                            GoalCreationFragment(addChildButtonEnable = true, childSelectionEnable = true),
                             TO_TASK_CREATION_TAG
                         )
                     }

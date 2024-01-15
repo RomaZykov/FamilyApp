@@ -6,14 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.appbar.MaterialToolbar
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentAfterOnboardingBinding
 import com.n1.moguchi.ui.activity.MainActivity
-import com.n1.moguchi.ui.fragment.parent.password.PasswordFragment
 import com.n1.moguchi.ui.fragment.parent.children_creation.ChildCreationFragment
 import com.n1.moguchi.ui.fragment.parent.goal_creation.GoalCreationFragment
+import com.n1.moguchi.ui.fragment.parent.password.PasswordFragment
 import com.n1.moguchi.ui.fragment.parent.task_creation.TaskCreationFragment
 
 class AfterOnBoardingFragment : Fragment() {
@@ -40,13 +41,13 @@ class AfterOnBoardingFragment : Fragment() {
             .findFragmentById(R.id.fragment_container_view) as NavHostFragment
         val navController = navHostFragment.navController
 
-        val topAppBar = requireActivity().findViewById<MaterialToolbar>(R.id.top_common_app_bar)
         val fragments = listOf(
             ChildCreationFragment(),
-            GoalCreationFragment(),
+            GoalCreationFragment(addChildButtonEnable = false, childSelectionEnable = false),
             TaskCreationFragment(),
             PasswordFragment()
         )
+        val topAppBar = requireActivity().findViewById<MaterialToolbar>(R.id.top_common_app_bar)
         topAppBar.setNavigationOnClickListener {
             if (childFragmentManager.fragments.last() != fragments[0] && childFragmentManager.backStackEntryCount > 0) {
                 childFragmentManager.popBackStack()
@@ -82,11 +83,12 @@ class AfterOnBoardingFragment : Fragment() {
 
                     fragments[3] -> {
                         checkButtonPressed()
-//                        if (GoalCreationFragment.selectedChildIndex < GoalCreationFragment.childrenSize) {
-//                            moveToFragment(currentFragmentInContainer, fragments[1])
-//                        } else {
-//                            navController.navigate(R.id.action_afterOnBoardingFragment_to_parentHomeFragment)
-//                        }
+                        moveToFragmentByChildCreationCondition(
+                            currentFragmentInContainer,
+                            fragments[1],
+                            navController,
+                            isAllChildrenCompleted(fragments[1])
+                        )
                     }
                 }
                 isButtonEnabled = false
@@ -100,11 +102,22 @@ class AfterOnBoardingFragment : Fragment() {
         _binding = null
     }
 
-    private fun checkButtonPressed() {
-        childFragmentManager.setFragmentResult(
-            "nextButtonPressed",
-            bundleOf("buttonIsPressedKey" to true)
-        )
+    private fun isAllChildrenCompleted(fragment: Fragment): Boolean {
+        val bundle = fragment.requireArguments()
+        return bundle.getBoolean(GoalCreationFragment.GOAL_SETTING_FOR_CHILDREN_COMPLETED_KEY)
+    }
+
+    private fun moveToFragmentByChildCreationCondition(
+        currentFragmentInContainer: Fragment,
+        fragmentToMove: Fragment,
+        navController: NavController,
+        allChildrenCompleted: Boolean
+    ) {
+        if (allChildrenCompleted) {
+            navController.navigate(R.id.action_afterOnBoardingFragment_to_parentHomeFragment)
+        } else {
+            moveToFragment(currentFragmentInContainer, fragmentToMove)
+        }
     }
 
     private fun moveToFragment(
@@ -119,6 +132,13 @@ class AfterOnBoardingFragment : Fragment() {
             )
             .addToBackStack(null)
             .commit()
+    }
+
+    private fun checkButtonPressed() {
+        childFragmentManager.setFragmentResult(
+            "nextButtonPressed",
+            bundleOf("buttonIsPressedKey" to true)
+        )
     }
 
     private fun changeButton(isButtonEnabled: Boolean?) {

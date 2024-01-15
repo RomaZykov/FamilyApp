@@ -15,13 +15,19 @@ private const val ADD_CHILD_BUTTON = 1
 class ChildrenRecyclerAdapter(
     private val childrenList: List<Child>,
     private var selectedChildIndex: Int,
-    private val goalCreationFlag: Boolean
+    private val addChildButtonEnable: Boolean,
+    private val childSelectionEnable: Boolean
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var onChildClicked: ((Int) -> Unit)? = null
     var onChildAddClicked: (() -> Unit)? = null
 
-    constructor(childrenList: List<Child>) : this(childrenList, selectedChildIndex = -1)
+    constructor(childrenList: List<Child>) : this(
+        childrenList,
+        selectedChildIndex = -1,
+        addChildButtonEnable = false,
+        childSelectionEnable = false
+    )
 
     constructor(
         childrenList: List<Child>,
@@ -29,7 +35,8 @@ class ChildrenRecyclerAdapter(
     ) : this(
         childrenList,
         selectedChildIndex,
-        goalCreationFlag = false
+        addChildButtonEnable = false,
+        childSelectionEnable = true
     )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -98,7 +105,7 @@ class ChildrenRecyclerAdapter(
     }
 
     override fun getItemCount(): Int {
-        return if (selectedChildIndex != -1 && !goalCreationFlag) {
+        return if ((selectedChildIndex != -1 && childSelectionEnable) xor addChildButtonEnable) {
             childrenList.size + ADD_CHILD_BUTTON
         } else {
             childrenList.size
@@ -122,6 +129,10 @@ class ChildrenRecyclerAdapter(
         }
 
         fun bind(child: Child) {
+            if (!childSelectionEnable) {
+                binding.root.isClickable = false
+                binding.root.isFocusable = false
+            }
             binding.smallChildName.text = child.childName
             binding.smallChildAvatar.setImageResource(child.imageResourceId!!)
             binding.root.isSelected = selectedChildIndex == adapterPosition
