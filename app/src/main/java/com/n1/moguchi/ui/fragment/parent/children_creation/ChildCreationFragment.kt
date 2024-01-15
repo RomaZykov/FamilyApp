@@ -53,6 +53,7 @@ class ChildCreationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         auth = Firebase.auth
         val parentId = auth.currentUser?.uid
 
@@ -87,6 +88,7 @@ class ChildCreationFragment : Fragment() {
             }
         }
 
+        // TODO - Warning - Replace with better solution
         if (isFromParentHome == true || isFromParentProfile == true) {
             binding.bottomBar.visibility = View.VISIBLE
             binding.topAppBar.visibility = View.VISIBLE
@@ -98,7 +100,6 @@ class ChildCreationFragment : Fragment() {
 
             }
         }
-
     }
 
     private fun addChild(parentId: String?, index: Int) {

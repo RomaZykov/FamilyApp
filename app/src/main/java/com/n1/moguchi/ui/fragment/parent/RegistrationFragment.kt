@@ -173,7 +173,7 @@ class RegistrationFragment : Fragment() {
         }
     }
 
-    // Warning TODO("Logic in UI")
+    // TODO - Warning - Logic in UI
     private fun saveParentToFirebase(
         email: String
     ) {
