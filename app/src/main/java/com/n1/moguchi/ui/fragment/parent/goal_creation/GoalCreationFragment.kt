@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,7 +27,8 @@ import javax.inject.Inject
 
 class GoalCreationFragment(
     private val addChildButtonEnable: Boolean,
-    private val childSelectionEnable: Boolean
+    private val childSelectionEnable: Boolean,
+    private val isInBottomSheetShouldOpen: Boolean
 ) : Fragment() {
 
     private var _binding: FragmentGoalCreationBinding? = null
@@ -78,6 +80,12 @@ class GoalCreationFragment(
                     setupRecyclerView(children, selectedChildIndex, childSelectionEnable)
                     childId = children[selectedChildIndex].childId
                 }
+
+                childrenAdapter.onChildClicked = {
+                    selectedChildIndex = it
+                    childId = children[selectedChildIndex].childId
+                }
+
             }
         } else {
             throw Exception("User not authorized")
@@ -121,24 +129,27 @@ class GoalCreationFragment(
         }
 
         parentFragmentManager.setFragmentResultListener(
-            "nextButtonPressed",
+            "nextButtonPressedRequestKey",
             viewLifecycleOwner
         ) { _, bundle ->
             isNextButtonPressed = bundle.getBoolean("buttonIsPressedKey")
             if (isNextButtonPressed == true) {
                 val goalId: String = UUID.randomUUID().toString()
-                parentFragment?.arguments?.putString(CHILD_ID_KEY, childId)
-                parentFragment?.arguments?.putString(GOAL_ID_KEY, goalId)
+//                parentFragment?.arguments?.putString(CHILD_ID_KEY, childId)
+//                parentFragment?.arguments?.putString(GOAL_ID_KEY, goalId)
 
-                if (selectedChildIndex < childrenSize) {
-                    selectedChildIndex++
-                    bundle.putBoolean(GOAL_SETTING_FOR_CHILDREN_COMPLETED_KEY, false)
-                    if (selectedChildIndex == childrenSize) {
-                        bundle.putBoolean(GOAL_SETTING_FOR_CHILDREN_COMPLETED_KEY, true)
-                        selectedChildIndex = 0
-                    }
+                val newBundle = Bundle()
+                newBundle.putString(CHILD_ID_KEY, childId)
+                newBundle.putString(GOAL_ID_KEY, goalId)
+                parentFragmentManager.setFragmentResult("goalCreationRequestKey", newBundle)
+
+                Log.d("PrimaryBottomSheet", "Bundle 2 = $arguments")
+                Log.d("PrimaryBottomSheet", "Bundle 3 = $bundle")
+                Log.d("PrimaryBottomSheet", "Bundle 4 = ${parentFragment?.arguments}")
+
+                if (!isInBottomSheetShouldOpen) {
+                    onBoardingSection(bundle)
                 }
-                this.arguments = bundle
 
                 childId?.let {
                     viewModel.createGoal(
@@ -152,6 +163,18 @@ class GoalCreationFragment(
                 }
             }
         }
+    }
+
+    private fun onBoardingSection(bundle: Bundle) {
+        if (selectedChildIndex < childrenSize) {
+            selectedChildIndex++
+            bundle.putBoolean(GOAL_SETTING_FOR_CHILDREN_COMPLETED_KEY, false)
+            if (selectedChildIndex == childrenSize) {
+                bundle.putBoolean(GOAL_SETTING_FOR_CHILDREN_COMPLETED_KEY, true)
+                selectedChildIndex = 0
+            }
+        }
+        this.arguments = bundle
     }
 
     override fun onDestroyView() {

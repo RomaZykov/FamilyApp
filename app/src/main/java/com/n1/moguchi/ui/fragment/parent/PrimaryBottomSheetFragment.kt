@@ -72,7 +72,11 @@ class PrimaryBottomSheetFragment : BottomSheetDialogFragment() {
                     childFragmentManager.commit {
                         replace(
                             R.id.primary_child_fragment_container,
-                            GoalCreationFragment(addChildButtonEnable = true, childSelectionEnable = true),
+                            GoalCreationFragment(
+                                addChildButtonEnable = true,
+                                childSelectionEnable = true,
+                                isInBottomSheetShouldOpen = true
+                            ),
                             TO_TASK_CREATION_TAG
                         )
                     }
@@ -85,9 +89,15 @@ class PrimaryBottomSheetFragment : BottomSheetDialogFragment() {
             when (currentFragmentInContainer.tag) {
                 TO_TASK_CREATION_TAG -> {
                     childFragmentManager.setFragmentResult(
-                        "nextButtonPressed",
+                        "nextButtonPressedRequestKey",
                         bundleOf("buttonIsPressedKey" to true)
                     )
+                    childFragmentManager.setFragmentResultListener(
+                        "goalCreationRequestKey",
+                        viewLifecycleOwner
+                    ) { _, bundle ->
+                        this.arguments = bundle
+                    }
                     childFragmentManager.commit {
                         remove(currentFragmentInContainer)
                         replace(

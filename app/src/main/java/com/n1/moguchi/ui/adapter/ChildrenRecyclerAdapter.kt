@@ -141,7 +141,7 @@ class ChildrenRecyclerAdapter(
         override fun onClick(v: View?) {
             val oldPosition = selectedChildIndex
             val newPosition = adapterPosition
-            selectedChildIndex = adapterPosition
+            selectedChildIndex = newPosition
             onChildClicked?.invoke(selectedChildIndex)
             notifyItemChanged(oldPosition)
             notifyItemChanged(newPosition)

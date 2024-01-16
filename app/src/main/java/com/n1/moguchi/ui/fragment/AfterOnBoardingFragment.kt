@@ -43,7 +43,11 @@ class AfterOnBoardingFragment : Fragment() {
 
         val fragments = listOf(
             ChildCreationFragment(),
-            GoalCreationFragment(addChildButtonEnable = false, childSelectionEnable = false),
+            GoalCreationFragment(
+                addChildButtonEnable = false,
+                childSelectionEnable = false,
+                isInBottomSheetShouldOpen = false
+            ),
             TaskCreationFragment(),
             PasswordFragment()
         )
