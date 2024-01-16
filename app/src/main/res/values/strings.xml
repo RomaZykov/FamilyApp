@@ -146,5 +146,6 @@
     <string name="completed_tasks">Выполненные %d</string>
     <string name="done">Готово</string>
     <string name="error_goal_title">Присутствуют недопустимые символы либо пусто</string>
+    <string name="child_name_edit_text_error">Имя содержит недопустимые символы либо не выбран аватар</string>
 
 </resources>

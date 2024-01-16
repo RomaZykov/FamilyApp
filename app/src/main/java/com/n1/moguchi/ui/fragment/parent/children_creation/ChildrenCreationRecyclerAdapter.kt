@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.getString
 import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.R
 import com.n1.moguchi.data.models.Child
@@ -73,6 +74,7 @@ class ChildrenCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHo
 
     inner class ChildViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = ChildCreationCardBinding.bind(itemView)
+        private val context = itemView.context
         private val childAvatars: Map<Int, Int> = mapOf(
             binding.avatarMale1.id to R.drawable.avatar_male_1,
             binding.avatarMale2.id to R.drawable.avatar_male_2,
@@ -82,10 +84,15 @@ class ChildrenCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHo
 
         fun bind() {
             binding.childNameEditText.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
                 }
 
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 }
 
                 override fun afterTextChanged(childName: Editable?) {
@@ -95,7 +102,7 @@ class ChildrenCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHo
                         onChildUpdate?.invoke(children[adapterPosition])
                     } else {
                         binding.childNameEditText.error =
-                            "Имя содержит недопустимые символы либо не выбран аватар"
+                            getString(context, R.string.child_name_edit_text_error)
                     }
                     notifyItemChanged(itemCount - FOOTER_ADD_CHILD_BUTTON)
                 }
@@ -135,7 +142,8 @@ class ChildrenCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHo
         fun bind() {
             val regex = "^[a-zA-Zа-яА-Я]+$".toRegex()
             if (children.all {
-                    it.childName.toString().isNotBlank() && it.imageResourceId != null
+                    it.childName != null
+                            && it.imageResourceId != null
                             && it.childName.toString().matches(regex)
                 } && children.size == itemCount - FOOTER_ADD_CHILD_BUTTON) {
                 onCardsStatusUpdate?.invoke(true)
