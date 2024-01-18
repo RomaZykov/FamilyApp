@@ -39,7 +39,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/commonAppBar"
-            tools:layout="@layout/fragment_add_child" />
+            tools:layout="@layout/fragment_child_creation" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/go_next_button"

@@ -14,7 +14,7 @@ import com.n1.moguchi.ui.views.CustomShapesView
 
 class GoalsRecyclerAdapter(
     private val goalsList: List<Goal>,
-    private val tasksByGoalList: List<Task>
+    private val tasksList: List<Task>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var onGoalButtonClicked: ((String) -> Unit)? = null
@@ -27,7 +27,7 @@ class GoalsRecyclerAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val goal: Goal = goalsList[position]
-        (holder as CardViewHolder).bind(goal, tasksByGoalList)
+        (holder as CardViewHolder).bind(goal)
     }
 
     override fun getItemCount(): Int {
@@ -43,7 +43,7 @@ class GoalsRecyclerAdapter(
             binding.root.background = customDrawableView
         }
 
-        fun bind(goal: Goal, tasksByGoalList: List<Task>) {
+        fun bind(goal: Goal) {
             binding.goalTitle.text = goal.title
             binding.goalPointsLayout.root.findViewById<TextView>(R.id.goal_points).text =
                 context.getString(
@@ -53,30 +53,33 @@ class GoalsRecyclerAdapter(
                 )
 
             val buttonText: TextView = binding.allTasksButton.root.getChildAt(0) as TextView
-            if (tasksByGoalList.size - 3 >= 0) {
-                buttonText.text = context.getString(R.string.see_all_tasks_button_text, tasksByGoalList.size)
+            val relatedTasks =
+                tasksList.filter { it.goalOwnerId == goal.goalId && !it.taskCompleted }
+            if (relatedTasks.size - 3 > 0) {
+                buttonText.text =
+                    context.getString(R.string.see_all_tasks_button_text, relatedTasks.size - 3)
             } else {
                 buttonText.text = context.getString(R.string.go_to_tasks_button_text)
             }
 
-            binding.allTasksButton.root.setOnClickListener {
-                onGoalButtonClicked?.invoke(goal.goalId!!)
-            }
-
             binding.tasksContainerLl.apply {
                 for (i in 1..3) {
-                    if (tasksByGoalList.size - i >= 0) {
+                    if (relatedTasks.size - i >= 0) {
                         val taskSmallItem =
                             LayoutInflater.from(context)
                                 .inflate(R.layout.task_item, this, false)
                         taskSmallItem.setBackgroundColor(resources.getColor(R.color.white_opacity_90))
                         taskSmallItem.findViewById<TextView>(R.id.task_title).text =
-                            tasksByGoalList[i - 1].title
+                            relatedTasks[i - 1].title
                         taskSmallItem.rootView.findViewById<TextView>(R.id.task_points).text =
-                            tasksByGoalList[i - 1].height.toString()
+                            relatedTasks[i - 1].height.toString()
                         addView(taskSmallItem)
                     }
                 }
+            }
+
+            binding.allTasksButton.root.setOnClickListener {
+                onGoalButtonClicked?.invoke(goal.goalId!!)
             }
         }
     }

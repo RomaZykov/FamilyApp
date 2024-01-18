@@ -15,14 +15,14 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.data.models.Child
-import com.n1.moguchi.databinding.FragmentAddChildBinding
+import com.n1.moguchi.databinding.FragmentChildCreationBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import javax.inject.Inject
 
 private const val ZERO_INDEX = 0
 
 class ChildCreationFragment : Fragment() {
-    private var _binding: FragmentAddChildBinding? = null
+    private var _binding: FragmentChildCreationBinding? = null
     private val binding get() = _binding!!
     private lateinit var auth: FirebaseAuth
     private lateinit var childrenCreationAdapter: ChildrenCreationRecyclerAdapter
@@ -46,7 +46,7 @@ class ChildCreationFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentAddChildBinding.inflate(inflater, container, false)
+        _binding = FragmentChildCreationBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }

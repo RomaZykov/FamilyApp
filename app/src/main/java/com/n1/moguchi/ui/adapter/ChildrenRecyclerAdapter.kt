@@ -136,6 +136,10 @@ class ChildrenRecyclerAdapter(
             binding.smallChildName.text = child.childName
             binding.smallChildAvatar.setImageResource(child.imageResourceId!!)
             binding.root.isSelected = selectedChildIndex == adapterPosition
+            if (binding.root.isSelected) {
+                binding.root.isClickable = false
+                binding.root.isFocusable = false
+            }
         }
 
         override fun onClick(v: View?) {

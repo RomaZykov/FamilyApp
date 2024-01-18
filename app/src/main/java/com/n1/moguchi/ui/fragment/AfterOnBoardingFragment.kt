@@ -77,6 +77,12 @@ class AfterOnBoardingFragment : Fragment() {
 
                     fragments[1] -> {
                         checkButtonPressed()
+                        childFragmentManager.setFragmentResultListener(
+                            "goalCreationRequestKey",
+                            viewLifecycleOwner
+                        ) { _, innerBundle ->
+                            this.arguments = innerBundle
+                        }
                         moveToFragment(currentFragmentInContainer, fragments[2])
                     }
 
@@ -95,8 +101,7 @@ class AfterOnBoardingFragment : Fragment() {
                         )
                     }
                 }
-                isButtonEnabled = false
-                changeButton(isButtonEnabled)
+                changeButton(isButtonEnabled = false)
             }
         }
     }
@@ -140,7 +145,7 @@ class AfterOnBoardingFragment : Fragment() {
 
     private fun checkButtonPressed() {
         childFragmentManager.setFragmentResult(
-            "nextButtonPressed",
+            "nextButtonPressedRequestKey",
             bundleOf("buttonIsPressedKey" to true)
         )
     }

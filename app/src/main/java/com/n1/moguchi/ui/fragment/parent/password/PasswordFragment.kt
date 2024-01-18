@@ -76,7 +76,7 @@ class PasswordFragment : Fragment() {
         })
 
         parentFragmentManager.setFragmentResultListener(
-            "nextButtonPressed",
+            "nextButtonPressedRequestKey",
             viewLifecycleOwner
         ) { _, bundle ->
             isNextButtonPressed = bundle.getBoolean("buttonIsPressedKey")

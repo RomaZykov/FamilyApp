@@ -34,9 +34,9 @@ class OnBoardingViewPager : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val bundle = Bundle()
-        bundle.putBoolean("isFromOnBoarding", true)
+//
+//        val bundle = Bundle()
+//        bundle.putBoolean("isFromOnBoarding", true)
 
         viewPager = binding.onboardingPager
         val adapter = OnBoardingViewPagerAdapter(
@@ -71,9 +71,9 @@ class OnBoardingViewPager : Fragment() {
 
         binding.skipButton.setOnClickListener {
             (activity as MainActivity).navController.navigate(
-                R.id.action_onBoardingParentFragment_to_afterOnBoardingFragment,
-                bundle
+                R.id.action_onBoardingParentFragment_to_afterOnBoardingFragment
             )
+//                bundle
         }
 
         binding.nextButton.setOnClickListener {
@@ -82,9 +82,9 @@ class OnBoardingViewPager : Fragment() {
                 viewPager.setCurrentItem(currentItem + 1, true)
             } else {
                 (activity as MainActivity).navController.navigate(
-                    R.id.action_onBoardingParentFragment_to_afterOnBoardingFragment,
-                    bundle
+                    R.id.action_onBoardingParentFragment_to_afterOnBoardingFragment
                 )
+//                bundle
             }
         }
     }

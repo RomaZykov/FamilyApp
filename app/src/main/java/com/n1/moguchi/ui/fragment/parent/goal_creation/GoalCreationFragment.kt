@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -135,17 +134,11 @@ class GoalCreationFragment(
             isNextButtonPressed = bundle.getBoolean("buttonIsPressedKey")
             if (isNextButtonPressed == true) {
                 val goalId: String = UUID.randomUUID().toString()
-//                parentFragment?.arguments?.putString(CHILD_ID_KEY, childId)
-//                parentFragment?.arguments?.putString(GOAL_ID_KEY, goalId)
 
                 val newBundle = Bundle()
                 newBundle.putString(CHILD_ID_KEY, childId)
                 newBundle.putString(GOAL_ID_KEY, goalId)
                 parentFragmentManager.setFragmentResult("goalCreationRequestKey", newBundle)
-
-                Log.d("PrimaryBottomSheet", "Bundle 2 = $arguments")
-                Log.d("PrimaryBottomSheet", "Bundle 3 = $bundle")
-                Log.d("PrimaryBottomSheet", "Bundle 4 = ${parentFragment?.arguments}")
 
                 if (!isInBottomSheetShouldOpen) {
                     onBoardingSection(bundle)

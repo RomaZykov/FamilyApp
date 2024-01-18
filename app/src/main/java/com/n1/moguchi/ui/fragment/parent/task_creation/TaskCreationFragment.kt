@@ -117,7 +117,7 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
             }
 
             parentFragmentManager.setFragmentResultListener(
-                "nextButtonPressed",
+                "nextButtonPressedRequestKey",
                 viewLifecycleOwner
             ) { _, bundle ->
                 isNextButtonPressed = bundle.getBoolean("buttonIsPressedKey")
@@ -140,9 +140,5 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
         val fragmentManager = childFragmentManager
         val modalBottomSheet = TaskSettingsSecondaryBottomSheetFragment()
         modalBottomSheet.show(fragmentManager, TaskSettingsSecondaryBottomSheetFragment.TAG)
-    }
-
-    companion object {
-        const val TAG = "TaskCreationBottomSheet"
     }
 }

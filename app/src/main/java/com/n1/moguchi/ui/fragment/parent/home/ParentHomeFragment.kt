@@ -90,7 +90,7 @@ class ParentHomeFragment : Fragment() {
                 }
 
                 childrenRecyclerAdapter.onChildAddClicked = {
-                    showBottomSheet(PrimaryBottomSheetFragment())
+                    showBottomSheet(PrimaryBottomSheetFragment(), CHILD_CREATION_TAG)
                 }
             }
 
@@ -134,14 +134,21 @@ class ParentHomeFragment : Fragment() {
         }
     }
 
-    // TODO
-    private fun showBottomSheet(bottomSheetFragment: BottomSheetDialogFragment) {
-        val childFragmentManager = childFragmentManager
-        bottomSheetFragment.show(childFragmentManager, (bottomSheetFragment as PrimaryBottomSheetFragment).tag)
+    private fun showBottomSheet(bottomSheetFragment: BottomSheetDialogFragment, tag: String) {
+        val parentFragmentManager = parentFragmentManager
+        parentFragmentManager.setFragmentResult("requestKey", bundleOf("bundleKey" to tag))
+        bottomSheetFragment.show(
+            parentFragmentManager,
+            tag
+        )
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        private const val CHILD_CREATION_TAG = "ChildCreationIntent"
     }
 }

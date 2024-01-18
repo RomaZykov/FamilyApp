@@ -42,6 +42,7 @@ class PrimaryBottomSheetFragment : BottomSheetDialogFragment() {
         setFragmentResultListener("requestKey") { _, bundle ->
             when (bundle.getString("bundleKey")) {
                 "TaskCreationIntent" -> {
+                    this.arguments = bundle
                     childFragmentManager.commit {
                         replace(
                             R.id.primary_child_fragment_container,
