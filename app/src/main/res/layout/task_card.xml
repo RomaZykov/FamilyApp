@@ -124,9 +124,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_marginVertical="@dimen/small_margin"
                     android:layout_marginStart="@dimen/medium_margin"
-                    android:layout_marginTop="@dimen/small_margin"
-                    android:layout_marginBottom="@dimen/small_margin"
                     android:fontFamily="@font/onest_regular"
                     android:gravity="start"
                     android:text="@string/barrier_points_task"
@@ -137,6 +136,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/small_margin"
+                    android:visibility="gone"
                     app:dividerColor="@color/soft_orange"
                     app:dividerInsetEnd="@dimen/divider_inset"
                     app:dividerInsetStart="@dimen/divider_inset" />
@@ -147,7 +147,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/medium_margin"
                     android:layout_marginVertical="@dimen/small_margin"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <ImageView
                         android:layout_width="wrap_content"
