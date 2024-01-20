@@ -73,11 +73,7 @@ class TasksFragment : Fragment() {
         }
 
         viewModel.currentAndTotalGoalPoints.observe(viewLifecycleOwner) {
-            binding.tasksPoints.text = getString(
-                R.string.current_total_goal_points,
-                it.keys.toString().trim('[', ']').toInt(),
-                it.values.toString().trim('[', ']').toInt()
-            )
+            setProgression(it.keys.toString(), it.values.toString())
         }
 
         viewModel.activeTasks.observe(viewLifecycleOwner) {
@@ -133,6 +129,18 @@ class TasksFragment : Fragment() {
         tasksRecyclerAdapter.onTaskStatusChangedClicked = { task, isActiveTask ->
             viewModel.updateTaskStatus(task, isActiveTask)
         }
+    }
+
+    private fun setProgression(cPoints: String, tPoints: String) {
+        val currentPoints = cPoints.trim('[', ']').toInt()
+        val totalPoints = tPoints.trim('[', ']').toInt()
+        binding.tasksPoints.text = getString(
+            R.string.current_total_goal_points,
+            currentPoints,
+            totalPoints
+        )
+        binding.tasksProgressBar.max = totalPoints
+        binding.tasksProgressBar.progress = currentPoints
     }
 
     override fun onDestroyView() {

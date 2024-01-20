@@ -10,15 +10,12 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
-import com.n1.moguchi.data.models.Child
 import com.n1.moguchi.databinding.ActivityMainBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.fragment.parent.PrimaryBottomSheetFragment
-import com.n1.moguchi.ui.fragment.parent.SwitchToChildBottomSheetFragment
+import com.n1.moguchi.ui.fragment.switch_to_user.SwitchToUserBottomSheetFragment
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
@@ -45,13 +42,8 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
         viewModel = ViewModelProvider(this, viewModelFactory)[MainActivityViewModel::class.java]
 
-        val parentID = Firebase.auth.currentUser?.uid
-        if (parentID != null) {
-            viewModel.getChildren(parentID)
-            viewModel.children.observe(this) { children ->
-                setupBottomNavigationView(children)
-            }
-        }
+        setupBottomNavigationView()
+
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.parentHomeFragment,
@@ -64,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupBottomNavigationView(children: List<Child>) {
+    private fun setupBottomNavigationView() {
         binding.bottomNavigationView.setupWithNavController(navController)
         if (binding.bottomNavigationView.menu.isNotEmpty()) {
             binding.bottomNavigationView.menu.clear()
@@ -78,7 +70,7 @@ class MainActivity : AppCompatActivity() {
             binding.bottomNavigationView.menu.findItem(R.id.switch_to_child)
                 .setOnMenuItemClickListener {
                     showBottomSheet(
-                        SwitchToChildBottomSheetFragment(children),
+                        SwitchToUserBottomSheetFragment(),
                         SWITCH_TO_USER_INTENT_TAG
                     )
                     true

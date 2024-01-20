@@ -119,7 +119,7 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
         var context: Context = itemView.context
 
         init {
-            binding.addChildButton.text = "Добавить задачу"
+            binding.addChildButton.text = context.getString(R.string.add_task_text_button)
         }
 
         fun bind() {

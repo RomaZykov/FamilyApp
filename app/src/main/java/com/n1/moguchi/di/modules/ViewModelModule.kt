@@ -7,6 +7,7 @@ import com.n1.moguchi.ui.fragment.parent.task_creation.TaskCreationViewModel
 import com.n1.moguchi.ui.activity.MainActivityViewModel
 import com.n1.moguchi.ui.fragment.parent.goal_creation.GoalCreationViewModel
 import com.n1.moguchi.ui.fragment.parent.password.PasswordViewModel
+import com.n1.moguchi.ui.fragment.switch_to_user.SwitchToUserViewModel
 import com.n1.moguchi.ui.fragment.tasks.TasksViewModel
 import dagger.Binds
 import dagger.Module
@@ -19,6 +20,11 @@ interface ViewModelModule {
     @ViewModelKey(ChildCreationViewModel::class)
     @Binds
     fun bindAddChildViewModel(childCreationViewModel: ChildCreationViewModel): ViewModel
+
+    @IntoMap
+    @ViewModelKey(SwitchToUserViewModel::class)
+    @Binds
+    fun bindSwitchToUserViewModel(switchToUserViewModel: SwitchToUserViewModel): ViewModel
 
     @IntoMap
     @ViewModelKey(TasksViewModel::class)
