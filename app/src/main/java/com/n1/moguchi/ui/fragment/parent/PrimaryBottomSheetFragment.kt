@@ -43,6 +43,13 @@ class PrimaryBottomSheetFragment : BottomSheetDialogFragment() {
             when (bundle.getString("bundleKey")) {
                 "TaskCreationIntent" -> {
                     this.arguments = bundle
+                    childFragmentManager.setFragmentResultListener(
+                        "buttonIsEnabled",
+                        viewLifecycleOwner
+                    ) { _, innerBundle ->
+                        val isButtonEnabled = innerBundle.getBoolean("buttonIsReadyKey")
+                        binding.nextButton.isEnabled = isButtonEnabled
+                    }
                     childFragmentManager.commit {
                         replace(
                             R.id.primary_child_fragment_container,
@@ -50,7 +57,7 @@ class PrimaryBottomSheetFragment : BottomSheetDialogFragment() {
                             TO_TASKS_COMPLETE_TAG
                         )
                     }
-                    binding.title.text = getString(R.string.new_task)
+                    binding.title.text = getString(R.string.new_tasks)
                     binding.nextButton.text = getString(R.string.done)
                     binding.nextButton.setCompoundDrawablesRelative(null, null, null, null)
                 }
@@ -70,6 +77,13 @@ class PrimaryBottomSheetFragment : BottomSheetDialogFragment() {
 
                 "GoalCreationIntentMainActivity" -> {
                     binding.title.text = getString(R.string.new_goal)
+                    childFragmentManager.setFragmentResultListener(
+                        "buttonIsEnabled",
+                        viewLifecycleOwner
+                    ) { _, innerBundle ->
+                        val isButtonEnabled = innerBundle.getBoolean("buttonIsReadyKey")
+                        binding.nextButton.isEnabled = isButtonEnabled
+                    }
                     childFragmentManager.commit {
                         replace(
                             R.id.primary_child_fragment_container,
@@ -97,6 +111,9 @@ class PrimaryBottomSheetFragment : BottomSheetDialogFragment() {
                         "goalCreationRequestKey",
                         viewLifecycleOwner
                     ) { _, bundle ->
+                        if (arguments != null) {
+                            this.arguments?.clear()
+                        }
                         this.arguments = bundle
                     }
                     childFragmentManager.commit {
