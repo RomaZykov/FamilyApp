@@ -70,6 +70,7 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     inner class TaskCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val context = itemView.context
         private val binding = TaskCardBinding.bind(itemView)
 
         fun bind(task: Task) {
@@ -84,7 +85,8 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
                 override fun afterTextChanged(taskName: Editable?) {
                     tasksCardList[adapterPosition].title = taskName.toString()
                     if (taskName.toString().isEmpty()) {
-                        binding.taskNameEditText.error = "Выполните все условия"
+                        binding.taskNameEditText.error =
+                            context.getString(R.string.not_all_conditions_is_done)
                     } else {
                         onTaskUpdate?.invoke(task, false, true)
                     }

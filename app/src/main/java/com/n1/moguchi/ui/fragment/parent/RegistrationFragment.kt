@@ -29,14 +29,12 @@ import com.n1.moguchi.R
 import com.n1.moguchi.data.models.Parent
 import com.n1.moguchi.databinding.FragmentRegistrationBinding
 
-
 class RegistrationFragment : Fragment() {
 
     private var _binding: FragmentRegistrationBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var auth: FirebaseAuth
-    private lateinit var database: FirebaseDatabase
     private lateinit var signInClient: SignInClient
 
     private val signInLauncher =
