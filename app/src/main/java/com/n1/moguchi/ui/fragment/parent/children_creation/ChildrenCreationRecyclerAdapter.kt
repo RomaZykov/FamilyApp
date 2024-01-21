@@ -62,7 +62,10 @@ class ChildrenCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHo
         position: Int
     ) {
         when (holder.itemViewType) {
-            VIEW_TYPE_CHILD_CARD -> (holder as ChildViewHolder).bind()
+            VIEW_TYPE_CHILD_CARD ->{
+                val child = children[position]
+                (holder as ChildViewHolder).bind(child)
+            }
             VIEW_TYPE_FOOTER -> (holder as FooterViewHolder).bind()
             else -> throw RuntimeException("Unknown viewType: ${holder.itemViewType}")
         }
@@ -82,7 +85,11 @@ class ChildrenCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHo
             binding.avatarFemale3.id to R.drawable.avatar_female_3
         )
 
-        fun bind() {
+        fun bind(child: Child) {
+            if (child.childName != null && child.imageResourceId != null) {
+                binding.childNameEditText.setText(child.childName)
+                childAvatars[child.imageResourceId]?.let { binding.avatars.check(it) }
+            }
             binding.childNameEditText.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
                     s: CharSequence?,

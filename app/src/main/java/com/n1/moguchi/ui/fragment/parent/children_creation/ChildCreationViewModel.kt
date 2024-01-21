@@ -15,13 +15,19 @@ class ChildCreationViewModel @Inject constructor(private val parentRepository: P
     private var _children = MutableLiveData<List<Child>>()
     val children: LiveData<List<Child>> = _children
 
-    init {
-        _children.value = emptyList()
+    private val childrenList = mutableListOf<Child>()
+
+    fun fetchChildren(parentId: String) {
+        viewModelScope.launch {
+            val children: Map<String, Child> = parentRepository.fetchChildren(parentId)
+            childrenList.addAll(children.values)
+            _children.value = childrenList
+        }
     }
 
     fun createNewChild(parentId: String, child: Child): Child {
         val newChild = parentRepository.getAndSaveChildToDb(parentId, child)
-        _children.value = (_children.value ?: emptyList()) + newChild
+        _children.value = _children.value!! + newChild
         return newChild
     }
 

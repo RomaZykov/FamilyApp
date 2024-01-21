@@ -19,8 +19,6 @@ import com.n1.moguchi.databinding.FragmentChildCreationBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import javax.inject.Inject
 
-private const val ZERO_INDEX = 0
-
 class ChildCreationFragment : Fragment() {
     private var _binding: FragmentChildCreationBinding? = null
     private val binding get() = _binding!!
@@ -57,14 +55,18 @@ class ChildCreationFragment : Fragment() {
         auth = Firebase.auth
         val parentId = auth.currentUser?.uid
 
-        val isFromParentHome = arguments?.getBoolean("isFromParentHome")
-        val isFromParentProfile = arguments?.getBoolean("isFromParentProfile")
-
-        setupRecyclerView()
-        viewModel.children.observe(viewLifecycleOwner) {
-            if (parentId != null) {
+        if (parentId != null) {
+            viewModel.fetchChildren(parentId)
+            setupRecyclerView()
+            viewModel.children.observe(viewLifecycleOwner) {
                 if (it.isEmpty()) {
-                    addChild(parentId, ZERO_INDEX)
+                    addChild(parentId, 0)
+                } else {
+                    childrenCreationAdapter.children = it.toMutableList()
+                    childrenCreationAdapter.notifyItemRangeChanged(
+                        0,
+                        childrenCreationAdapter.children.size
+                    )
                 }
 
                 childrenCreationAdapter.onNewChildAddClicked = {
@@ -87,36 +89,19 @@ class ChildCreationFragment : Fragment() {
                 }
             }
         }
-
-        // TODO - Warning - Replace with better solution
-        if (isFromParentHome == true || isFromParentProfile == true) {
-            binding.bottomBar.visibility = View.VISIBLE
-            binding.topAppBar.visibility = View.VISIBLE
-            if (isFromParentProfile == true) {
-                binding.addChildAppBar.title = "Мои дети"
-            }
-
-            binding.nextButton.setOnClickListener {
-
-            }
-        }
     }
 
-    private fun addChild(parentId: String?, index: Int) {
-        if (parentId != null) {
-            if (index == 0) {
-                childrenCreationAdapter.children.add(
-                    index,
-                    viewModel.createNewChild(parentId, Child())
-                )
-            } else {
-                childrenCreationAdapter.children.add(viewModel.createNewChild(parentId, Child()))
-            }
-            childrenCreationAdapter.notifyItemInserted(index)
-            childrenCreationAdapter.notifyItemChanged(childrenCreationAdapter.itemCount - 1)
+    private fun addChild(parentId: String, childrenSize: Int) {
+        if (childrenSize == 0) {
+            childrenCreationAdapter.children.add(
+                0,
+                viewModel.createNewChild(parentId, Child())
+            )
+            childrenCreationAdapter.notifyItemInserted(0)
         } else {
-            TODO()
+            childrenCreationAdapter.children.add(viewModel.createNewChild(parentId, Child()))
         }
+        childrenCreationAdapter.notifyItemChanged(childrenCreationAdapter.itemCount - 1)
     }
 
     private fun setupRecyclerView() {
