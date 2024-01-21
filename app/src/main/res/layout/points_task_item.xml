@@ -20,6 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:fontFamily="@font/onest_regular"
+            android:textColor="@color/black"
             android:gravity="center"
             android:paddingHorizontal="@dimen/tiny_padding"
             tools:text="3" />

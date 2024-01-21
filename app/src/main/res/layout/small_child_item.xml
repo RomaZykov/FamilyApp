@@ -31,6 +31,7 @@
             android:layout_marginStart="@dimen/tiny_margin"
             android:layout_marginEnd="@dimen/medium_margin"
             android:fontFamily="@font/onest_regular"
+            android:textColor="@color/black"
             android:gravity="center"
             android:textSize="@dimen/semi_small_font_size"
             tools:text="Ребёнок" />

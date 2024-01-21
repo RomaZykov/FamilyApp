@@ -25,6 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/extra_large_margin"
                 android:fontFamily="@font/onest_regular"
+                android:textColor="@color/black"
                 android:gravity="center"
                 android:text="@string/edit"
                 android:textSize="@dimen/medium_font_size"

@@ -29,6 +29,7 @@
                 android:fontFamily="@font/onest_regular"
                 android:gravity="center"
                 android:text="@string/task_completed"
+                android:textColor="@color/black"
                 android:textSize="@dimen/large_font_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

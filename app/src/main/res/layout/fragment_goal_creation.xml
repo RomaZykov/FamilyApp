@@ -31,6 +31,7 @@
                 android:layout_marginHorizontal="@dimen/medium_margin"
                 android:layout_marginBottom="@dimen/tiny_margin"
                 android:fontFamily="@font/onest_regular"
+                android:textColor="@color/black"
                 android:text="@string/goal_creation_description"
                 android:textSize="@dimen/semi_small_font_size" />
 
@@ -40,6 +41,7 @@
                 android:layout_marginHorizontal="@dimen/medium_margin"
                 android:layout_marginTop="@dimen/medium_margin"
                 android:fontFamily="@font/onest_regular"
+                android:textColor="@color/black"
                 android:text="@string/children_counter"
                 android:textSize="@dimen/semi_small_font_size" />
 
@@ -58,6 +60,7 @@
                 android:layout_marginHorizontal="@dimen/medium_margin"
                 android:layout_marginVertical="@dimen/small_margin"
                 android:fontFamily="@font/onest_regular"
+                android:textColor="@color/black"
                 android:text="@string/name_goal"
                 android:textSize="@dimen/semi_small_font_size" />
 
@@ -81,6 +84,7 @@
                     android:id="@+id/goal_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/black"
                     android:hint="@string/goal_example_hint"
                     android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -95,6 +99,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/onest_regular"
+                    android:textColor="@color/black"
                     android:gravity="center"
                     android:text="@string/points_to_achieve_goal" />
 
@@ -149,6 +154,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/medium_margin"
                 android:fontFamily="@font/onest_regular"
+                android:textColor="@color/black"
                 android:text="@string/points_total_warning"
                 android:textSize="@dimen/small_font_size" />
         </LinearLayout>

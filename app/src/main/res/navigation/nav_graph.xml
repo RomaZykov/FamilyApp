@@ -57,7 +57,7 @@
     </fragment>
     <fragment
         android:id="@+id/parentProfileFragment"
-        android:name="com.n1.moguchi.ui.fragment.parent.ParentProfileFragment"
+        android:name="com.n1.moguchi.ui.fragment.parent.profile.ParentProfileFragment"
         android:label="fragment_parent_profile" >
         <action
             android:id="@+id/action_parentProfileFragment_to_registrationFragment"

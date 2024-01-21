@@ -35,6 +35,7 @@
                     android:layout_weight="1"
                     android:layout_gravity="center"
                     android:fontFamily="@font/onest_regular"
+                    android:textColor="@color/black"
                     android:gravity="start"
                     tools:text="Велосипед"
                     android:textSize="16sp" />
@@ -66,7 +67,8 @@
                     android:layout_marginStart="16dp"
                     android:fontFamily="@font/onest_regular"
                     android:gravity="center"
-                    android:text="История задач"
+                    android:textColor="@color/black"
+                    android:text="@string/tasks_history"
                     android:textSize="14sp" />
 
                 <ImageView

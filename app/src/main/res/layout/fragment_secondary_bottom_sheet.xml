@@ -57,6 +57,7 @@
                             android:fontFamily="@font/onest_regular"
                             android:gravity="center"
                             android:text="@string/repeat_task"
+                            android:textColor="@color/black"
                             android:textSize="@dimen/medium_font_size" />
                     </FrameLayout>
 
@@ -82,6 +83,7 @@
                                 android:checked="true"
                                 android:fontFamily="@font/onest_regular"
                                 android:text="@string/radio_every_day"
+                                android:textColor="@color/black"
                                 android:textSize="@dimen/semi_small_font_size" />
 
                             <RadioButton
@@ -91,6 +93,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/onest_regular"
                                 android:text="@string/radio_per_week"
+                                android:textColor="@color/black"
                                 android:textSize="@dimen/semi_small_font_size" />
 
                             <RadioButton
@@ -100,6 +103,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/onest_regular"
                                 android:text="@string/radio_per_month"
+                                android:textColor="@color/black"
                                 android:textSize="@dimen/semi_small_font_size" />
                         </RadioGroup>
 
@@ -129,6 +133,7 @@
                                 android:fontFamily="@font/onest_regular"
                                 android:gravity="start"
                                 android:text="@string/days_of_month_to_repeat"
+                                android:textColor="@color/black"
                                 android:textSize="@dimen/medium_font_size" />
 
                             <com.google.android.material.textfield.TextInputLayout
@@ -151,6 +156,7 @@
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:textColor="@color/black"
                                     android:inputType="date" />
                             </com.google.android.material.textfield.TextInputLayout>
 
@@ -182,6 +188,7 @@
                                     android:fontFamily="@font/onest_regular"
                                     android:gravity="center"
                                     android:text="@string/set_date"
+                                    android:textColor="@color/black"
                                     android:textSize="@dimen/semi_small_font_size" />
                             </LinearLayout>
                         </LinearLayout>
@@ -195,6 +202,7 @@
                             android:fontFamily="@font/onest_regular"
                             android:gravity="start"
                             android:text="@string/days_to_repeat"
+                            android:textColor="@color/black"
                             android:textSize="@dimen/medium_font_size"
                             android:visibility="gone" />
 
@@ -346,6 +354,7 @@
                             android:layout_marginHorizontal="@dimen/medium_margin"
                             android:layout_marginTop="@dimen/medium_margin"
                             android:fontFamily="@font/onest_regular"
+                            android:textColor="@color/black"
                             android:gravity="start"
                             android:text="@string/when_to_stop"
                             android:textSize="@dimen/medium_font_size" />
@@ -364,6 +373,7 @@
                                 android:layout_height="wrap_content"
                                 android:checked="true"
                                 android:fontFamily="@font/onest_regular"
+                                android:textColor="@color/black"
                                 android:text="@string/radio_never"
                                 android:textSize="@dimen/semi_small_font_size" />
 
@@ -373,6 +383,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/onest_regular"
+                                android:textColor="@color/black"
                                 android:text="@string/radio_on_specific_date"
                                 android:textSize="@dimen/semi_small_font_size" />
 
@@ -398,6 +409,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:hint="@string/set_date_hint"
+                                        android:textColor="@color/black"
                                         android:inputType="date" />
                                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -443,6 +455,7 @@
                             <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:textColor="@color/black"
                                 android:inputType="number" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>

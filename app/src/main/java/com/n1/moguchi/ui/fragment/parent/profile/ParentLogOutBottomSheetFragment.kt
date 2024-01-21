@@ -1,4 +1,4 @@
-package com.n1.moguchi.ui.fragment.parent
+package com.n1.moguchi.ui.fragment.parent.profile
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -69,9 +69,5 @@ class ParentLogOutBottomSheetFragment : BottomSheetDialogFragment() {
 
     private fun signOut() {
         auth.signOut()
-    }
-
-    companion object {
-        const val TAG = "ParentLogOutModalBottomSheet"
     }
 }

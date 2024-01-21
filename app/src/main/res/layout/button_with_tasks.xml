@@ -19,8 +19,9 @@
         android:layout_marginStart="@dimen/medium_margin"
         android:fontFamily="@font/onest_regular"
         android:gravity="center"
-        tools:text="Смотреть 5 задач(и)"
-        android:textSize="@dimen/semi_small_font_size" />
+        android:textColor="@color/black"
+        android:textSize="@dimen/semi_small_font_size"
+        tools:text="Смотреть 5 задач(и)" />
 
     <ImageView
         android:layout_width="wrap_content"

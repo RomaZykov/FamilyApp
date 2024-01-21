@@ -27,6 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/extra_large_margin"
                 android:fontFamily="@font/onest_regular"
+                android:textColor="@color/black"
                 android:gravity="center"
                 android:textSize="@dimen/medium_font_size"
                 app:layout_constraintBottom_toTopOf="@+id/primary_child_fragment_container"
@@ -91,12 +92,13 @@
                     android:id="@+id/next_button"
                     android:layout_width="@dimen/cancel_continue_button_width"
                     android:layout_height="match_parent"
-                    android:backgroundTint="@color/orange"
+                    android:backgroundTint="@color/button_enabled_selector"
                     android:drawableTint="@color/white"
                     android:fontFamily="@font/onest_regular"
                     android:paddingHorizontal="@dimen/large_padding"
                     android:paddingVertical="@dimen/medium_padding"
                     android:text="@string/next"
+                    android:enabled="false"
                     android:textColor="@color/white"
                     app:drawableEndCompat="@drawable/arrow_r" />
             </LinearLayout>
