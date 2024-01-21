@@ -147,5 +147,8 @@
     <string name="done">Готово</string>
     <string name="error_goal_title">Присутствуют недопустимые символы либо пусто</string>
     <string name="child_name_edit_text_error">Имя содержит недопустимые символы либо не выбран аватар</string>
+    <string name="new_tasks">Новые задачи</string>
+    <string name="tasks_history">История задач</string>
+    <string name="not_all_conditions_is_done">Выполните все условия</string>
 
 </resources>
