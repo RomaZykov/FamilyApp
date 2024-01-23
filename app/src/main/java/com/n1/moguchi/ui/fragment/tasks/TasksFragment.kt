@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
 import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -60,16 +59,14 @@ class TasksFragment : Fragment() {
 
         val topAppBar = requireActivity().findViewById<Toolbar>(R.id.top_tasks_app_bar)
         topAppBar.setNavigationOnClickListener {
-            parentFragmentManager.commit {
-                remove(this@TasksFragment)
-            }
+            parentFragmentManager.popBackStack()
         }
 
         val relatedGoalId = arguments?.getString("goalId")
         if (relatedGoalId != null) {
-            viewModel.setCurrentProgression(relatedGoalId)
-            viewModel.fetchActiveTasks(relatedGoalId)
+            viewModel.setupRelatedGoalDetails(relatedGoalId)
             viewModel.fetchCompletedTasks(relatedGoalId)
+            viewModel.fetchActiveTasks(relatedGoalId)
         }
 
         viewModel.currentAndTotalGoalPoints.observe(viewLifecycleOwner) {

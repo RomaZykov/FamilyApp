@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -14,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.n1.moguchi.MoguchiBaseApplication
+import com.n1.moguchi.R
 import com.n1.moguchi.data.models.Child
 import com.n1.moguchi.databinding.FragmentChildCreationBinding
 import com.n1.moguchi.ui.ViewModelFactory
@@ -55,6 +57,17 @@ class ChildCreationFragment : Fragment() {
         auth = Firebase.auth
         val parentId = auth.currentUser?.uid
 
+        val isFromParentProfile = arguments?.getBoolean("isFromParentProfile")
+        if (isFromParentProfile == true) {
+            binding.myChildrenTopAppBar.visibility = View.VISIBLE
+            val topAppBar = requireActivity().findViewById<Toolbar>(R.id.childCreationAppBar)
+            topAppBar.setNavigationOnClickListener {
+                parentFragmentManager.popBackStack()
+            }
+
+            binding.myChildrenBottomBar.visibility = View.VISIBLE
+        }
+
         if (parentId != null) {
             viewModel.fetchChildren(parentId)
             setupRecyclerView()
@@ -88,6 +101,10 @@ class ChildCreationFragment : Fragment() {
                     )
                 }
             }
+        }
+
+        binding.cancelButton.setOnClickListener {
+            parentFragmentManager.popBackStack()
         }
     }
 
