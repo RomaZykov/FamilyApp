@@ -8,7 +8,7 @@
         android:background="@color/ultra_light_orange">
 
         <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/topAppBar"
+            android:id="@+id/myChildrenTopAppBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/ultra_light_orange"
@@ -19,11 +19,11 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/addChildAppBar"
+                android:id="@+id/childCreationAppBar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:navigationIcon="@drawable/baseline_arrow_back_24"
-                app:title="Добавление ребёнка"
+                app:title="@string/my_children_title"
                 app:titleCentered="true"
                 app:titleTextAppearance="@style/ActionBar.TitleText.Medium" />
         </com.google.android.material.appbar.AppBarLayout>
@@ -31,16 +31,16 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_children_creation_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_marginHorizontal="@dimen/small_margin"
             app:layoutManager="LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@id/bottom_bar"
+            app:layout_constraintBottom_toTopOf="@id/my_children_bottom_bar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/topAppBar" />
+            app:layout_constraintTop_toBottomOf="@id/myChildrenTopAppBar" />
 
         <LinearLayout
-            android:id="@+id/bottom_bar"
+            android:id="@+id/my_children_bottom_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/medium_margin"

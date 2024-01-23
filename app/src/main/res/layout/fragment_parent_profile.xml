@@ -65,7 +65,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:orientation="horizontal"
-                android:paddingVertical="@dimen/medium_padding"
+                android:paddingVertical="@dimen/large_padding"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
@@ -144,7 +144,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:orientation="horizontal"
-                android:paddingVertical="@dimen/medium_padding"
+                android:paddingVertical="@dimen/large_padding"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
