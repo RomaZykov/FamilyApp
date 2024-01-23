@@ -1,6 +1,7 @@
 package com.n1.moguchi.ui.adapter
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -64,7 +65,7 @@ class GoalsRecyclerAdapter(
                         val taskSmallItem =
                             LayoutInflater.from(context)
                                 .inflate(R.layout.task_item, this, false)
-                        taskSmallItem.setBackgroundColor(resources.getColor(R.color.white_opacity_90))
+                        taskSmallItem.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.white_opacity_90)) // R.color.white_opacity_90
                         taskSmallItem.findViewById<TextView>(R.id.task_title).text =
                             relatedTasks[i - 1].title
                         taskSmallItem.rootView.findViewById<TextView>(R.id.task_points).text =

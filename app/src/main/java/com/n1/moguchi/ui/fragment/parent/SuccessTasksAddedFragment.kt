@@ -25,7 +25,10 @@ class SuccessTasksAddedFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.taskAddedButton.setOnClickListener {
-            parentFragmentManager.setFragmentResult("secondaryRequestKey", bundleOf("buttonPressedKey" to true))
+            parentFragmentManager.setFragmentResult(
+                "tasksAddedRequestKey",
+                bundleOf("buttonPressedKey" to true)
+            )
         }
     }
 

@@ -24,8 +24,8 @@ class TasksViewModel @Inject constructor(
     private val _currentAndTotalGoalPoints = MutableLiveData<Map<Int, Int>>()
     val currentAndTotalGoalPoints: LiveData<Map<Int, Int>> = _currentAndTotalGoalPoints
 
-    private val currentGoalPoints = _currentAndTotalGoalPoints.value?.keys
-    private val totalGoalPoints = _currentAndTotalGoalPoints.value?.values
+    private val _goalTitle = MutableLiveData<String>()
+    val goalTitle: LiveData<String> = _goalTitle
 
     fun fetchActiveTasks(goalId: String) {
         viewModelScope.launch {
@@ -53,12 +53,13 @@ class TasksViewModel @Inject constructor(
         }
     }
 
-    fun setCurrentProgression(goalId: String) {
+    fun setupRelatedGoalDetails(goalId: String) {
         viewModelScope.launch {
             goalRepository.getGoal(goalId).also {
                 val currentAndTotalGoalPointsMap: MutableMap<Int, Int> = mutableMapOf()
                 currentAndTotalGoalPointsMap[it.currentPoints] = it.totalPoints
                 _currentAndTotalGoalPoints.value = currentAndTotalGoalPointsMap
+                _goalTitle.value = it.title
             }
         }
     }

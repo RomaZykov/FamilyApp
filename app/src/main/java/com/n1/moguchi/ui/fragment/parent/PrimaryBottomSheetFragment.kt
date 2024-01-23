@@ -149,12 +149,14 @@ class PrimaryBottomSheetFragment : BottomSheetDialogFragment() {
                         remove(currentFragmentInContainer)
                         replace<SuccessTasksAddedFragment>(R.id.full_fragment_container)
                     }
+
                     childFragmentManager.setFragmentResultListener(
-                        "secondaryRequestKey",
+                        "tasksAddedRequestKey",
                         viewLifecycleOwner
                     ) { _, bundle ->
                         if (bundle.getBoolean("buttonPressedKey")) {
                             dismiss()
+                            parentFragmentManager
                         }
                     }
                 }
