@@ -5,8 +5,7 @@ data class Parent(
     val parentName: String? = null,
     val email: String? = null,
     val childrenList: List<Child>? = null,
-    val childrenPasswordsMap: MutableMap<Int, Child>? = null,
-    val isParentMode: Boolean = true,
+    val childrenPasswordsMap: MutableMap<Int, Child>? = null
 ) {
     fun toMap(): Map<String, Any?> {
         return mapOf(
@@ -14,8 +13,7 @@ data class Parent(
             "parentName" to parentName,
             "email" to email,
             "childrenList" to childrenList,
-            "childrenPasswordsMap" to childrenPasswordsMap,
-            "isParentMode" to isParentMode
+            "childrenPasswordsMap" to childrenPasswordsMap
         )
     }
 }
