@@ -67,8 +67,12 @@ class OnBoardingChildFragment : Fragment() {
             }
         })
 
+        val bundle = childIdBundle()
         binding.skipButton.setOnClickListener {
-            (activity as MainActivity).navController.navigate(R.id.action_onBoardingChildFragment_to_homeChildFragment)
+            (activity as MainActivity).navController.navigate(
+                R.id.action_onBoardingChildFragment_to_homeChildFragment,
+                bundle
+            )
         }
 
         binding.nextButton.setOnClickListener {
@@ -76,13 +80,20 @@ class OnBoardingChildFragment : Fragment() {
             if (currentItem != 1) {
                 viewPager.setCurrentItem(currentItem + 1, true)
             } else {
-                val bundle = Bundle().apply {
-                    val childId = arguments?.getString("childId")
-                    this.putString("childId", childId)
-                }
-                (activity as MainActivity).navController.navigate(R.id.action_onBoardingChildFragment_to_homeChildFragment, bundle)
+                (activity as MainActivity).navController.navigate(
+                    R.id.action_onBoardingChildFragment_to_homeChildFragment,
+                    bundle
+                )
             }
         }
+    }
+
+    private fun childIdBundle(): Bundle {
+        val bundle = Bundle().apply {
+            val childId = arguments?.getString("childId")
+            this.putString("childId", childId)
+        }
+        return bundle
     }
 
     override fun onDestroyView() {
