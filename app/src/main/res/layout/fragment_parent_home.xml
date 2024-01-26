@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="com.n1.moguchi.ui.fragment.parent.home.ParentHomeViewModel" />
+            type="com.n1.moguchi.ui.fragment.parent.home.HomeParentViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/ultra_light_orange"
-        tools:context=".ui.fragment.parent.home.ParentHomeFragment">
+        tools:context=".ui.fragment.parent.home.HomeParentFragment">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/topAppBar"
@@ -76,6 +76,7 @@
                     layout="@layout/fragment_completed_goals"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:layout_marginTop="@dimen/small_margin" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

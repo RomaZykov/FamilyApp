@@ -7,13 +7,11 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentParentProfileBinding
 import com.n1.moguchi.ui.ViewModelFactory
-import com.n1.moguchi.ui.fragment.parent.home.ParentHomeViewModel
 import javax.inject.Inject
 
 class ParentProfileFragment : Fragment() {
@@ -24,7 +22,7 @@ class ParentProfileFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private val viewModel by lazy {
-//        ViewModelProvider(this, viewModelFactory)[ParentHomeViewModel::class.java] - Incorrect vm
+//        ViewModelProvider(this, viewModelFactory)[ProfileParentViewModel::class.java] - Incorrect vm
     }
 
     override fun onCreateView(

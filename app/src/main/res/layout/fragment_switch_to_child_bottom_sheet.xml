@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -26,16 +27,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/extra_large_margin"
                 android:fontFamily="@font/onest_regular"
-                android:textColor="@color/black"
                 android:gravity="center"
-                android:text="@string/switch_to_child"
+                android:textColor="@color/black"
                 android:textSize="@dimen/medium_font_size"
                 app:layout_constraintBottom_toTopOf="@+id/change_profile_description_tv"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/drag_handle"
                 app:layout_constraintVertical_bias="0"
-                app:layout_constraintVertical_chainStyle="packed" />
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="@string/switch_to_child" />
 
             <TextView
                 android:id="@+id/change_profile_description_tv"
@@ -45,13 +46,13 @@
                 android:layout_marginTop="@dimen/medium_margin"
                 android:text="@string/switch_to_child_description"
                 android:textSize="@dimen/semi_small_font_size"
-                app:layout_constraintBottom_toTopOf="@+id/rv_children_list"
+                app:layout_constraintBottom_toTopOf="@+id/rv_switch_to_child_children_list"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/title" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_children_list"
+                android:id="@+id/rv_switch_to_child_children_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/medium_margin"

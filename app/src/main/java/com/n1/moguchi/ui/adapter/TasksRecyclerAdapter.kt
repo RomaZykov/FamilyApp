@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.R
 import com.n1.moguchi.data.models.Task
 import com.n1.moguchi.databinding.EditableTaskItemBinding
-import com.n1.moguchi.ui.activity.MainActivity
 
 class TasksRecyclerAdapter(
     private val relatedTasksList: List<Task>,
@@ -42,22 +41,10 @@ class TasksRecyclerAdapter(
         private val binding = EditableTaskItemBinding.bind(itemView)
         private var task: Task? = null
 
-//        init {
-//            itemView.setOnClickListener(this)
-//        }
-
         fun bind(task: Task, isActiveTasks: Boolean) {
             this.task = task
             binding.taskTitle.text = task.title
             binding.taskPoints.text = task.height.toString()
-            if (MainActivity.isParentProfile) {
-                binding.taskSettingsButton.visibility = View.VISIBLE
-                binding.taskSettingsButton.setOnClickListener {
-                    showOptionsPopup(isActiveTasks)
-                }
-            } else {
-                binding.taskSettingsButton.visibility = View.GONE
-            }
         }
 
         private fun showOptionsPopup(isActiveTasks: Boolean) {
@@ -106,16 +93,5 @@ class TasksRecyclerAdapter(
             }
             return true
         }
-
-//        override fun onClick(v: View) {
-//            val fragmentActivity = v.context as FragmentActivity
-//            val fragmentManager = fragmentActivity.supportFragmentManager
-//            val modalBottomSheet = TaskConfirmationBottomSheetFragment()
-//            modalBottomSheet.show(fragmentManager, TAG)
-//        }
-    }
-
-    companion object {
-        private const val TAG = "TasksRecyclerAdapter"
     }
 }

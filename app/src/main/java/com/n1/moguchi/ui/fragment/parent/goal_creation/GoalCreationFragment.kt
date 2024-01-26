@@ -34,12 +34,12 @@ class GoalCreationFragment(
     private val binding get() = _binding!!
 
     private lateinit var childrenAdapter: ChildrenRecyclerAdapter
-    private var isNextButtonPressed: Boolean? = null
-    private var goalHeight: Int = 0
-    private var childId: String? = null
 
+    private var isNextButtonPressed: Boolean? = null
+    private var childId: String? = null
     private var selectedChildIndex = 0
     private var childrenSize = 0
+    private var goalHeight: Int = 0
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -80,8 +80,8 @@ class GoalCreationFragment(
                     childId = children[selectedChildIndex].childId
                 }
 
-                childrenAdapter.onChildClicked = {
-                    selectedChildIndex = it
+                childrenAdapter.onChildClicked = { childIndex, _ ->
+                    selectedChildIndex = childIndex
                     childId = children[selectedChildIndex].childId
                 }
 

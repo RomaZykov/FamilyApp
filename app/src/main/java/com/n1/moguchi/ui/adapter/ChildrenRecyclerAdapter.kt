@@ -19,7 +19,7 @@ class ChildrenRecyclerAdapter(
     private val childSelectionEnable: Boolean
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var onChildClicked: ((Int) -> Unit)? = null
+    var onChildClicked: ((Int, String?) -> Unit)? = null
     var onChildAddClicked: (() -> Unit)? = null
 
     constructor(childrenList: List<Child>) : this(
@@ -112,11 +112,23 @@ class ChildrenRecyclerAdapter(
         }
     }
 
-    inner class MediumChildViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class MediumChildViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+        View.OnClickListener {
         private val binding = MediumChildItemBinding.bind(itemView)
+        private var child: Child? = null
+
+        init {
+            itemView.setOnClickListener(this)
+        }
+
         fun bind(child: Child) {
+            this.child = child
             binding.childName.text = child.childName
             binding.mediumChildAvatar.setImageResource(child.imageResourceId!!)
+        }
+
+        override fun onClick(v: View) {
+            onChildClicked?.invoke(adapterPosition, child?.childId)
         }
     }
 
@@ -146,7 +158,7 @@ class ChildrenRecyclerAdapter(
             val oldPosition = selectedChildIndex
             val newPosition = adapterPosition
             selectedChildIndex = newPosition
-            onChildClicked?.invoke(selectedChildIndex)
+            onChildClicked?.invoke(selectedChildIndex, null)
             notifyItemChanged(oldPosition)
             notifyItemChanged(newPosition)
         }
