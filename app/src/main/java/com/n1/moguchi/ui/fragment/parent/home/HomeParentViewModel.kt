@@ -9,14 +9,12 @@ import com.n1.moguchi.data.models.Goal
 import com.n1.moguchi.data.models.Task
 import com.n1.moguchi.data.repositories.GoalRepository
 import com.n1.moguchi.data.repositories.ParentRepository
-import com.n1.moguchi.data.repositories.TaskRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class ParentHomeViewModel @Inject constructor(
+class HomeParentViewModel @Inject constructor(
     private val parentRepository: ParentRepository,
-    private val goalRepository: GoalRepository,
-    private val taskRepository: TaskRepository
+    private val goalRepository: GoalRepository
 ) : ViewModel() {
 
     private val _children = MutableLiveData<Map<String, Child>>()
@@ -48,7 +46,7 @@ class ParentHomeViewModel @Inject constructor(
 
     fun getCompletedGoals(childID: String) {
         viewModelScope.launch {
-            val completedGoals = goalRepository.getCompletedGoals(childID)
+            val completedGoals = goalRepository.fetchCompletedGoals(childID)
             _completedGoals.value = completedGoals
         }
     }

@@ -11,7 +11,7 @@ interface GoalRepository {
 
     suspend fun fetchChildGoals(childID: String): List<Goal>
 
-    suspend fun getCompletedGoals(childID: String): List<Goal>
+    suspend fun fetchCompletedGoals(childID: String): List<Goal>
 
     suspend fun fetchTasks(goals: List<Goal>): Map<Goal, List<Task>>
 }

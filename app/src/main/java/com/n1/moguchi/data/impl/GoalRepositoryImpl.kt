@@ -52,7 +52,7 @@ class GoalRepositoryImpl @Inject constructor(
         return goal!!
     }
 
-    override suspend fun getCompletedGoals(childID: String): List<Goal> {
+    override suspend fun fetchCompletedGoals(childID: String): List<Goal> {
         val completedGoalsRef = goalsRef.orderByChild("goalCompleted").equalTo(true)
         val completedGoals = mutableListOf<Goal>()
         completedGoalsRef.get().await().children.forEach { completedGoal ->

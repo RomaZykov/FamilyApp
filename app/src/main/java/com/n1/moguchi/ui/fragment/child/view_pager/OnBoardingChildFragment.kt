@@ -1,7 +1,6 @@
-package com.n1.moguchi.ui.fragment.child
+package com.n1.moguchi.ui.fragment.child.view_pager
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -77,11 +76,11 @@ class OnBoardingChildFragment : Fragment() {
             if (currentItem != 1) {
                 viewPager.setCurrentItem(currentItem + 1, true)
             } else {
-                Log.d(
-                    "OnBoardingChildFragment",
-                    "Current destination = ${(activity as MainActivity).navController.currentDestination}"
-                )
-                (activity as MainActivity).navController.navigate(R.id.action_onBoardingChildFragment_to_homeChildFragment)
+                val bundle = Bundle().apply {
+                    val childId = arguments?.getString("childId")
+                    this.putString("childId", childId)
+                }
+                (activity as MainActivity).navController.navigate(R.id.action_onBoardingChildFragment_to_homeChildFragment, bundle)
             }
         }
     }

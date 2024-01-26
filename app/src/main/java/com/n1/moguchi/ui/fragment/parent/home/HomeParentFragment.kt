@@ -25,7 +25,7 @@ import com.n1.moguchi.ui.adapter.GoalsRecyclerAdapter
 import com.n1.moguchi.ui.fragment.parent.PrimaryBottomSheetFragment
 import javax.inject.Inject
 
-class ParentHomeFragment : Fragment() {
+class HomeParentFragment : Fragment() {
 
     private var _binding: FragmentParentHomeBinding? = null
     private val binding get() = _binding!!
@@ -39,7 +39,7 @@ class ParentHomeFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private val viewModel by lazy {
-        ViewModelProvider(this, viewModelFactory)[ParentHomeViewModel::class.java]
+        ViewModelProvider(this, viewModelFactory)[HomeParentViewModel::class.java]
     }
 
     private val component by lazy {
@@ -63,7 +63,9 @@ class ParentHomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val parentID = Firebase.auth.currentUser?.uid
+
         val navController =
             Navigation.findNavController(activity as MainActivity, R.id.fragment_container_view)
 
@@ -83,8 +85,8 @@ class ParentHomeFragment : Fragment() {
                     ChildrenRecyclerAdapter(childrenList.values.toList(), selectedChildIndex)
                 childrenRecyclerView.adapter = childrenRecyclerAdapter
 
-                childrenRecyclerAdapter.onChildClicked = {
-                    selectedChildIndex = it
+                childrenRecyclerAdapter.onChildClicked = { childIndex, _ ->
+                    selectedChildIndex = childIndex
                     viewModel.fetchGoalsAndTasks(childrenIdList[selectedChildIndex])
                     viewModel.getCompletedGoals(childrenIdList[selectedChildIndex])
                 }
