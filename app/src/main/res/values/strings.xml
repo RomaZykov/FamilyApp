@@ -150,5 +150,6 @@
     <string name="new_tasks">New tasks</string>
     <string name="tasks_history">Tasks history</string>
     <string name="not_all_conditions_is_done">Выполните все условия</string>
+    <string name="switch_to_parent_description">Для перехода в режим родителя необходимо ввести пароль</string>
 
 </resources>
