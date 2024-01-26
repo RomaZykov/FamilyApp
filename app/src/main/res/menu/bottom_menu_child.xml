@@ -7,7 +7,7 @@
         android:title="@string/home_bottom" />
 
     <item
-        android:id="@+id/switchToParent"
+        android:id="@+id/switch_to_parent"
         android:icon="@drawable/rotate"
         android:title="@string/switch_to_parent_bottom" />
 </menu>
