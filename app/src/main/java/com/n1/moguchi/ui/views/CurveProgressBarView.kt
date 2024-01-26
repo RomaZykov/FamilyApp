@@ -6,12 +6,13 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
-import android.view.View
+import android.widget.ProgressBar
 import com.n1.moguchi.R
 import kotlin.math.max
 
-class CurveProgressBarView(context: Context, attrs: AttributeSet) : View(context, attrs) {
+class CurveProgressBarView(context: Context, attrs: AttributeSet) : ProgressBar(context, attrs) {
     private val arcSpace = RectF()
+
     private var backgroundPaint: Paint = Paint().apply {
         isAntiAlias = true
         style = Paint.Style.STROKE
@@ -66,9 +67,6 @@ class CurveProgressBarView(context: Context, attrs: AttributeSet) : View(context
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         setSpace()
-        canvas.apply {
-            drawArc(this)
-        }
     }
 
     private fun setSpace() {

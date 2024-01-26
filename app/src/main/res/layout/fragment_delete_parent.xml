@@ -12,7 +12,7 @@
         <ImageView
             android:id="@+id/delete_imageview"
             android:layout_width="match_parent"
-            android:layout_height="450dp"
+            android:layout_height="@dimen/common_page_height"
             android:scaleType="fitXY"
             android:src="@drawable/delete_image"
             app:layout_constraintBottom_toTopOf="@+id/title_delete"
@@ -26,12 +26,12 @@
             android:id="@+id/title_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="@dimen/medium_margin"
+            android:layout_marginBottom="@dimen/medium_margin"
             android:fontFamily="@font/onest_regular"
-            android:text="Удалить аккаунт?"
+            android:text="@string/delete_account"
             android:textColor="@color/black"
-            android:textSize="24sp"
+            android:textSize="@dimen/large_font_size"
             app:layout_constraintBottom_toTopOf="@id/tv_delete_description"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,9 +43,9 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/onest_regular"
             android:gravity="center"
-            android:text="Все цели и прогресс детей потеряются, \nвосстановить их не получится"
+            android:text="@string/delete_account_description"
             android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textSize="@dimen/semi_small_font_size"
             app:layout_constraintBottom_toTopOf="@id/bottom_delete_ll"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -55,7 +55,7 @@
             android:id="@+id/bottom_delete_ll"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="@dimen/medium_margin"
             android:gravity="center"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -64,28 +64,28 @@
 
             <Button
                 android:id="@+id/cancel_button"
-                android:layout_width="178dp"
+                android:layout_width="@dimen/cancel_continue_button_width"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/orange"
                 android:fontFamily="@font/onest_regular"
-                android:paddingHorizontal="24dp"
-                android:paddingVertical="16dp"
-                android:text="Отмена"
+                android:paddingHorizontal="@dimen/large_padding"
+                android:paddingVertical="@dimen/medium_padding"
+                android:text="@string/cancel"
                 android:textColor="@color/white" />
 
             <Space
-                android:layout_width="8dp"
+                android:layout_width="@dimen/small_space_width"
                 android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/save_button"
-                android:layout_width="178dp"
+                android:layout_width="@dimen/cancel_continue_button_width"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/white"
                 android:fontFamily="@font/onest_regular"
-                android:paddingHorizontal="24dp"
-                android:paddingVertical="16dp"
-                android:text="Удалить"
+                android:paddingHorizontal="@dimen/large_padding"
+                android:paddingVertical="@dimen/medium_padding"
+                android:text="@string/delete"
                 android:textColor="@color/black" />
         </LinearLayout>
 

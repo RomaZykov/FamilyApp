@@ -14,8 +14,8 @@ android {
         applicationId "com.n1.moguchi"
         minSdk 24
         targetSdk 34
-        versionCode 13
-        versionName "1.7.5"
+        versionCode 27
+        versionName "1.8.8"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -26,28 +26,35 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
     buildFeatures {
         dataBinding true
         viewBinding true
     }
 }
 
+
 dependencies {
-    def nav_version = '2.7.2'
-    def lifecycle_version = '2.6.2'
-    def activity_version = '1.7.2'
-    def fragment_version = '1.6.1'
+    def nav_version = '2.7.6'
+    def lifecycle_version = '2.7.0'
+    def activity_version = '1.8.2'
     def okhttp_version = '5.0.0-alpha.11'
     def retrofit_version = '2.9.0'
+    def fragment_version = '1.6.2'
 
-    implementation 'androidx.annotation:annotation:1.7.0'
+    implementation 'androidx.compose.ui:ui-desktop:1.6.0-rc01'
+    debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
+
+    implementation 'androidx.annotation:annotation:1.7.1'
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation "androidx.activity:activity-ktx:$activity_version"
@@ -63,11 +70,11 @@ dependencies {
     kapt 'com.google.dagger:dagger-compiler:2.47'
 
     // Firebase
-    implementation platform('com.google.firebase:firebase-bom:32.2.2')
+    implementation platform('com.google.firebase:firebase-bom:32.7.0')
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.android.gms:play-services-auth:20.7.0'
-    implementation 'com.google.firebase:firebase-database:20.2.2'
-    implementation 'com.google.firebase:firebase-database-ktx:20.2.2'
+    implementation 'com.google.firebase:firebase-database:20.3.0'
+    implementation 'com.google.firebase:firebase-database-ktx:20.3.0'
 
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
@@ -84,14 +91,12 @@ dependencies {
     // Feature module Support
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
 
-    // Tests
-    androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-
     // Material Design
-    implementation 'com.google.android.material:material:1.9.0'
-    implementation 'com.google.android.material:material:1.11.0-alpha02'
+    implementation 'com.google.android.material:material:1.11.0'
+    implementation 'com.google.android.material:material:1.11.0'
+
+    // UI
+    implementation "com.ncorti:slidetoact:0.10.0"
 
     implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'

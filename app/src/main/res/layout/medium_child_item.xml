@@ -4,17 +4,18 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="68dp"
-        android:layout_margin="4dp"
+        android:layout_height="@dimen/medium_child_card_height"
+        android:layout_margin="@dimen/tiny_margin"
         android:background="@drawable/round_task_card"
         android:clickable="true"
         android:focusable="true"
         android:orientation="horizontal"
-        android:padding="8dp">
+        android:padding="@dimen/small_padding">
 
         <ImageView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:id="@+id/medium_child_avatar"
+            android:layout_width="@dimen/super_icon_size"
+            android:layout_height="@dimen/super_icon_size"
             android:src="@drawable/avatar_male_1" />
 
         <TextView
@@ -22,9 +23,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginHorizontal="16dp"
+            android:layout_marginHorizontal="@dimen/medium_margin"
             android:gravity="start"
-            android:textSize="14sp"
+            android:textSize="@dimen/semi_small_font_size"
             tools:text="Кирилл" />
     </LinearLayout>
 </layout>

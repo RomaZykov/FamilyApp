@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/parentHomeFragment"
+        android:id="@+id/homeParentFragment"
         android:icon="@drawable/home"
-        android:title="Главная" />
+        android:title="@string/home_bottom" />
 
     <item
         android:id="@+id/addGoal"
         android:icon="@drawable/add_circle"
-        android:title="Добавить цель" />
+        android:title="@string/add_goal_bottom" />
 
     <item
-        android:id="@+id/switchToChildFragment"
+        android:id="@+id/switch_to_child"
         android:icon="@drawable/rotate"
-        android:title="Ребенку" />
+        android:title="@string/switch_to_child_bottom" />
 </menu>

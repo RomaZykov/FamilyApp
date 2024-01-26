@@ -1,8 +1,8 @@
 package com.n1.moguchi
 
 import android.app.Application
-import com.n1.moguchi.components.AppComponent
-import com.n1.moguchi.components.DaggerAppComponent
+import com.n1.moguchi.di.components.AppComponent
+import com.n1.moguchi.di.components.DaggerAppComponent
 
 class MoguchiBaseApplication : Application() {
 

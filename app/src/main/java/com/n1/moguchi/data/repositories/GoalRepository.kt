@@ -7,5 +7,11 @@ interface GoalRepository {
 
     fun createGoal(goal: Goal, childId: String): Goal
 
-    fun getTasks(goalId: String): List<Task>
+    suspend fun getGoal(goalID: String): Goal
+
+    suspend fun fetchChildGoals(childID: String): List<Goal>
+
+    suspend fun fetchCompletedGoals(childID: String): List<Goal>
+
+    suspend fun fetchTasks(goals: List<Goal>): Map<Goal, List<Task>>
 }

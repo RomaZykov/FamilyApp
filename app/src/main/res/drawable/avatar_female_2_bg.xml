@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <inset
+            android:drawable="@drawable/avatar_female_2"
+            android:inset="4dp" />
+    </item>
+</layer-list>

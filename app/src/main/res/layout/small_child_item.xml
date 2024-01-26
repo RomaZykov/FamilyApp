@@ -1,35 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:layout_width="130dp"
-    android:layout_height="48dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/small_child_width"
+    android:layout_height="@dimen/small_child_height"
+    android:layout_marginHorizontal="@dimen/tiny_margin"
+    android:backgroundTint="@color/child_item_selector"
     android:clickable="true"
     android:focusable="true"
-    android:backgroundTint="@color/ultra_soft_orange"
-    card_view:cardCornerRadius="22dp"
-    card_view:strokeWidth="0dp">
+    card_view:cardCornerRadius="@dimen/small_child_card_corner_radius"
+    card_view:checkedIcon="@color/transparent"
+    card_view:strokeWidth="@dimen/zero_stroke_width">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/child_photo"
-            android:layout_width="48dp"
-            android:padding="2dp"
+            android:id="@+id/small_child_avatar"
+            android:layout_width="@dimen/super_icon_size"
             android:layout_height="match_parent"
+            android:padding="@dimen/extra_tiny_padding"
             android:src="@drawable/avatar_male_1" />
 
         <TextView
-            android:id="@+id/child_name"
+            android:id="@+id/small_child_name"
             android:layout_width="match_parent"
-            android:fontFamily="@font/onest_regular"
             android:layout_height="match_parent"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="@dimen/tiny_margin"
+            android:layout_marginEnd="@dimen/medium_margin"
+            android:fontFamily="@font/onest_regular"
+            android:textColor="@color/black"
             android:gravity="center"
-            android:textSize="14sp"
-            android:text="Ребёнок"/>
+            android:textSize="@dimen/semi_small_font_size"
+            tools:text="Ребёнок" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

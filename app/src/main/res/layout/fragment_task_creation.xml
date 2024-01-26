@@ -1,19 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.n1.moguchi.ui.fragment.parent.task_creation.TaskCreationViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/task_creation"
         style="@style/Widget.Material3.BottomSheet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/ultra_light_orange"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <LinearLayout
             android:id="@+id/tasks_ll"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toTopOf="@id/nested_scroll"
             app:layout_constraintEnd_toEndOf="parent"
@@ -25,37 +33,59 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginBottom="4dp"
+                android:layout_marginHorizontal="@dimen/medium_margin"
+                android:layout_marginTop="@dimen/small_margin"
+                android:layout_marginBottom="@dimen/tiny_margin"
                 android:fontFamily="@font/onest_regular"
-                android:text="Добавьте задачи, которые ребенок должен выполнить, чтобы достичь цели"
-                android:textSize="14sp" />
+                android:text="@string/task_creation_welcome_description"
+                android:textSize="@dimen/semi_small_font_size" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginHorizontal="@dimen/semi_medium_margin"
+                android:layout_marginTop="@dimen/medium_margin"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginEnd="@dimen/small_margin"
                     android:fontFamily="@font/onest_regular"
                     android:gravity="center"
-                    android:text="Количество баллов"
-                    android:textSize="12sp" />
+                    android:text="@string/points_goal_counter"
+                    android:textSize="@dimen/small_font_size" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginEnd="8dp"
                     android:layout_weight="1"
                     android:fontFamily="@font/onest_regular"
                     android:gravity="center|end"
-                    android:text="0 / 10"
-                    android:textSize="12sp" />
+                    android:text="@{viewModel.taskHeightTotal.toString()}"
+                    android:textSize="@dimen/small_font_size"
+                    tools:text="5" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="@dimen/small_margin"
+                    android:layout_weight="0"
+                    android:fontFamily="@font/onest_regular"
+                    android:gravity="center"
+                    android:text="/"
+                    android:textSize="@dimen/small_font_size" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/small_margin"
+                    android:layout_weight="0"
+                    android:fontFamily="@font/onest_regular"
+                    android:gravity="center|end"
+                    android:text="@{viewModel.totalGoalPoints.toString()}"
+                    android:textSize="@dimen/small_font_size"
+                    tools:text="10" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -69,8 +99,9 @@
                 style="@android:style/Widget.Holo.ProgressBar.Horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:progress="25"
+                android:layout_marginHorizontal="@dimen/semi_medium_margin"
+                android:max="@{viewModel.totalGoalPoints.intValue()}"
+                android:progress="@{viewModel.taskHeightTotal.intValue()}"
                 android:progressTint="@color/orange" />
         </LinearLayout>
 
@@ -78,8 +109,7 @@
             android:id="@+id/nested_scroll"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/small_margin"
             android:fitsSystemWindows="true"
             android:scrollbars="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -87,49 +117,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tasks_ll">
 
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_card_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_card_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false"
-                    app:layoutManager="LinearLayoutManager" />
-
-                <LinearLayout
-                    android:id="@+id/add_task_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginHorizontal="8dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/round_wide_button"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:src="@drawable/plus"
-                        app:tint="@color/black" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="16dp"
-                        android:fontFamily="@font/onest_regular"
-                        android:gravity="center"
-                        android:text="Добавить задачу"
-                        android:textSize="14sp" />
-                </LinearLayout>
-            </LinearLayout>
+                android:nestedScrollingEnabled="false"
+                app:layoutManager="LinearLayoutManager" />
         </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

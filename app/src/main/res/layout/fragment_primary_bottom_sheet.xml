@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-
-    <data>
-        <variable
-            name="viewModel"
-            type="com.n1.moguchi.ui.viewmodels.PrimaryBottomSheetViewModel" />
-    </data>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -23,31 +17,32 @@
                 android:id="@+id/drag_handle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="@dimen/extra_large_margin"
                 android:fontFamily="@font/onest_regular"
+                android:textColor="@color/black"
                 android:gravity="center"
-                android:text="Новая цель"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toTopOf="@+id/child_fragment_container"
+                android:textSize="@dimen/medium_font_size"
+                app:layout_constraintBottom_toTopOf="@+id/primary_child_fragment_container"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/drag_handle"
                 app:layout_constraintVertical_bias="0"
-                app:layout_constraintVertical_chainStyle="packed" />
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="@string/new_goal" />
 
             <FrameLayout
-                android:id="@+id/child_fragment_container"
+                android:id="@+id/primary_child_fragment_container"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginVertical="16dp"
+                android:layout_marginVertical="@dimen/medium_margin"
                 app:layout_constraintBottom_toTopOf="@+id/bottom_linear_layout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -57,7 +52,7 @@
                 android:id="@id/bottom_linear_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="@dimen/medium_margin"
                 android:gravity="center"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -68,41 +63,42 @@
                     android:id="@+id/add_goal_button"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginHorizontal="@dimen/medium_margin"
                     android:backgroundTint="@color/orange"
                     android:fontFamily="@font/onest_regular"
-                    android:layout_marginHorizontal="16dp"
-                    android:visibility="gone"
-                    android:padding="16dp"
-                    android:text="Отлично"
+                    android:padding="@dimen/medium_padding"
+                    android:text="@string/congrats"
                     android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/semi_small_font_size"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/cancel_button"
-                    android:layout_width="178dp"
+                    android:layout_width="@dimen/cancel_continue_button_width"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
                     android:fontFamily="@font/onest_regular"
-                    android:paddingHorizontal="24dp"
-                    android:paddingVertical="16dp"
-                    android:text="Отмена"
+                    android:paddingHorizontal="@dimen/large_padding"
+                    android:paddingVertical="@dimen/medium_padding"
+                    android:text="@string/cancel"
                     android:textColor="@color/black" />
 
                 <Space
                     android:id="@+id/space"
-                    android:layout_width="8dp"
+                    android:layout_width="@dimen/small_space_width"
                     android:layout_height="wrap_content" />
 
                 <Button
                     android:id="@+id/next_button"
-                    android:layout_width="178dp"
+                    android:layout_width="@dimen/cancel_continue_button_width"
                     android:layout_height="match_parent"
-                    android:backgroundTint="@color/orange"
+                    android:backgroundTint="@color/button_enabled_selector"
                     android:drawableTint="@color/white"
                     android:fontFamily="@font/onest_regular"
-                    android:paddingHorizontal="24dp"
-                    android:paddingVertical="16dp"
-                    android:text="Далее"
+                    android:paddingHorizontal="@dimen/large_padding"
+                    android:paddingVertical="@dimen/medium_padding"
+                    android:text="@string/next"
+                    android:enabled="false"
                     android:textColor="@color/white"
                     app:drawableEndCompat="@drawable/arrow_r" />
             </LinearLayout>
@@ -114,7 +110,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/drag_handle"/>
+                app:layout_constraintTop_toBottomOf="@id/drag_handle" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

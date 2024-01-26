@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/tiny_margin"
+        android:orientation="vertical"
+        android:padding="@dimen/medium_padding">
+
+        <!--            style="?android:attr/progressBarStyleHorizontal"-->
+        <ProgressBar
+            android:id="@+id/goal_progress_bar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:progressTint="@color/orange"
+            android:progressDrawable="@drawable/round_progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:layout_marginTop="@dimen/large_margin"
+            tools:progress="25"/>
+
+        <include
+            android:id="@+id/goal_points_layout"
+            layout="@layout/points_goal_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/medium_margin"
+            android:layout_marginVertical="@dimen/small_margin" />
+
+        <TextView
+            android:id="@+id/goal_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/tiny_margin"
+            android:fontFamily="@font/onest_regular"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:textSize="@dimen/medium_font_size" />
+
+        <LinearLayout
+            android:id="@+id/tasks_container_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/medium_margin"
+            android:layout_marginBottom="@dimen/tiny_margin"
+            android:orientation="vertical" />
+
+        <include
+            android:id="@+id/all_tasks_button"
+            layout="@layout/button_with_tasks" />
+    </LinearLayout>
+</layout>

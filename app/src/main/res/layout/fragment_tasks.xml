@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.n1.moguchi.ui.fragment.tasks.TasksViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -22,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:navigationIcon="@drawable/baseline_arrow_back_24"
-                app:title="Цель"
+                app:title="@{viewModel.goalTitle.toString()}"
                 app:titleCentered="true"
                 app:titleTextAppearance="@style/ActionBar.TitleText.Medium"
                 app:titleTextColor="@color/black" />
@@ -32,7 +39,7 @@
             android:id="@+id/goal_points_ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
+            android:layout_marginHorizontal="@dimen/medium_margin"
             android:orientation="horizontal"
             app:layout_constraintBottom_toTopOf="@+id/tasks_progress_bar"
             app:layout_constraintEnd_toEndOf="parent"
@@ -42,29 +49,30 @@
             app:layout_constraintVertical_chainStyle="packed">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:fontFamily="@font/onest_regular"
-                android:text="Получено баллов"
+                android:text="@string/points_received"
                 android:textColor="@color/black"
-                android:textSize="12sp" />
+                android:textSize="@dimen/small_font_size" />
 
             <TextView
-                android:id="@+id/tasks_points_tv"
+                android:id="@+id/tasks_points"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginHorizontal="8dp"
+                android:layout_marginHorizontal="@dimen/small_margin"
                 android:fontFamily="@font/onest_regular"
-                android:text="6 / 10"
+                android:text="@string/current_total_goal_points"
                 android:textColor="@color/black"
-                android:textSize="12sp" />
+                android:textSize="@dimen/small_font_size"
+                tools:text="6 / 10" />
 
             <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="@dimen/small_icon_size"
+                android:layout_height="@dimen/small_icon_size"
                 android:src="@drawable/points" />
         </LinearLayout>
 
@@ -72,62 +80,69 @@
             android:id="@+id/tasks_progress_bar"
             style="@android:style/Widget.Holo.ProgressBar.Horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:progress="25"
+            android:layout_height="10dp"
+            android:layout_marginTop="@dimen/tiny_margin"
+            android:layout_marginHorizontal="@dimen/medium_margin"
             android:progressTint="@color/orange"
-            app:layout_constraintBottom_toTopOf="@+id/active_completed_tasks_ll"
+            android:progressDrawable="@drawable/round_progress_bar"
+            app:layout_constraintBottom_toTopOf="@+id/active_completed_tasks_radio_group"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/goal_points_ll" />
+            app:layout_constraintTop_toBottomOf="@+id/goal_points_ll"
+            tools:progress="25" />
 
-        <LinearLayout
-            android:id="@+id/active_completed_tasks_ll"
+        <RadioGroup
+            android:id="@+id/active_completed_tasks_radio_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginVertical="8dp"
+            android:layout_marginTop="@dimen/small_margin"
+            android:layout_marginBottom="@dimen/tiny_margin"
+            android:layout_marginHorizontal="@dimen/medium_margin"
             android:orientation="horizontal"
+            android:paddingVertical="@dimen/extra_tiny_padding"
             app:layout_constraintBottom_toTopOf="@+id/rv_tasks_list"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tasks_progress_bar">
 
-            <com.google.android.material.button.MaterialButton
+            <RadioButton
                 android:id="@+id/active_tasks"
-                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/tiny_margin"
+                android:background="@drawable/checked_button"
+                android:button="@null"
+                android:checked="true"
                 android:fontFamily="@font/onest_regular"
-                android:text="Активные 10"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                app:backgroundTint="@color/light_orange" />
+                android:padding="@dimen/medium_padding"
+                android:text="@string/active_tasks"
+                android:textSize="@dimen/semi_small_font_size" />
 
-            <com.google.android.material.button.MaterialButton
+            <RadioButton
                 android:id="@+id/completed_tasks"
-                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/tiny_margin"
+                android:background="@drawable/checked_button"
+                android:button="@null"
                 android:fontFamily="@font/onest_regular"
-                android:text="Выполненные 4"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                app:backgroundTint="@color/ultra_soft_orange" />
-        </LinearLayout>
+                android:padding="@dimen/medium_padding"
+                android:text="@string/completed_tasks"
+                android:textSize="@dimen/semi_small_font_size" />
+        </RadioGroup>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_tasks_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginVertical="8dp"
+            android:layout_marginHorizontal="@dimen/medium_margin"
+            android:layout_marginVertical="@dimen/small_margin"
             android:scrollbars="none"
             app:layoutManager="LinearLayoutManager"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/active_completed_tasks_ll"
+            app:layout_constraintTop_toBottomOf="@+id/active_completed_tasks_radio_group"
             app:layout_constraintVertical_weight="1" />
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -135,11 +150,11 @@
             style="@style/Widget.App.ExtendedFloatingActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="32dp"
+            android:layout_margin="@dimen/extra_large_margin"
             android:fontFamily="@font/onest_regular"
-            android:text="Добавить задачу"
+            android:text="@string/add_task_fab_button_text"
             android:textColor="@color/white"
-            android:textSize="14sp"
+            android:textSize="@dimen/semi_small_font_size"
             app:icon="@drawable/plus"
             app:iconTint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
