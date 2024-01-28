@@ -84,7 +84,6 @@ class GoalCreationFragment(
                     selectedChildIndex = childIndex
                     childId = children[selectedChildIndex].childId
                 }
-
             }
         } else {
             throw Exception("User not authorized")

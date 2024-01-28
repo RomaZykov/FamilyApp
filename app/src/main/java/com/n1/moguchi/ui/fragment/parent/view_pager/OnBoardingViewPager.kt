@@ -73,7 +73,6 @@ class OnBoardingViewPager : Fragment() {
             (activity as MainActivity).navController.navigate(
                 R.id.action_onBoardingParentFragment_to_afterOnBoardingFragment
             )
-//                bundle
         }
 
         binding.nextButton.setOnClickListener {
@@ -84,7 +83,6 @@ class OnBoardingViewPager : Fragment() {
                 (activity as MainActivity).navController.navigate(
                     R.id.action_onBoardingParentFragment_to_afterOnBoardingFragment
                 )
-//                bundle
             }
         }
     }

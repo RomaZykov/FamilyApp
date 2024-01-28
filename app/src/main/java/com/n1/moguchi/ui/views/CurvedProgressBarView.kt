@@ -10,7 +10,7 @@ import android.widget.ProgressBar
 import com.n1.moguchi.R
 import kotlin.math.max
 
-class CurveProgressBarView(context: Context, attrs: AttributeSet) : ProgressBar(context, attrs) {
+class CurvedProgressBarView(context: Context, attrs: AttributeSet) : ProgressBar(context, attrs) {
     private val arcSpace = RectF()
 
     private var backgroundPaint: Paint = Paint().apply {

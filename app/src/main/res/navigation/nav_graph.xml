@@ -102,9 +102,11 @@
         android:label="HomeChildFragment" >
         <action
             android:id="@+id/action_homeChildFragment_pop"
-            app:popUpTo="@id/homeChildFragment"
-            app:popUpToInclusive="true"
-            app:launchSingleTop="true" />
+            app:launchSingleTop="false"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_homeChildFragment_to_tasksFragment"
+            app:destination="@id/tasksFragment" />
     </fragment>
     <fragment
         android:id="@+id/firstSlideChildFragment"

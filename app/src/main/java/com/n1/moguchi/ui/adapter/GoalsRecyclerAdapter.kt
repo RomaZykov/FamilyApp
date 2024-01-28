@@ -65,7 +65,8 @@ class GoalsRecyclerAdapter(
                         val taskSmallItem =
                             LayoutInflater.from(context)
                                 .inflate(R.layout.task_item, this, false)
-                        taskSmallItem.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.white_opacity_90)) // R.color.white_opacity_90
+                        taskSmallItem.backgroundTintList =
+                            ColorStateList.valueOf(resources.getColor(R.color.white_opacity_90)) // R.color.white_opacity_90
                         taskSmallItem.findViewById<TextView>(R.id.task_title).text =
                             relatedTasks[i - 1].title
                         taskSmallItem.rootView.findViewById<TextView>(R.id.task_points).text =
@@ -91,6 +92,4 @@ class GoalsRecyclerAdapter(
             binding.goalProgressBar.progress = currentPoints
         }
     }
-
-    }
-
+}

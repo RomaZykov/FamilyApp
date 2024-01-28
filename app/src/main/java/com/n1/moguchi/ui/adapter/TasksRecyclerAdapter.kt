@@ -15,7 +15,8 @@ import com.n1.moguchi.databinding.EditableTaskItemBinding
 
 class TasksRecyclerAdapter(
     private val relatedTasksList: List<Task>,
-    private val isActiveTasks: Boolean
+    private val isActiveTasks: Boolean,
+    private val profileMode: String,
 ) : RecyclerView.Adapter<TasksRecyclerAdapter.EditableTaskViewHolder>() {
 
     var onTaskStatusChangedClicked: ((Task, Boolean) -> Unit)? = null
@@ -45,6 +46,15 @@ class TasksRecyclerAdapter(
             this.task = task
             binding.taskTitle.text = task.title
             binding.taskPoints.text = task.height.toString()
+
+            if (profileMode == "parentMode") {
+                binding.taskSettingsButton.visibility = View.VISIBLE
+                binding.taskSettingsButton.setOnClickListener {
+                    showOptionsPopup(isActiveTasks)
+                }
+            } else {
+                binding.taskSettingsButton.visibility = View.GONE
+            }
         }
 
         private fun showOptionsPopup(isActiveTasks: Boolean) {
@@ -93,5 +103,10 @@ class TasksRecyclerAdapter(
             }
             return true
         }
+    }
+
+    companion object {
+        private const val PARENT_MODE = "parentMode"
+        private const val CHILD_MODE = "childMode"
     }
 }

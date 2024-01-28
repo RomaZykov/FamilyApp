@@ -61,7 +61,9 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             setupBottomNavigationView(currentProfileMode)
+            bundleWithProfileMode(currentProfileMode)
         }
+        bundleWithProfileMode(currentProfileMode)
         setupBottomNavigationView(currentProfileMode)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
@@ -74,6 +76,18 @@ class MainActivity : AppCompatActivity() {
                 else -> hideUi()
             }
         }
+    }
+
+    private fun bundleWithProfileMode(currentProfileMode: ProfileMode) {
+        val bundle = Bundle().apply {
+            if (currentProfileMode == ProfileMode.PARENT_MODE) {
+                putString("profileMode", "parentMode")
+            } else {
+                putString("profileMode", "childMode")
+            }
+        }
+        val intent = intent
+        intent.putExtras(bundle)
     }
 
     private fun setupBottomNavigationView(currentProfileMode: ProfileMode) {

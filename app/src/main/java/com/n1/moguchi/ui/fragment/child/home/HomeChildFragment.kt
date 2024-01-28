@@ -5,14 +5,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentChildHomeBinding
 import com.n1.moguchi.ui.ViewModelFactory
+import com.n1.moguchi.ui.activity.MainActivity
 import com.n1.moguchi.ui.adapter.GoalsRecyclerAdapter
 import javax.inject.Inject
 
@@ -52,6 +55,9 @@ class HomeChildFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val navController =
+            Navigation.findNavController(activity as MainActivity, R.id.fragment_container_view)
+
         val childId = requireArguments().getString("childId")
         if (childId != null) {
             viewModel.fetchGoalsAndTasks(childId)
@@ -65,6 +71,11 @@ class HomeChildFragment : Fragment() {
                 map.value
             })
             recyclerViewGoals.adapter = childGoalsRecyclerAdapter
+
+            childGoalsRecyclerAdapter.onGoalButtonClicked = { goalId ->
+                val bundle = bundleOf("goalId" to goalId)
+                navController.navigate(R.id.action_homeChildFragment_to_tasksFragment, bundle)
+            }
         }
     }
 
