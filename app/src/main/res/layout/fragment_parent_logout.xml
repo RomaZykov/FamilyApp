@@ -1,107 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/parent_logout_modal_bottom_sheet"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true">
+        android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/parent_logout_modal_bottom_sheet"
+        <ImageView
+            android:id="@+id/sign_out_iv"
             android:layout_width="match_parent"
-            android:layout_height="700dp"
-            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/medium_margin"
+            android:src="@drawable/sign_out_image"
+            app:layout_constraintBottom_toTopOf="@+id/exit_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.bottomsheet.BottomSheetDragHandleView
-                android:id="@+id/drag_handle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/exit_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/large_margin"
+            android:fontFamily="@font/onest_regular"
+            android:gravity="center"
+            android:text="@string/log_out"
+            android:textColor="@color/black"
+            android:textSize="@dimen/large_font_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sign_out_iv" />
 
-            <TextView
-                android:id="@+id/top_title_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/extra_large_margin"
-                android:fontFamily="@font/onest_regular"
-                android:textColor="@color/black"
-                android:gravity="center"
-                android:text="@string/exit"
-                android:textSize="@dimen/medium_font_size"
-                app:layout_constraintBottom_toTopOf="@+id/sign_out_iv"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/drag_handle"
-                app:layout_constraintVertical_bias="0"
-                app:layout_constraintVertical_chainStyle="packed" />
-
-            <ImageView
-                android:id="@+id/sign_out_iv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/medium_margin"
-                android:src="@drawable/sign_out_image"
-                app:layout_constraintBottom_toTopOf="@+id/exit_tv"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/top_title_tv" />
-
-            <TextView
-                android:id="@+id/exit_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/large_margin"
-                android:fontFamily="@font/onest_regular"
-                android:textColor="@color/black"
-                android:gravity="center"
-                android:text="@string/log_out"
-                android:textSize="@dimen/large_font_size"
-                app:layout_constraintBottom_toTopOf="@+id/bottom_linear_layout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/sign_out_iv" />
-
-            <LinearLayout
-                android:id="@id/bottom_linear_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/medium_margin"
-                android:gravity="center"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
-
-                <Button
-                    android:id="@+id/cancel_button"
-                    android:layout_width="@dimen/cancel_continue_button_width"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/white"
-                    android:fontFamily="@font/onest_regular"
-                    android:paddingHorizontal="@dimen/large_padding"
-                    android:paddingVertical="@dimen/medium_padding"
-                    android:text="@string/cancel"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/semi_small_font_size" />
-
-                <Space
-                    android:layout_width="@dimen/small_space_width"
-                    android:layout_height="wrap_content" />
-
-                <Button
-                    android:id="@+id/exit_button"
-                    android:layout_width="@dimen/cancel_continue_button_width"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/orange"
-                    android:fontFamily="@font/onest_regular"
-                    android:paddingHorizontal="@dimen/large_padding"
-                    android:paddingVertical="@dimen/medium_padding"
-                    android:text="@string/yes"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/semi_small_font_size" />
-            </LinearLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

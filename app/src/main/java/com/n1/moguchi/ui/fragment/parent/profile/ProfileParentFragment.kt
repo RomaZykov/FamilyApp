@@ -14,7 +14,7 @@ import com.n1.moguchi.databinding.FragmentParentProfileBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import javax.inject.Inject
 
-class ParentProfileFragment : Fragment() {
+class ProfileParentFragment : Fragment() {
 
     private var _binding: FragmentParentProfileBinding? = null
     private val binding get() = _binding!!
@@ -48,11 +48,11 @@ class ParentProfileFragment : Fragment() {
         }
 
         binding.signOutButton.setOnClickListener {
-            showBottomSheet(ParentLogOutBottomSheetFragment())
+            showBottomSheet(LOG_OUT_TAG)
         }
 
         binding.profileCard.editProfileButton.setOnClickListener {
-            showBottomSheet(ParentEditProfileBottomSheetFragment())
+            showBottomSheet(EDIT_PROFILE_TAG)
         }
 
         binding.myChildrenButton.setOnClickListener {
@@ -66,9 +66,18 @@ class ParentProfileFragment : Fragment() {
         _binding = null
     }
 
-    private fun showBottomSheet(fragment: Fragment) {
-        val fragmentManager = requireParentFragment().childFragmentManager
-        val modalBottomSheet = fragment as BottomSheetDialogFragment
-        modalBottomSheet.show(fragmentManager, modalBottomSheet.tag)
+    private fun showBottomSheet(tag: String) {
+        val fragmentManager = childFragmentManager
+        fragmentManager.setFragmentResult(
+            "profileBottomSheetRequestKey",
+            bundleOf("profileBundleKey" to tag)
+        )
+        val modalBottomSheet = ProfileContainerBottomSheetFragment() as BottomSheetDialogFragment
+        modalBottomSheet.show(fragmentManager, tag)
+    }
+
+    companion object {
+        private const val EDIT_PROFILE_TAG = "EditProfileIntent"
+        private const val LOG_OUT_TAG = "LogOutIntent"
     }
 }
