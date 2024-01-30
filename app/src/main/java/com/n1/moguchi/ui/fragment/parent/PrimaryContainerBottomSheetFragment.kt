@@ -18,7 +18,7 @@ import com.n1.moguchi.ui.fragment.parent.children_creation.ChildCreationFragment
 import com.n1.moguchi.ui.fragment.parent.goal_creation.GoalCreationFragment
 import com.n1.moguchi.ui.fragment.parent.task_creation.TaskCreationFragment
 
-class PrimaryBottomSheetFragment : BottomSheetDialogFragment() {
+class PrimaryContainerBottomSheetFragment : BottomSheetDialogFragment() {
 
     private var _binding: FragmentPrimaryBottomSheetBinding? = null
     private val binding get() = _binding!!
@@ -39,8 +39,8 @@ class PrimaryBottomSheetFragment : BottomSheetDialogFragment() {
         val bottomSheetBehavior = BottomSheetBehavior.from(modalBottomSheet)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
 
-        setFragmentResultListener("requestKey") { _, bundle ->
-            when (bundle.getString("bundleKey")) {
+        setFragmentResultListener("primaryBottomSheetRequestKey") { _, bundle ->
+            when (bundle.getString("primaryBundleKey")) {
                 "TaskCreationIntent" -> {
                     this.arguments = bundle
                     childFragmentManager.setFragmentResultListener(

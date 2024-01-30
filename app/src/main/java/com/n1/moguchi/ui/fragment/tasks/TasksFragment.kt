@@ -19,7 +19,7 @@ import com.n1.moguchi.databinding.FragmentTasksBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.activity.MainActivity
 import com.n1.moguchi.ui.adapter.TasksRecyclerAdapter
-import com.n1.moguchi.ui.fragment.parent.PrimaryBottomSheetFragment
+import com.n1.moguchi.ui.fragment.parent.PrimaryContainerBottomSheetFragment
 import com.n1.moguchi.ui.fragment.parent.goal_creation.GoalCreationFragment
 import javax.inject.Inject
 
@@ -104,13 +104,13 @@ class TasksFragment : Fragment() {
             val fragmentManager = parentFragmentManager
             val fragmentTag = TASK_CREATION_TAG
             setFragmentResult(
-                "requestKey",
+                "primaryBottomSheetRequestKey",
                 bundleOf(
-                    "bundleKey" to fragmentTag,
+                    "primaryBundleKey" to fragmentTag,
                     GoalCreationFragment.GOAL_ID_KEY to relatedGoalId
                 )
             )
-            val bottomSheet = PrimaryBottomSheetFragment()
+            val bottomSheet = PrimaryContainerBottomSheetFragment()
             bottomSheet.show(fragmentManager, TASK_CREATION_TAG)
         }
     }
