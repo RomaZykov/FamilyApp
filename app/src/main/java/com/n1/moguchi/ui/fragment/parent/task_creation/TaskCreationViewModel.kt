@@ -7,14 +7,12 @@ import androidx.lifecycle.viewModelScope
 import com.n1.moguchi.data.models.Child
 import com.n1.moguchi.data.models.Task
 import com.n1.moguchi.data.repositories.GoalRepository
-import com.n1.moguchi.data.repositories.ParentRepository
 import com.n1.moguchi.data.repositories.TaskRepository
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 class TaskCreationViewModel @Inject constructor(
-    private val parentRepository: ParentRepository,
     private val goalRepository: GoalRepository,
     private val taskRepository: TaskRepository
 ) : ViewModel() {
@@ -34,7 +32,10 @@ class TaskCreationViewModel @Inject constructor(
     private val _taskName = MutableLiveData<String>()
     val taskName: LiveData<String> = _taskName
 
+    private val tasksList = mutableListOf<Task>()
+
     init {
+        _tasks.value = tasksList
         _taskHeightTotal.value = 0
     }
 
@@ -42,9 +43,10 @@ class TaskCreationViewModel @Inject constructor(
         val newTask = runBlocking {
             taskRepository.createTask(task, goalId)
         }
+        tasksList.add(newTask)
         viewModelScope.launch {
             _taskHeightTotal.value = _taskHeightTotal.value?.plus(newTask.height)
-            _tasks.value = (_tasks.value ?: emptyList()) + newTask
+            _tasks.value = tasksList
         }
         return newTask
     }

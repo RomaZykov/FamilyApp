@@ -74,6 +74,12 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
         private val binding = TaskCardBinding.bind(itemView)
 
         fun bind(task: Task) {
+            if (tasksCardList.size == 1) {
+                binding.deleteTaskButton.visibility = View.GONE
+            } else {
+                binding.deleteTaskButton.visibility = View.VISIBLE
+            }
+            binding.taskNameEditText.setText(task.title)
             binding.taskHeight.text = task.height.toString()
             binding.taskNameEditText.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -97,6 +103,7 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
                 onTaskDeleteClicked?.invoke(task)
                 tasksCardList.removeAt(adapterPosition)
                 notifyItemRemoved(adapterPosition)
+                notifyItemRemoved(itemCount - 1)
             }
 //            binding.taskSettingsButton.setOnClickListener {
 //                onTaskSettingsClicked?.invoke()

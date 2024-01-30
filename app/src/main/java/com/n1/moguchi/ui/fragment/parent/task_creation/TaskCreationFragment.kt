@@ -91,6 +91,9 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
                     )
                     taskCreationRecyclerAdapter.notifyItemInserted(tasks.size)
                     taskCreationRecyclerAdapter.notifyItemChanged(taskCreationRecyclerAdapter.itemCount - 1)
+                    if (taskCreationRecyclerAdapter.tasksCardList.size == 2) {
+                        taskCreationRecyclerAdapter.notifyItemChanged(0)
+                    }
                 }
             }
 
@@ -102,6 +105,9 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
             taskCreationRecyclerAdapter.onTaskDeleteClicked = { task ->
                 if (currentGoalID != null) {
                     viewModel.deleteTask(currentGoalID, task)
+                    if (taskCreationRecyclerAdapter.tasksCardList.size == 2) {
+                        taskCreationRecyclerAdapter.notifyItemChanged(0)
+                    }
                 }
             }
 
