@@ -22,7 +22,7 @@ import com.n1.moguchi.ui.activity.MainActivity
 import com.n1.moguchi.ui.adapter.ChildrenRecyclerAdapter
 import com.n1.moguchi.ui.adapter.CompletedGoalsRecyclerAdapter
 import com.n1.moguchi.ui.adapter.GoalsRecyclerAdapter
-import com.n1.moguchi.ui.fragment.parent.PrimaryBottomSheetFragment
+import com.n1.moguchi.ui.fragment.parent.PrimaryContainerBottomSheetFragment
 import javax.inject.Inject
 
 class HomeParentFragment : Fragment() {
@@ -68,6 +68,7 @@ class HomeParentFragment : Fragment() {
 
         val navController =
             Navigation.findNavController(activity as MainActivity, R.id.fragment_container_view)
+        val goalAdded = arguments?.getBoolean("goal")
 
         if (parentID != null) {
             viewModel.fetchChildren(parentID)
@@ -92,7 +93,7 @@ class HomeParentFragment : Fragment() {
                 }
 
                 childrenRecyclerAdapter.onChildAddClicked = {
-                    showBottomSheet(PrimaryBottomSheetFragment(), CHILD_CREATION_TAG)
+                    showBottomSheet(PrimaryContainerBottomSheetFragment(), CHILD_CREATION_TAG)
                 }
             }
 
@@ -138,7 +139,7 @@ class HomeParentFragment : Fragment() {
 
     private fun showBottomSheet(bottomSheetFragment: BottomSheetDialogFragment, tag: String) {
         val parentFragmentManager = parentFragmentManager
-        parentFragmentManager.setFragmentResult("requestKey", bundleOf("bundleKey" to tag))
+        parentFragmentManager.setFragmentResult("primaryBottomSheetRequestKey", bundleOf("primaryBundleKey" to tag))
         bottomSheetFragment.show(
             parentFragmentManager,
             tag

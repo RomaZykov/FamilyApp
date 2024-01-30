@@ -15,7 +15,7 @@ import com.n1.moguchi.R
 import com.n1.moguchi.data.models.ProfileMode
 import com.n1.moguchi.databinding.ActivityMainBinding
 import com.n1.moguchi.ui.ViewModelFactory
-import com.n1.moguchi.ui.fragment.parent.PrimaryBottomSheetFragment
+import com.n1.moguchi.ui.fragment.parent.PrimaryContainerBottomSheetFragment
 import com.n1.moguchi.ui.fragment.switch_to_user.SwitchToChildBottomSheetFragment
 import com.n1.moguchi.ui.fragment.switch_to_user.SwitchToParentBottomSheetFragment
 import javax.inject.Inject
@@ -99,7 +99,7 @@ class MainActivity : AppCompatActivity() {
         if (currentProfileMode == ProfileMode.PARENT_MODE) {
             binding.bottomNavigationView.inflateMenu(R.menu.bottom_menu_parent)
             binding.bottomNavigationView.menu.findItem(R.id.addGoal).setOnMenuItemClickListener {
-                showBottomSheet(PrimaryBottomSheetFragment(), GOAL_CREATION_INTENT_TAG)
+                showBottomSheet(PrimaryContainerBottomSheetFragment(), GOAL_CREATION_INTENT_TAG)
                 true
             }
             binding.bottomNavigationView.menu.findItem(R.id.switch_to_child)
@@ -128,7 +128,7 @@ class MainActivity : AppCompatActivity() {
         tag: String
     ) {
         val fragmentManager = supportFragmentManager
-        fragmentManager.setFragmentResult("requestKey", bundleOf("bundleKey" to tag))
+        fragmentManager.setFragmentResult("primaryBottomSheetRequestKey", bundleOf("primaryBundleKey" to tag))
         bottomSheetFragment.show(fragmentManager, tag)
     }
 
