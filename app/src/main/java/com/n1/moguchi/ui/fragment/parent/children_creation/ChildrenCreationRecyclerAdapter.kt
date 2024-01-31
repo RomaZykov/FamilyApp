@@ -62,10 +62,11 @@ class ChildrenCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHo
         position: Int
     ) {
         when (holder.itemViewType) {
-            VIEW_TYPE_CHILD_CARD ->{
+            VIEW_TYPE_CHILD_CARD -> {
                 val child = children[position]
                 (holder as ChildViewHolder).bind(child)
             }
+
             VIEW_TYPE_FOOTER -> (holder as FooterViewHolder).bind()
             else -> throw RuntimeException("Unknown viewType: ${holder.itemViewType}")
         }
@@ -88,7 +89,10 @@ class ChildrenCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHo
         fun bind(child: Child) {
             if (child.childName != null && child.imageResourceId != null) {
                 binding.childNameEditText.setText(child.childName)
-                childAvatars[child.imageResourceId]?.let { binding.avatars.check(it) }
+                val checkedId = childAvatars.entries.find { it.value == child.imageResourceId }?.key
+                if (checkedId != null) {
+                    binding.avatars.check(checkedId)
+                }
             }
             binding.childNameEditText.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
@@ -106,7 +110,7 @@ class ChildrenCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHo
                     children[adapterPosition].childName = childName.toString()
                     val regex = "^[a-zA-Zа-яА-Я]+$".toRegex()
                     if (childName.toString().isNotBlank() && childName.toString().matches(regex)) {
-                        onChildUpdate?.invoke(children[adapterPosition])
+                        onChildUpdate?.invoke(child)
                     } else {
                         binding.childNameEditText.error =
                             getString(context, R.string.child_name_edit_text_error)
@@ -118,7 +122,7 @@ class ChildrenCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHo
             if (children.size > FOOTER_ADD_CHILD_BUTTON) {
                 binding.deleteChildButton.visibility = View.VISIBLE
                 binding.deleteChildButton.setOnClickListener {
-                    onChildRemoveClicked?.invoke(children[adapterPosition])
+                    onChildRemoveClicked?.invoke(child)
                     children.removeAt(adapterPosition)
                     notifyItemRemoved(adapterPosition)
                     notifyItemChanged(itemCount - FOOTER_ADD_CHILD_BUTTON)

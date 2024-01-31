@@ -2,6 +2,7 @@ package com.n1.moguchi.ui.fragment.parent.children_creation
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -71,23 +72,37 @@ class ChildCreationFragment : Fragment() {
         if (parentId != null) {
             viewModel.fetchChildren(parentId)
             setupRecyclerView()
-            viewModel.children.observe(viewLifecycleOwner) {
-                if (it.isEmpty()) {
-                    addChild(parentId, 0)
-                } else {
-                    childrenCreationAdapter.children = it.toMutableList()
-                    childrenCreationAdapter.notifyItemRangeChanged(
-                        0,
-                        childrenCreationAdapter.children.size
+            viewModel.children.observe(viewLifecycleOwner) {  childrenObservableList ->
+                if (childrenObservableList.isEmpty()) {
+                    addChild(parentId, childrenObservableList.size)
+                    Log.d(
+                        "ChildCreationFragment",
+                        "ChildCreationFragment if is empty size = ${childrenObservableList.size}"
                     )
                 }
+//                else {
+//                    childrenCreationAdapter.children = it.toMutableList()
+//                    childrenCreationAdapter.notifyItemRangeChanged(
+//                        0,
+//                        childrenCreationAdapter.children.size
+//                    )
+//                    Log.d(
+//                        "ChildCreationFragment",
+//                        "ChildCreationFragment if exist size = ${it.size}"
+//                    )
+//                }
 
                 childrenCreationAdapter.onNewChildAddClicked = {
-                    addChild(parentId, it.size)
+                    addChild(parentId, childrenObservableList.size)
+                    Log.d("ChildCreationFragment", "ChildCreationFragment on add size = ${childrenObservableList.size}")
                 }
 
                 childrenCreationAdapter.onChildRemoveClicked = { child ->
                     viewModel.deleteChildProfile(parentId, child.childId!!)
+                    Log.d(
+                        "ChildCreationFragment",
+                        "ChildCreationFragment on delete size = ${childrenObservableList.size}"
+                    )
                 }
 
                 childrenCreationAdapter.onChildUpdate = { child ->
@@ -117,6 +132,7 @@ class ChildCreationFragment : Fragment() {
             childrenCreationAdapter.notifyItemInserted(0)
         } else {
             childrenCreationAdapter.children.add(viewModel.createNewChild(parentId, Child()))
+            childrenCreationAdapter.notifyItemInserted(childrenSize)
         }
         childrenCreationAdapter.notifyItemChanged(childrenCreationAdapter.itemCount - 1)
     }
