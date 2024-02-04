@@ -4,6 +4,7 @@
     <item
         android:id="@+id/homeChildFragment"
         android:icon="@drawable/home"
+        android:enabled="false"
         android:title="@string/home_bottom" />
 
     <item

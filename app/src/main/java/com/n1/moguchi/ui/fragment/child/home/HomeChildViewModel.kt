@@ -7,14 +7,16 @@ import androidx.lifecycle.viewModelScope
 import com.n1.moguchi.data.models.Child
 import com.n1.moguchi.data.models.Goal
 import com.n1.moguchi.data.models.Task
-import com.n1.moguchi.data.repositories.ChildRepository
 import com.n1.moguchi.data.repositories.GoalRepository
+import com.n1.moguchi.interactors.FetchChildDataUseCase
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class HomeChildViewModel @Inject constructor(
     private val goalRepository: GoalRepository,
-    private val childRepository: ChildRepository
+    private val fetchChildDataUseCase: FetchChildDataUseCase
 ) : ViewModel() {
 
     private val _goals = MutableLiveData<Map<Goal, List<Task>>>()
@@ -26,13 +28,10 @@ class HomeChildViewModel @Inject constructor(
     private val _completedGoals = MutableLiveData<List<Goal>>()
     val completedGoals: LiveData<List<Goal>> = _completedGoals
 
-    private val _child = MutableLiveData<Child>()
-    val child: LiveData<Child> = _child
-
-    fun getChild(childId: String) {
-        viewModelScope.launch {
-            childRepository.getChild(childId).collect {
-                _child.value = it
+    fun getChild(childId: String): Flow<Child?> {
+        return flow {
+            fetchChildDataUseCase.invoke(childId).collect {
+                emit(it)
             }
         }
     }

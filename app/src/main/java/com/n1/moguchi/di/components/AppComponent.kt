@@ -2,6 +2,7 @@ package com.n1.moguchi.di.components
 
 import android.app.Application
 import com.n1.moguchi.MoguchiBaseApplication
+import com.n1.moguchi.di.modules.DispatcherModule
 import com.n1.moguchi.di.modules.FirebaseModule
 import com.n1.moguchi.di.modules.ViewModelModule
 import com.n1.moguchi.di.modules.child_user.ChildUserModule
@@ -31,6 +32,7 @@ import dagger.Component
         ParentUserModule::class,
         FirebaseModule::class,
         SwitchToUserModule::class,
+        DispatcherModule::class,
         ViewModelModule::class]
 )
 interface AppComponent {

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +18,8 @@ import com.n1.moguchi.databinding.FragmentChildHomeBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.activity.MainActivity
 import com.n1.moguchi.ui.adapter.GoalsRecyclerAdapter
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class HomeChildFragment : Fragment() {
@@ -60,25 +63,25 @@ class HomeChildFragment : Fragment() {
 
         val childId = requireArguments().getString("childId")
         if (childId != null) {
-            viewModel.getChild(childId)
+            lifecycleScope.launch {
+                viewModel.getChild(childId).collectLatest {
+                    binding.childHomeAppBar.menu.findItem(R.id.childProfile)
+                        .setIcon(it?.imageResourceId!!)
+                }
+            }
             viewModel.fetchGoalsAndTasks(childId)
             viewModel.fetchCompletedGoals(childId)
         }
 
-        viewModel.child.observe(viewLifecycleOwner) {
-            it.imageResourceId?.let { drawableId ->
-                binding.childHomeAppBar.menu.findItem(R.id.profile).setIcon(
-                    drawableId
-                )
-            }
-        }
 
         viewModel.goals.observe(viewLifecycleOwner) {
-            val recyclerViewGoals: RecyclerView = view.findViewById(R.id.rv_child_home_goals_list)
+            val recyclerViewGoals: RecyclerView =
+                view.findViewById(R.id.rv_child_home_goals_list)
             recyclerViewGoals.layoutManager = LinearLayoutManager(requireContext())
-            childGoalsRecyclerAdapter = GoalsRecyclerAdapter(it.keys.toList(), it.flatMap { map ->
-                map.value
-            })
+            childGoalsRecyclerAdapter =
+                GoalsRecyclerAdapter(it.keys.toList(), it.flatMap { map ->
+                    map.value
+                })
             recyclerViewGoals.adapter = childGoalsRecyclerAdapter
 
             childGoalsRecyclerAdapter.onGoalButtonClicked = { goalId ->

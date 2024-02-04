@@ -28,7 +28,7 @@
                 android:layout_height="?attr/actionBarSize"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:menu="@menu/child_profile_app_bar"
-                app:title="Мои цели"
+                app:title="@string/my_goals_title"
                 app:titleTextAppearance="@style/Toolbar.TitleText.Large"
                 app:titleTextColor="@color/black" />
         </com.google.android.material.appbar.AppBarLayout>
@@ -61,8 +61,8 @@
                     layout="@layout/fragment_completed_goals"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:layout_marginTop="@dimen/small_margin" />
+                    android:layout_marginTop="@dimen/small_margin"
+                    android:visibility="gone" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
