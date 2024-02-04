@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/profile"
-        android:icon="@drawable/avatar_male_1"
         android:title="@string/top_app_profile_title"
         app:showAsAction="ifRoom" />
 </menu>
