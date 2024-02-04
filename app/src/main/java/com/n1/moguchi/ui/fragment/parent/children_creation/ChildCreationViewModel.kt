@@ -17,10 +17,6 @@ class ChildCreationViewModel @Inject constructor(private val parentRepository: P
 
     private val childrenList = mutableListOf<Child>()
 
-    init {
-        _children.value = childrenList
-    }
-
     fun fetchChildren(parentId: String) {
         viewModelScope.launch {
             val children: Map<String, Child> = parentRepository.fetchChildren(parentId)

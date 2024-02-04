@@ -15,12 +15,13 @@ import com.n1.moguchi.databinding.CreationSectionFooterBinding
 
 private const val FOOTER_ADD_CHILD_BUTTON = 1
 
-class ChildrenCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ChildrenCreationRecyclerAdapter(private val editChildOptionEnable: Boolean) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var children: MutableList<Child> = ArrayList()
     var onNewChildAddClicked: (() -> Unit)? = null
     var onChildUpdate: ((Child) -> Unit)? = null
-    var onChildRemoveClicked: ((Child) -> Unit)? = null
+    var onChildRemoveClicked: ((Child, Int) -> Unit)? = null
     var onCardsStatusUpdate: ((Boolean) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -119,10 +120,10 @@ class ChildrenCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHo
                 }
             })
 
-            if (children.size > FOOTER_ADD_CHILD_BUTTON) {
+            if (children.size > 1 && editChildOptionEnable) {
                 binding.deleteChildButton.visibility = View.VISIBLE
                 binding.deleteChildButton.setOnClickListener {
-                    onChildRemoveClicked?.invoke(child)
+                    onChildRemoveClicked?.invoke(child, adapterPosition)
                     children.removeAt(adapterPosition)
                     notifyItemRemoved(adapterPosition)
                     notifyItemChanged(itemCount - FOOTER_ADD_CHILD_BUTTON)

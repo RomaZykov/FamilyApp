@@ -2,7 +2,6 @@ package com.n1.moguchi.ui.fragment.parent.children_creation
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,11 +21,15 @@ import com.n1.moguchi.databinding.FragmentChildCreationBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import javax.inject.Inject
 
-class ChildCreationFragment : Fragment() {
+class ChildCreationFragment(private val deleteChildOptionEnable: Boolean) : Fragment() {
+
     private var _binding: FragmentChildCreationBinding? = null
     private val binding get() = _binding!!
+
     private lateinit var auth: FirebaseAuth
     private lateinit var childrenCreationAdapter: ChildrenCreationRecyclerAdapter
+
+    private var initChildrenRecyclerOnlyOnceFlag = true
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -65,44 +68,41 @@ class ChildCreationFragment : Fragment() {
             topAppBar.setNavigationOnClickListener {
                 parentFragmentManager.popBackStack()
             }
-
             binding.myChildrenBottomBar.visibility = View.VISIBLE
         }
 
         if (parentId != null) {
             viewModel.fetchChildren(parentId)
             setupRecyclerView()
-            viewModel.children.observe(viewLifecycleOwner) {  childrenObservableList ->
-                if (childrenObservableList.isEmpty()) {
-                    addChild(parentId, childrenObservableList.size)
-                    Log.d(
-                        "ChildCreationFragment",
-                        "ChildCreationFragment if is empty size = ${childrenObservableList.size}"
+            viewModel.children.observe(viewLifecycleOwner) { children ->
+                if (children.isEmpty() && deleteChildOptionEnable) {
+                    addChild(parentId, 0)
+                }
+
+                if (!deleteChildOptionEnable && initChildrenRecyclerOnlyOnceFlag) {
+                    initChildrenRecyclerOnlyOnceFlag = false
+                    childrenCreationAdapter.children = children.toMutableList()
+                    childrenCreationAdapter.notifyItemRangeInserted(
+                        0,
+                        childrenCreationAdapter.children.size
                     )
                 }
-//                else {
-//                    childrenCreationAdapter.children = it.toMutableList()
-//                    childrenCreationAdapter.notifyItemRangeChanged(
-//                        0,
-//                        childrenCreationAdapter.children.size
-//                    )
-//                    Log.d(
-//                        "ChildCreationFragment",
-//                        "ChildCreationFragment if exist size = ${it.size}"
-//                    )
-//                }
 
                 childrenCreationAdapter.onNewChildAddClicked = {
-                    addChild(parentId, childrenObservableList.size)
-                    Log.d("ChildCreationFragment", "ChildCreationFragment on add size = ${childrenObservableList.size}")
+                    if (childrenCreationAdapter.children.size == 1) {
+                        childrenCreationAdapter.notifyItemChanged(0)
+                    }
+                    addChild(parentId, children.size)
                 }
 
-                childrenCreationAdapter.onChildRemoveClicked = { child ->
+                childrenCreationAdapter.onChildRemoveClicked = { child, position ->
+                    if (position == 0 && childrenCreationAdapter.children.size == 2) {
+                        childrenCreationAdapter.notifyItemChanged(1)
+                    }
+                    if (position == 1 && childrenCreationAdapter.children.size == 2) {
+                        childrenCreationAdapter.notifyItemChanged(0)
+                    }
                     viewModel.deleteChildProfile(parentId, child.childId!!)
-                    Log.d(
-                        "ChildCreationFragment",
-                        "ChildCreationFragment on delete size = ${childrenObservableList.size}"
-                    )
                 }
 
                 childrenCreationAdapter.onChildUpdate = { child ->
@@ -140,7 +140,7 @@ class ChildCreationFragment : Fragment() {
     private fun setupRecyclerView() {
         val recyclerView: RecyclerView = binding.rvChildrenCreationList
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        childrenCreationAdapter = ChildrenCreationRecyclerAdapter()
+        childrenCreationAdapter = ChildrenCreationRecyclerAdapter(deleteChildOptionEnable)
         recyclerView.adapter = childrenCreationAdapter
         recyclerView.recycledViewPool.setMaxRecycledViews(
             ChildrenCreationRecyclerAdapter.VIEW_TYPE_CHILD_CARD,
