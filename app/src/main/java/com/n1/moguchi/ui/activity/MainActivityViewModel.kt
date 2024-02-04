@@ -11,6 +11,9 @@ class MainActivityViewModel @Inject constructor(
 
     private var profileMode: ProfileMode? = null
 
+//    val isAuthenticated: Boolean
+//        get() = hostConfig.hasAuthentication()
+
     fun getProfileMode(): ProfileMode {
         return appSettingsRepository.getProfileMode()
     }

@@ -12,6 +12,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentParentProfileBinding
 import com.n1.moguchi.ui.ViewModelFactory
+import com.n1.moguchi.ui.activity.MainActivity
 import javax.inject.Inject
 
 class ProfileParentFragment : Fragment() {
@@ -67,7 +68,7 @@ class ProfileParentFragment : Fragment() {
     }
 
     private fun showBottomSheet(tag: String) {
-        val fragmentManager = childFragmentManager
+        val fragmentManager = (activity as MainActivity).supportFragmentManager
         fragmentManager.setFragmentResult(
             "profileBottomSheetRequestKey",
             bundleOf("profileBundleKey" to tag)

@@ -9,7 +9,7 @@ import com.n1.moguchi.di.components.ApplicationScope
 import com.n1.moguchi.di.modules.ViewModelKey
 import com.n1.moguchi.ui.fragment.parent.children_creation.ChildCreationViewModel
 import com.n1.moguchi.ui.fragment.parent.home.HomeParentViewModel
-import com.n1.moguchi.ui.fragment.parent.password.PasswordViewModel
+import com.n1.moguchi.ui.fragment.password.PasswordViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

@@ -66,7 +66,7 @@ class PrimaryContainerBottomSheetFragment : BottomSheetDialogFragment() {
                     childFragmentManager.commit {
                         replace(
                             R.id.primary_child_fragment_container,
-                            ChildCreationFragment(),
+                            ChildCreationFragment(deleteChildOptionEnable = false),
                             TO_CHILD_CREATION_TAG
                         )
                     }
