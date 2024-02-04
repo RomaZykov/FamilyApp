@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.GetSignInIntentRequest
@@ -37,6 +38,8 @@ class RegistrationFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var signInClient: SignInClient
 
+    private lateinit var navController: NavController
+
     private val signInLauncher =
         registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
             handleSignInResult(result.data, result.resultCode)
@@ -53,6 +56,10 @@ class RegistrationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navController = Navigation.findNavController(
+            requireActivity(),
+            R.id.fragment_container_view
+        )
 
         signInClient = Identity.getSignInClient(requireActivity())
         auth = Firebase.auth
@@ -98,7 +105,6 @@ class RegistrationFragment : Fragment() {
         auth.signInWithCredential(firebaseCredential)
             .addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) {
-                    Log.d("RegistrationFragment", "signInWithCredential:success")
                     val uid = auth.currentUser?.uid
                     val rootRef = FirebaseDatabase.getInstance().reference
                     val uidRef = rootRef.child("parents").child(uid!!)
@@ -107,11 +113,13 @@ class RegistrationFragment : Fragment() {
                             if (!dataSnapshot.exists()) {
                                 val email = task.result.user?.email
                                 saveParentToFirebase(email = email.toString())
-                                Navigation.findNavController(binding.root)
-                                    .navigate(R.id.action_registrationFragment_to_onBoardingParentFragment)
+                                val action =
+                                    RegistrationFragmentDirections.actionRegistrationFragmentToOnBoardingParentFragment()
+                                navController.navigate(action)
                             } else {
-                                Navigation.findNavController(binding.root)
-                                    .navigate(R.id.action_registrationFragment_to_homeFragment)
+                                val action =
+                                    RegistrationFragmentDirections.actionRegistrationFragmentToHomeFragment()
+                                navController.navigate(action)
                             }
                         }
 
@@ -149,7 +157,7 @@ class RegistrationFragment : Fragment() {
                     .setFilterByAuthorizedAccounts(false)
                     .build()
             )
-//            .setAutoSelectEnabled(true)
+            .setAutoSelectEnabled(true)
             .build()
 
         signInClient.beginSignIn(oneTapRequest)
