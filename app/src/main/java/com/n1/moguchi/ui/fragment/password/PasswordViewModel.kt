@@ -1,4 +1,4 @@
-package com.n1.moguchi.ui.fragment.parent.password
+package com.n1.moguchi.ui.fragment.password
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

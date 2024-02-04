@@ -41,7 +41,8 @@ class SwitchToParentBottomSheetFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         super.onCreate(savedInstanceState)
-        _binding = FragmentSwitchToParentBottomSheetBinding.inflate(layoutInflater, container, false)
+        _binding =
+            FragmentSwitchToParentBottomSheetBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -49,6 +50,10 @@ class SwitchToParentBottomSheetFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         showBottomSheet(view)
+
+        binding.passwordToParent.forgotPassword.visibility = View.VISIBLE
+        binding.passwordToParent.passwordDescription.text =
+            getString(R.string.switch_to_parent_description)
 
         binding.cancelButton.setOnClickListener {
             dismiss()
