@@ -10,7 +10,7 @@
         tools:context=".ui.fragment.child.home.HomeChildFragment">
 
         <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/topAppBar"
+            android:id="@+id/child_top_app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
@@ -22,7 +22,7 @@
             app:layout_constraintVertical_chainStyle="packed">
 
             <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/childHomeAppBar"
+                android:id="@+id/child_home_app_bar"
                 style="@style/Widget.MaterialComponents.Toolbar.Primary"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
@@ -41,7 +41,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/topAppBar">
+            app:layout_constraintTop_toBottomOf="@id/child_top_app_bar">
 
             <LinearLayout
                 android:layout_width="match_parent"

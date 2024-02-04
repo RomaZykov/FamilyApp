@@ -60,8 +60,17 @@ class HomeChildFragment : Fragment() {
 
         val childId = requireArguments().getString("childId")
         if (childId != null) {
+            viewModel.getChild(childId)
             viewModel.fetchGoalsAndTasks(childId)
             viewModel.fetchCompletedGoals(childId)
+        }
+
+        viewModel.child.observe(viewLifecycleOwner) {
+            it.imageResourceId?.let { drawableId ->
+                binding.childHomeAppBar.menu.findItem(R.id.profile).setIcon(
+                    drawableId
+                )
+            }
         }
 
         viewModel.goals.observe(viewLifecycleOwner) {

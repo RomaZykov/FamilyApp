@@ -6,8 +6,6 @@ interface ParentRepository {
 
     suspend fun fetchChildren(parentId: String): Map<String, Child>
 
-    suspend fun getChild(parentId: String, childId: String): Child
-
     suspend fun setPassword(password: Int, childId: String)
 
     fun getAndSaveChildToDb(parentId: String, childUser: Child): Child

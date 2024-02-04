@@ -30,23 +30,6 @@ class ParentRepositoryImpl @Inject constructor(
         return children
     }
 
-    override suspend fun getChild(parentId: String, childId: String): Child {
-        val childRefByParentId = childrenRef.child(parentId).child(childId)
-        val child = mutableListOf<Child>()
-        val childListener = object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()) {
-                    child.add(snapshot.getValue<Child>()!!)
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-            }
-        }
-        childRefByParentId.addListenerForSingleValueEvent(childListener)
-        return child[0]
-    }
-
     override fun getAndSaveChildToDb(parentId: String, childUser: Child): Child {
         val childrenRefByParentId = childrenRef.child(parentId)
         val newChildRef: DatabaseReference = childrenRefByParentId.push()
