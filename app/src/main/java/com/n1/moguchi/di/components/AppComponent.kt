@@ -11,11 +11,11 @@ import com.n1.moguchi.di.modules.switch_to_user.SwitchToUserModule
 import com.n1.moguchi.di.modules.task.TaskModule
 import com.n1.moguchi.ui.activity.MainActivity
 import com.n1.moguchi.ui.fragment.child.home.HomeChildFragment
-import com.n1.moguchi.ui.fragment.password.PasswordFragment
 import com.n1.moguchi.ui.fragment.parent.children_creation.ChildCreationFragment
 import com.n1.moguchi.ui.fragment.parent.goal_creation.GoalCreationFragment
 import com.n1.moguchi.ui.fragment.parent.home.HomeParentFragment
 import com.n1.moguchi.ui.fragment.parent.task_creation.TaskCreationFragment
+import com.n1.moguchi.ui.fragment.password.PasswordFragment
 import com.n1.moguchi.ui.fragment.switch_to_user.SwitchToChildBottomSheetFragment
 import com.n1.moguchi.ui.fragment.switch_to_user.SwitchToParentBottomSheetFragment
 import com.n1.moguchi.ui.fragment.tasks.TasksFragment
