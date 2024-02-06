@@ -88,7 +88,6 @@ class CurvedProgressBarView(context: Context, attrs: AttributeSet) : ProgressBar
         canvas.drawArc(arcSpace, 180f, 180f, false, backgroundPaint)
     }
 
-    // region Extensions Utils
     private fun Float.dpToPx(): Float =
         this * resources.displayMetrics.density
 

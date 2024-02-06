@@ -29,7 +29,6 @@ class CompletedGoalsRecyclerAdapter(private val goalsList: List<Goal>) :
     }
 
     inner class CardViewHolder(itemView: View) : ViewHolder(itemView) {
-//        View.OnClickListener
         private val binding = CompletedGoalCardBinding.bind(itemView)
         private var goal: Goal? = null
         var context: Context = itemView.context
@@ -39,18 +38,5 @@ class CompletedGoalsRecyclerAdapter(private val goalsList: List<Goal>) :
             binding.goalTitle.text = goal.title
 //            binding.allCompletedTasksButton.setOnClickListener(this)
         }
-
-//        override fun onClick(v: View) {
-//            val fragmentActivity = v.context as FragmentActivity
-//            fragmentActivity.supportFragmentManager.commit {
-//                replace(android.R.id.content, CompletedTasksFragment())
-//                setReorderingAllowed(true)
-//                addToBackStack(TAG)
-//            }
-//        }
-    }
-
-    companion object {
-        const val TAG = "GoalItem"
     }
 }
