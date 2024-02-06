@@ -107,6 +107,9 @@
         <action
             android:id="@+id/action_homeChildFragment_to_tasksFragment"
             app:destination="@id/tasksFragment" />
+        <action
+            android:id="@+id/action_homeChildFragment_to_homeParentFragment"
+            app:destination="@id/homeParentFragment" />
     </fragment>
     <fragment
         android:id="@+id/firstSlideChildFragment"
