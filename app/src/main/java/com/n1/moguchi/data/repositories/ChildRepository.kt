@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface ChildRepository {
 
-    suspend fun fetchChildData(childId: String): Flow<Child?>
+    fun fetchChildData(childId: String): Flow<Child?>
 }

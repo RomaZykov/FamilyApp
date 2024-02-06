@@ -10,7 +10,7 @@ import com.n1.moguchi.data.models.Task
 import com.n1.moguchi.data.repositories.GoalRepository
 import com.n1.moguchi.interactors.FetchChildDataUseCase
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,11 +28,9 @@ class HomeChildViewModel @Inject constructor(
     private val _completedGoals = MutableLiveData<List<Goal>>()
     val completedGoals: LiveData<List<Goal>> = _completedGoals
 
-    fun getChild(childId: String): Flow<Child?> {
-        return flow {
-            fetchChildDataUseCase.invoke(childId).collect {
-                emit(it)
-            }
+    fun getChild(childId: String): Flow<Child> {
+        return fetchChildDataUseCase.invoke(childId).map {
+            it!!
         }
     }
 

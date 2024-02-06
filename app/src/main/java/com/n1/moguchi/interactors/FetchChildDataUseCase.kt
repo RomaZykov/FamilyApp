@@ -13,6 +13,6 @@ class FetchChildDataUseCase @Inject constructor(
     private val repository: ChildRepository,
     @IoDispatcher private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
-    suspend operator fun invoke(id: String): Flow<Child?> =
+    operator fun invoke(id: String): Flow<Child?> =
         repository.fetchChildData(id).flowOn(dispatcher)
 }
