@@ -22,7 +22,7 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var navController: NavController
+    private lateinit var navController: NavController
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainActivityViewModel
 
@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity() {
                 .setOnMenuItemClickListener {
                     showBottomSheet(
                         SwitchToChildBottomSheetFragment(),
-                        SWITCH_TO_USER_INTENT_TAG
+                        SWITCH_TO_USER_INTENT_TAG,
                     )
                     true
                 }
@@ -128,7 +128,15 @@ class MainActivity : AppCompatActivity() {
         tag: String
     ) {
         val fragmentManager = supportFragmentManager
-        fragmentManager.setFragmentResult("primaryBottomSheetRequestKey", bundleOf("primaryBundleKey" to tag))
+        fragmentManager.setFragmentResult(
+            "primaryBottomSheetRequestKey",
+            bundleOf("primaryBundleKey" to tag)
+        )
+        val childId = this.intent.getStringExtra("childId")
+        Bundle().apply {
+            putString("childId", childId)
+            bottomSheetFragment.arguments = this
+        }
         bottomSheetFragment.show(fragmentManager, tag)
     }
 

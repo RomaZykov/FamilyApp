@@ -8,6 +8,7 @@ import com.n1.moguchi.data.models.Child
 import com.n1.moguchi.data.models.ProfileMode
 import com.n1.moguchi.data.repositories.AppSettingsRepository
 import com.n1.moguchi.data.repositories.ParentRepository
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,6 +22,10 @@ class SwitchToUserViewModel @Inject constructor(
 
     fun getProfileMode(): ProfileMode {
         return appSettingsRepository.getProfileMode()
+    }
+
+    fun checkPassword(password: Int, childId: String): Flow<Boolean> {
+        return parentRepository.checkPassword(password, childId)
     }
 
     fun getChildren(parentId: String) {
