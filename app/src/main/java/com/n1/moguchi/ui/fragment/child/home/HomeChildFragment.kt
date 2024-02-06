@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +20,6 @@ import com.n1.moguchi.databinding.FragmentChildHomeBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.activity.MainActivity
 import com.n1.moguchi.ui.adapter.GoalsRecyclerAdapter
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -63,10 +64,15 @@ class HomeChildFragment : Fragment() {
 
         val childId = requireArguments().getString("childId")
         if (childId != null) {
+            (activity as MainActivity).intent.putExtras(
+                childIdBundle(childId)
+            )
             lifecycleScope.launch {
-                viewModel.getChild(childId).collectLatest {
-                    binding.childHomeAppBar.menu.findItem(R.id.childProfile)
-                        .setIcon(it?.imageResourceId!!)
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.getChild(childId).collect {
+                        binding.childHomeAppBar.menu.findItem(R.id.childProfile)
+                            .setIcon(it.imageResourceId!!)
+                    }
                 }
             }
             viewModel.fetchGoalsAndTasks(childId)
@@ -89,6 +95,13 @@ class HomeChildFragment : Fragment() {
                 navController.navigate(R.id.action_homeChildFragment_to_tasksFragment, bundle)
             }
         }
+    }
+
+    private fun childIdBundle(childId: String): Bundle {
+        val bundle = Bundle().apply {
+            this.putString("childId", childId)
+        }
+        return bundle
     }
 
     override fun onDestroyView() {
