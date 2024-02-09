@@ -17,6 +17,7 @@ class ChildRepositoryImpl @Inject constructor(
 ) : ChildRepository {
 
     private val childrenRef: DatabaseReference = database.getReference("children")
+    private val parentsRef: DatabaseReference = database.getReference("parents")
 
     override fun fetchChildData(childId: String): Flow<Child?> = callbackFlow {
         val listener = childrenRef.orderByChild("childId").equalTo(childId)

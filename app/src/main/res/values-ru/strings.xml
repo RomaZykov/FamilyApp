@@ -152,5 +152,6 @@
     <string name="not_all_conditions_is_done">Выполните все условия</string>
     <string name="switch_to_parent_description">Для перехода в режим родителя необходимо ввести пароль</string>
     <string name="my_goals_title">Мои цели</string>
+    <string name="password_error">Нужно установить код</string>
 
 </resources>

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Lifecycle
@@ -64,6 +65,13 @@ class SwitchToParentBottomSheetFragment : BottomSheetDialogFragment() {
         val childId = requireArguments().getString("childId")
 
         binding.passwordToParent.forgotPassword.visibility = View.VISIBLE
+        binding.passwordToParent.forgotPassword.setOnClickListener {
+            Toast.makeText(context, getString(R.string.forgot_password), Toast.LENGTH_SHORT).show()
+            if (childId != null) {
+                viewModel.resetPassword(childId)
+            }
+        }
+
         binding.passwordToParent.passwordDescription.text =
             getString(R.string.switch_to_parent_description)
         binding.passwordToParent.passwordForChildEditText.setOnEditorActionListener { password, actionId, _ ->

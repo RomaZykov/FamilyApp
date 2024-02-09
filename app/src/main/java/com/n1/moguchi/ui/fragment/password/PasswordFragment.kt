@@ -11,6 +11,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.n1.moguchi.MoguchiBaseApplication
+import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentPasswordBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.fragment.parent.goal_creation.GoalCreationFragment
@@ -60,7 +61,7 @@ class PasswordFragment : Fragment() {
 
             override fun afterTextChanged(password: Editable?) {
                 if (password.toString().isEmpty() && password.toString().isBlank()) {
-                    binding.passwordForChildEditText.error = "Нужно установить код"
+                    binding.passwordForChildEditText.error = getString(R.string.password_error)
                     parentFragmentManager.clearFragmentResult("buttonIsEnabled")
                     parentFragmentManager.setFragmentResult(
                         "buttonIsEnabled",

@@ -6,14 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.n1.moguchi.data.models.Child
 import com.n1.moguchi.data.models.ProfileMode
-import com.n1.moguchi.data.repositories.AppSettingsRepository
+import com.n1.moguchi.data.repositories.AppRepository
 import com.n1.moguchi.data.repositories.ParentRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SwitchToUserViewModel @Inject constructor(
-    private val appSettingsRepository: AppSettingsRepository,
+    private val appRepository: AppRepository,
     private val parentRepository: ParentRepository
 ) : ViewModel() {
 
@@ -21,11 +21,17 @@ class SwitchToUserViewModel @Inject constructor(
     val children: LiveData<List<Child>> = _children
 
     fun getProfileMode(): ProfileMode {
-        return appSettingsRepository.getProfileMode()
+        return appRepository.getProfileMode()
     }
 
     fun checkPassword(password: Int, childId: String): Flow<Boolean> {
         return parentRepository.checkPassword(password, childId)
+    }
+
+    fun resetPassword(childId: String) {
+        viewModelScope.launch {
+            appRepository.sendPasswordResetEmail(childId)
+        }
     }
 
     fun getChildren(parentId: String) {
