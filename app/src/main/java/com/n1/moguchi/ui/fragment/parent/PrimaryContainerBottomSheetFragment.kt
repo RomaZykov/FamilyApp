@@ -100,63 +100,64 @@ class PrimaryContainerBottomSheetFragment : BottomSheetDialogFragment() {
         }
 
         binding.nextButton.setOnClickListener {
-            val currentFragmentInContainer = childFragmentManager.fragments[0]
-            when (currentFragmentInContainer.tag) {
-                TO_TASK_CREATION_TAG -> {
-                    childFragmentManager.setFragmentResult(
-                        "nextButtonPressedRequestKey",
-                        bundleOf("buttonIsPressedKey" to true)
-                    )
-                    childFragmentManager.setFragmentResultListener(
-                        "goalCreationRequestKey",
-                        viewLifecycleOwner
-                    ) { _, bundle ->
-                        if (arguments != null) {
-                            this.arguments?.clear()
-                        }
-                        this.arguments = bundle
-                    }
-                    childFragmentManager.commit {
-                        remove(currentFragmentInContainer)
-                        replace(
-                            R.id.primary_child_fragment_container,
-                            TaskCreationFragment(),
-                            TO_GOAL_COMPLETE_TAG
+            childFragmentManager.addFragmentOnAttachListener { fragmentManager, fragment ->
+                when (fragment.tag) {
+                    TO_TASK_CREATION_TAG -> {
+                        fragmentManager.setFragmentResult(
+                            "nextButtonPressedRequestKey",
+                            bundleOf("buttonIsPressedKey" to true)
                         )
-                    }
-                    binding.nextButton.text = getString(R.string.done)
-                    binding.nextButton.setCompoundDrawablesRelative(null, null, null, null)
-                }
-
-                TO_GOAL_COMPLETE_TAG -> {
-                    binding.nextButton.visibility = View.GONE
-                    binding.cancelButton.visibility = View.GONE
-                    binding.space.visibility = View.GONE
-                    binding.title.visibility = View.GONE
-                    binding.bottomLinearLayout.findViewById<Button>(R.id.add_goal_button).visibility =
-                        View.VISIBLE
-                    childFragmentManager.commit {
-                        remove(currentFragmentInContainer)
-                        replace<SuccessGoalAddedFragment>(R.id.primary_child_fragment_container)
-                    }
-                }
-
-                TO_TASKS_COMPLETE_TAG -> {
-                    binding.title.visibility = View.GONE
-                    binding.bottomLinearLayout.visibility = View.GONE
-                    binding.primaryChildFragmentContainer.visibility = View.GONE
-                    childFragmentManager.commit {
-                        remove(currentFragmentInContainer)
-                        replace<SuccessTasksAddedFragment>(R.id.full_fragment_container)
+                        fragmentManager.setFragmentResultListener(
+                            "goalCreationRequestKey",
+                            viewLifecycleOwner
+                        ) { _, bundle ->
+                            if (arguments != null) {
+                                this.arguments?.clear()
+                            }
+                            this.arguments = bundle
+                        }
+                        fragmentManager.commit {
+                            remove(fragment)
+                            replace(
+                                R.id.primary_child_fragment_container,
+                                TaskCreationFragment(),
+                                TO_GOAL_COMPLETE_TAG
+                            )
+                        }
+                        binding.nextButton.text = getString(R.string.done)
+                        binding.nextButton.setCompoundDrawablesRelative(null, null, null, null)
                     }
 
-                    childFragmentManager.setFragmentResultListener(
-                        "tasksAddedRequestKey",
-                        viewLifecycleOwner
-                    ) { _, bundle ->
-                        if (bundle.getBoolean("buttonPressedKey")) {
-                            dismiss()
-                            parentFragmentManager
+                    TO_GOAL_COMPLETE_TAG -> {
+                        binding.nextButton.visibility = View.GONE
+                        binding.cancelButton.visibility = View.GONE
+                        binding.space.visibility = View.GONE
+                        binding.title.visibility = View.GONE
+                        binding.bottomLinearLayout.findViewById<Button>(R.id.add_goal_button).visibility =
+                            View.VISIBLE
+                        fragmentManager.commit {
+                            remove(fragment)
+                            replace<SuccessGoalAddedFragment>(R.id.primary_child_fragment_container)
+                        }
+                    }
+
+                    TO_TASKS_COMPLETE_TAG -> {
+                        binding.title.visibility = View.GONE
+                        binding.bottomLinearLayout.visibility = View.GONE
+                        binding.primaryChildFragmentContainer.visibility = View.GONE
+                        fragmentManager.commit {
+                            remove(fragment)
+                            replace<SuccessTasksAddedFragment>(R.id.full_fragment_container)
+                        }
+
+                        fragmentManager.setFragmentResultListener(
+                            "tasksAddedRequestKey",
+                            viewLifecycleOwner
+                        ) { _, bundle ->
+                            if (bundle.getBoolean("buttonPressedKey")) {
+                                dismiss()
+                                parentFragmentManager
+                            }
                         }
                     }
                 }

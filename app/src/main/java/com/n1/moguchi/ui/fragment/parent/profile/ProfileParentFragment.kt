@@ -1,6 +1,7 @@
 package com.n1.moguchi.ui.fragment.parent.profile
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +13,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentParentProfileBinding
 import com.n1.moguchi.ui.ViewModelFactory
-import com.n1.moguchi.ui.activity.MainActivity
 import javax.inject.Inject
 
 class ProfileParentFragment : Fragment() {
@@ -68,13 +68,14 @@ class ProfileParentFragment : Fragment() {
     }
 
     private fun showBottomSheet(tag: String) {
-        val fragmentManager = (activity as MainActivity).supportFragmentManager
+        val fragmentManager = childFragmentManager
         fragmentManager.setFragmentResult(
             "profileBottomSheetRequestKey",
             bundleOf("profileBundleKey" to tag)
         )
+        Log.d("ProfileFragment", "Bundle 1 = ${fragmentManager.fragments}")
         val modalBottomSheet = ProfileContainerBottomSheetFragment() as BottomSheetDialogFragment
-        modalBottomSheet.show(fragmentManager, tag)
+        modalBottomSheet.show(fragmentManager, null)
     }
 
     companion object {

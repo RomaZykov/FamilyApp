@@ -1,6 +1,7 @@
 package com.n1.moguchi.ui.fragment.parent.profile
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,15 +42,17 @@ class ProfileContainerBottomSheetFragment : BottomSheetDialogFragment() {
         signInClient = Identity.getSignInClient(requireContext())
         auth = Firebase.auth
 
-        val navHostFragment = requireParentFragment()
-            .requireActivity()
+        val navHostFragment = requireActivity()
             .supportFragmentManager
             .findFragmentById(R.id.fragment_container_view) as NavHostFragment
         val navController = navHostFragment.navController
 
         setupBottomSheet(view)
 
-        setFragmentResultListener("profileBottomSheetRequestKey") { _, bundle ->
+        setFragmentResultListener(
+            "profileBottomSheetRequestKey"
+        ) { _, bundle ->
+            Log.d("ProfileFragment", "Bundle 2 = $parentFragmentManager.")
             when (bundle.getString("profileBundleKey")) {
                 "EditProfileIntent" -> {
                     binding.editProfileTitle.text = getString(R.string.edit)
@@ -61,80 +64,85 @@ class ProfileContainerBottomSheetFragment : BottomSheetDialogFragment() {
                     startTransition(LogOutFragment(), LOG_OUT_PROFILE_TAG)
                 }
             }
-
         }
 
         with(binding.bottomButtons) {
-            val currentFragmentInContainer = childFragmentManager.fragments[0]
-            when (currentFragmentInContainer.tag) {
-                EDIT_PROFILE_TAG -> {
-                    childFragmentManager.setFragmentResultListener(
-                        "deleteAccountPressedRequestKey",
-                        viewLifecycleOwner
-                    ) { _, innerBundle ->
-                        val isButtonPressed = innerBundle.getBoolean("buttonIsPressedKey")
-                        if (isButtonPressed) {
-                            childFragmentManager.commit {
-                                setReorderingAllowed(true)
-                                remove(currentFragmentInContainer)
-                                replace(
-                                    R.id.profile_child_fragment_container,
-                                    DeleteProfileParentFragment(),
-                                    PROFILE_DELETE_TAG
-                                )
+            childFragmentManager.addFragmentOnAttachListener { fragmentManager, fragment ->
+                when (fragment.tag) {
+                    EDIT_PROFILE_TAG -> {
+                        fragmentManager.setFragmentResultListener(
+                            "deleteAccountPressedRequestKey",
+                            viewLifecycleOwner
+                        ) { _, innerBundle ->
+                            val isButtonPressed = innerBundle.getBoolean("buttonIsPressedKey")
+                            if (isButtonPressed) {
+                                fragmentManager.commit {
+                                    setReorderingAllowed(true)
+                                    remove(fragment)
+                                    replace(
+                                        R.id.profile_child_fragment_container,
+                                        DeleteProfileParentFragment(),
+                                        PROFILE_DELETE_TAG
+                                    )
+                                }
                             }
                         }
-                    }
-                    with(leftButton) {
-                        text = getString(R.string.cancel)
-                        setOnClickListener {
-                            dismiss()
-                        }
-                    }
-                    with(rightButton) {
-                        text = getString(R.string.save)
-                        setOnClickListener {
-
-                        }
-                    }
-                }
-
-                LOG_OUT_PROFILE_TAG -> {
-                    with(leftButton) {
-                        text = getString(R.string.cancel)
-                        setOnClickListener {
-                            dismiss()
-                        }
-                    }
-                    with(rightButton) {
-                        text = getString(R.string.yes)
-                        setOnClickListener {
-                            auth.signOut()
-                            signInClient.signOut().addOnCompleteListener {
+                        with(leftButton) {
+                            text = getString(R.string.cancel)
+                            setOnClickListener {
                                 dismiss()
-                                navController.navigate(R.id.action_parentProfileFragment_to_registrationFragment)
+                            }
+                        }
+                        with(rightButton) {
+                            text = getString(R.string.save)
+                            setOnClickListener {
+
                             }
                         }
                     }
-                }
 
-                PROFILE_DELETE_TAG -> {
-                    binding.editProfileTitle.text = getString(R.string.delete_account)
-                    with(leftButton) {
-                        text = getString(R.string.cancel)
-                        setOnClickListener {
-                            dismiss()
+                    LOG_OUT_PROFILE_TAG -> {
+                        with(leftButton) {
+                            text = getString(R.string.cancel)
+                            setOnClickListener {
+                                dismiss()
+                            }
+                        }
+                        with(rightButton) {
+                            text = getString(R.string.yes)
+                            setOnClickListener {
+                                auth.signOut()
+                                signInClient.signOut().addOnCompleteListener {
+                                    dismiss()
+                                    navController.navigate(R.id.action_parentProfileFragment_to_registrationFragment)
+                                }
+                            }
                         }
                     }
-                    with(rightButton) {
-                        text = getString(R.string.delete)
-                        setOnClickListener {
 
+                    PROFILE_DELETE_TAG -> {
+                        binding.editProfileTitle.text = getString(R.string.delete_account)
+                        with(leftButton) {
+                            text = getString(R.string.cancel)
+                            setOnClickListener {
+                                dismiss()
+                            }
+                        }
+                        with(rightButton) {
+                            text = getString(R.string.delete)
+                            setOnClickListener {
+
+                            }
                         }
                     }
                 }
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun setupBottomSheet(view: View) {
@@ -153,11 +161,6 @@ class ProfileContainerBottomSheetFragment : BottomSheetDialogFragment() {
                 tag
             )
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     companion object {
