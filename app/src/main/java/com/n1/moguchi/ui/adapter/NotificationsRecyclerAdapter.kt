@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.R
-import com.n1.moguchi.data.models.SendNotification
 import com.n1.moguchi.databinding.NotificationItemBinding
 
 class NotificationsRecyclerAdapter(private val notificationList: MutableList<String>) :
@@ -34,7 +33,7 @@ class NotificationsRecyclerAdapter(private val notificationList: MutableList<Str
         RecyclerView.ViewHolder(itemView) {
 
         private val binding = NotificationItemBinding.bind(itemView)
-        private var sendNotification: SendNotification? = null
+//        private var sendNotification: SendNotification? = null
 
         fun bind(mockMessage: String, position: Int) {
 //            if (position == 0) {
