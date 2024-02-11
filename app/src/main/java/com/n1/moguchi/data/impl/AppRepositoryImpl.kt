@@ -1,5 +1,6 @@
 package com.n1.moguchi.data.impl
 
+import com.google.firebase.auth.ActionCodeSettings
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -14,7 +15,7 @@ import javax.inject.Inject
 
 class AppRepositoryImpl @Inject constructor(
     database: FirebaseDatabase,
-    private val auth: FirebaseAuth
+    private val auth: FirebaseAuth,
 ) : AppRepository {
 
     private val childrenRef: DatabaseReference = database.getReference("children")
@@ -30,7 +31,7 @@ class AppRepositoryImpl @Inject constructor(
         return profileMode
     }
 
-    override suspend fun sendPasswordResetEmail(childId: String) {
+    override suspend fun sendChildPasswordNotificationEmail(childId: String) {
         var parentId = ""
         childrenRef.child(childId).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -42,9 +43,15 @@ class AppRepositoryImpl @Inject constructor(
                     override fun onDataChange(snapshot: DataSnapshot) {
                         if (snapshot.exists()) {
                             val parent = snapshot.getValue(Parent::class.java)
+                            val url =
+                                "https://firebase.google.com/docs/auth/android/passing-state-in-email-actions#passing_statecontinue_url_in_email_actions"
                             if (parent != null) {
-                                TODO("Use cloud messaging instead")
-//                                auth.sendPasswordResetEmail(parent.email!!)
+                                val actionCodeSettings = ActionCodeSettings.newBuilder()
+                                    .setUrl(url)
+                                    .setAndroidPackageName("com.n1.moguchi", false, null)
+                                    .build()
+
+                                auth.sendPasswordResetEmail(parent.email!!, actionCodeSettings)
                             }
                         }
                     }

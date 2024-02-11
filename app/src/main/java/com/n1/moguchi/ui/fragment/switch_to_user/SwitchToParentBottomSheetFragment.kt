@@ -16,6 +16,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.Navigation
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentSwitchToParentBottomSheetBinding
@@ -28,6 +31,8 @@ class SwitchToParentBottomSheetFragment : BottomSheetDialogFragment() {
 
     private var _binding: FragmentSwitchToParentBottomSheetBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var auth: FirebaseAuth
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -57,6 +62,7 @@ class SwitchToParentBottomSheetFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        auth = Firebase.auth
 
         val navController =
             Navigation.findNavController(activity as MainActivity, R.id.fragment_container_view)
@@ -64,11 +70,21 @@ class SwitchToParentBottomSheetFragment : BottomSheetDialogFragment() {
 
         val childId = requireArguments().getString("childId")
 
-        binding.passwordToParent.forgotPassword.visibility = View.VISIBLE
-        binding.passwordToParent.forgotPassword.setOnClickListener {
-            Toast.makeText(context, getString(R.string.forgot_password), Toast.LENGTH_SHORT).show()
-            if (childId != null) {
-                viewModel.resetPassword(childId)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                if (childId != null) {
+                    viewModel.getChild(childId).collect { child ->
+                        binding.passwordToParent.forgotPassword.visibility = View.VISIBLE
+                        binding.passwordToParent.forgotPassword.setOnClickListener {
+                            Toast.makeText(
+                                context,
+                                getString(R.string.child_password_notification_by_email),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            viewModel.resetPassword(childId)
+                        }
+                    }
+                }
             }
         }
 
@@ -93,6 +109,11 @@ class SwitchToParentBottomSheetFragment : BottomSheetDialogFragment() {
                                     R.id.action_homeChildFragment_to_homeParentFragment
                                 )
                                 dismiss()
+                            } else {
+                                binding.passwordToParent.passwordForChildInputLayout.error =
+                                    getString(
+                                        R.string.not_correct_child_password
+                                    )
                             }
                         }
                     }
@@ -110,6 +131,7 @@ class SwitchToParentBottomSheetFragment : BottomSheetDialogFragment() {
         super.onDestroyView()
         _binding = null
     }
+
 
     private fun showBottomSheet(view: View) {
         val modalBottomSheet =
