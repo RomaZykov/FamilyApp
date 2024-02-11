@@ -8,5 +8,5 @@ interface AppRepository {
 
     fun setProfileMode(newMode: ProfileMode): ProfileMode
 
-    suspend fun sendPasswordResetEmail(childId: String)
+    suspend fun sendChildPasswordNotificationEmail(childId: String)
 }

@@ -153,5 +153,8 @@
     <string name="switch_to_parent_description">Для перехода в режим родителя необходимо ввести пароль</string>
     <string name="my_goals_title">Мои цели</string>
     <string name="password_error">Нужно установить код</string>
+    <string name="msg_token_fmt">Проверка токена %s</string>
+    <string name="child_password_notification_by_email">Отправили пароль ребенка на ваш E-mail</string>
+    <string name="not_correct_child_password">Неверный пароль</string>
 
 </resources>
