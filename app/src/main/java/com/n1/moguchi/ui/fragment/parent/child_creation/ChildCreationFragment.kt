@@ -1,4 +1,4 @@
-package com.n1.moguchi.ui.fragment.parent.children_creation
+package com.n1.moguchi.ui.fragment.parent.child_creation
 
 import android.content.Context
 import android.os.Bundle
@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -19,9 +20,10 @@ import com.n1.moguchi.R
 import com.n1.moguchi.data.models.Child
 import com.n1.moguchi.databinding.FragmentChildCreationBinding
 import com.n1.moguchi.ui.ViewModelFactory
+import com.n1.moguchi.ui.fragment.parent.DeleteChildProfileBottomSheetFragment
 import javax.inject.Inject
 
-class ChildCreationFragment(private val deleteChildOptionEnable: Boolean) : Fragment() {
+class ChildCreationFragment : Fragment() {
 
     private var _binding: FragmentChildCreationBinding? = null
     private val binding get() = _binding!!
@@ -29,7 +31,9 @@ class ChildCreationFragment(private val deleteChildOptionEnable: Boolean) : Frag
     private lateinit var auth: FirebaseAuth
     private lateinit var childrenCreationAdapter: ChildrenCreationRecyclerAdapter
 
-    private var initChildrenRecyclerOnlyOnceFlag = true
+    private var initChildrenRecyclerOnlyOnceFlag: Boolean = true
+    private var deleteChildOptionEnable: Boolean = false
+    private var isFromParentProfile: Boolean = false
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -61,8 +65,9 @@ class ChildCreationFragment(private val deleteChildOptionEnable: Boolean) : Frag
         auth = Firebase.auth
         val parentId = auth.currentUser?.uid
 
-        val isFromParentProfile = arguments?.getBoolean("isFromParentProfile")
-        if (isFromParentProfile == true) {
+        parseParams()
+
+        if (isFromParentProfile) {
             binding.myChildrenTopAppBar.visibility = View.VISIBLE
             val topAppBar = requireActivity().findViewById<Toolbar>(R.id.childCreationAppBar)
             topAppBar.setNavigationOnClickListener {
@@ -79,7 +84,7 @@ class ChildCreationFragment(private val deleteChildOptionEnable: Boolean) : Frag
                     addChild(parentId, 0)
                 }
 
-                if (!deleteChildOptionEnable && initChildrenRecyclerOnlyOnceFlag) {
+                if (initChildrenRecyclerOnlyOnceFlag) {
                     initChildrenRecyclerOnlyOnceFlag = false
                     childrenCreationAdapter.children = children.toMutableList()
                     childrenCreationAdapter.notifyItemRangeInserted(
@@ -103,6 +108,11 @@ class ChildCreationFragment(private val deleteChildOptionEnable: Boolean) : Frag
                         childrenCreationAdapter.notifyItemChanged(0)
                     }
                     viewModel.deleteChildProfile(parentId, child.childId!!)
+                }
+
+                childrenCreationAdapter.onChildRemoveForBottomSheetClicked = { child, position ->
+                    showBottomSheet(TO_DELETE_CHILD_PROFILE)
+                    // TODO
                 }
 
                 childrenCreationAdapter.onChildUpdate = { child ->
@@ -140,7 +150,11 @@ class ChildCreationFragment(private val deleteChildOptionEnable: Boolean) : Frag
     private fun setupRecyclerView() {
         val recyclerView: RecyclerView = binding.rvChildrenCreationList
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        childrenCreationAdapter = ChildrenCreationRecyclerAdapter(deleteChildOptionEnable)
+        childrenCreationAdapter = if (isFromParentProfile) {
+            ChildrenCreationRecyclerAdapter(deleteChildOptionEnable, isFromParentProfile)
+        } else {
+            ChildrenCreationRecyclerAdapter(deleteChildOptionEnable)
+        }
         recyclerView.adapter = childrenCreationAdapter
         recyclerView.recycledViewPool.setMaxRecycledViews(
             ChildrenCreationRecyclerAdapter.VIEW_TYPE_CHILD_CARD,
@@ -151,5 +165,35 @@ class ChildCreationFragment(private val deleteChildOptionEnable: Boolean) : Frag
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun parseParams() {
+        val args = requireArguments()
+        deleteChildOptionEnable = args.getBoolean(DELETE_CHILD_OPTION_ENABLE)
+        isFromParentProfile = args.getBoolean(FROM_PARENT_PROFILE)
+    }
+
+    private fun showBottomSheet(tag: String) {
+        val fragmentManager = childFragmentManager
+        fragmentManager.setFragmentResult(
+            "profileBottomSheetRequestKey",
+            bundleOf("profileBundleKey" to tag)
+        )
+        val modalBottomSheet = DeleteChildProfileBottomSheetFragment() as BottomSheetDialogFragment
+        modalBottomSheet.show(fragmentManager, null)
+    }
+
+    companion object {
+        private const val DELETE_CHILD_OPTION_ENABLE = "deleteChildOptionEnable"
+        private const val FROM_PARENT_PROFILE = "isFromParentProfile"
+        private const val TO_DELETE_CHILD_PROFILE = "deleteChildProfile"
+
+        fun newInstance(deleteChildOptionEnable: Boolean): ChildCreationFragment {
+            return ChildCreationFragment().apply {
+                arguments = Bundle().apply {
+                    putBoolean(DELETE_CHILD_OPTION_ENABLE, deleteChildOptionEnable)
+                }
+            }
+        }
     }
 }

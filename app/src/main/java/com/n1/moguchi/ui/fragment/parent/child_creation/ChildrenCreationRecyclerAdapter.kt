@@ -1,4 +1,4 @@
-package com.n1.moguchi.ui.fragment.parent.children_creation
+package com.n1.moguchi.ui.fragment.parent.child_creation
 
 import android.content.Context
 import android.text.Editable
@@ -15,13 +15,21 @@ import com.n1.moguchi.databinding.CreationSectionFooterBinding
 
 private const val FOOTER_ADD_CHILD_BUTTON = 1
 
-class ChildrenCreationRecyclerAdapter(private val editChildOptionEnable: Boolean) :
+class ChildrenCreationRecyclerAdapter(
+    private val editChildOptionEnable: Boolean,
+    private val isFromParentProfile: Boolean
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    constructor(editChildOptionEnable: Boolean) : this(
+        editChildOptionEnable, isFromParentProfile = false
+    )
 
     var children: MutableList<Child> = ArrayList()
     var onNewChildAddClicked: (() -> Unit)? = null
     var onChildUpdate: ((Child) -> Unit)? = null
     var onChildRemoveClicked: ((Child, Int) -> Unit)? = null
+    var onChildRemoveForBottomSheetClicked: ((Child, Int) -> Unit)? = null
     var onCardsStatusUpdate: ((Boolean) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -123,10 +131,17 @@ class ChildrenCreationRecyclerAdapter(private val editChildOptionEnable: Boolean
             if (children.size > 1 && editChildOptionEnable) {
                 binding.deleteChildButton.visibility = View.VISIBLE
                 binding.deleteChildButton.setOnClickListener {
-                    onChildRemoveClicked?.invoke(child, adapterPosition)
-                    children.removeAt(adapterPosition)
-                    notifyItemRemoved(adapterPosition)
-                    notifyItemChanged(itemCount - FOOTER_ADD_CHILD_BUTTON)
+                    if (isFromParentProfile) {
+                        onChildRemoveForBottomSheetClicked?.invoke(child, adapterPosition)
+                        children.removeAt(adapterPosition)
+                        notifyItemRemoved(adapterPosition)
+                        notifyItemChanged(itemCount - FOOTER_ADD_CHILD_BUTTON)
+                    } else {
+                        onChildRemoveClicked?.invoke(child, adapterPosition)
+                        children.removeAt(adapterPosition)
+                        notifyItemRemoved(adapterPosition)
+                        notifyItemChanged(itemCount - FOOTER_ADD_CHILD_BUTTON)
+                    }
                 }
             } else {
                 binding.deleteChildButton.visibility = View.GONE

@@ -12,10 +12,10 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentAfterOnboardingBinding
 import com.n1.moguchi.ui.activity.MainActivity
-import com.n1.moguchi.ui.fragment.parent.children_creation.ChildCreationFragment
+import com.n1.moguchi.ui.fragment.parent.child_creation.ChildCreationFragment
 import com.n1.moguchi.ui.fragment.parent.goal_creation.GoalCreationFragment
-import com.n1.moguchi.ui.fragment.password.PasswordFragment
 import com.n1.moguchi.ui.fragment.parent.task_creation.TaskCreationFragment
+import com.n1.moguchi.ui.fragment.password.PasswordFragment
 
 class AfterOnBoardingFragment : Fragment() {
 
@@ -42,7 +42,7 @@ class AfterOnBoardingFragment : Fragment() {
         val navController = navHostFragment.navController
 
         val fragments = listOf(
-            ChildCreationFragment(deleteChildOptionEnable = true),
+            ChildCreationFragment.newInstance(true),
             GoalCreationFragment(
                 addChildButtonEnable = false,
                 childSelectionEnable = false,
