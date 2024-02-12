@@ -1,4 +1,4 @@
-package com.n1.moguchi.ui.fragment.parent.profile
+package com.n1.moguchi.ui.fragment.parent.profile.related_bottom_sheet
 
 import android.os.Bundle
 import android.view.LayoutInflater

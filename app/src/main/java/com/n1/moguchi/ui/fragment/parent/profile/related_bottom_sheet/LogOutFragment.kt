@@ -1,13 +1,13 @@
-package com.n1.moguchi.ui.fragment.parent.profile
+package com.n1.moguchi.ui.fragment.parent.profile.related_bottom_sheet
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import androidx.fragment.app.Fragment
 import com.n1.moguchi.databinding.FragmentParentLogoutBinding
 
-class LogOutFragment : BottomSheetDialogFragment() {
+class LogOutFragment : Fragment() {
 
     private var _binding: FragmentParentLogoutBinding? = null
     private val binding get() = _binding!!

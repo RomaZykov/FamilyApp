@@ -1,4 +1,4 @@
-package com.n1.moguchi.ui.fragment.parent.children_creation
+package com.n1.moguchi.ui.fragment.parent.child_creation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

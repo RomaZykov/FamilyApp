@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/childCreationFragment"
-        android:name="com.n1.moguchi.ui.fragment.parent.children_creation.ChildCreationFragment"
+        android:name="com.n1.moguchi.ui.fragment.parent.child_creation.ChildCreationFragment"
         android:label="AddChildFragment">
         <action
             android:id="@+id/action_addChildFragment_to_goalCreationFragment"
@@ -67,7 +67,8 @@
             app:destination="@id/registrationFragment" />
         <action
             android:id="@+id/action_parentProfileFragment_to_addChildFragment"
-            app:destination="@id/childCreationFragment" />
+            app:destination="@id/childCreationFragment">
+        </action>
         <action
             android:id="@+id/action_parentProfileFragment_to_parentHomeFragment"
             app:destination="@id/homeParentFragment" />
@@ -99,7 +100,7 @@
     <fragment
         android:id="@+id/homeChildFragment"
         android:name="com.n1.moguchi.ui.fragment.child.home.HomeChildFragment"
-        android:label="HomeChildFragment" >
+        android:label="HomeChildFragment">
         <action
             android:id="@+id/action_homeChildFragment_pop"
             app:launchSingleTop="false"
@@ -129,8 +130,7 @@
         android:label="OnBoardingChildFragment">
         <action
             android:id="@+id/action_onBoardingChildFragment_to_homeChildFragment"
-            app:destination="@id/homeChildFragment">
-        </action>
+            app:destination="@id/homeChildFragment" />
     </fragment>
     <fragment
         android:id="@+id/afterOnBoardingFragment"

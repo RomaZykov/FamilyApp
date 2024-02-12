@@ -69,7 +69,7 @@ class HomeChildFragment : Fragment() {
             )
             lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.getChild(childId).collect {
+                    viewModel.fetchChildData(childId).collect {
                         binding.childHomeAppBar.menu.findItem(R.id.childProfile)
                             .setIcon(it.imageResourceId!!)
                     }

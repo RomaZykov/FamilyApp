@@ -28,7 +28,7 @@ class HomeChildViewModel @Inject constructor(
     private val _completedGoals = MutableLiveData<List<Goal>>()
     val completedGoals: LiveData<List<Goal>> = _completedGoals
 
-    fun getChild(childId: String): Flow<Child> {
+    fun fetchChildData(childId: String): Flow<Child> {
         return fetchChildDataUseCase.invoke(childId).map {
             it!!
         }

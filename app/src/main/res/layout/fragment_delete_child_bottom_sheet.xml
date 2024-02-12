@@ -3,13 +3,12 @@
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/delete_child_bottom_sheet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/parent_edit_modal_bottom_sheet"
+            android:id="@+id/delete_child_profile_modal_bottom_sheet"
             android:layout_width="match_parent"
             android:layout_height="700dp"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
@@ -72,43 +71,10 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_delete_child_profile" />
 
-            <LinearLayout
-                android:id="@+id/bottom_delete_ll"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/medium_margin"
-                android:gravity="center"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+            <include
+                android:id="@+id/bottom_buttons"
+                layout="@layout/buttons_bottom_sheet" />
 
-                <Button
-                    android:id="@+id/cancel_button"
-                    android:layout_width="@dimen/cancel_continue_button_width"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/orange"
-                    android:fontFamily="@font/onest_regular"
-                    android:paddingHorizontal="@dimen/large_padding"
-                    android:paddingVertical="@dimen/medium_padding"
-                    android:text="@string/cancel"
-                    android:textColor="@color/white" />
-
-                <Space
-                    android:layout_width="@dimen/small_space_width"
-                    android:layout_height="wrap_content" />
-
-                <Button
-                    android:id="@+id/save_button"
-                    android:layout_width="@dimen/cancel_continue_button_width"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/white"
-                    android:fontFamily="@font/onest_regular"
-                    android:paddingHorizontal="@dimen/large_padding"
-                    android:paddingVertical="@dimen/medium_padding"
-                    android:text="@string/delete"
-                    android:textColor="@color/black" />
-            </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

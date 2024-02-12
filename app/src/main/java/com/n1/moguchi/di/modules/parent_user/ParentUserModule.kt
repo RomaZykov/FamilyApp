@@ -7,7 +7,7 @@ import com.n1.moguchi.data.impl.ParentRepositoryImpl
 import com.n1.moguchi.data.repositories.ParentRepository
 import com.n1.moguchi.di.components.ApplicationScope
 import com.n1.moguchi.di.modules.ViewModelKey
-import com.n1.moguchi.ui.fragment.parent.children_creation.ChildCreationViewModel
+import com.n1.moguchi.ui.fragment.parent.child_creation.ChildCreationViewModel
 import com.n1.moguchi.ui.fragment.parent.home.HomeParentViewModel
 import com.n1.moguchi.ui.fragment.password.PasswordViewModel
 import dagger.Binds
