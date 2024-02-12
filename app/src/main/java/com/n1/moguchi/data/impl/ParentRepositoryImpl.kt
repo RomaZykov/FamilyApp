@@ -23,6 +23,22 @@ class ParentRepositoryImpl @Inject constructor(
     private val childrenRef: DatabaseReference = database.getReference("children")
     private val parentsRef: DatabaseReference = database.getReference("parents")
 
+    override fun fetchParentData(parentId: String): Flow<Parent?> = callbackFlow {
+        val listener = parentsRef.child(parentId)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        val parent = snapshot.getValue(Parent::class.java)
+                        trySend(parent)
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                }
+            })
+        awaitClose { parentsRef.removeEventListener(listener) }
+    }
+
     override suspend fun fetchChildren(parentId: String): Map<String, Child> {
         val childrenRefByParentId = childrenRef.orderByChild("parentOwnerId").equalTo(parentId)
         val children: MutableMap<String, Child> = mutableMapOf()

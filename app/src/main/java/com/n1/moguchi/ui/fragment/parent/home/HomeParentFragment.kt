@@ -7,7 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,6 +26,7 @@ import com.n1.moguchi.ui.adapter.ChildrenRecyclerAdapter
 import com.n1.moguchi.ui.adapter.CompletedGoalsRecyclerAdapter
 import com.n1.moguchi.ui.adapter.GoalsRecyclerAdapter
 import com.n1.moguchi.ui.fragment.parent.PrimaryContainerBottomSheetFragment
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class HomeParentFragment : Fragment() {
@@ -64,20 +68,32 @@ class HomeParentFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val parentID = Firebase.auth.currentUser?.uid
+        val parentId = Firebase.auth.currentUser?.uid
 
         val navController =
             Navigation.findNavController(activity as MainActivity, R.id.fragment_container_view)
-        val goalAdded = arguments?.getBoolean("goal")
 
-        if (parentID != null) {
-            viewModel.fetchChildren(parentID)
+        if (parentId != null) {
+            viewModel.fetchChildren(parentId)
+
+            lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.fetchParentData(parentId).collect {
+
+                    }
+                }
+            }
+
+            val menuItem = binding.parentHomeAppBar.menu.findItem(R.id.parentProfile)
+            val photoUrl = Firebase.auth.currentUser?.photoUrl.toString()
+            viewModel.load(photoUrl, menuItem)
+
             viewModel.children.observe(viewLifecycleOwner) { childrenList ->
                 childrenList.forEach {
                     childrenIdList.add(it.key)
                 }
                 viewModel.fetchGoalsAndTasks(childrenIdList[selectedChildIndex])
-                viewModel.getCompletedGoals(childrenIdList[selectedChildIndex])
+                viewModel.fetchCompletedGoals(childrenIdList[selectedChildIndex])
 
                 val childrenRecyclerView: RecyclerView = binding.rvChildren
                 childrenRecyclerView.layoutManager =
@@ -89,7 +105,7 @@ class HomeParentFragment : Fragment() {
                 childrenRecyclerAdapter.onChildClicked = { childIndex, _ ->
                     selectedChildIndex = childIndex
                     viewModel.fetchGoalsAndTasks(childrenIdList[selectedChildIndex])
-                    viewModel.getCompletedGoals(childrenIdList[selectedChildIndex])
+                    viewModel.fetchCompletedGoals(childrenIdList[selectedChildIndex])
                 }
 
                 childrenRecyclerAdapter.onChildAddClicked = {
@@ -125,10 +141,14 @@ class HomeParentFragment : Fragment() {
             }
         }
 
-        binding.homeAppBar.setOnMenuItemClickListener { menuItem ->
+        binding.parentHomeAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.profile -> {
-                    navController.navigate(R.id.action_parentHomeFragment_to_parentProfileFragment)
+                R.id.parentProfile -> {
+                    val bundle = bundleOf(PARENT_ID_KEY to parentId)
+                    navController.navigate(
+                        R.id.action_parentHomeFragment_to_parentProfileFragment,
+                        bundle
+                    )
                     true
                 }
 
@@ -139,7 +159,10 @@ class HomeParentFragment : Fragment() {
 
     private fun showBottomSheet(bottomSheetFragment: BottomSheetDialogFragment, tag: String) {
         val parentFragmentManager = parentFragmentManager
-        parentFragmentManager.setFragmentResult("primaryBottomSheetRequestKey", bundleOf("primaryBundleKey" to tag))
+        parentFragmentManager.setFragmentResult(
+            "primaryBottomSheetRequestKey",
+            bundleOf("primaryBundleKey" to tag)
+        )
         bottomSheetFragment.show(
             parentFragmentManager,
             tag
@@ -153,5 +176,6 @@ class HomeParentFragment : Fragment() {
 
     companion object {
         private const val CHILD_CREATION_TAG = "ChildCreationIntent"
+        const val PARENT_ID_KEY = "parentIdKey"
     }
 }
