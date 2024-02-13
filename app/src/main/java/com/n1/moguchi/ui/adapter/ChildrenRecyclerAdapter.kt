@@ -141,17 +141,22 @@ class ChildrenRecyclerAdapter(
         }
 
         fun bind(child: Child) {
-            if (!childSelectionEnable) {
-                binding.root.isClickable = false
-                binding.root.isFocusable = false
-            }
+//            if (!childSelectionEnable) {
+//                changeClickable(false)
+//            }
             binding.smallChildName.text = child.childName
             binding.smallChildAvatar.setImageResource(child.imageResourceId!!)
             binding.root.isSelected = selectedChildIndex == adapterPosition
-            if (binding.root.isSelected) {
-                binding.root.isClickable = false
-                binding.root.isFocusable = false
+            if (binding.root.isSelected || !childSelectionEnable) {
+                changeClickable(false)
+            } else {
+                changeClickable(true)
             }
+        }
+
+        private fun changeClickable(enable: Boolean) {
+            binding.root.isClickable = enable
+            binding.root.isFocusable = enable
         }
 
         override fun onClick(v: View?) {
