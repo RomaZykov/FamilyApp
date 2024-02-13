@@ -73,7 +73,7 @@ class SwitchToParentBottomSheetFragment : BottomSheetDialogFragment() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 if (childId != null) {
-                    viewModel.getChild(childId).collect { child ->
+                    viewModel.getChild(childId).collect {
                         binding.passwordToParent.forgotPassword.visibility = View.VISIBLE
                         binding.passwordToParent.forgotPassword.setOnClickListener {
                             Toast.makeText(

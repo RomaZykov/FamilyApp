@@ -13,24 +13,24 @@ class TaskRepositoryImpl @Inject constructor(
 
     private val tasksRef = database.getReference("tasks")
 
-    override suspend fun createTask(task: Task, goalID: String): Task {
+    override suspend fun createTask(task: Task, goalId: String): Task {
         val taskId: String = UUID.randomUUID().toString()
-        val taskRefByGoalId = tasksRef.child(goalID).child(taskId)
+        val taskRefByGoalId = tasksRef.child(goalId).child(taskId)
         val newTask = task.copy(
             taskId = taskId,
-            goalOwnerId = goalID,
+            goalOwnerId = goalId,
             taskCompleted = false
         )
         taskRefByGoalId.setValue(newTask)
         return newTask
     }
 
-    override suspend fun deleteTask(goalID: String, task: Task) {
-        val taskRefById = tasksRef.child(goalID).child(task.taskId)
+    override suspend fun deleteTask(goalId: String, task: Task) {
+        val taskRefById = tasksRef.child(goalId).child(task.taskId)
         taskRefById.removeValue()
     }
 
-    override fun markTaskCompleted(taskID: String, isCompleted: Boolean) {
+    override fun markTaskCompleted(taskId: String, isCompleted: Boolean) {
         TODO("Not yet implemented")
     }
 
@@ -46,8 +46,8 @@ class TaskRepositoryImpl @Inject constructor(
         return updatedTask
     }
 
-    override suspend fun fetchActiveTasks(goalID: String): List<Task> {
-        val tasksRefByCompletion = tasksRef.child(goalID)
+    override suspend fun fetchActiveTasks(goalId: String): List<Task> {
+        val tasksRefByCompletion = tasksRef.child(goalId)
             .orderByChild("taskCompleted")
             .equalTo(false)
         val tasks: MutableList<Task> = mutableListOf()
@@ -57,8 +57,8 @@ class TaskRepositoryImpl @Inject constructor(
         return tasks
     }
 
-    override suspend fun fetchCompletedTasks(goalID: String): List<Task> {
-        val completedTasksRefByGoalId = tasksRef.child(goalID)
+    override suspend fun fetchCompletedTasks(goalId: String): List<Task> {
+        val completedTasksRefByGoalId = tasksRef.child(goalId)
             .orderByChild("taskCompleted")
             .equalTo(true)
         val completedTasks: MutableList<Task> = mutableListOf()

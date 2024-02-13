@@ -3,15 +3,15 @@ package com.n1.moguchi.data.repositories
 import com.n1.moguchi.data.models.Task
 
 interface TaskRepository {
-    suspend fun createTask(task: Task, goalID: String): Task
+    suspend fun createTask(task: Task, goalId: String): Task
 
     suspend fun updateTask(task: Task): Task
 
-    suspend fun deleteTask(goalID: String, task: Task)
+    suspend fun deleteTask(goalId: String, task: Task)
 
-    fun markTaskCompleted(taskID: String, isCompleted: Boolean)
+    fun markTaskCompleted(taskId: String, isCompleted: Boolean)
 
-    suspend fun fetchActiveTasks(goalID: String): List<Task>
+    suspend fun fetchActiveTasks(goalId: String): List<Task>
 
-    suspend fun fetchCompletedTasks(goalID: String): List<Task>
+    suspend fun fetchCompletedTasks(goalId: String): List<Task>
 }
