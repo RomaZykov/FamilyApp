@@ -22,6 +22,8 @@ class ParentRepositoryImpl @Inject constructor(
 
     private val childrenRef: DatabaseReference = database.getReference("children")
     private val parentsRef: DatabaseReference = database.getReference("parents")
+    private val goalsRef: DatabaseReference = database.getReference("goals")
+    private val tasksRef: DatabaseReference = database.getReference("tasks")
 
     override fun fetchParentData(parentId: String): Flow<Parent?> = callbackFlow {
         val listener = parentsRef.child(parentId)
@@ -70,9 +72,43 @@ class ParentRepositoryImpl @Inject constructor(
         return updatedChild
     }
 
-    override suspend fun deleteChildProfile(parentId: String, childId: String) {
-        val childRefByParentId = childrenRef.child(childId)
-        childRefByParentId.removeValue()
+    override suspend fun deleteChildProfile(childId: String) {
+        val databaseReferences = listOf(goalsRef, childrenRef)
+        for (databaseRef in databaseReferences) {
+            when (databaseRef) {
+                goalsRef -> {
+                    var goalId = ""
+                    val listener = databaseRef.orderByChild("childOwnerId").equalTo(childId)
+                        .addValueEventListener(
+                            object : ValueEventListener {
+                                override fun onDataChange(snapshot: DataSnapshot) {
+                                    for (parameter in snapshot.children) {
+                                        if (parameter
+                                                .child("childOwnerId").getValue(String::class.java)
+                                                .toString() == childId
+                                        ) {
+                                            goalId = parameter
+                                                .child("goalId")
+                                                .getValue(String::class.java)
+                                                .toString()
+                                        }
+                                        tasksRef.child(goalId).removeValue()
+                                        databaseRef.child(goalId).removeValue()
+                                    }
+                                }
+
+                                override fun onCancelled(error: DatabaseError) {
+                                }
+                            }
+                        )
+                    databaseRef.addValueEventListener(listener)
+                }
+
+                childrenRef -> {
+                    databaseRef.child(childId).removeValue()
+                }
+            }
+        }
     }
 
     override suspend fun setPassword(password: Int, childId: String) {
@@ -112,5 +148,51 @@ class ParentRepositoryImpl @Inject constructor(
                 }
             })
         awaitClose { childrenRef.removeEventListener(listener) }
+    }
+
+    override suspend fun deleteAllUserData(parentId: String) {
+        val databaseReferences = listOf(goalsRef, childrenRef, parentsRef)
+        for (databaseRef in databaseReferences) {
+            when (databaseRef) {
+                goalsRef -> {
+                    var goalId = ""
+                    databaseRef.orderByChild("parentOwnerId").equalTo(parentId)
+                        .addValueEventListener(
+                            object : ValueEventListener {
+                                override fun onDataChange(snapshot: DataSnapshot) {
+                                    for (parameter in snapshot.children) {
+                                        if (parameter.key == "goalId") {
+                                            goalId = parameter
+                                                .child("goalId")
+                                                .getValue(String::class.java)
+                                                .toString()
+                                        }
+                                    }
+                                }
+
+                                override fun onCancelled(error: DatabaseError) {
+                                }
+                            }
+                        )
+                    tasksRef.child(goalId).removeValue()
+                    databaseRef.child(goalId).removeValue()
+                }
+
+                childrenRef -> {
+                    childrenRef.orderByChild("parentOwnerId").equalTo(parentId)
+                        .addValueEventListener(
+                            object : ValueEventListener {
+                                override fun onDataChange(snapshot: DataSnapshot) {
+                                    snapshot.ref.removeValue()
+                                }
+
+                                override fun onCancelled(error: DatabaseError) {
+                                }
+                            }
+                        )
+                }
+            }
+            databaseRef.child(parentId).removeValue()
+        }
     }
 }

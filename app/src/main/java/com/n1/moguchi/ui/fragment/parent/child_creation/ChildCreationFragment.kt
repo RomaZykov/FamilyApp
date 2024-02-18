@@ -107,12 +107,19 @@ class ChildCreationFragment : Fragment() {
                     if (position == 1 && childrenCreationAdapter.children.size == 2) {
                         childrenCreationAdapter.notifyItemChanged(0)
                     }
-                    viewModel.deleteChildProfile(parentId, child.childId!!)
+                    viewModel.deleteChildProfile(child.childId!!)
                 }
 
                 childrenCreationAdapter.onChildRemoveForBottomSheetClicked = { child, position ->
                     showBottomSheet(TO_DELETE_CHILD_PROFILE)
-                    // TODO
+                    childFragmentManager.setFragmentResultListener(
+                        "deleteChildProfileClickedRequestKey",
+                        this
+                    ) { _, _ ->
+                        childrenCreationAdapter.children.removeAt(position)
+                        childrenCreationAdapter.notifyItemRemoved(position)
+                        viewModel.deleteChildProfile(child.childId!!)
+                    }
                 }
 
                 childrenCreationAdapter.onChildUpdate = { child ->
@@ -121,7 +128,7 @@ class ChildCreationFragment : Fragment() {
 
                 childrenCreationAdapter.onCardsStatusUpdate = { isAllCardsCompleted ->
                     parentFragmentManager.setFragmentResult(
-                        "buttonIsEnabled",
+                        "isButtonEnabledRequestKey",
                         bundleOf("buttonIsReadyKey" to isAllCardsCompleted)
                     )
                 }

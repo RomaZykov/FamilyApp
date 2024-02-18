@@ -82,7 +82,11 @@ class ChildrenCreationRecyclerAdapter(
     }
 
     override fun getItemCount(): Int {
-        return children.size + FOOTER_ADD_CHILD_BUTTON
+        return if (isFromParentProfile) {
+            children.size
+        } else {
+            children.size + FOOTER_ADD_CHILD_BUTTON
+        }
     }
 
     inner class ChildViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -96,13 +100,19 @@ class ChildrenCreationRecyclerAdapter(
         )
 
         fun bind(child: Child) {
+//            if (!isFromParentProfile && editChildOptionEnable && child.imageResourceId == null) {
+//            }
             if (child.childName != null && child.imageResourceId != null) {
                 binding.childNameEditText.setText(child.childName)
                 val checkedId = childAvatars.entries.find { it.value == child.imageResourceId }?.key
                 if (checkedId != null) {
                     binding.avatars.check(checkedId)
                 }
+            } else {
+                binding.avatarMale1.isChecked = true
+                children[adapterPosition].imageResourceId = childAvatars[binding.avatarMale1.id]
             }
+
             binding.childNameEditText.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
                     s: CharSequence?,
@@ -133,9 +143,6 @@ class ChildrenCreationRecyclerAdapter(
                 binding.deleteChildButton.setOnClickListener {
                     if (isFromParentProfile) {
                         onChildRemoveForBottomSheetClicked?.invoke(child, adapterPosition)
-                        children.removeAt(adapterPosition)
-                        notifyItemRemoved(adapterPosition)
-                        notifyItemChanged(itemCount - FOOTER_ADD_CHILD_BUTTON)
                     } else {
                         onChildRemoveClicked?.invoke(child, adapterPosition)
                         children.removeAt(adapterPosition)
@@ -170,7 +177,6 @@ class ChildrenCreationRecyclerAdapter(
             val regex = "^[a-zA-Zа-яА-Я]+$".toRegex()
             if (children.all {
                     it.childName != null
-                            && it.imageResourceId != null
                             && it.childName.toString().matches(regex)
                 } && children.size == itemCount - FOOTER_ADD_CHILD_BUTTON) {
                 onCardsStatusUpdate?.invoke(true)

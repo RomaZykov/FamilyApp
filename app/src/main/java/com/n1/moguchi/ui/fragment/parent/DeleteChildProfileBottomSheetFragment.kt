@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.os.bundleOf
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.n1.moguchi.R
@@ -38,7 +39,11 @@ class DeleteChildProfileBottomSheetFragment : BottomSheetDialogFragment() {
 
             rightButton.text = getString(R.string.delete)
             rightButton.setOnClickListener {
-                // TODO
+                parentFragmentManager.setFragmentResult(
+                    "deleteChildProfileClickedRequestKey",
+                    bundleOf()
+                )
+                dismiss()
             }
         }
 

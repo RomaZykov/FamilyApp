@@ -34,11 +34,11 @@ class ChildCreationViewModel @Inject constructor(private val parentRepository: P
         return childrenList.last()
     }
 
-    fun deleteChildProfile(parentId: String, childId: String) {
-        _children.value =
-            _children.value?.dropWhile { it.childId == childId && it.parentOwnerId == parentId }
+    fun deleteChildProfile(childId: String) {
         viewModelScope.launch {
-            parentRepository.deleteChildProfile(parentId, childId)
+            parentRepository.deleteChildProfile(childId)
+            _children.value =
+                _children.value?.dropWhile { it.childId == childId }
         }
     }
 
