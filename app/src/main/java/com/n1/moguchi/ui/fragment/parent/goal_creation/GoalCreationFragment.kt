@@ -104,14 +104,14 @@ class GoalCreationFragment(
                 val regex = "^[a-zA-Zа-яА-Я0-9 ]+$".toRegex()
                 if (text.toString().isNotBlank() && text.toString().matches(regex)) {
                     parentFragmentManager.setFragmentResult(
-                        "buttonIsEnabled",
+                        "isButtonEnabledRequestKey",
                         bundleOf("buttonIsReadyKey" to true)
                     )
                     viewModel.setGoalTitle(text.toString())
                 } else {
                     binding.goalTitle.error = getString(R.string.error_goal_title)
                     parentFragmentManager.setFragmentResult(
-                        "buttonIsEnabled",
+                        "isButtonEnabledRequestKey",
                         bundleOf("buttonIsReadyKey" to false)
                     )
                 }

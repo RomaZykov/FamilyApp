@@ -62,15 +62,15 @@ class PasswordFragment : Fragment() {
             override fun afterTextChanged(password: Editable?) {
                 if (password.toString().isEmpty() && password.toString().isBlank()) {
                     binding.passwordForChildEditText.error = getString(R.string.password_error)
-                    parentFragmentManager.clearFragmentResult("buttonIsEnabled")
+                    parentFragmentManager.clearFragmentResult("isButtonEnabledRequestKey")
                     parentFragmentManager.setFragmentResult(
-                        "buttonIsEnabled",
+                        "isButtonEnabledRequestKey",
                         bundleOf("buttonIsReadyKey" to false)
                     )
                 } else {
-                    parentFragmentManager.clearFragmentResult("buttonIsEnabled")
+                    parentFragmentManager.clearFragmentResult("isButtonEnabledRequestKey")
                     parentFragmentManager.setFragmentResult(
-                        "buttonIsEnabled",
+                        "isButtonEnabledRequestKey",
                         bundleOf("buttonIsReadyKey" to true)
                     )
                 }

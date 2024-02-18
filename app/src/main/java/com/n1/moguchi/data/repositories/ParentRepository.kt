@@ -14,7 +14,9 @@ interface ParentRepository {
 
     fun getAndUpdateChildInDb(parentId: String, childUser: Child): Child
 
-    suspend fun deleteChildProfile(parentId: String, childId: String)
+    suspend fun deleteChildProfile(childId: String)
+
+    suspend fun deleteAllUserData(parentId: String)
 
     suspend fun setPassword(password: Int, childId: String)
 

@@ -63,7 +63,7 @@ class AfterOnBoardingFragment : Fragment() {
             .commit()
 
         childFragmentManager.setFragmentResultListener(
-            "buttonIsEnabled",
+            "isButtonEnabledRequestKey",
             viewLifecycleOwner
         ) { _, bundle ->
             val currentFragmentInContainer = childFragmentManager.fragments.last()
