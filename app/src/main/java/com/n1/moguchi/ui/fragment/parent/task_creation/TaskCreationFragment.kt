@@ -89,11 +89,11 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
                             currentGoalID
                         )
                     )
-                    taskCreationRecyclerAdapter.notifyItemInserted(tasks.size)
-                    taskCreationRecyclerAdapter.notifyItemChanged(taskCreationRecyclerAdapter.itemCount - 1)
                     if (taskCreationRecyclerAdapter.tasksCardList.size == 2) {
                         taskCreationRecyclerAdapter.notifyItemChanged(0)
                     }
+                    taskCreationRecyclerAdapter.notifyItemInserted(tasks.size)
+                    taskCreationRecyclerAdapter.notifyItemChanged(taskCreationRecyclerAdapter.itemCount - 1)
                 }
             }
 
@@ -102,18 +102,21 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
                     viewModel.updateTask(updatedTask, taskPointsChanged, taskTitleChanged)
                 }
 
-            taskCreationRecyclerAdapter.onTaskDeleteClicked = { task ->
+            taskCreationRecyclerAdapter.onTaskDeleteClicked = { task, position ->
                 if (currentGoalID != null) {
-                    viewModel.deleteTask(currentGoalID, task)
-                    if (taskCreationRecyclerAdapter.tasksCardList.size == 2) {
+                    if (position == 0 && taskCreationRecyclerAdapter.tasksCardList.size == 2) {
+                        taskCreationRecyclerAdapter.notifyItemChanged(1)
+                    }
+                    if (position == 1 && taskCreationRecyclerAdapter.tasksCardList.size == 2) {
                         taskCreationRecyclerAdapter.notifyItemChanged(0)
                     }
+                    viewModel.deleteTask(currentGoalID, task)
                 }
             }
 
             taskCreationRecyclerAdapter.onCardsStatusUpdate = { isAllTasksCompleted ->
                 parentFragmentManager.setFragmentResult(
-                    "buttonIsEnabled",
+                    "isButtonEnabledRequestKey",
                     bundleOf("buttonIsReadyKey" to isAllTasksCompleted)
                 )
             }

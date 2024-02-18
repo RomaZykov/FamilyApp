@@ -20,7 +20,7 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
     var onTaskSettingsClicked: (() -> Unit)? = null
     var onTaskUpdate: ((Task, Boolean, Boolean) -> Unit)? = null
     var onNewTaskAddClicked: (() -> Unit)? = null
-    var onTaskDeleteClicked: ((Task) -> Unit)? = null
+    var onTaskDeleteClicked: ((Task, Int) -> Unit)? = null
     var onCardsStatusUpdate: ((Boolean) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -79,8 +79,8 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
             } else {
                 binding.deleteTaskButton.visibility = View.VISIBLE
             }
-            binding.taskNameEditText.setText(task.title)
             binding.taskHeight.text = task.height.toString()
+            binding.taskNameEditText.setText(task.title)
             binding.taskNameEditText.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 }
@@ -100,10 +100,10 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             })
             binding.deleteTaskButton.setOnClickListener {
-                onTaskDeleteClicked?.invoke(task)
+                onTaskDeleteClicked?.invoke(task, adapterPosition)
                 tasksCardList.removeAt(adapterPosition)
                 notifyItemRemoved(adapterPosition)
-                notifyItemRemoved(itemCount - 1)
+                notifyItemChanged(itemCount - 1)
             }
 //            binding.taskSettingsButton.setOnClickListener {
 //                onTaskSettingsClicked?.invoke()
