@@ -16,6 +16,9 @@ import com.n1.moguchi.ui.fragment.child.home.HomeChildFragment
 import com.n1.moguchi.ui.fragment.parent.child_creation.ChildCreationFragment
 import com.n1.moguchi.ui.fragment.parent.goal_creation.GoalCreationFragment
 import com.n1.moguchi.ui.fragment.parent.home.HomeParentFragment
+import com.n1.moguchi.ui.fragment.parent.profile.ProfileParentFragment
+import com.n1.moguchi.ui.fragment.parent.profile.related_bottom_sheet.ProfileContainerBottomSheetFragment
+import com.n1.moguchi.ui.fragment.parent.profile.related_bottom_sheet.edit_profile.EditParentProfileFragment
 import com.n1.moguchi.ui.fragment.parent.task_creation.TaskCreationFragment
 import com.n1.moguchi.ui.fragment.password.PasswordFragment
 import com.n1.moguchi.ui.fragment.switch_to_user.SwitchToChildBottomSheetFragment
@@ -58,6 +61,12 @@ interface AppComponent {
     fun inject(homeParentFragment: HomeParentFragment)
 
     fun inject(homeChildFragment: HomeChildFragment)
+
+    fun inject(profileParentFragment: ProfileParentFragment)
+
+    fun inject(editParentProfileFragment: EditParentProfileFragment)
+
+    fun inject(profileContainerBottomSheetFragment: ProfileContainerBottomSheetFragment)
 
     fun inject(moguchiBaseApplication: MoguchiBaseApplication)
 

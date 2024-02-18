@@ -7,10 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,7 +23,6 @@ import com.n1.moguchi.ui.adapter.ChildrenRecyclerAdapter
 import com.n1.moguchi.ui.adapter.CompletedGoalsRecyclerAdapter
 import com.n1.moguchi.ui.adapter.GoalsRecyclerAdapter
 import com.n1.moguchi.ui.fragment.parent.PrimaryContainerBottomSheetFragment
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class HomeParentFragment : Fragment() {
@@ -75,14 +71,6 @@ class HomeParentFragment : Fragment() {
 
         if (parentId != null) {
             viewModel.fetchChildren(parentId)
-
-            lifecycleScope.launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.fetchParentData(parentId).collect {
-
-                    }
-                }
-            }
 
             val menuItem = binding.parentHomeAppBar.menu.findItem(R.id.parentProfile)
             val photoUrl = Firebase.auth.currentUser?.photoUrl.toString()

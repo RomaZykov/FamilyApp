@@ -1,4 +1,4 @@
-package com.n1.moguchi.ui.fragment.parent.profile
+package com.n1.moguchi.ui.fragment.parent.profile.related_bottom_sheet.edit_profile
 
 import android.widget.ImageView
 import androidx.lifecycle.ViewModel
@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class ProfileParentViewModel @Inject constructor(
+class EditParentViewModel @Inject constructor(
     private val fetchParentDataUseCase: FetchParentDataUseCase,
     private val profileImage: ProfileImage
 ) : ViewModel() {
@@ -19,6 +19,5 @@ class ProfileParentViewModel @Inject constructor(
             it!!
         }
     }
-
     fun load(url: String, imageView: ImageView) = profileImage.load(url, imageView)
 }
