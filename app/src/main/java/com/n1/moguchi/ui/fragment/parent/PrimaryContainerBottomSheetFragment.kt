@@ -73,7 +73,7 @@ class PrimaryContainerBottomSheetFragment : BottomSheetDialogFragment() {
                     childFragmentManager.commit {
                         replace(
                             R.id.primary_child_fragment_container,
-                            ChildCreationFragment.newInstance(false),
+                            ChildCreationFragment.newInstance(true),
                             TO_CHILD_CREATION_TAG
                         )
                     }
@@ -97,11 +97,11 @@ class PrimaryContainerBottomSheetFragment : BottomSheetDialogFragment() {
                     childFragmentManager.commit {
                         replace(
                             R.id.primary_child_fragment_container,
-                            // TODO - Warning! Use newInstance() instead
-                            GoalCreationFragment(
+                            GoalCreationFragment.newInstance(
                                 addChildButtonEnable = true,
                                 childSelectionEnable = true,
-                                isInBottomSheetShouldOpen = true
+                                insideBottomSheetShouldOpen = true,
+                                isFromOnBoarding = false
                             ),
                             TO_TASK_CREATION_TAG
                         )
