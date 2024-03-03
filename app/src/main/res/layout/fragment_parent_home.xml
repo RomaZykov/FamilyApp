@@ -76,8 +76,8 @@
                     layout="@layout/fragment_completed_goals"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:layout_marginTop="@dimen/small_margin" />
+                    android:layout_marginTop="@dimen/small_margin"
+                    android:visibility="gone" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

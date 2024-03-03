@@ -157,5 +157,6 @@
     <string name="child_password_notification_by_email">Отправили пароль ребенка на ваш E-mail</string>
     <string name="not_correct_child_password">Неверный пароль</string>
     <string name="reset_password_mail_instructions">На вашу почту %s были отправлены дальнейшие инструкции по восстановлению пароля</string>
+    <string name="slash_symbol">/</string>
 
 </resources>

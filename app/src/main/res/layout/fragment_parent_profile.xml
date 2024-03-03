@@ -83,9 +83,9 @@
                     android:layout_marginStart="@dimen/medium_margin"
                     android:layout_weight="1"
                     android:fontFamily="@font/onest_regular"
-                    android:textColor="@color/black"
                     android:gravity="start|center"
                     android:text="@string/my_children"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/semi_small_font_size" />
 
                 <ImageView
@@ -122,9 +122,9 @@
                     android:layout_marginStart="@dimen/medium_margin"
                     android:layout_weight="1"
                     android:fontFamily="@font/onest_regular"
-                    android:textColor="@color/black"
                     android:gravity="start|center"
                     android:text="@string/notifications"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/semi_small_font_size" />
 
                 <com.google.android.material.materialswitch.MaterialSwitch
@@ -162,9 +162,9 @@
                     android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/medium_margin"
                     android:fontFamily="@font/onest_regular"
-                    android:textColor="@color/black"
                     android:gravity="center"
                     android:text="@string/log_out"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/semi_small_font_size" />
             </LinearLayout>
         </LinearLayout>
@@ -187,9 +187,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="@font/onest_regular"
-                android:textColor="@color/black"
                 android:gravity="start"
                 android:text="@string/notifications"
+                android:textColor="@color/black"
                 android:textSize="@dimen/medium_font_size" />
 
             <TextView

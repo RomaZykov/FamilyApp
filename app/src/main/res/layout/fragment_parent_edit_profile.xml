@@ -29,6 +29,7 @@
             android:layout_marginVertical="@dimen/small_margin"
             android:fontFamily="@font/onest_regular"
             android:text="@string/name"
+            android:textColor="@color/black"
             android:textSize="@dimen/semi_small_font_size"
             app:layout_constraintBottom_toTopOf="@+id/parent_name_input_layout"
             app:layout_constraintStart_toStartOf="parent"

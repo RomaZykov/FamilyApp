@@ -26,6 +26,7 @@
             android:layout_marginHorizontal="@dimen/medium_margin"
             android:gravity="start"
             android:textSize="@dimen/semi_small_font_size"
+            android:textColor="@color/black"
             tools:text="Кирилл" />
     </LinearLayout>
 </layout>

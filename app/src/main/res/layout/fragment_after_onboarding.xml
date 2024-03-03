@@ -27,7 +27,8 @@
                 app:navigationIcon="@drawable/baseline_arrow_back_24"
                 app:title="Добавление ребёнка"
                 app:titleCentered="true"
-                app:titleTextAppearance="@style/ActionBar.TitleText.Medium" />
+                app:titleTextAppearance="@style/ActionBar.TitleText.Medium"
+                app:titleTextColor="@color/black" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.fragment.app.FragmentContainerView
