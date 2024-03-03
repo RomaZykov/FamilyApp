@@ -1,27 +1,51 @@
 package com.n1.moguchi.ui.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.appbar.MaterialToolbar
+import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
+import com.n1.moguchi.data.models.Child
+import com.n1.moguchi.data.models.Goal
+import com.n1.moguchi.data.models.Task
 import com.n1.moguchi.databinding.FragmentAfterOnboardingBinding
+import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.activity.MainActivity
 import com.n1.moguchi.ui.fragment.parent.child_creation.ChildCreationFragment
 import com.n1.moguchi.ui.fragment.parent.goal_creation.GoalCreationFragment
 import com.n1.moguchi.ui.fragment.parent.task_creation.TaskCreationFragment
 import com.n1.moguchi.ui.fragment.password.PasswordFragment
+import javax.inject.Inject
 
 class AfterOnBoardingFragment : Fragment() {
 
     private var _binding: FragmentAfterOnboardingBinding? = null
     private val binding get() = _binding!!
+
     private var isButtonEnabled: Boolean? = null
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    private val viewModel by lazy {
+        ViewModelProvider(this, viewModelFactory)[AfterOnBoardingViewModel::class.java]
+    }
+
+    private val component by lazy {
+        (requireActivity().application as MoguchiBaseApplication).appComponent
+    }
+
+    override fun onAttach(context: Context) {
+        component.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,12 +67,13 @@ class AfterOnBoardingFragment : Fragment() {
 
         val fragments = listOf(
             ChildCreationFragment.newInstance(true),
-            GoalCreationFragment(
+            GoalCreationFragment.newInstance(
                 addChildButtonEnable = false,
                 childSelectionEnable = false,
-                isInBottomSheetShouldOpen = false
+                insideBottomSheetShouldOpen = false,
+                isFromOnBoarding = true
             ),
-            TaskCreationFragment(),
+            TaskCreationFragment.newInstance(isFromOnBoarding = true),
             PasswordFragment()
         )
         val topAppBar = requireActivity().findViewById<MaterialToolbar>(R.id.top_common_app_bar)
@@ -72,6 +97,17 @@ class AfterOnBoardingFragment : Fragment() {
             binding.goNextButton.setOnClickListener {
                 when (currentFragmentInContainer) {
                     fragments[0] -> {
+                        checkButtonPressed()
+                        childFragmentManager.setFragmentResultListener(
+                            CREATE_BUNDLE_REQUEST_KEY,
+                            viewLifecycleOwner
+                        ) { _, innerBundle ->
+                            if (arguments != null) {
+                                this.arguments?.putAll(innerBundle)
+                            } else {
+                                this.arguments = innerBundle
+                            }
+                        }
                         moveToFragment(currentFragmentInContainer, fragments[1])
                     }
 
@@ -81,7 +117,11 @@ class AfterOnBoardingFragment : Fragment() {
                             "goalCreationRequestKey",
                             viewLifecycleOwner
                         ) { _, innerBundle ->
-                            this.arguments = innerBundle
+                            if (arguments != null) {
+                                this.arguments?.putAll(innerBundle)
+                            } else {
+                                this.arguments = innerBundle
+                            }
                         }
                         moveToFragment(currentFragmentInContainer, fragments[2])
                     }
@@ -93,11 +133,21 @@ class AfterOnBoardingFragment : Fragment() {
 
                     fragments[3] -> {
                         checkButtonPressed()
+                        childFragmentManager.setFragmentResultListener(
+                            "childCreationProcessCompletedRequestKey",
+                            viewLifecycleOwner
+                        ) { _, innerBundle ->
+                            if (arguments != null) {
+                                this.arguments?.putAll(innerBundle)
+                            } else {
+                                this.arguments = innerBundle
+                            }
+                        }
                         moveToFragmentByChildCreationCondition(
                             currentFragmentInContainer,
                             fragments[1],
                             navController,
-                            isAllChildrenCompleted(fragments[1])
+                            isAllChildrenCompleted()
                         )
                     }
                 }
@@ -111,9 +161,15 @@ class AfterOnBoardingFragment : Fragment() {
         _binding = null
     }
 
-    private fun isAllChildrenCompleted(fragment: Fragment): Boolean {
-        val bundle = fragment.requireArguments()
-        return bundle.getBoolean(GoalCreationFragment.GOAL_SETTING_FOR_CHILDREN_COMPLETED_KEY)
+    private fun isAllChildrenCompleted(): Boolean {
+        val args = requireArguments()
+        val children = args.getParcelableArrayList<Child>("children")
+        if (children != null) {
+            for (child in children) {
+                args.getString(child.childId) ?: return false
+            }
+        }
+        return true
     }
 
     private fun moveToFragmentByChildCreationCondition(
@@ -123,6 +179,23 @@ class AfterOnBoardingFragment : Fragment() {
         allChildrenCompleted: Boolean
     ) {
         if (allChildrenCompleted) {
+            val args = requireArguments()
+            val children = args.getParcelableArrayList<Child>("children")
+            children?.forEach {
+                val password = args.getString(it.childId)
+                if (password != null) {
+                    it.passwordFromParent = password.toInt()
+                }
+            }
+            val tasks = args.getParcelableArrayList<Task>("tasks")
+            val goals = args.getParcelableArrayList<Goal>("goals")?.toSet()
+            if (children != null && goals != null && tasks != null) {
+                viewModel.saveChildrenDataToDb(
+                    children.toList(),
+                    goals.toList(),
+                    tasks.toList()
+                )
+            }
             navController.navigate(R.id.action_afterOnBoardingFragment_to_parentHomeFragment)
         } else {
             moveToFragment(currentFragmentInContainer, fragmentToMove)
@@ -145,7 +218,7 @@ class AfterOnBoardingFragment : Fragment() {
 
     private fun checkButtonPressed() {
         childFragmentManager.setFragmentResult(
-            "nextButtonPressedRequestKey",
+            NEXT_BUTTON_PRESSED_REQUEST_KEY,
             bundleOf("buttonIsPressedKey" to true)
         )
     }
@@ -170,5 +243,10 @@ class AfterOnBoardingFragment : Fragment() {
 
             else -> throw NullPointerException("isButtonEnabled equals null")
         }
+    }
+
+    companion object {
+        private const val CREATE_BUNDLE_REQUEST_KEY = "createBundleRequestKey"
+        private const val NEXT_BUTTON_PRESSED_REQUEST_KEY = "nextButtonPressedRequestKey"
     }
 }

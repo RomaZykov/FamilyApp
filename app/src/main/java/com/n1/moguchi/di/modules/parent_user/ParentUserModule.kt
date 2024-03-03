@@ -12,7 +12,6 @@ import com.n1.moguchi.ui.fragment.parent.home.HomeParentViewModel
 import com.n1.moguchi.ui.fragment.parent.profile.ProfileParentViewModel
 import com.n1.moguchi.ui.fragment.parent.profile.related_bottom_sheet.ProfileBottomSheetViewModel
 import com.n1.moguchi.ui.fragment.parent.profile.related_bottom_sheet.edit_profile.EditParentViewModel
-import com.n1.moguchi.ui.fragment.password.PasswordViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -30,11 +29,6 @@ interface ParentUserModule {
     @ViewModelKey(ChildCreationViewModel::class)
     @Binds
     fun bindChildCreationViewModel(childCreationViewModel: ChildCreationViewModel): ViewModel
-
-    @IntoMap
-    @ViewModelKey(PasswordViewModel::class)
-    @Binds
-    fun bindPasswordViewModel(passwordViewModel: PasswordViewModel): ViewModel
 
     @IntoMap
     @ViewModelKey(ProfileParentViewModel::class)

@@ -7,12 +7,15 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.n1.moguchi.data.models.Child
+import com.n1.moguchi.data.models.Goal
 import com.n1.moguchi.data.models.Parent
+import com.n1.moguchi.data.models.Task
 import com.n1.moguchi.data.repositories.ParentRepository
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
+import java.util.UUID
 import javax.inject.Inject
 
 class ParentRepositoryImpl @Inject constructor(
@@ -50,17 +53,15 @@ class ParentRepositoryImpl @Inject constructor(
         return children
     }
 
-    override fun getAndSaveChildToDb(parentId: String, childUser: Child): Child {
-        val newChildRef: DatabaseReference = childrenRef.push()
-        val childId: String? = newChildRef.key
-        val newChild = childUser.copy(
+    override fun returnCreatedChild(parentId: String, childUser: Child): Child {
+        val childId: String = UUID.randomUUID().toString()
+        return childUser.copy(
             childId = childId,
             parentOwnerId = parentId
         )
-        newChildRef.setValue(newChild)
-        return newChild
     }
 
+    // TODO - Incorrect function, should replace with better solution
     override fun getAndUpdateChildInDb(parentId: String, childUser: Child): Child {
         val specificChild = childrenRef.child(childUser.childId!!)
         val updatedChild = childUser.copy(
@@ -70,6 +71,25 @@ class ParentRepositoryImpl @Inject constructor(
         val childValues = updatedChild.toMap()
         specificChild.updateChildren(childValues)
         return updatedChild
+    }
+
+    override suspend fun saveChildrenToDb(
+        children: List<Child>,
+        goals: List<Goal>,
+        tasks: List<Task>
+    ) {
+        for (child in children) {
+            childrenRef.child(child.childId!!).setValue(child)
+        }
+        for (goal in goals) {
+            goalsRef.child(goal.goalId!!).setValue(goal)
+            for (task in tasks) {
+                if (task.goalOwnerId == goal.goalId) {
+                    val taskRefByGoalId = tasksRef.child(goal.goalId!!).child(task.taskId)
+                    taskRefByGoalId.setValue(task)
+                }
+            }
+        }
     }
 
     override suspend fun deleteChildProfile(childId: String) {
@@ -111,23 +131,6 @@ class ParentRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun setPassword(password: Int, childId: String) {
-        val parentId = auth.currentUser?.uid
-
-        val specificChild =
-            childrenRef.child(childId).get().await().getValue(Child::class.java)
-        specificChild?.passwordFromParent = password
-        val updatedChild = specificChild?.toMap()
-        val childValues = updatedChild?.toMap()
-        childrenRef.child(childId).updateChildren(childValues!!)
-
-        val specificParent = parentsRef.child(parentId!!).get().await().getValue(Parent::class.java)
-        specificParent?.childrenPasswordsMap?.put(password, specificChild)
-        val updatedParent = specificParent?.toMap()
-        val parentValues = updatedParent?.toMap()
-        parentsRef.child(parentId).updateChildren(parentValues!!)
-    }
-
     override fun checkPassword(password: Int, childId: String): Flow<Boolean> = callbackFlow {
         val listener = childrenRef.orderByChild("childId").equalTo(childId)
             .addValueEventListener(object : ValueEventListener {
@@ -161,12 +164,17 @@ class ParentRepositoryImpl @Inject constructor(
                             object : ValueEventListener {
                                 override fun onDataChange(snapshot: DataSnapshot) {
                                     for (parameter in snapshot.children) {
-                                        if (parameter.key == "goalId") {
+                                        if (parameter
+                                                .child("parentOwnerId").getValue(String::class.java)
+                                                .toString() == parentId
+                                        ) {
                                             goalId = parameter
                                                 .child("goalId")
                                                 .getValue(String::class.java)
                                                 .toString()
                                         }
+                                        tasksRef.child(goalId).removeValue()
+                                        databaseRef.child(goalId).removeValue()
                                     }
                                 }
 
@@ -174,8 +182,6 @@ class ParentRepositoryImpl @Inject constructor(
                                 }
                             }
                         )
-                    tasksRef.child(goalId).removeValue()
-                    databaseRef.child(goalId).removeValue()
                 }
 
                 childrenRef -> {

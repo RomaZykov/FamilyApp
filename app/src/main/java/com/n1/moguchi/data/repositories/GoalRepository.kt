@@ -5,7 +5,7 @@ import com.n1.moguchi.data.models.Task
 
 interface GoalRepository {
 
-    fun createGoal(goal: Goal, childId: String): Goal
+    fun returnCreatedGoal(title: String, totalPoints: Int, childId: String): Goal
 
     suspend fun getGoal(goalId: String): Goal
 

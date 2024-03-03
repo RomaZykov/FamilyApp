@@ -6,6 +6,7 @@ import com.n1.moguchi.data.models.Goal
 import com.n1.moguchi.data.models.Task
 import com.n1.moguchi.data.repositories.GoalRepository
 import kotlinx.coroutines.tasks.await
+import java.util.UUID
 import javax.inject.Inject
 
 class GoalRepositoryImpl @Inject constructor(
@@ -16,15 +17,20 @@ class GoalRepositoryImpl @Inject constructor(
     private val goalsRef = database.getReference("goals")
     private val tasksRef = database.getReference("tasks")
 
-    override fun createGoal(goal: Goal, childId: String): Goal {
-        val goalsRefByChildId = goalsRef.child(goal.goalId!!)
-        val newGoal = goal.copy(
+    override fun returnCreatedGoal(title: String, totalPoints: Int, childId: String): Goal {
+        val goalId: String = UUID.randomUUID().toString()
+        return Goal(
+            goalId = goalId,
+            title = title,
+            totalPoints = totalPoints,
             childOwnerId = childId,
             parentOwnerId = auth.currentUser?.uid
         )
-        goalsRefByChildId.setValue(newGoal)
-        return newGoal
     }
+
+//    override fun saveGoalToDb(parentId: String, goal: Goal) {
+//        childrenRef.child(child.childId!!).setValue(child)
+//    }
 
     override suspend fun fetchChildGoals(childId: String): List<Goal> {
         val goalsRefByChildId = goalsRef.orderByChild("childOwnerId").equalTo(childId)

@@ -13,6 +13,15 @@ class TaskRepositoryImpl @Inject constructor(
 
     private val tasksRef = database.getReference("tasks")
 
+    override fun returnCreatedTask(goalId: String): Task {
+        val taskId: String = UUID.randomUUID().toString()
+        return Task(
+            taskId = taskId,
+            goalOwnerId = goalId,
+            taskCompleted = false
+        )
+    }
+
     override suspend fun createTask(task: Task, goalId: String): Task {
         val taskId: String = UUID.randomUUID().toString()
         val taskRefByGoalId = tasksRef.child(goalId).child(taskId)

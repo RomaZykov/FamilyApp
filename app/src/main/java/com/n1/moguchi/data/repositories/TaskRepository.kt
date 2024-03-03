@@ -3,7 +3,10 @@ package com.n1.moguchi.data.repositories
 import com.n1.moguchi.data.models.Task
 
 interface TaskRepository {
+
     suspend fun createTask(task: Task, goalId: String): Task
+
+    fun returnCreatedTask(goalId: String): Task
 
     suspend fun updateTask(task: Task): Task
 

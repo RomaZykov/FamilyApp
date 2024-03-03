@@ -100,8 +100,6 @@ class ChildrenCreationRecyclerAdapter(
         )
 
         fun bind(child: Child) {
-//            if (!isFromParentProfile && editChildOptionEnable && child.imageResourceId == null) {
-//            }
             if (child.childName != null && child.imageResourceId != null) {
                 binding.childNameEditText.setText(child.childName)
                 val checkedId = childAvatars.entries.find { it.value == child.imageResourceId }?.key
