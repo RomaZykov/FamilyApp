@@ -1,4 +1,4 @@
-package com.n1.moguchi.ui.fragment.password
+package com.n1.moguchi.ui.fragment
 
 import android.os.Bundle
 import android.text.Editable

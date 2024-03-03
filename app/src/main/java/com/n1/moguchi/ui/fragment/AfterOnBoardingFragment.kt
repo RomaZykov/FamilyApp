@@ -22,7 +22,6 @@ import com.n1.moguchi.ui.activity.MainActivity
 import com.n1.moguchi.ui.fragment.parent.child_creation.ChildCreationFragment
 import com.n1.moguchi.ui.fragment.parent.goal_creation.GoalCreationFragment
 import com.n1.moguchi.ui.fragment.parent.task_creation.TaskCreationFragment
-import com.n1.moguchi.ui.fragment.password.PasswordFragment
 import javax.inject.Inject
 
 class AfterOnBoardingFragment : Fragment() {
@@ -73,7 +72,8 @@ class AfterOnBoardingFragment : Fragment() {
                 insideBottomSheetShouldOpen = false,
                 isFromOnBoarding = true
             ),
-            TaskCreationFragment.newInstance(isFromOnBoarding = true),
+//            TaskCreationFragment.newInstance(isFromOnBoarding = true),
+            TaskCreationFragment(),
             PasswordFragment()
         )
         val topAppBar = requireActivity().findViewById<MaterialToolbar>(R.id.top_common_app_bar)
@@ -172,6 +172,7 @@ class AfterOnBoardingFragment : Fragment() {
         return true
     }
 
+    // TODO - Rename function or reorganise it
     private fun moveToFragmentByChildCreationCondition(
         currentFragmentInContainer: Fragment,
         fragmentToMove: Fragment,
