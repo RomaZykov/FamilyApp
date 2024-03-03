@@ -14,6 +14,7 @@ import com.n1.moguchi.di.modules.task.TaskModule
 import com.n1.moguchi.ui.activity.MainActivity
 import com.n1.moguchi.ui.fragment.AfterOnBoardingFragment
 import com.n1.moguchi.ui.fragment.child.home.HomeChildFragment
+import com.n1.moguchi.ui.fragment.parent.PrimaryContainerBottomSheetFragment
 import com.n1.moguchi.ui.fragment.parent.child_creation.ChildCreationFragment
 import com.n1.moguchi.ui.fragment.parent.goal_creation.GoalCreationFragment
 import com.n1.moguchi.ui.fragment.parent.home.HomeParentFragment
@@ -21,7 +22,6 @@ import com.n1.moguchi.ui.fragment.parent.profile.ProfileParentFragment
 import com.n1.moguchi.ui.fragment.parent.profile.related_bottom_sheet.ProfileContainerBottomSheetFragment
 import com.n1.moguchi.ui.fragment.parent.profile.related_bottom_sheet.edit_profile.EditParentProfileFragment
 import com.n1.moguchi.ui.fragment.parent.task_creation.TaskCreationFragment
-import com.n1.moguchi.ui.fragment.password.PasswordFragment
 import com.n1.moguchi.ui.fragment.switch_to_user.SwitchToChildBottomSheetFragment
 import com.n1.moguchi.ui.fragment.switch_to_user.SwitchToParentBottomSheetFragment
 import com.n1.moguchi.ui.fragment.tasks.TasksFragment
@@ -45,8 +45,9 @@ interface AppComponent {
 
     fun inject(activity: MainActivity)
 
-
     fun inject(afterOnBoardingFragment: AfterOnBoardingFragment)
+
+    fun inject(primaryContainerBottomSheetFragment: PrimaryContainerBottomSheetFragment)
 
     fun inject(childCreationFragment: ChildCreationFragment)
 

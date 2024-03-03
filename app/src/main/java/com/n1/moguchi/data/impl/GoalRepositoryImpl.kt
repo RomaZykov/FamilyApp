@@ -28,9 +28,16 @@ class GoalRepositoryImpl @Inject constructor(
         )
     }
 
-//    override fun saveGoalToDb(parentId: String, goal: Goal) {
-//        childrenRef.child(child.childId!!).setValue(child)
-//    }
+    override suspend fun saveGoalWithTasksToDb(goal: Goal, tasks: List<Task>) {
+        val goalId = goal.goalId!!
+        goalsRef.child(goalId).setValue(goal)
+        for (task in tasks) {
+            if (task.goalOwnerId == goalId) {
+                val taskRefByGoalId = tasksRef.child(goalId).child(task.taskId)
+                taskRefByGoalId.setValue(task)
+            }
+        }
+    }
 
     override suspend fun fetchChildGoals(childId: String): List<Goal> {
         val goalsRefByChildId = goalsRef.orderByChild("childOwnerId").equalTo(childId)

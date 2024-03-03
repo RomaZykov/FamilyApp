@@ -26,7 +26,7 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
     private val binding get() = _binding!!
     private lateinit var taskCreationRecyclerAdapter: TaskCreationRecyclerAdapter
 
-    private var isFromOnBoarding: Boolean = false
+//    private var isFromOnBoarding: Boolean = false
     private var isNextButtonPressed: Boolean? = null
 
     private var tasksForParse: List<Task> = emptyList()
@@ -73,15 +73,15 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
             requireParentFragment().requireArguments().getString(GOAL_ID_KEY)
         val relatedGoal =
             requireParentFragment().requireArguments().getParcelable<Goal>(currentGoalId)
-        isFromOnBoarding = requireArguments().getBoolean("isFromOnBoarding")
+//        isFromOnBoarding = requireArguments().getBoolean("isFromOnBoarding")
 
         if (relatedGoal != null) {
-            if (isFromOnBoarding) {
-                viewModel.setupGoal(relatedGoal)
-            } else {
-                viewModel.setupMaxPointsOfGoal(relatedGoal.goalId!!)
-                viewModel.getTasksByGoalId(relatedGoal.goalId!!)
-            }
+            viewModel.setupGoal(relatedGoal)
+//            if (isFromOnBoarding) {
+//            } else {
+//                viewModel.setupMaxPointsOfGoal(relatedGoal.goalId!!)
+//                viewModel.getTasksByGoalId(relatedGoal.goalId!!)
+//            }
         }
 
         viewModel.tasks.observe(viewLifecycleOwner) { tasks ->
@@ -90,7 +90,6 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
                 taskCreationRecyclerAdapter.tasksCardList.add(
                     0,
                     viewModel.returnCreatedTask(
-//                        Task(),
                         relatedGoal.goalId!!
                     )
                 )
@@ -102,7 +101,6 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
                 if (relatedGoal != null) {
                     taskCreationRecyclerAdapter.tasksCardList.add(
                         viewModel.returnCreatedTask(
-//                            Task(),
                             relatedGoal.goalId!!
                         )
                     )
@@ -118,10 +116,6 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
                 { updatedTask, taskPointsChanged ->
                     viewModel.onTaskUpdate(updatedTask, taskPointsChanged)
                 }
-
-//            { updatedTask, taskPointsChanged, taskTitleChanged ->
-//                viewModel.updateTask(updatedTask, taskPointsChanged, taskTitleChanged)
-//            }
 
             taskCreationRecyclerAdapter.onTaskDeleteClicked = { task, position ->
                 if (relatedGoal != null) {
@@ -172,20 +166,20 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
         modalBottomSheet.show(fragmentManager, TaskSettingsSecondaryBottomSheetFragment.TAG)
     }
 
-    companion object {
-        private const val IS_FROM_ON_BOARDING_KEY = "isFromOnBoarding"
-
-        fun newInstance(
-            isFromOnBoarding: Boolean
-        ): TaskCreationFragment {
-            return TaskCreationFragment().apply {
-                arguments = Bundle().apply {
-                    putBoolean(
-                        IS_FROM_ON_BOARDING_KEY,
-                        isFromOnBoarding
-                    )
-                }
-            }
-        }
-    }
+//    companion object {
+//        private const val IS_FROM_ON_BOARDING_KEY = "isFromOnBoarding"
+//
+//        fun newInstance(
+//            isFromOnBoarding: Boolean
+//        ): TaskCreationFragment {
+//            return TaskCreationFragment().apply {
+//                arguments = Bundle().apply {
+//                    putBoolean(
+//                        IS_FROM_ON_BOARDING_KEY,
+//                        isFromOnBoarding
+//                    )
+//                }
+//            }
+//        }
+//    }
 }

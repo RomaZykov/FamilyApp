@@ -1,6 +1,8 @@
 package com.n1.moguchi.ui.fragment.parent
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,18 +12,39 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.fragment.app.setFragmentResultListener
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
+import com.n1.moguchi.data.models.Goal
+import com.n1.moguchi.data.models.Task
 import com.n1.moguchi.databinding.FragmentPrimaryBottomSheetBinding
+import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.fragment.parent.child_creation.ChildCreationFragment
 import com.n1.moguchi.ui.fragment.parent.goal_creation.GoalCreationFragment
 import com.n1.moguchi.ui.fragment.parent.task_creation.TaskCreationFragment
+import javax.inject.Inject
 
 class PrimaryContainerBottomSheetFragment : BottomSheetDialogFragment() {
 
     private var _binding: FragmentPrimaryBottomSheetBinding? = null
     private val binding get() = _binding!!
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    private val viewModel by lazy {
+        ViewModelProvider(this, viewModelFactory)[PrimaryContainerViewModel::class.java]
+    }
+
+    private val component by lazy {
+        (requireActivity().application as MoguchiBaseApplication).appComponent
+    }
+
+    override fun onAttach(context: Context) {
+        component.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,9 +63,9 @@ class PrimaryContainerBottomSheetFragment : BottomSheetDialogFragment() {
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
 
         setFragmentResultListener("primaryBottomSheetRequestKey") { _, bundle ->
+            this.arguments = bundle
             when (bundle.getString("primaryBundleKey")) {
                 "TaskCreationIntent" -> {
-                    this.arguments = bundle
                     childFragmentManager.setFragmentResultListener(
                         "isButtonEnabledRequestKey",
                         viewLifecycleOwner
@@ -53,6 +76,7 @@ class PrimaryContainerBottomSheetFragment : BottomSheetDialogFragment() {
                     childFragmentManager.commit {
                         replace(
                             R.id.primary_child_fragment_container,
+//                            TaskCreationFragment.newInstance(isFromOnBoarding = false),
                             TaskCreationFragment(),
                             TO_TASKS_COMPLETE_TAG
                         )
@@ -121,16 +145,18 @@ class PrimaryContainerBottomSheetFragment : BottomSheetDialogFragment() {
                     childFragmentManager.setFragmentResultListener(
                         "goalCreationRequestKey",
                         viewLifecycleOwner
-                    ) { _, bundle ->
+                    ) { _, innerBundle ->
                         if (arguments != null) {
-                            this.arguments?.clear()
+                            this.arguments?.putAll(innerBundle)
+                        } else {
+                            this.arguments = innerBundle
                         }
-                        this.arguments = bundle
                     }
                     childFragmentManager.commit {
                         remove(currentFragmentInContainer)
                         replace(
                             R.id.primary_child_fragment_container,
+//                            TaskCreationFragment.newInstance(isFromOnBoarding = false),
                             TaskCreationFragment(),
                             TO_GOAL_COMPLETE_TAG
                         )
@@ -146,6 +172,18 @@ class PrimaryContainerBottomSheetFragment : BottomSheetDialogFragment() {
                     binding.title.visibility = View.GONE
                     binding.bottomLinearLayout.findViewById<Button>(R.id.add_goal_button).visibility =
                         View.VISIBLE
+
+                    childFragmentManager.setFragmentResult(
+                        "nextButtonPressedRequestKey",
+                        bundleOf("buttonIsPressedKey" to true)
+                    )
+
+                    val args = requireArguments()
+                    Log.d("PrimaryContainerBottomSheetFragment", "Bundle = $args")
+                    val goal = args.getParcelableArrayList<Goal>("goals")?.get(0)
+                    val tasks = args.getParcelableArrayList<Task>("tasks")
+                    viewModel.saveGoalWithTasksToDb(goal!!, tasks?.toList()!!)
+
                     childFragmentManager.commit {
                         remove(currentFragmentInContainer)
                         replace<SuccessGoalAddedFragment>(R.id.primary_child_fragment_container)

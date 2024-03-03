@@ -7,6 +7,8 @@ interface GoalRepository {
 
     fun returnCreatedGoal(title: String, totalPoints: Int, childId: String): Goal
 
+    suspend fun saveGoalWithTasksToDb(goal: Goal, tasks: List<Task>)
+
     suspend fun getGoal(goalId: String): Goal
 
     suspend fun fetchChildGoals(childId: String): List<Goal>
