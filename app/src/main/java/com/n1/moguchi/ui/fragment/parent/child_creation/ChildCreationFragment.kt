@@ -2,6 +2,7 @@ package com.n1.moguchi.ui.fragment.parent.child_creation
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +22,7 @@ import com.n1.moguchi.data.models.Child
 import com.n1.moguchi.databinding.FragmentChildCreationBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.fragment.parent.DeleteChildProfileBottomSheetFragment
+import java.util.ArrayList
 import javax.inject.Inject
 
 class ChildCreationFragment : Fragment() {
@@ -31,9 +33,10 @@ class ChildCreationFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var childrenCreationAdapter: ChildrenCreationRecyclerAdapter
 
-    private var initChildrenRecyclerOnlyOnceFlag: Boolean = true
     private var deleteChildOptionEnable: Boolean = false
     private var isFromParentProfile: Boolean = false
+
+    private var childrenForParse: List<Child> = emptyList()
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -61,7 +64,6 @@ class ChildCreationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         auth = Firebase.auth
         val parentId = auth.currentUser?.uid
 
@@ -80,12 +82,12 @@ class ChildCreationFragment : Fragment() {
             viewModel.fetchChildren(parentId)
             setupRecyclerView()
             viewModel.children.observe(viewLifecycleOwner) { children ->
+                childrenForParse = children
                 if (children.isEmpty() && deleteChildOptionEnable) {
                     addChild(parentId, 0)
                 }
 
-                if (initChildrenRecyclerOnlyOnceFlag) {
-                    initChildrenRecyclerOnlyOnceFlag = false
+                if (isFromParentProfile) {
                     childrenCreationAdapter.children = children.toMutableList()
                     childrenCreationAdapter.notifyItemRangeInserted(
                         0,
@@ -123,7 +125,7 @@ class ChildCreationFragment : Fragment() {
                 }
 
                 childrenCreationAdapter.onChildUpdate = { child ->
-                    viewModel.onChildUpdate(parentId, child)
+                    viewModel.onChildUpdate(child)
                 }
 
                 childrenCreationAdapter.onCardsStatusUpdate = { isAllCardsCompleted ->
@@ -132,6 +134,22 @@ class ChildCreationFragment : Fragment() {
                         bundleOf("buttonIsReadyKey" to isAllCardsCompleted)
                     )
                 }
+            }
+        }
+
+        parentFragmentManager.setFragmentResultListener(
+            "nextButtonPressedRequestKey",
+            viewLifecycleOwner
+        ) { _, bundle ->
+            val nextButtonPressed = bundle.getBoolean("buttonIsPressedKey")
+            if (nextButtonPressed) {
+                val newBundle = Bundle().apply {
+                    this.putParcelableArrayList(
+                        "children",
+                        childrenForParse as ArrayList<out Parcelable>
+                    )
+                }
+                parentFragmentManager.setFragmentResult("createBundleRequestKey", newBundle)
             }
         }
 
@@ -144,11 +162,11 @@ class ChildCreationFragment : Fragment() {
         if (childrenSize == 0) {
             childrenCreationAdapter.children.add(
                 0,
-                viewModel.createNewChild(parentId, Child())
+                viewModel.returnCreatedChild(parentId, Child())
             )
             childrenCreationAdapter.notifyItemInserted(0)
         } else {
-            childrenCreationAdapter.children.add(viewModel.createNewChild(parentId, Child()))
+            childrenCreationAdapter.children.add(viewModel.returnCreatedChild(parentId, Child()))
             childrenCreationAdapter.notifyItemInserted(childrenSize)
         }
         childrenCreationAdapter.notifyItemChanged(childrenCreationAdapter.itemCount - 1)

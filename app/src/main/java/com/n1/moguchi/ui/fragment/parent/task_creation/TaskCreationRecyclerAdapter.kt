@@ -18,7 +18,7 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
 
     var tasksCardList: MutableList<Task> = ArrayList()
     var onTaskSettingsClicked: (() -> Unit)? = null
-    var onTaskUpdate: ((Task, Boolean, Boolean) -> Unit)? = null
+    var onTaskUpdate: ((Task, Boolean) -> Unit)? = null
     var onNewTaskAddClicked: (() -> Unit)? = null
     var onTaskDeleteClicked: ((Task, Int) -> Unit)? = null
     var onCardsStatusUpdate: ((Boolean) -> Unit)? = null
@@ -93,8 +93,6 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
                     if (taskName.toString().isEmpty()) {
                         binding.taskNameEditText.error =
                             context.getString(R.string.not_all_conditions_is_done)
-                    } else {
-                        onTaskUpdate?.invoke(task, false, true)
                     }
                     notifyItemChanged(itemCount - FOOTER_ADD_TASK_BUTTON)
                 }
@@ -111,13 +109,13 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
             binding.increaseButton.setOnClickListener {
                 if (task.height < MAX_TASK_HEIGHT) {
                     binding.taskHeight.text = (++task.height).toString()
-                    onTaskUpdate?.invoke(task, true, false)
+                    onTaskUpdate?.invoke(task, true)
                 }
             }
             binding.decreaseButton.setOnClickListener {
                 if (task.height > MIN_TASK_HEIGHT) {
                     binding.taskHeight.text = (--task.height).toString()
-                    onTaskUpdate?.invoke(task, false, false)
+                    onTaskUpdate?.invoke(task, false)
                 }
             }
         }

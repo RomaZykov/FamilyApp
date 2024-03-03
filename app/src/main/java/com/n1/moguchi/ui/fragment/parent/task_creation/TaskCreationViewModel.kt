@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.n1.moguchi.data.models.Child
+import com.n1.moguchi.data.models.Goal
 import com.n1.moguchi.data.models.Task
 import com.n1.moguchi.data.repositories.GoalRepository
 import com.n1.moguchi.data.repositories.TaskRepository
@@ -39,6 +40,13 @@ class TaskCreationViewModel @Inject constructor(
         _taskHeightTotal.value = 0
     }
 
+    fun returnCreatedTask(goalId: String): Task {
+        val preparedTask = taskRepository.returnCreatedTask(goalId)
+        tasksList.add(preparedTask)
+        _tasks.value = tasksList
+        return tasksList.last()
+    }
+
     fun createTask(task: Task, goalId: String): Task {
         val newTask = runBlocking {
             taskRepository.createTask(task, goalId)
@@ -49,6 +57,10 @@ class TaskCreationViewModel @Inject constructor(
             _tasks.value = tasksList
         }
         return newTask
+    }
+
+    fun setupGoal(relatedGoal: Goal) {
+        _totalGoalPoints.value = relatedGoal.totalPoints
     }
 
     fun setupMaxPointsOfGoal(goalId: String) {
@@ -73,18 +85,19 @@ class TaskCreationViewModel @Inject constructor(
         }
     }
 
-    fun updateTask(task: Task, taskPointsChanged: Boolean, taskTitleChanged: Boolean) {
-        viewModelScope.launch {
-            if (!taskTitleChanged) {
-                if (taskPointsChanged) {
-                    _taskHeightTotal.value =
-                        _taskHeightTotal.value?.plus(1)
-                } else {
-                    _taskHeightTotal.value =
-                        _taskHeightTotal.value?.minus(1)
-                }
+    fun onTaskUpdate(task: Task, taskPointsChanged: Boolean) {
+        _tasks.value?.find {
+            it.taskId == task.taskId
+        }.also {
+            if (taskPointsChanged) {
+                _taskHeightTotal.value =
+                    _taskHeightTotal.value?.plus(1)
+            } else {
+                _taskHeightTotal.value =
+                    _taskHeightTotal.value?.minus(1)
             }
-            taskRepository.updateTask(task)
+            it?.title = task.title
+            it?.height = task.height
         }
     }
 }

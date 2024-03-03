@@ -2,6 +2,7 @@ package com.n1.moguchi.ui.fragment.parent.goal_creation
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Parcelable
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -21,25 +22,29 @@ import com.n1.moguchi.data.models.Goal
 import com.n1.moguchi.databinding.FragmentGoalCreationBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.adapter.ChildrenRecyclerAdapter
-import java.util.UUID
+import java.util.ArrayList
 import javax.inject.Inject
 
-class GoalCreationFragment(
-    private val addChildButtonEnable: Boolean,
-    private val childSelectionEnable: Boolean,
-    private val isInBottomSheetShouldOpen: Boolean
-) : Fragment() {
+class GoalCreationFragment : Fragment() {
 
     private var _binding: FragmentGoalCreationBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var childrenAdapter: ChildrenRecyclerAdapter
 
+    private var childSelectionEnable: Boolean = false
+    private var addChildButtonEnable: Boolean = false
+    private var isFromOnBoarding: Boolean = false
+    private var isInBottomSheetShouldOpen: Boolean = false
+
     private var isNextButtonPressed: Boolean? = null
+
     private var childId: String? = null
     private var selectedChildIndex = 0
     private var childrenSize = 0
     private var goalHeight: Int = 0
+
+    private val goalsForParse: MutableList<Goal> = mutableListOf()
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -71,10 +76,24 @@ class GoalCreationFragment(
         super.onViewCreated(view, savedInstanceState)
         val parentId = Firebase.auth.currentUser?.uid
 
+        parseArgs()
+
         if (parentId != null) {
-            viewModel.getChildren(parentId)
+            if (isFromOnBoarding) {
+                // get parcelable bundle from previous fragment in AfterOnBoardingFragment (ChildCreationFragment)
+                parentFragment?.requireArguments()?.getParcelableArrayList<Child>("children")?.let {
+                    if (it.isNotEmpty()) {
+                        viewModel.setChildrenFromBundle(it.toList())
+                    }
+                }
+            } else {
+                viewModel.getChildren(parentId)
+            }
+
             viewModel.children.observe(viewLifecycleOwner) { children ->
                 childrenSize = children.size
+
+                // TODO - Not correct implementation of rv after deleting all related parent data and then register again
                 if (selectedChildIndex < children.size) {
                     setupRecyclerView(children, selectedChildIndex, childSelectionEnable)
                     childId = children[selectedChildIndex].childId
@@ -132,27 +151,36 @@ class GoalCreationFragment(
         ) { _, bundle ->
             isNextButtonPressed = bundle.getBoolean("buttonIsPressedKey")
             if (isNextButtonPressed == true) {
-                val goalId: String = UUID.randomUUID().toString()
-
-                val newBundle = Bundle()
-                newBundle.putString(CHILD_ID_KEY, childId)
-                newBundle.putString(GOAL_ID_KEY, goalId)
-                parentFragmentManager.setFragmentResult("goalCreationRequestKey", newBundle)
+                childId?.let {
+                    viewModel.createGoal(
+                        binding.goalTitle.text.toString(),
+                        goalHeight,
+                        it
+                    )
+                }
 
                 if (!isInBottomSheetShouldOpen) {
                     onBoardingSection(bundle)
                 }
+            }
+        }
 
-                childId?.let {
-                    viewModel.createGoal(
-                        Goal(
-                            goalId = goalId,
-                            title = binding.goalTitle.text.toString(),
-                            totalPoints = goalHeight
-                        ),
+        viewModel.goal.observe(viewLifecycleOwner) {
+            if (it != null) {
+                goalsForParse.add(it)
+                parentFragment?.arguments?.putParcelableArrayList(
+                    "goals",
+                    goalsForParse as ArrayList<out Parcelable>
+                )
+                val newBundle = Bundle().apply {
+                    this.putString(CHILD_ID_KEY, childId)
+                    this.putString(GOAL_ID_KEY, it.goalId)
+                    this.putParcelable(
+                        it.goalId,
                         it
                     )
                 }
+                parentFragmentManager.setFragmentResult("goalCreationRequestKey", newBundle)
             }
         }
     }
@@ -160,9 +188,7 @@ class GoalCreationFragment(
     private fun onBoardingSection(bundle: Bundle) {
         if (selectedChildIndex < childrenSize) {
             selectedChildIndex++
-            bundle.putBoolean(GOAL_SETTING_FOR_CHILDREN_COMPLETED_KEY, false)
             if (selectedChildIndex == childrenSize) {
-                bundle.putBoolean(GOAL_SETTING_FOR_CHILDREN_COMPLETED_KEY, true)
                 selectedChildIndex = 0
             }
         }
@@ -174,6 +200,13 @@ class GoalCreationFragment(
         _binding = null
     }
 
+    private fun parseArgs() {
+        addChildButtonEnable = requireArguments().getBoolean(ADD_CHILD_BUTTON_ENABLE_KEY)
+        childSelectionEnable = requireArguments().getBoolean(CHILD_SELECTION_ENABLE_KEY)
+        isInBottomSheetShouldOpen = requireArguments().getBoolean(INSIDE_BOTTOM_SHEET_OPEN_KEY)
+        isFromOnBoarding = requireArguments().getBoolean(IS_FROM_ON_BOARDING_KEY)
+    }
+
     private fun setupRecyclerView(
         children: List<Child>,
         selectedChildIndex: Int,
@@ -182,20 +215,50 @@ class GoalCreationFragment(
         val recyclerView: RecyclerView = binding.rvChildrenList
         recyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        childrenAdapter =
-            ChildrenRecyclerAdapter(
-                children,
-                selectedChildIndex,
-                addChildButtonEnable,
-                childSelectionEnable
-            )
+        childrenAdapter = ChildrenRecyclerAdapter(
+            children,
+            selectedChildIndex,
+            addChildButtonEnable,
+            childSelectionEnable
+        )
         recyclerView.adapter = childrenAdapter
     }
 
     companion object {
-        const val GOAL_ID_KEY = "goalIDKey"
-        const val CHILD_ID_KEY = "childIDKey"
+        const val GOAL_ID_KEY = "goalIdKey"
+        const val CHILD_ID_KEY = "childIdKey"
 
-        const val GOAL_SETTING_FOR_CHILDREN_COMPLETED_KEY = "goalSettingForChildrenCompletedKey"
+        private const val ADD_CHILD_BUTTON_ENABLE_KEY = "addChildButtonEnable"
+        private const val CHILD_SELECTION_ENABLE_KEY = "childSelectionEnable"
+        private const val INSIDE_BOTTOM_SHEET_OPEN_KEY = "insideBottomSheetShouldOpen"
+        private const val IS_FROM_ON_BOARDING_KEY = "isFromOnBoarding"
+
+        fun newInstance(
+            addChildButtonEnable: Boolean,
+            childSelectionEnable: Boolean,
+            insideBottomSheetShouldOpen: Boolean,
+            isFromOnBoarding: Boolean
+        ): GoalCreationFragment {
+            return GoalCreationFragment().apply {
+                arguments = Bundle().apply {
+                    putBoolean(
+                        CHILD_SELECTION_ENABLE_KEY,
+                        childSelectionEnable
+                    )
+                    putBoolean(
+                        INSIDE_BOTTOM_SHEET_OPEN_KEY,
+                        insideBottomSheetShouldOpen
+                    )
+                    putBoolean(
+                        ADD_CHILD_BUTTON_ENABLE_KEY,
+                        addChildButtonEnable
+                    )
+                    putBoolean(
+                        IS_FROM_ON_BOARDING_KEY,
+                        isFromOnBoarding
+                    )
+                }
+            }
+        }
     }
 }

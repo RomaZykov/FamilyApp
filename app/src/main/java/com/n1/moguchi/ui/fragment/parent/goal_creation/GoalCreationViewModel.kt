@@ -25,6 +25,9 @@ open class GoalCreationViewModel @Inject constructor(
     private val _children = MutableLiveData<List<Child>>()
     val children: LiveData<List<Child>> = _children
 
+    private val _goal = MutableLiveData<Goal>()
+    val goal: LiveData<Goal> = _goal
+
     private val _tasks = MutableLiveData<List<Task>>()
     val tasks: LiveData<List<Task>> = _tasks
 
@@ -43,8 +46,8 @@ open class GoalCreationViewModel @Inject constructor(
         _totalGoalPoints.value = counterGoalHeight
     }
 
-    fun createGoal(goal: Goal, childId: String) {
-        goalRepository.createGoal(goal, childId)
+    fun createGoal(title: String, totalPoints: Int, childId: String) {
+        _goal.value = goalRepository.returnCreatedGoal(title, totalPoints, childId)
     }
 
     fun increaseGoalHeight() {
@@ -61,6 +64,10 @@ open class GoalCreationViewModel @Inject constructor(
 
     fun setGoalTitle(title: String) {
         _goalName.value = title
+    }
+
+    fun setChildrenFromBundle(children: List<Child>) {
+        _children.value = children
     }
 
     fun getChildren(parentId: String) {

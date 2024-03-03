@@ -1,5 +1,9 @@
 package com.n1.moguchi.data.models
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Goal(
     var goalId: String? = null,
     var parentOwnerId: String? = null,
@@ -8,7 +12,8 @@ data class Goal(
     val totalPoints: Int = 0,
     val currentPoints: Int = 0,
     val goalCompleted: Boolean = false
-) {
+) : Parcelable {
+
     fun toMap(): Map<String, Any?> {
         return mapOf(
             "goalId" to goalId,

@@ -12,11 +12,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.n1.moguchi.MoguchiBaseApplication
+import com.n1.moguchi.data.models.Goal
 import com.n1.moguchi.data.models.Task
 import com.n1.moguchi.databinding.FragmentTaskCreationBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.fragment.parent.TaskSettingsSecondaryBottomSheetFragment
-import com.n1.moguchi.ui.fragment.parent.goal_creation.GoalCreationFragment
+import com.n1.moguchi.ui.fragment.parent.goal_creation.GoalCreationFragment.Companion.GOAL_ID_KEY
 import javax.inject.Inject
 
 class TaskCreationFragment : BottomSheetDialogFragment() {
@@ -25,7 +26,10 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
     private val binding get() = _binding!!
     private lateinit var taskCreationRecyclerAdapter: TaskCreationRecyclerAdapter
 
+    private var isFromOnBoarding: Boolean = false
     private var isNextButtonPressed: Boolean? = null
+
+    private var tasksForParse: List<Task> = emptyList()
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -65,28 +69,41 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
             TaskCreationRecyclerAdapter.MAX_POOL_SIZE
         )
 
-        val currentGoalID =
-            requireParentFragment().arguments?.getString(GoalCreationFragment.GOAL_ID_KEY)
-        if (currentGoalID != null) {
-            viewModel.setupMaxPointsOfGoal(currentGoalID)
-            viewModel.getTasksByGoalId(currentGoalID)
+        val currentGoalId =
+            requireParentFragment().requireArguments().getString(GOAL_ID_KEY)
+        val relatedGoal =
+            requireParentFragment().requireArguments().getParcelable<Goal>(currentGoalId)
+        isFromOnBoarding = requireArguments().getBoolean("isFromOnBoarding")
+
+        if (relatedGoal != null) {
+            if (isFromOnBoarding) {
+                viewModel.setupGoal(relatedGoal)
+            } else {
+                viewModel.setupMaxPointsOfGoal(relatedGoal.goalId!!)
+                viewModel.getTasksByGoalId(relatedGoal.goalId!!)
+            }
         }
+
         viewModel.tasks.observe(viewLifecycleOwner) { tasks ->
-            if (tasks.isEmpty() && (currentGoalID != null)) {
+            tasksForParse = tasks
+            if (tasks.isEmpty() && relatedGoal != null) {
                 taskCreationRecyclerAdapter.tasksCardList.add(
                     0,
-                    viewModel.createTask(Task(), currentGoalID)
+                    viewModel.returnCreatedTask(
+//                        Task(),
+                        relatedGoal.goalId!!
+                    )
                 )
                 taskCreationRecyclerAdapter.notifyItemInserted(0)
                 taskCreationRecyclerAdapter.notifyItemChanged(taskCreationRecyclerAdapter.itemCount - 1)
             }
 
             taskCreationRecyclerAdapter.onNewTaskAddClicked = {
-                if (currentGoalID != null) {
+                if (relatedGoal != null) {
                     taskCreationRecyclerAdapter.tasksCardList.add(
-                        viewModel.createTask(
-                            Task(),
-                            currentGoalID
+                        viewModel.returnCreatedTask(
+//                            Task(),
+                            relatedGoal.goalId!!
                         )
                     )
                     if (taskCreationRecyclerAdapter.tasksCardList.size == 2) {
@@ -98,19 +115,23 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
             }
 
             taskCreationRecyclerAdapter.onTaskUpdate =
-                { updatedTask, taskPointsChanged, taskTitleChanged ->
-                    viewModel.updateTask(updatedTask, taskPointsChanged, taskTitleChanged)
+                { updatedTask, taskPointsChanged ->
+                    viewModel.onTaskUpdate(updatedTask, taskPointsChanged)
                 }
 
+//            { updatedTask, taskPointsChanged, taskTitleChanged ->
+//                viewModel.updateTask(updatedTask, taskPointsChanged, taskTitleChanged)
+//            }
+
             taskCreationRecyclerAdapter.onTaskDeleteClicked = { task, position ->
-                if (currentGoalID != null) {
+                if (relatedGoal != null) {
                     if (position == 0 && taskCreationRecyclerAdapter.tasksCardList.size == 2) {
                         taskCreationRecyclerAdapter.notifyItemChanged(1)
                     }
                     if (position == 1 && taskCreationRecyclerAdapter.tasksCardList.size == 2) {
                         taskCreationRecyclerAdapter.notifyItemChanged(0)
                     }
-                    viewModel.deleteTask(currentGoalID, task)
+                    viewModel.deleteTask(relatedGoal.goalId!!, task)
                 }
             }
 
@@ -124,18 +145,18 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
             taskCreationRecyclerAdapter.onTaskSettingsClicked = {
                 showTaskSettingsBottomSheet()
             }
+        }
 
-            parentFragmentManager.setFragmentResultListener(
-                "nextButtonPressedRequestKey",
-                viewLifecycleOwner
-            ) { _, bundle ->
-                isNextButtonPressed = bundle.getBoolean("buttonIsPressedKey")
-                if (isNextButtonPressed == true) {
-                    parentFragment?.arguments?.putParcelableArrayList(
-                        "tasks",
-                        tasks as ArrayList<out Parcelable>
-                    )
-                }
+        parentFragmentManager.setFragmentResultListener(
+            "nextButtonPressedRequestKey",
+            viewLifecycleOwner
+        ) { _, bundle ->
+            isNextButtonPressed = bundle.getBoolean("buttonIsPressedKey")
+            if (isNextButtonPressed == true) {
+                parentFragment?.arguments?.putParcelableArrayList(
+                    "tasks",
+                    tasksForParse as ArrayList<out Parcelable>
+                )
             }
         }
     }
@@ -149,5 +170,22 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
         val fragmentManager = childFragmentManager
         val modalBottomSheet = TaskSettingsSecondaryBottomSheetFragment()
         modalBottomSheet.show(fragmentManager, TaskSettingsSecondaryBottomSheetFragment.TAG)
+    }
+
+    companion object {
+        private const val IS_FROM_ON_BOARDING_KEY = "isFromOnBoarding"
+
+        fun newInstance(
+            isFromOnBoarding: Boolean
+        ): TaskCreationFragment {
+            return TaskCreationFragment().apply {
+                arguments = Bundle().apply {
+                    putBoolean(
+                        IS_FROM_ON_BOARDING_KEY,
+                        isFromOnBoarding
+                    )
+                }
+            }
+        }
     }
 }

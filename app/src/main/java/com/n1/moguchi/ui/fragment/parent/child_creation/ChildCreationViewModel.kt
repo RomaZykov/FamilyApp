@@ -25,14 +25,21 @@ class ChildCreationViewModel @Inject constructor(private val parentRepository: P
         }
     }
 
-    fun createNewChild(parentId: String, child: Child): Child {
-        viewModelScope.launch {
-            val newChild = parentRepository.getAndSaveChildToDb(parentId, child)
-            childrenList.add(newChild)
-            _children.value = childrenList
-        }
+    fun returnCreatedChild(parentId: String, child: Child): Child {
+        val preparedChild = parentRepository.returnCreatedChild(parentId, child)
+        childrenList.add(preparedChild)
+        _children.value = childrenList
         return childrenList.last()
     }
+
+//    fun saveChildrenToDb(parentId: String, children: List<Child>) {
+//        viewModelScope.launch {
+//            val newChild = parentRepository.getAndSaveChildToDb(parentId, child)
+//            childrenList.add(newChild)
+//            _children.value = childrenList
+//        }
+//        return childrenList.last()
+//    }
 
     fun deleteChildProfile(childId: String) {
         viewModelScope.launch {
@@ -42,14 +49,18 @@ class ChildCreationViewModel @Inject constructor(private val parentRepository: P
         }
     }
 
-    fun onChildUpdate(parentId: String, child: Child): Child {
-        val updatedChild = parentRepository.getAndUpdateChildInDb(parentId, child)
+    fun onChildUpdate(child: Child) {
         _children.value?.find {
             it.childId == child.childId
         }.also {
             it?.childName = child.childName
             it?.imageResourceId = child.imageResourceId
         }
-        return updatedChild
     }
+
+//    fun updateChildrenInDb(parentId: String, children: List<Child>) {
+//        viewModelScope.launch {
+//            val updatedChild = parentRepository.updateChildrenInDb(parentId, children)
+//        }
+//    }
 }
