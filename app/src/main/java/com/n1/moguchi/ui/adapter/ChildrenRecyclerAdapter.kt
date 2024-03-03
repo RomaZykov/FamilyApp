@@ -65,7 +65,7 @@ class ChildrenRecyclerAdapter(
                     parent,
                     false
                 )
-                SmallButtonViewHolder(view)
+                AddChildButtonViewHolder(view)
             }
 
             else -> {
@@ -86,7 +86,7 @@ class ChildrenRecyclerAdapter(
                 (holder as MediumChildViewHolder).bind(child)
             }
 
-            VIEW_TYPE_BUTTON -> (holder as SmallButtonViewHolder).bind()
+            VIEW_TYPE_BUTTON -> (holder as AddChildButtonViewHolder).bind()
 
             else -> throw RuntimeException("Unknown viewType: ${holder.itemViewType}")
         }
@@ -141,9 +141,6 @@ class ChildrenRecyclerAdapter(
         }
 
         fun bind(child: Child) {
-//            if (!childSelectionEnable) {
-//                changeClickable(false)
-//            }
             binding.smallChildName.text = child.childName
             binding.smallChildAvatar.setImageResource(child.imageResourceId!!)
             binding.root.isSelected = selectedChildIndex == adapterPosition
@@ -169,7 +166,7 @@ class ChildrenRecyclerAdapter(
         }
     }
 
-    inner class SmallButtonViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class AddChildButtonViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = SmallAddChildButtonBinding.bind(itemView)
 
         fun bind() {

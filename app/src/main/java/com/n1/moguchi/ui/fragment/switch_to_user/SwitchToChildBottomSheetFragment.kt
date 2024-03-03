@@ -58,7 +58,7 @@ class SwitchToChildBottomSheetFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val parentID = Firebase.auth.currentUser?.uid
+        val parentId = Firebase.auth.currentUser?.uid
 
         val navController =
             Navigation.findNavController(activity as MainActivity, R.id.fragment_container_view)
@@ -66,8 +66,8 @@ class SwitchToChildBottomSheetFragment : BottomSheetDialogFragment() {
         val currentProfileMode = viewModel.getProfileMode()
         showRelatedBottomSheet(view)
 
-        if (parentID != null) {
-            viewModel.getChildren(parentID)
+        if (parentId != null) {
+            viewModel.getChildren(parentId)
             viewModel.children.observe(this) { children ->
 
                 if (currentProfileMode == ProfileMode.PARENT_MODE) {
@@ -92,6 +92,7 @@ class SwitchToChildBottomSheetFragment : BottomSheetDialogFragment() {
             }
         }
 
+        binding.title.setText(R.string.switch_to_child)
         binding.cancelButton.setOnClickListener {
             dismiss()
         }
