@@ -12,6 +12,7 @@ import com.n1.moguchi.di.modules.parent_user.ParentUserModule
 import com.n1.moguchi.di.modules.switch_to_user.SwitchToUserModule
 import com.n1.moguchi.di.modules.task.TaskModule
 import com.n1.moguchi.ui.activity.MainActivity
+import com.n1.moguchi.ui.fragment.AfterOnBoardingFragment
 import com.n1.moguchi.ui.fragment.child.home.HomeChildFragment
 import com.n1.moguchi.ui.fragment.parent.child_creation.ChildCreationFragment
 import com.n1.moguchi.ui.fragment.parent.goal_creation.GoalCreationFragment
@@ -44,6 +45,9 @@ interface AppComponent {
 
     fun inject(activity: MainActivity)
 
+
+    fun inject(afterOnBoardingFragment: AfterOnBoardingFragment)
+
     fun inject(childCreationFragment: ChildCreationFragment)
 
     fun inject(switchToChildBottomSheetFragment: SwitchToChildBottomSheetFragment)
@@ -51,8 +55,6 @@ interface AppComponent {
     fun inject(switchToParentBottomSheetFragment: SwitchToParentBottomSheetFragment)
 
     fun inject(tasksFragment: TasksFragment)
-
-    fun inject(passwordFragment: PasswordFragment)
 
     fun inject(goalCreationFragment: GoalCreationFragment)
 
