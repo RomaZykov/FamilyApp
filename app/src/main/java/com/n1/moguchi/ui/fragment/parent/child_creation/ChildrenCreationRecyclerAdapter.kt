@@ -17,17 +17,17 @@ private const val FOOTER_ADD_CHILD_BUTTON = 1
 
 class ChildrenCreationRecyclerAdapter(
     private val editChildOptionEnable: Boolean,
-    private val isFromParentProfile: Boolean
+    private val addChildButtonEnable: Boolean,
+    private val removeChildFastProcessEnable: Boolean,
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     constructor(editChildOptionEnable: Boolean) : this(
-        editChildOptionEnable, isFromParentProfile = false
+        editChildOptionEnable, addChildButtonEnable = false, removeChildFastProcessEnable = false
     )
 
     var children: MutableList<Child> = ArrayList()
     var onNewChildAddClicked: (() -> Unit)? = null
-    var onChildUpdate: ((Child) -> Unit)? = null
     var onChildRemoveClicked: ((Child, Int) -> Unit)? = null
     var onChildRemoveForBottomSheetClicked: ((Child, Int) -> Unit)? = null
     var onCardsStatusUpdate: ((Boolean) -> Unit)? = null
@@ -82,10 +82,10 @@ class ChildrenCreationRecyclerAdapter(
     }
 
     override fun getItemCount(): Int {
-        return if (isFromParentProfile) {
-            children.size
-        } else {
+        return if (addChildButtonEnable) {
             children.size + FOOTER_ADD_CHILD_BUTTON
+        } else {
+            children.size
         }
     }
 
@@ -126,9 +126,9 @@ class ChildrenCreationRecyclerAdapter(
                 override fun afterTextChanged(childName: Editable?) {
                     children[adapterPosition].childName = childName.toString()
                     val regex = "^[a-zA-Zа-яА-Я]+$".toRegex()
-                    if (childName.toString().isNotBlank() && childName.toString().matches(regex)) {
-                        onChildUpdate?.invoke(child)
-                    } else {
+                    if (!(childName.toString().isNotBlank() && childName.toString()
+                            .matches(regex))
+                    ) {
                         binding.childNameEditText.error =
                             getString(context, R.string.child_name_edit_text_error)
                     }
@@ -139,13 +139,13 @@ class ChildrenCreationRecyclerAdapter(
             if (children.size > 1 && editChildOptionEnable) {
                 binding.deleteChildButton.visibility = View.VISIBLE
                 binding.deleteChildButton.setOnClickListener {
-                    if (isFromParentProfile) {
-                        onChildRemoveForBottomSheetClicked?.invoke(child, adapterPosition)
-                    } else {
+                    if (removeChildFastProcessEnable) {
                         onChildRemoveClicked?.invoke(child, adapterPosition)
                         children.removeAt(adapterPosition)
                         notifyItemRemoved(adapterPosition)
                         notifyItemChanged(itemCount - FOOTER_ADD_CHILD_BUTTON)
+                    } else {
+                        onChildRemoveForBottomSheetClicked?.invoke(child, adapterPosition)
                     }
                 }
             } else {
@@ -159,7 +159,6 @@ class ChildrenCreationRecyclerAdapter(
                     binding.avatarFemale2.id,
                     binding.avatarFemale3.id -> {
                         children[adapterPosition].imageResourceId = childAvatars[checkedId]
-                        onChildUpdate?.invoke(children[adapterPosition])
                         notifyItemChanged(itemCount - FOOTER_ADD_CHILD_BUTTON)
                     }
                 }

@@ -65,14 +65,16 @@ class AfterOnBoardingFragment : Fragment() {
         val navController = navHostFragment.navController
 
         val fragments = listOf(
-            ChildCreationFragment.newInstance(true),
+            ChildCreationFragment.newInstance(
+                isFromOnBoarding = true, isFromParentProfile = false,
+                isFromParentHome = false, deleteChildOptionEnable = true
+            ),
             GoalCreationFragment.newInstance(
                 addChildButtonEnable = false,
                 childSelectionEnable = false,
                 insideBottomSheetShouldOpen = false,
                 isFromOnBoarding = true
             ),
-//            TaskCreationFragment.newInstance(isFromOnBoarding = true),
             TaskCreationFragment(),
             PasswordFragment()
         )

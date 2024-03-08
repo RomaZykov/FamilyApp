@@ -1,12 +1,14 @@
 package com.n1.moguchi.ui.fragment.parent
 
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
 import androidx.fragment.app.commit
@@ -15,6 +17,7 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.textfield.TextInputLayout
 import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
 import com.n1.moguchi.data.models.Goal
@@ -76,7 +79,6 @@ class PrimaryContainerBottomSheetFragment : BottomSheetDialogFragment() {
                     childFragmentManager.commit {
                         replace(
                             R.id.primary_child_fragment_container,
-//                            TaskCreationFragment.newInstance(isFromOnBoarding = false),
                             TaskCreationFragment(),
                             TO_TASKS_COMPLETE_TAG
                         )
@@ -97,7 +99,12 @@ class PrimaryContainerBottomSheetFragment : BottomSheetDialogFragment() {
                     childFragmentManager.commit {
                         replace(
                             R.id.primary_child_fragment_container,
-                            ChildCreationFragment.newInstance(true),
+                            ChildCreationFragment.newInstance(
+                                isFromOnBoarding = false,
+                                isFromParentProfile = false,
+                                isFromParentHome = true,
+                                deleteChildOptionEnable = true
+                            ),
                             TO_CHILD_CREATION_TAG
                         )
                     }
@@ -105,6 +112,9 @@ class PrimaryContainerBottomSheetFragment : BottomSheetDialogFragment() {
                     binding.nextButton.text = getString(R.string.done)
                     binding.nextButton.setCompoundDrawablesRelative(null, null, null, null)
                     binding.nextButton.setOnClickListener {
+                        // TODO - Add password creation dialog for child
+                        showDialogToSetPassword()
+//                        viewModel.saveChildrenToDb()
                         dismiss()
                     }
                 }
@@ -156,7 +166,6 @@ class PrimaryContainerBottomSheetFragment : BottomSheetDialogFragment() {
                         remove(currentFragmentInContainer)
                         replace(
                             R.id.primary_child_fragment_container,
-//                            TaskCreationFragment.newInstance(isFromOnBoarding = false),
                             TaskCreationFragment(),
                             TO_GOAL_COMPLETE_TAG
                         )
@@ -219,6 +228,30 @@ class PrimaryContainerBottomSheetFragment : BottomSheetDialogFragment() {
         binding.addGoalButton.setOnClickListener {
             dismiss()
         }
+    }
+
+    private fun showDialogToSetPassword() {
+        val builder = AlertDialog.Builder(requireContext())
+        // Get the layout inflater.
+        val inflater = requireActivity().layoutInflater
+
+        val dialog = inflater.inflate(R.layout.dialog_set_password, null)
+        val password = dialog.findViewById<TextInputLayout>(R.id.set_password_layout)
+
+        // Inflate and set the layout for the dialog.
+        // Pass null as the parent view because it's going in the dialog
+        // layout.
+        builder.setView(dialog)
+            // Add action buttons.
+            .setPositiveButton(R.string.save,
+                DialogInterface.OnClickListener { dialog, id ->
+                    // Sign in the user.
+                })
+            .setNegativeButton(R.string.cancel,
+                DialogInterface.OnClickListener { dialog, id ->
+                    getDialog()?.cancel()
+                })
+        builder.create()
     }
 
     override fun onDestroyView() {

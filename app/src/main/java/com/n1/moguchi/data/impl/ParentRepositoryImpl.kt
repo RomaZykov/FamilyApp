@@ -75,18 +75,23 @@ class ParentRepositoryImpl @Inject constructor(
 
     override suspend fun saveChildrenToDb(
         children: List<Child>,
-        goals: List<Goal>,
-        tasks: List<Task>
+        goals: List<Goal>?,
+        tasks: List<Task>?
     ) {
         for (child in children) {
             childrenRef.child(child.childId!!).setValue(child)
         }
-        for (goal in goals) {
-            goalsRef.child(goal.goalId!!).setValue(goal)
-            for (task in tasks) {
-                if (task.goalOwnerId == goal.goalId) {
-                    val taskRefByGoalId = tasksRef.child(goal.goalId!!).child(task.taskId)
-                    taskRefByGoalId.setValue(task)
+
+        if (goals != null) {
+            for (goal in goals) {
+                goalsRef.child(goal.goalId!!).setValue(goal)
+                if (tasks != null) {
+                    for (task in tasks) {
+                        if (task.goalOwnerId == goal.goalId) {
+                            val taskRefByGoalId = tasksRef.child(goal.goalId!!).child(task.taskId)
+                            taskRefByGoalId.setValue(task)
+                        }
+                    }
                 }
             }
         }

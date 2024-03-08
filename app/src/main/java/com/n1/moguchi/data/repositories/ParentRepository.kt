@@ -20,8 +20,8 @@ interface ParentRepository {
 
     suspend fun saveChildrenToDb(
         children: List<Child>,
-        goals: List<Goal>,
-        tasks: List<Task>
+        goals: List<Goal>?,
+        tasks: List<Task>?
     )
 
     suspend fun deleteChildProfile(childId: String)

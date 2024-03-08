@@ -3,6 +3,7 @@ package com.n1.moguchi.ui.fragment.parent.child_creation
 import android.content.Context
 import android.os.Bundle
 import android.os.Parcelable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,8 +36,10 @@ class ChildCreationFragment : Fragment() {
 
     private var deleteChildOptionEnable: Boolean = false
     private var isFromParentProfile: Boolean = false
+    private var isFromParentHome: Boolean = false
+    private var isFromOnBoarding: Boolean = false
 
-    private var childrenForParse: List<Child> = emptyList()
+    private var childrenForParse: MutableList<Child> = mutableListOf()
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -79,13 +82,16 @@ class ChildCreationFragment : Fragment() {
         }
 
         if (parentId != null) {
-            viewModel.fetchChildren(parentId)
             setupRecyclerView()
+            if (isFromParentHome || !isFromParentProfile) {
+                addChildCardToRecyclerList(parentId, 0)
+            } else {
+                viewModel.fetchChildren(parentId)
+            }
+
             viewModel.children.observe(viewLifecycleOwner) { children ->
-                childrenForParse = children
-                if (children.isEmpty() && deleteChildOptionEnable) {
-                    addChild(parentId, 0)
-                }
+                childrenForParse = children.toMutableList()
+                Log.d("ChildCreationFragment", "Children init in observable = $childrenForParse")
 
                 if (isFromParentProfile) {
                     childrenCreationAdapter.children = children.toMutableList()
@@ -99,7 +105,7 @@ class ChildCreationFragment : Fragment() {
                     if (childrenCreationAdapter.children.size == 1) {
                         childrenCreationAdapter.notifyItemChanged(0)
                     }
-                    addChild(parentId, children.size)
+                    addChildCardToRecyclerList(parentId, children.size)
                 }
 
                 childrenCreationAdapter.onChildRemoveClicked = { child, position ->
@@ -109,7 +115,12 @@ class ChildCreationFragment : Fragment() {
                     if (position == 1 && childrenCreationAdapter.children.size == 2) {
                         childrenCreationAdapter.notifyItemChanged(0)
                     }
+                    childrenForParse.removeAt(position)
                     viewModel.deleteChildProfile(child.childId!!)
+                    Log.d(
+                        "ChildCreationFragment",
+                        "Children remove item = $childrenForParse, position = $position, size = ${childrenForParse.size}"
+                    )
                 }
 
                 childrenCreationAdapter.onChildRemoveForBottomSheetClicked = { child, position ->
@@ -120,12 +131,13 @@ class ChildCreationFragment : Fragment() {
                     ) { _, _ ->
                         childrenCreationAdapter.children.removeAt(position)
                         childrenCreationAdapter.notifyItemRemoved(position)
+                        childrenForParse.removeAt(position)
                         viewModel.deleteChildProfile(child.childId!!)
+                        Log.d(
+                            "ChildCreationFragment",
+                            "Children remove item = $childrenForParse, position = $position, size = ${childrenForParse.size}"
+                        )
                     }
-                }
-
-                childrenCreationAdapter.onChildUpdate = { child ->
-                    viewModel.onChildUpdate(child)
                 }
 
                 childrenCreationAdapter.onCardsStatusUpdate = { isAllCardsCompleted ->
@@ -148,6 +160,7 @@ class ChildCreationFragment : Fragment() {
                         "children",
                         childrenForParse as ArrayList<out Parcelable>
                     )
+                    Log.d("ChildCreationFragment", "Children in bundle = $childrenForParse")
                 }
                 parentFragmentManager.setFragmentResult("createBundleRequestKey", newBundle)
             }
@@ -158,7 +171,7 @@ class ChildCreationFragment : Fragment() {
         }
     }
 
-    private fun addChild(parentId: String, childrenSize: Int) {
+    private fun addChildCardToRecyclerList(parentId: String, childrenSize: Int) {
         if (childrenSize == 0) {
             childrenCreationAdapter.children.add(
                 0,
@@ -175,10 +188,26 @@ class ChildCreationFragment : Fragment() {
     private fun setupRecyclerView() {
         val recyclerView: RecyclerView = binding.rvChildrenCreationList
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        childrenCreationAdapter = if (isFromParentProfile) {
-            ChildrenCreationRecyclerAdapter(deleteChildOptionEnable, isFromParentProfile)
-        } else {
-            ChildrenCreationRecyclerAdapter(deleteChildOptionEnable)
+        childrenCreationAdapter = when {
+            isFromOnBoarding || isFromParentHome -> {
+                ChildrenCreationRecyclerAdapter(
+                    deleteChildOptionEnable,
+                    addChildButtonEnable = true,
+                    removeChildFastProcessEnable = true
+                )
+            }
+
+            isFromParentProfile -> {
+                ChildrenCreationRecyclerAdapter(
+                    deleteChildOptionEnable,
+                    addChildButtonEnable = false,
+                    removeChildFastProcessEnable = false
+                )
+            }
+
+            else -> {
+                ChildrenCreationRecyclerAdapter(deleteChildOptionEnable)
+            }
         }
         recyclerView.adapter = childrenCreationAdapter
         recyclerView.recycledViewPool.setMaxRecycledViews(
@@ -196,6 +225,8 @@ class ChildCreationFragment : Fragment() {
         val args = requireArguments()
         deleteChildOptionEnable = args.getBoolean(DELETE_CHILD_OPTION_ENABLE)
         isFromParentProfile = args.getBoolean(FROM_PARENT_PROFILE)
+        isFromParentHome = args.getBoolean(FROM_PARENT_HOME)
+        isFromOnBoarding = args.getBoolean(FROM_ON_BOARDING)
     }
 
     private fun showBottomSheet(tag: String) {
@@ -211,11 +242,21 @@ class ChildCreationFragment : Fragment() {
     companion object {
         private const val DELETE_CHILD_OPTION_ENABLE = "deleteChildOptionEnable"
         private const val FROM_PARENT_PROFILE = "isFromParentProfile"
+        private const val FROM_ON_BOARDING = "isFromOnBoarding"
+        private const val FROM_PARENT_HOME = "isFromParentHome"
         private const val TO_DELETE_CHILD_PROFILE = "deleteChildProfile"
 
-        fun newInstance(deleteChildOptionEnable: Boolean): ChildCreationFragment {
+        fun newInstance(
+            isFromOnBoarding: Boolean,
+            isFromParentHome: Boolean,
+            isFromParentProfile: Boolean,
+            deleteChildOptionEnable: Boolean
+        ): ChildCreationFragment {
             return ChildCreationFragment().apply {
                 arguments = Bundle().apply {
+                    putBoolean(FROM_ON_BOARDING, isFromOnBoarding)
+                    putBoolean(FROM_PARENT_PROFILE, isFromParentProfile)
+                    putBoolean(FROM_PARENT_HOME, isFromParentHome)
                     putBoolean(DELETE_CHILD_OPTION_ENABLE, deleteChildOptionEnable)
                 }
             }
