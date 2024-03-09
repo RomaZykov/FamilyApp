@@ -1,14 +1,12 @@
 package com.n1.moguchi.ui.fragment.parent
 
 import android.content.Context
-import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
 import androidx.fragment.app.commit
@@ -17,9 +15,9 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.android.material.textfield.TextInputLayout
 import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
+import com.n1.moguchi.data.models.Child
 import com.n1.moguchi.data.models.Goal
 import com.n1.moguchi.data.models.Task
 import com.n1.moguchi.databinding.FragmentPrimaryBottomSheetBinding
@@ -33,6 +31,8 @@ class PrimaryContainerBottomSheetFragment : BottomSheetDialogFragment() {
 
     private var _binding: FragmentPrimaryBottomSheetBinding? = null
     private val binding get() = _binding!!
+
+    private var childrenToSave = listOf<Child>()
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -69,6 +69,7 @@ class PrimaryContainerBottomSheetFragment : BottomSheetDialogFragment() {
             this.arguments = bundle
             when (bundle.getString("primaryBundleKey")) {
                 "TaskCreationIntent" -> {
+                    binding.title.text = getString(R.string.new_tasks)
                     childFragmentManager.setFragmentResultListener(
                         "isButtonEnabledRequestKey",
                         viewLifecycleOwner
@@ -83,12 +84,12 @@ class PrimaryContainerBottomSheetFragment : BottomSheetDialogFragment() {
                             TO_TASKS_COMPLETE_TAG
                         )
                     }
-                    binding.title.text = getString(R.string.new_tasks)
-                    binding.nextButton.text = getString(R.string.done)
-                    binding.nextButton.setCompoundDrawablesRelative(null, null, null, null)
                 }
 
                 "ChildCreationIntent" -> {
+                    binding.title.text = getString(R.string.add_child_title)
+                    binding.nextButton.text = getString(R.string.done)
+                    binding.nextButton.setCompoundDrawablesRelative(null, null, null, null)
                     childFragmentManager.setFragmentResultListener(
                         "isButtonEnabledRequestKey",
                         viewLifecycleOwner
@@ -107,15 +108,6 @@ class PrimaryContainerBottomSheetFragment : BottomSheetDialogFragment() {
                             ),
                             TO_CHILD_CREATION_TAG
                         )
-                    }
-                    binding.title.text = getString(R.string.add_child_title)
-                    binding.nextButton.text = getString(R.string.done)
-                    binding.nextButton.setCompoundDrawablesRelative(null, null, null, null)
-                    binding.nextButton.setOnClickListener {
-                        // TODO - Add password creation dialog for child
-                        showDialogToSetPassword()
-//                        viewModel.saveChildrenToDb()
-                        dismiss()
                     }
                 }
 
@@ -147,6 +139,26 @@ class PrimaryContainerBottomSheetFragment : BottomSheetDialogFragment() {
         binding.nextButton.setOnClickListener {
             val currentFragmentInContainer = childFragmentManager.fragments[0]
             when (currentFragmentInContainer.tag) {
+                TO_CHILD_CREATION_TAG -> {
+                    childFragmentManager.setFragmentResult(
+                        "nextButtonPressedRequestKey",
+                        bundleOf("buttonIsPressedKey" to true)
+                    )
+                    childFragmentManager.setFragmentResultListener(
+                        "createBundleRequestKey",
+                        viewLifecycleOwner
+                    ) { _, innerBundle ->
+                        childrenToSave =
+                            innerBundle.getParcelableArrayList<Child>("children")?.toList()
+                                ?: emptyList()
+                    }
+
+                    if (childrenToSave.isNotEmpty()) {
+                        viewModel.saveChildrenToDb(childrenToSave)
+                    }
+                    dismiss()
+                }
+
                 TO_TASK_CREATION_TAG -> {
                     childFragmentManager.setFragmentResult(
                         "nextButtonPressedRequestKey",
@@ -228,30 +240,6 @@ class PrimaryContainerBottomSheetFragment : BottomSheetDialogFragment() {
         binding.addGoalButton.setOnClickListener {
             dismiss()
         }
-    }
-
-    private fun showDialogToSetPassword() {
-        val builder = AlertDialog.Builder(requireContext())
-        // Get the layout inflater.
-        val inflater = requireActivity().layoutInflater
-
-        val dialog = inflater.inflate(R.layout.dialog_set_password, null)
-        val password = dialog.findViewById<TextInputLayout>(R.id.set_password_layout)
-
-        // Inflate and set the layout for the dialog.
-        // Pass null as the parent view because it's going in the dialog
-        // layout.
-        builder.setView(dialog)
-            // Add action buttons.
-            .setPositiveButton(R.string.save,
-                DialogInterface.OnClickListener { dialog, id ->
-                    // Sign in the user.
-                })
-            .setNegativeButton(R.string.cancel,
-                DialogInterface.OnClickListener { dialog, id ->
-                    getDialog()?.cancel()
-                })
-        builder.create()
     }
 
     override fun onDestroyView() {

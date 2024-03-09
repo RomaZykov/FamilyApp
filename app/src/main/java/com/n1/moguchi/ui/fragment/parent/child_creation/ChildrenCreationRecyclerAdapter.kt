@@ -19,11 +19,15 @@ class ChildrenCreationRecyclerAdapter(
     private val editChildOptionEnable: Boolean,
     private val addChildButtonEnable: Boolean,
     private val removeChildFastProcessEnable: Boolean,
+    private val passwordEnable: Boolean
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     constructor(editChildOptionEnable: Boolean) : this(
-        editChildOptionEnable, addChildButtonEnable = false, removeChildFastProcessEnable = false
+        editChildOptionEnable,
+        addChildButtonEnable = false,
+        removeChildFastProcessEnable = false,
+        passwordEnable = false
     )
 
     var children: MutableList<Child> = ArrayList()
@@ -53,7 +57,7 @@ class ChildrenCreationRecyclerAdapter(
             }
 
             else -> {
-                TODO()
+                throw IllegalArgumentException("Invalid view type $viewType")
             }
         }
     }
@@ -152,6 +156,42 @@ class ChildrenCreationRecyclerAdapter(
                 binding.deleteChildButton.visibility = View.GONE
             }
 
+            if (passwordEnable) {
+                binding.passwordTitle.visibility = View.VISIBLE
+                binding.setPasswordInputLayout.visibility = View.VISIBLE
+                binding.setPasswordEditText.addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        count: Int,
+                        after: Int
+                    ) {
+                    }
+
+                    override fun onTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        before: Int,
+                        count: Int
+                    ) {
+                    }
+
+                    override fun afterTextChanged(password: Editable?) {
+                        children[adapterPosition].passwordFromParent =
+                            if (password.isNullOrBlank()) 0 else password.toString().toInt()
+                        if (password.toString().isBlank()) {
+                            binding.setPasswordEditText.error =
+                                getString(context, R.string.child_name_edit_text_error)
+                        }
+
+                        notifyItemChanged(itemCount - FOOTER_ADD_CHILD_BUTTON)
+                    }
+                })
+            } else {
+                binding.setPasswordEditText.visibility = View.GONE
+                binding.passwordTitle.visibility = View.GONE
+            }
+
             binding.avatars.setOnCheckedChangeListener { _, checkedId ->
                 when (checkedId) {
                     binding.avatarMale1.id,
@@ -172,28 +212,43 @@ class ChildrenCreationRecyclerAdapter(
 
         fun bind() {
             val regex = "^[a-zA-Zа-яА-Я]+$".toRegex()
-            if (children.all {
+            if (passwordEnable && children.all {
+                    it.passwordFromParent != 0
+                            && it.passwordFromParent.toString().length > 3
+                            && it.childName != null
+                            && it.childName.toString().matches(regex)
+                }) {
+
+                changeCardStatusWithUI(true)
+                itemView.setOnClickListener {
+                    onNewChildAddClicked?.invoke()
+                }
+                return
+            }
+
+            if (!passwordEnable && children.all {
                     it.childName != null
                             && it.childName.toString().matches(regex)
                 } && children.size == itemCount - FOOTER_ADD_CHILD_BUTTON) {
-                onCardsStatusUpdate?.invoke(true)
-                with(binding.addChildButton) {
-                    isEnabled = true
-                    setTextColor(context.getColorStateList(R.color.black))
-                    iconTint = context.getColorStateList(R.color.black)
-                    backgroundTintList = context.getColorStateList(R.color.white)
-                }
+
+                changeCardStatusWithUI(true)
                 itemView.setOnClickListener {
                     onNewChildAddClicked?.invoke()
                 }
             } else {
-                onCardsStatusUpdate?.invoke(false)
-                with(binding.addChildButton) {
-                    isEnabled = false
-                    backgroundTintList = context.getColorStateList(R.color.white_opacity_70)
-                    setTextColor(context.getColorStateList(R.color.black_opacity_70))
-                    iconTint = context.getColorStateList(R.color.black_opacity_70)
-                }
+                changeCardStatusWithUI(false)
+            }
+        }
+
+        private fun changeCardStatusWithUI(buttonEnable: Boolean) {
+            onCardsStatusUpdate?.invoke(buttonEnable)
+            with(binding.addChildButton) {
+                isEnabled = buttonEnable
+                setTextColor(context.getColorStateList(if (buttonEnable) R.color.black else R.color.black_opacity_70))
+                iconTint =
+                    context.getColorStateList(if (buttonEnable) R.color.black else R.color.black_opacity_70)
+                backgroundTintList =
+                    context.getColorStateList(if (buttonEnable) R.color.white else R.color.white_opacity_70)
             }
         }
     }

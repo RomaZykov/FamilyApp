@@ -3,7 +3,6 @@ package com.n1.moguchi.ui.fragment.parent.child_creation
 import android.content.Context
 import android.os.Bundle
 import android.os.Parcelable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +22,6 @@ import com.n1.moguchi.data.models.Child
 import com.n1.moguchi.databinding.FragmentChildCreationBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.fragment.parent.DeleteChildProfileBottomSheetFragment
-import java.util.ArrayList
 import javax.inject.Inject
 
 class ChildCreationFragment : Fragment() {
@@ -91,7 +89,6 @@ class ChildCreationFragment : Fragment() {
 
             viewModel.children.observe(viewLifecycleOwner) { children ->
                 childrenForParse = children.toMutableList()
-                Log.d("ChildCreationFragment", "Children init in observable = $childrenForParse")
 
                 if (isFromParentProfile) {
                     childrenCreationAdapter.children = children.toMutableList()
@@ -115,12 +112,10 @@ class ChildCreationFragment : Fragment() {
                     if (position == 1 && childrenCreationAdapter.children.size == 2) {
                         childrenCreationAdapter.notifyItemChanged(0)
                     }
+                    if (!isFromParentHome) {
+                        viewModel.deleteChildProfile(child.childId!!)
+                    }
                     childrenForParse.removeAt(position)
-                    viewModel.deleteChildProfile(child.childId!!)
-                    Log.d(
-                        "ChildCreationFragment",
-                        "Children remove item = $childrenForParse, position = $position, size = ${childrenForParse.size}"
-                    )
                 }
 
                 childrenCreationAdapter.onChildRemoveForBottomSheetClicked = { child, position ->
@@ -133,10 +128,6 @@ class ChildCreationFragment : Fragment() {
                         childrenCreationAdapter.notifyItemRemoved(position)
                         childrenForParse.removeAt(position)
                         viewModel.deleteChildProfile(child.childId!!)
-                        Log.d(
-                            "ChildCreationFragment",
-                            "Children remove item = $childrenForParse, position = $position, size = ${childrenForParse.size}"
-                        )
                     }
                 }
 
@@ -160,7 +151,6 @@ class ChildCreationFragment : Fragment() {
                         "children",
                         childrenForParse as ArrayList<out Parcelable>
                     )
-                    Log.d("ChildCreationFragment", "Children in bundle = $childrenForParse")
                 }
                 parentFragmentManager.setFragmentResult("createBundleRequestKey", newBundle)
             }
@@ -189,11 +179,21 @@ class ChildCreationFragment : Fragment() {
         val recyclerView: RecyclerView = binding.rvChildrenCreationList
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         childrenCreationAdapter = when {
-            isFromOnBoarding || isFromParentHome -> {
+            isFromOnBoarding -> {
                 ChildrenCreationRecyclerAdapter(
                     deleteChildOptionEnable,
                     addChildButtonEnable = true,
-                    removeChildFastProcessEnable = true
+                    removeChildFastProcessEnable = true,
+                    passwordEnable = false
+                )
+            }
+
+            isFromParentHome -> {
+                ChildrenCreationRecyclerAdapter(
+                    deleteChildOptionEnable,
+                    addChildButtonEnable = true,
+                    removeChildFastProcessEnable = true,
+                    passwordEnable = true
                 )
             }
 
@@ -201,7 +201,8 @@ class ChildCreationFragment : Fragment() {
                 ChildrenCreationRecyclerAdapter(
                     deleteChildOptionEnable,
                     addChildButtonEnable = false,
-                    removeChildFastProcessEnable = false
+                    removeChildFastProcessEnable = false,
+                    passwordEnable = false
                 )
             }
 

@@ -58,9 +58,56 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/set_child_name_hint"
                         android:imeOptions="actionDone"
-                        android:textColor="@color/black"
                         android:inputType="text"
-                        android:lines="1" />
+                        android:lines="1"
+                        android:textColor="@color/black" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/password_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="@dimen/semi_medium_margin"
+                    android:layout_marginTop="@dimen/medium_margin"
+                    android:layout_marginBottom="@dimen/tiny_margin"
+                    android:fontFamily="@font/onest_regular"
+                    android:gravity="start"
+                    android:text="@string/password"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/set_password_input_layout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/semi_medium_margin"
+                    android:visibility="gone"
+                    app:boxBackgroundColor="@color/white"
+                    app:boxCornerRadiusBottomEnd="@dimen/semi_medium_corner_radius"
+                    app:boxCornerRadiusBottomStart="@dimen/semi_medium_corner_radius"
+                    app:boxCornerRadiusTopEnd="@dimen/semi_medium_corner_radius"
+                    app:boxCornerRadiusTopStart="@dimen/semi_medium_corner_radius"
+                    app:boxStrokeColor="@color/orange"
+                    app:boxStrokeWidth="@dimen/zero_stroke_width"
+                    app:hintEnabled="false"
+                    app:hintTextAppearance="@style/TextAppearance.Design.Hint.Small"
+                    app:hintTextColor="@color/black"
+                    app:passwordToggleDrawable="@drawable/password_icon_selector"
+                    app:passwordToggleEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/set_password_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/set_password_hint"
+                        android:imeOptions="actionDone"
+                        android:inputType="numberPassword"
+                        android:lines="1"
+                        android:textColor="@color/black"
+                        app:hintTextAppearance="@style/TextAppearance.Design.Hint.Small"
+                        app:hintTextColor="@color/gray" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
@@ -130,7 +177,9 @@
                             android:foreground="@drawable/avatar_selector" />
                     </RadioGroup>
                 </HorizontalScrollView>
+
             </LinearLayout>
+
 
             <ImageButton
                 android:id="@+id/delete_child_button"

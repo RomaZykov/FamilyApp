@@ -118,7 +118,7 @@ class ParentRepositoryImpl @Inject constructor(
                                                 .toString()
                                         }
                                         tasksRef.child(goalId).removeValue()
-                                        databaseRef.child(goalId).removeValue()
+                                        goalsRef.child(goalId).removeValue()
                                     }
                                 }
 
