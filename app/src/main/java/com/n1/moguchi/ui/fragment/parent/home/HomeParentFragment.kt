@@ -16,6 +16,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
+import com.n1.moguchi.data.models.Child
 import com.n1.moguchi.databinding.FragmentParentHomeBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.activity.MainActivity
@@ -87,7 +88,7 @@ class HomeParentFragment : Fragment() {
                 childrenRecyclerView.layoutManager =
                     LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                 childrenRecyclerAdapter =
-                    ChildrenRecyclerAdapter(childrenList.values.toList(), selectedChildIndex)
+                    ChildrenRecyclerAdapter(childrenList.values.toMutableList(), selectedChildIndex)
                 childrenRecyclerView.adapter = childrenRecyclerAdapter
 
                 childrenRecyclerAdapter.onChildClicked = { childIndex, _ ->
@@ -98,6 +99,25 @@ class HomeParentFragment : Fragment() {
 
                 childrenRecyclerAdapter.onChildAddClicked = {
                     showBottomSheet(PrimaryContainerBottomSheetFragment(), CHILD_CREATION_TAG)
+                    childFragmentManager.setFragmentResultListener(
+                        "refreshRecyclerViewRequestKey",
+                        viewLifecycleOwner
+                    ) { _, innerBundle ->
+                        val addedChildren =
+                            innerBundle.getParcelableArrayList<Child>("children")
+                                ?.toList()
+                        if (addedChildren != null) {
+                            addedChildren.forEach {
+                                childrenIdList.add(it.childId!!)
+                            }
+                            childrenRecyclerAdapter.updateChildrenList =
+                                addedChildren.toMutableList()
+                            childrenRecyclerAdapter.notifyItemRangeInserted(
+                                childrenList.size,
+                                addedChildren.size
+                            )
+                        }
+                    }
                 }
             }
 
@@ -146,13 +166,12 @@ class HomeParentFragment : Fragment() {
     }
 
     private fun showBottomSheet(bottomSheetFragment: BottomSheetDialogFragment, tag: String) {
-        val parentFragmentManager = parentFragmentManager
-        parentFragmentManager.setFragmentResult(
+        childFragmentManager.setFragmentResult(
             "primaryBottomSheetRequestKey",
             bundleOf("primaryBundleKey" to tag)
         )
         bottomSheetFragment.show(
-            parentFragmentManager,
+            childFragmentManager,
             tag
         )
     }

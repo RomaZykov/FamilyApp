@@ -2,7 +2,7 @@ package com.n1.moguchi.ui.fragment.parent
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -155,6 +155,16 @@ class PrimaryContainerBottomSheetFragment : BottomSheetDialogFragment() {
 
                     if (childrenToSave.isNotEmpty()) {
                         viewModel.saveChildrenToDb(childrenToSave)
+                        val childrenBundle = Bundle().apply {
+                            this.putParcelableArrayList(
+                                "children",
+                                childrenToSave.toMutableList() as ArrayList<out Parcelable>
+                            )
+                        }
+                        parentFragmentManager.setFragmentResult(
+                            "refreshRecyclerViewRequestKey",
+                            childrenBundle
+                        )
                     }
                     dismiss()
                 }
@@ -200,7 +210,6 @@ class PrimaryContainerBottomSheetFragment : BottomSheetDialogFragment() {
                     )
 
                     val args = requireArguments()
-                    Log.d("PrimaryContainerBottomSheetFragment", "Bundle = $args")
                     val goal = args.getParcelableArrayList<Goal>("goals")?.get(0)
                     val tasks = args.getParcelableArrayList<Task>("tasks")
                     viewModel.saveGoalWithTasksToDb(goal!!, tasks?.toList()!!)
@@ -215,10 +224,30 @@ class PrimaryContainerBottomSheetFragment : BottomSheetDialogFragment() {
                     binding.title.visibility = View.GONE
                     binding.bottomLinearLayout.visibility = View.GONE
                     binding.primaryChildFragmentContainer.visibility = View.GONE
+
+                    childFragmentManager.setFragmentResult(
+                        "nextButtonPressedRequestKey",
+                        bundleOf("buttonIsPressedKey" to true)
+                    )
+
                     childFragmentManager.commit {
                         remove(currentFragmentInContainer)
                         replace<SuccessTasksAddedFragment>(R.id.full_fragment_container)
                     }
+
+                    val args = requireArguments()
+                    val tasks = args.getParcelableArrayList<Task>("tasks")
+                    viewModel.saveTasksToDb(tasks?.toList()!!)
+                    val tasksBundle = Bundle().apply {
+                        this.putParcelableArrayList(
+                            "tasks",
+                            tasks as ArrayList<out Parcelable>
+                        )
+                    }
+                    parentFragmentManager.setFragmentResult(
+                        "refreshRecyclerViewRequestKey",
+                        tasksBundle
+                    )
 
                     childFragmentManager.setFragmentResultListener(
                         "tasksAddedRequestKey",
@@ -226,7 +255,6 @@ class PrimaryContainerBottomSheetFragment : BottomSheetDialogFragment() {
                     ) { _, bundle ->
                         if (bundle.getBoolean("buttonPressedKey")) {
                             dismiss()
-                            parentFragmentManager
                         }
                     }
                 }

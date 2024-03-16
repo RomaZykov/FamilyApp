@@ -13,16 +13,25 @@ import com.n1.moguchi.databinding.SmallChildItemBinding
 private const val ADD_CHILD_BUTTON = 1
 
 class ChildrenRecyclerAdapter(
-    private val childrenList: List<Child>,
+    private val childrenList: MutableList<Child>,
     private var selectedChildIndex: Int,
     private val addChildButtonEnable: Boolean,
     private val childSelectionEnable: Boolean
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    // TODO - Dangerous code
+    var updateChildrenList: MutableList<Child> = mutableListOf()
+        set(value) {
+            field = value
+            value.forEach {
+                childrenList.add(it)
+            }
+        }
+
     var onChildClicked: ((Int, String?) -> Unit)? = null
     var onChildAddClicked: (() -> Unit)? = null
 
-    constructor(childrenList: List<Child>) : this(
+    constructor(childrenList: MutableList<Child>) : this(
         childrenList,
         selectedChildIndex = -1,
         addChildButtonEnable = false,
@@ -30,7 +39,7 @@ class ChildrenRecyclerAdapter(
     )
 
     constructor(
-        childrenList: List<Child>,
+        childrenList: MutableList<Child>,
         selectedChildIndex: Int
     ) : this(
         childrenList,
