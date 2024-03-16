@@ -17,6 +17,11 @@ class GoalRepositoryImpl @Inject constructor(
     private val goalsRef = database.getReference("goals")
     private val tasksRef = database.getReference("tasks")
 
+    override suspend fun getGoal(goalId: String): Goal {
+        val goal = goalsRef.child(goalId).get().await().getValue(Goal::class.java)
+        return goal!!
+    }
+
     override fun returnCreatedGoal(title: String, totalPoints: Int, childId: String): Goal {
         val goalId: String = UUID.randomUUID().toString()
         return Goal(
@@ -31,6 +36,15 @@ class GoalRepositoryImpl @Inject constructor(
     override suspend fun saveGoalWithTasksToDb(goal: Goal, tasks: List<Task>) {
         val goalId = goal.goalId!!
         goalsRef.child(goalId).setValue(goal)
+        for (task in tasks) {
+            if (task.goalOwnerId == goalId) {
+                val taskRefByGoalId = tasksRef.child(goalId).child(task.taskId)
+                taskRefByGoalId.setValue(task)
+            }
+        }
+    }
+
+    override suspend fun saveTasksToDb(goalId: String, tasks: List<Task>) {
         for (task in tasks) {
             if (task.goalOwnerId == goalId) {
                 val taskRefByGoalId = tasksRef.child(goalId).child(task.taskId)
@@ -59,11 +73,6 @@ class GoalRepositoryImpl @Inject constructor(
             goalsWithTasks[goal] = tasks
         }
         return goalsWithTasks
-    }
-
-    override suspend fun getGoal(goalId: String): Goal {
-        val goal = goalsRef.child(goalId).get().await().getValue(Goal::class.java)
-        return goal!!
     }
 
     override suspend fun fetchCompletedGoals(childId: String): List<Goal> {

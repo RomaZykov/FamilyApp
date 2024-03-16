@@ -4,12 +4,13 @@ import com.n1.moguchi.data.models.Goal
 import com.n1.moguchi.data.models.Task
 
 interface GoalRepository {
+    suspend fun getGoal(goalId: String): Goal
 
     fun returnCreatedGoal(title: String, totalPoints: Int, childId: String): Goal
 
     suspend fun saveGoalWithTasksToDb(goal: Goal, tasks: List<Task>)
 
-    suspend fun getGoal(goalId: String): Goal
+    suspend fun saveTasksToDb(goalId: String, tasks: List<Task>)
 
     suspend fun fetchChildGoals(childId: String): List<Goal>
 

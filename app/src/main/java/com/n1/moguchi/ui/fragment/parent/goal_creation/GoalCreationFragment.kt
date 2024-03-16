@@ -185,6 +185,11 @@ class GoalCreationFragment : Fragment() {
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     private fun onBoardingSection(bundle: Bundle) {
         if (selectedChildIndex < childrenSize) {
             selectedChildIndex++
@@ -193,11 +198,6 @@ class GoalCreationFragment : Fragment() {
             }
         }
         this.arguments = bundle
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun parseArgs() {
@@ -216,7 +216,7 @@ class GoalCreationFragment : Fragment() {
         recyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         childrenAdapter = ChildrenRecyclerAdapter(
-            children,
+            children.toMutableList(),
             selectedChildIndex,
             addChildButtonEnable,
             childSelectionEnable
