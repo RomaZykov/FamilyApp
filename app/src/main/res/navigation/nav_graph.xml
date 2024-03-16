@@ -59,6 +59,7 @@
         <action
             android:id="@+id/action_parentHomeFragment_to_homeChildFragment"
             app:destination="@id/homeChildFragment"
+            app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
@@ -134,6 +135,7 @@
         <action
             android:id="@+id/action_onBoardingChildFragment_to_homeChildFragment"
             app:destination="@id/homeChildFragment"
+            app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
