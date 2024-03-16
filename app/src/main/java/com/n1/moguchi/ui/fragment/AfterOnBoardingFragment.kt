@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -78,6 +79,7 @@ class AfterOnBoardingFragment : Fragment() {
             TaskCreationFragment(),
             PasswordFragment()
         )
+
         val topAppBar = requireActivity().findViewById<MaterialToolbar>(R.id.top_common_app_bar)
         topAppBar.setNavigationOnClickListener {
             if (childFragmentManager.fragments.last() != fragments[0] && childFragmentManager.backStackEntryCount > 0) {
@@ -85,9 +87,10 @@ class AfterOnBoardingFragment : Fragment() {
             }
         }
 
-        childFragmentManager.beginTransaction()
-            .replace(R.id.after_onboarding_fragment_container_view, fragments[0])
-            .commit()
+        childFragmentManager.commit {
+            replace(R.id.after_onboarding_fragment_container_view, fragments[0])
+                .addToBackStack("ChildCreation")
+        }
 
         childFragmentManager.setFragmentResultListener(
             "isButtonEnabledRequestKey",
@@ -96,6 +99,7 @@ class AfterOnBoardingFragment : Fragment() {
             val currentFragmentInContainer = childFragmentManager.fragments.last()
             isButtonEnabled = bundle.getBoolean("buttonIsReadyKey")
             changeButton(isButtonEnabled)
+
             binding.goNextButton.setOnClickListener {
                 when (currentFragmentInContainer) {
                     fragments[0] -> {
@@ -210,12 +214,12 @@ class AfterOnBoardingFragment : Fragment() {
         fragment: Fragment
     ) {
         childFragmentManager.beginTransaction()
+            .setReorderingAllowed(true)
             .remove(currentFragmentInContainer)
             .replace(
                 R.id.after_onboarding_fragment_container_view,
                 fragment
             )
-            .addToBackStack(null)
             .commit()
     }
 

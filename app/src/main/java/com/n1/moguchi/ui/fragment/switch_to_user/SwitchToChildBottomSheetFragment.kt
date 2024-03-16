@@ -75,7 +75,7 @@ class SwitchToChildBottomSheetFragment : BottomSheetDialogFragment() {
                     val recyclerView: RecyclerView =
                         view.findViewById(R.id.rv_switch_to_child_children_list)
                     recyclerView.layoutManager = LinearLayoutManager(requireContext())
-                    childrenRecyclerAdapter = ChildrenRecyclerAdapter(children)
+                    childrenRecyclerAdapter = ChildrenRecyclerAdapter(children.toMutableList())
                     recyclerView.adapter = childrenRecyclerAdapter
 
                     childrenRecyclerAdapter.onChildClicked = { _, childId ->

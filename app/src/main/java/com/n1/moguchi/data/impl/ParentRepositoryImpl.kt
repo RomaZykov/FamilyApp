@@ -126,7 +126,7 @@ class ParentRepositoryImpl @Inject constructor(
                                 }
                             }
                         )
-                    databaseRef.addValueEventListener(listener)
+                    goalsRef.addValueEventListener(listener)
                 }
 
                 childrenRef -> {

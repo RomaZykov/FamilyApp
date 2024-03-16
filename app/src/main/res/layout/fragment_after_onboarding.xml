@@ -38,6 +38,7 @@
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
             app:layout_constraintBottom_toTopOf="@id/go_next_button"
             app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="@dimen/tiny_margin"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/commonAppBar"
             tools:layout="@layout/fragment_child_creation" />
@@ -47,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/medium_margin"
-            android:layout_marginVertical="@dimen/large_margin"
+            android:layout_marginBottom="@dimen/medium_margin"
             android:enabled="false"
             android:fontFamily="@font/onest_regular"
             android:padding="@dimen/medium_padding"
