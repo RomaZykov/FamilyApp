@@ -15,8 +15,8 @@ android {
         applicationId "com.n1.moguchi"
         minSdk 24
         targetSdk 34
-        versionCode 32
-        versionName "1.8.13"
+        versionCode 33
+        versionName "1.8.14"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -25,6 +25,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            applicationIdSuffix '.debug'
         }
     }
 
