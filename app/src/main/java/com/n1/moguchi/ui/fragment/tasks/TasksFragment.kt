@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -78,12 +77,12 @@ class TasksFragment : Fragment() {
         viewModel.activeTasks.observe(viewLifecycleOwner) {
             binding.activeTasks.text = getString(R.string.active_tasks, it.size)
             if (profileMode != null) {
-                setupRecyclerViewByRelatedTasks(relatedGoalId, it, true, profileMode)
+                setupRecyclerViewByRelatedTasks(relatedGoalId, it.toMutableList(), true, profileMode)
             }
             binding.activeTasks.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     if (profileMode != null) {
-                        setupRecyclerViewByRelatedTasks(relatedGoalId, it, true, profileMode)
+                        setupRecyclerViewByRelatedTasks(relatedGoalId, it.toMutableList(), true, profileMode)
                     }
                 }
             }
@@ -94,30 +93,43 @@ class TasksFragment : Fragment() {
             binding.completedTasks.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     if (profileMode != null) {
-                        setupRecyclerViewByRelatedTasks(relatedGoalId, it, false, profileMode)
+                        setupRecyclerViewByRelatedTasks(relatedGoalId, it.toMutableList(), false, profileMode)
                     }
                 }
             }
         }
 
         binding.addTaskFab.setOnClickListener {
-            val fragmentManager = parentFragmentManager
-            val fragmentTag = TASK_CREATION_TAG
-            setFragmentResult(
+            childFragmentManager.setFragmentResult(
                 "primaryBottomSheetRequestKey",
                 bundleOf(
-                    "primaryBundleKey" to fragmentTag,
+                    "primaryBundleKey" to TASK_CREATION_TAG,
                     GoalCreationFragment.GOAL_ID_KEY to relatedGoalId
                 )
             )
+            childFragmentManager.setFragmentResultListener(
+                "refreshRecyclerViewRequestKey",
+                viewLifecycleOwner
+            ) { _, innerBundle ->
+                val addedTasks =
+                    innerBundle.getParcelableArrayList<Task>("tasks")
+                        ?.toList()
+                if (addedTasks != null) {
+                    tasksRecyclerAdapter.updateTasksList = addedTasks.toMutableList()
+                    tasksRecyclerAdapter.notifyItemRangeInserted(
+                        tasksRecyclerAdapter.itemCount - 1,
+                        addedTasks.size
+                    )
+                }
+            }
             val bottomSheet = PrimaryContainerBottomSheetFragment()
-            bottomSheet.show(fragmentManager, TASK_CREATION_TAG)
+            bottomSheet.show(childFragmentManager, TASK_CREATION_TAG)
         }
     }
 
     private fun setupRecyclerViewByRelatedTasks(
         relatedGoalId: String?,
-        relatedTasks: List<Task>,
+        relatedTasks: MutableList<Task>,
         isActive: Boolean,
         profileMode: String
     ) {

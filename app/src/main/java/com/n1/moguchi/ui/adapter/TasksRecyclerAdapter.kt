@@ -14,10 +14,19 @@ import com.n1.moguchi.data.models.Task
 import com.n1.moguchi.databinding.EditableTaskItemBinding
 
 class TasksRecyclerAdapter(
-    private val relatedTasksList: List<Task>,
+    private val relatedTasksList: MutableList<Task>,
     private val isActiveTasks: Boolean,
     private val profileMode: String,
 ) : RecyclerView.Adapter<TasksRecyclerAdapter.EditableTaskViewHolder>() {
+
+    // TODO - Dangerous code
+    var updateTasksList: MutableList<Task> = mutableListOf()
+        set(value) {
+            field = value
+            value.forEach {
+                relatedTasksList.add(it)
+            }
+        }
 
     var onTaskStatusChangedClicked: ((Task, Boolean) -> Unit)? = null
     var onTaskDeleteClicked: ((Task, Boolean) -> Unit)? = null
@@ -103,10 +112,5 @@ class TasksRecyclerAdapter(
             }
             return true
         }
-    }
-
-    companion object {
-        private const val PARENT_MODE = "parentMode"
-        private const val CHILD_MODE = "childMode"
     }
 }
