@@ -9,7 +9,8 @@ data class Child(
     val parentOwnerId: String? = null,
     var childName: String? = null,
     var imageResourceId: Int? = null,
-    var passwordFromParent: Int = 0
+    var passwordFromParent: Int? = null,
+    val onBoardingCompleted: Boolean = false,
 ) : Parcelable {
     fun toMap(): Map<String, Any?> {
         return mapOf(
@@ -17,7 +18,8 @@ data class Child(
             "parentOwnerId" to parentOwnerId,
             "childName" to childName,
             "imageResourceId" to imageResourceId,
-            "passwordFromParent" to passwordFromParent
+            "passwordFromParent" to passwordFromParent,
+            "onBoardingCompleted" to onBoardingCompleted
         )
     }
 }

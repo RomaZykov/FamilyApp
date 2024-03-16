@@ -9,6 +9,9 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -85,19 +88,16 @@ class ChildCreationFragment : Fragment() {
                 addChildCardToRecyclerList(parentId, 0)
             } else {
                 viewModel.fetchChildren(parentId)
-            }
-
-            viewModel.children.observe(viewLifecycleOwner) { children ->
-                childrenForParse = children.toMutableList()
-
-                if (isFromParentProfile) {
-                    childrenCreationAdapter.children = children.toMutableList()
+                viewModel.children.observeOnce(viewLifecycleOwner) {
+                    childrenCreationAdapter.children = it.toMutableList()
                     childrenCreationAdapter.notifyItemRangeInserted(
                         0,
                         childrenCreationAdapter.children.size
                     )
                 }
+            }
 
+            viewModel.children.observe(viewLifecycleOwner) { children ->
                 childrenCreationAdapter.onNewChildAddClicked = {
                     if (childrenCreationAdapter.children.size == 1) {
                         childrenCreationAdapter.notifyItemChanged(0)
@@ -112,22 +112,20 @@ class ChildCreationFragment : Fragment() {
                     if (position == 1 && childrenCreationAdapter.children.size == 2) {
                         childrenCreationAdapter.notifyItemChanged(0)
                     }
-                    if (!isFromParentHome) {
-                        viewModel.deleteChildProfile(child.childId!!)
-                    }
                     childrenForParse.removeAt(position)
                 }
 
-                childrenCreationAdapter.onChildRemoveForBottomSheetClicked = { child, position ->
+                childrenCreationAdapter.onChildRemoveViaBottomSheetClicked = { child, position ->
                     showBottomSheet(TO_DELETE_CHILD_PROFILE)
                     childFragmentManager.setFragmentResultListener(
                         "deleteChildProfileClickedRequestKey",
                         this
                     ) { _, _ ->
-                        childrenCreationAdapter.children.removeAt(position)
-                        childrenCreationAdapter.notifyItemRemoved(position)
-                        childrenForParse.removeAt(position)
-                        viewModel.deleteChildProfile(child.childId!!)
+                        if (isFromParentProfile) {
+                            viewModel.deleteChildProfile(child.childId!!)
+                            childrenCreationAdapter.children.removeAt(position)
+                            childrenCreationAdapter.notifyItemRemoved(position)
+                        }
                     }
                 }
 
@@ -162,14 +160,16 @@ class ChildCreationFragment : Fragment() {
     }
 
     private fun addChildCardToRecyclerList(parentId: String, childrenSize: Int) {
+        val createdChild = viewModel.returnCreatedChild(parentId, Child())
+        childrenForParse.add(createdChild)
         if (childrenSize == 0) {
             childrenCreationAdapter.children.add(
                 0,
-                viewModel.returnCreatedChild(parentId, Child())
+                createdChild
             )
             childrenCreationAdapter.notifyItemInserted(0)
         } else {
-            childrenCreationAdapter.children.add(viewModel.returnCreatedChild(parentId, Child()))
+            childrenCreationAdapter.children.add(createdChild)
             childrenCreationAdapter.notifyItemInserted(childrenSize)
         }
         childrenCreationAdapter.notifyItemChanged(childrenCreationAdapter.itemCount - 1)
@@ -238,6 +238,19 @@ class ChildCreationFragment : Fragment() {
         )
         val modalBottomSheet = DeleteChildProfileBottomSheetFragment() as BottomSheetDialogFragment
         modalBottomSheet.show(fragmentManager, null)
+    }
+
+    // TODO - Learn more about this solution
+    private fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
+        observe(
+            lifecycleOwner,
+            object : Observer<T> {
+                override fun onChanged(value: T) {
+                    observer.onChanged(value)
+                    removeObserver(this)
+                }
+            }
+        )
     }
 
     companion object {

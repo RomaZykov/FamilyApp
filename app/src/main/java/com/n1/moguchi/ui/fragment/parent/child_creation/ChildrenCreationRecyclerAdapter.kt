@@ -33,7 +33,7 @@ class ChildrenCreationRecyclerAdapter(
     var children: MutableList<Child> = ArrayList()
     var onNewChildAddClicked: (() -> Unit)? = null
     var onChildRemoveClicked: ((Child, Int) -> Unit)? = null
-    var onChildRemoveForBottomSheetClicked: ((Child, Int) -> Unit)? = null
+    var onChildRemoveViaBottomSheetClicked: ((Child, Int) -> Unit)? = null
     var onCardsStatusUpdate: ((Boolean) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -149,7 +149,10 @@ class ChildrenCreationRecyclerAdapter(
                         notifyItemRemoved(adapterPosition)
                         notifyItemChanged(itemCount - FOOTER_ADD_CHILD_BUTTON)
                     } else {
-                        onChildRemoveForBottomSheetClicked?.invoke(child, adapterPosition)
+                        onChildRemoveViaBottomSheetClicked?.invoke(child, adapterPosition)
+                        if (children.size == 1) {
+                            notifyItemChanged(0)
+                        }
                     }
                 }
             } else {
@@ -178,12 +181,11 @@ class ChildrenCreationRecyclerAdapter(
 
                     override fun afterTextChanged(password: Editable?) {
                         children[adapterPosition].passwordFromParent =
-                            if (password.isNullOrBlank()) 0 else password.toString().toInt()
+                            if (password.isNullOrBlank()) -1 else password.toString().toInt()
                         if (password.toString().isBlank()) {
                             binding.setPasswordEditText.error =
                                 getString(context, R.string.child_name_edit_text_error)
                         }
-
                         notifyItemChanged(itemCount - FOOTER_ADD_CHILD_BUTTON)
                     }
                 })
@@ -213,13 +215,13 @@ class ChildrenCreationRecyclerAdapter(
         fun bind() {
             val regex = "^[a-zA-Zа-яА-Я]+$".toRegex()
             if (passwordEnable && children.all {
-                    it.passwordFromParent != 0
-                            && it.passwordFromParent.toString().length > 3
+                    (it.passwordFromParent != null && it.passwordFromParent != -1)
+                            && it.passwordFromParent.toString().isNotEmpty()
                             && it.childName != null
                             && it.childName.toString().matches(regex)
                 }) {
 
-                changeCardStatusWithUI(true)
+                changeCardStatusUI(true)
                 itemView.setOnClickListener {
                     onNewChildAddClicked?.invoke()
                 }
@@ -231,16 +233,16 @@ class ChildrenCreationRecyclerAdapter(
                             && it.childName.toString().matches(regex)
                 } && children.size == itemCount - FOOTER_ADD_CHILD_BUTTON) {
 
-                changeCardStatusWithUI(true)
+                changeCardStatusUI(true)
                 itemView.setOnClickListener {
                     onNewChildAddClicked?.invoke()
                 }
             } else {
-                changeCardStatusWithUI(false)
+                changeCardStatusUI(false)
             }
         }
 
-        private fun changeCardStatusWithUI(buttonEnable: Boolean) {
+        private fun changeCardStatusUI(buttonEnable: Boolean) {
             onCardsStatusUpdate?.invoke(buttonEnable)
             with(binding.addChildButton) {
                 isEnabled = buttonEnable
