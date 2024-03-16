@@ -15,15 +15,22 @@ class PrimaryContainerViewModel @Inject constructor(
     private val parentRepository: ParentRepository,
 ) : ViewModel() {
 
+    fun saveChildrenToDb(children: List<Child>) {
+        viewModelScope.launch {
+            parentRepository.saveChildrenToDb(children, null, null)
+        }
+    }
+
     fun saveGoalWithTasksToDb(goal: Goal, tasks: List<Task>) {
         viewModelScope.launch {
             goalRepository.saveGoalWithTasksToDb(goal, tasks)
         }
     }
 
-    fun saveChildrenToDb(children: List<Child>) {
+    fun saveTasksToDb(tasks: List<Task>) {
+        val goalId = tasks.last().goalOwnerId
         viewModelScope.launch {
-            parentRepository.saveChildrenToDb(children, null, null)
+            goalRepository.saveTasksToDb(goalId!!, tasks)
         }
     }
 }
