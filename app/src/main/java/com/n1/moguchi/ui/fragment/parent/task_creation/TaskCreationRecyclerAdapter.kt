@@ -97,25 +97,28 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
                     notifyItemChanged(itemCount - FOOTER_ADD_TASK_BUTTON)
                 }
             })
+
             binding.deleteTaskButton.setOnClickListener {
                 onTaskDeleteClicked?.invoke(task, adapterPosition)
                 tasksCardList.removeAt(adapterPosition)
                 notifyItemRemoved(adapterPosition)
                 notifyItemChanged(itemCount - 1)
             }
+
 //            binding.taskSettingsButton.setOnClickListener {
 //                onTaskSettingsClicked?.invoke()
 //            }
+
             binding.increaseButton.setOnClickListener {
                 if (task.height < MAX_TASK_HEIGHT) {
-                    binding.taskHeight.text = (++task.height).toString()
                     onTaskUpdate?.invoke(task, true)
+                    binding.taskHeight.text = (++task.height).toString()
                 }
             }
             binding.decreaseButton.setOnClickListener {
                 if (task.height > MIN_TASK_HEIGHT) {
-                    binding.taskHeight.text = (--task.height).toString()
                     onTaskUpdate?.invoke(task, false)
+                    binding.taskHeight.text = (--task.height).toString()
                 }
             }
         }
