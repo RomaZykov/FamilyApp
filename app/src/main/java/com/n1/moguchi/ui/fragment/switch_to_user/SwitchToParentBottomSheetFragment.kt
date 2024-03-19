@@ -13,7 +13,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.auth.FirebaseAuth
@@ -64,8 +64,7 @@ class SwitchToParentBottomSheetFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         auth = Firebase.auth
 
-        val navController =
-            Navigation.findNavController(activity as MainActivity, R.id.fragment_container_view)
+        val navController = findNavController()
         showBottomSheet(view)
 
         val childId = requireArguments().getString("childId")

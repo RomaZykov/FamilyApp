@@ -11,7 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.MoguchiBaseApplication
@@ -59,8 +59,7 @@ class HomeChildFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val navController =
-            Navigation.findNavController(activity as MainActivity, R.id.fragment_container_view)
+        val navController = findNavController()
 
         val childId = requireArguments().getString("childId")
         if (childId != null) {

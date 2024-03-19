@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -60,8 +60,7 @@ class SwitchToChildBottomSheetFragment : BottomSheetDialogFragment() {
 
         val parentId = Firebase.auth.currentUser?.uid
 
-        val navController =
-            Navigation.findNavController(activity as MainActivity, R.id.fragment_container_view)
+        val navController = findNavController()
 
         val currentProfileMode = viewModel.getProfileMode()
         showRelatedBottomSheet(view)

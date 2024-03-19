@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.appbar.MaterialToolbar
 import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
@@ -19,7 +19,6 @@ import com.n1.moguchi.data.models.Goal
 import com.n1.moguchi.data.models.Task
 import com.n1.moguchi.databinding.FragmentAfterOnboardingBinding
 import com.n1.moguchi.ui.ViewModelFactory
-import com.n1.moguchi.ui.activity.MainActivity
 import com.n1.moguchi.ui.fragment.parent.child_creation.ChildCreationFragment
 import com.n1.moguchi.ui.fragment.parent.goal_creation.GoalCreationFragment
 import com.n1.moguchi.ui.fragment.parent.task_creation.TaskCreationFragment
@@ -60,10 +59,7 @@ class AfterOnBoardingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val navHostFragment = (activity as MainActivity)
-            .supportFragmentManager
-            .findFragmentById(R.id.fragment_container_view) as NavHostFragment
-        val navController = navHostFragment.navController
+        val navController = findNavController()
 
         val fragments = listOf(
             ChildCreationFragment.newInstance(
@@ -203,6 +199,7 @@ class AfterOnBoardingFragment : Fragment() {
                     tasks.toList()
                 )
             }
+            // TODO - Replace incorrect navigation instead of this use via action destination
             navController.navigate(R.id.action_afterOnBoardingFragment_to_parentHomeFragment)
         } else {
             moveToFragment(currentFragmentInContainer, fragmentToMove)

@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -21,7 +21,6 @@ import com.n1.moguchi.data.models.Goal
 import com.n1.moguchi.data.models.Task
 import com.n1.moguchi.databinding.FragmentParentHomeBinding
 import com.n1.moguchi.ui.ViewModelFactory
-import com.n1.moguchi.ui.activity.MainActivity
 import com.n1.moguchi.ui.adapter.ChildrenRecyclerAdapter
 import com.n1.moguchi.ui.adapter.CompletedGoalsRecyclerAdapter
 import com.n1.moguchi.ui.adapter.GoalsRecyclerAdapter
@@ -69,8 +68,7 @@ class HomeParentFragment : Fragment() {
 
         val parentId = Firebase.auth.currentUser?.uid
 
-        val navController =
-            Navigation.findNavController(activity as MainActivity, R.id.fragment_container_view)
+        val navController = findNavController()
 
         if (parentId != null) {
             viewModel.fetchChildren(parentId)
