@@ -20,7 +20,7 @@ class AppRepositoryImpl @Inject constructor(
 
     private val childrenRef: DatabaseReference = database.getReference("children")
     private val parentsRef: DatabaseReference = database.getReference("parents")
-    private var profileMode: ProfileMode = ProfileMode.PARENT_MODE
+    private var profileMode: ProfileMode = ProfileMode.UNDEFINED
 
     override fun getProfileMode(): ProfileMode {
         return profileMode
