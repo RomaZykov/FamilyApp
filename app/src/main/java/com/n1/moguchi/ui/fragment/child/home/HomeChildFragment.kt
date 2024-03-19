@@ -85,9 +85,9 @@ class HomeChildFragment : Fragment() {
                 view.findViewById(R.id.rv_child_home_goals_list)
             recyclerViewGoals.layoutManager = LinearLayoutManager(requireContext())
             childGoalsRecyclerAdapter =
-                GoalsRecyclerAdapter(it.keys.toList(), it.flatMap { map ->
+                GoalsRecyclerAdapter(it.keys.toMutableList(), it.flatMap { map ->
                     map.value
-                })
+                }.toMutableList())
             recyclerViewGoals.adapter = childGoalsRecyclerAdapter
 
             childGoalsRecyclerAdapter.onGoalButtonClicked = { goalId ->

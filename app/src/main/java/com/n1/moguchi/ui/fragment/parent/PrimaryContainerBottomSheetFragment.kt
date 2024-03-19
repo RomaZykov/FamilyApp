@@ -213,6 +213,20 @@ class PrimaryContainerBottomSheetFragment : BottomSheetDialogFragment() {
                     val goal = args.getParcelableArrayList<Goal>("goals")?.get(0)
                     val tasks = args.getParcelableArrayList<Task>("tasks")
                     viewModel.saveGoalWithTasksToDb(goal!!, tasks?.toList()!!)
+                    val goalWithTasksBundle = Bundle().apply {
+                        this.putParcelableArrayList(
+                            "tasks",
+                            tasks as ArrayList<out Parcelable>
+                        )
+                        this.putParcelable(
+                            "goal",
+                            goal
+                        )
+                    }
+                    parentFragmentManager.setFragmentResult(
+                        "refreshGoalsListRequestKey",
+                        goalWithTasksBundle
+                    )
 
                     childFragmentManager.commit {
                         remove(currentFragmentInContainer)

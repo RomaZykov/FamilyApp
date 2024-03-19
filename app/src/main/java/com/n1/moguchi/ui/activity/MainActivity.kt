@@ -76,6 +76,18 @@ class MainActivity : AppCompatActivity() {
                 else -> hideUi()
             }
         }
+
+        var bundleForHomeFragment = Bundle()
+        supportFragmentManager.setFragmentResultListener(
+            "refreshRecyclerViewRequestKey",
+            this
+        ) { _, innerBundle ->
+            bundleForHomeFragment = innerBundle
+        }
+        supportFragmentManager.setFragmentResult(
+            "refreshGoalsListRequestKey",
+            bundleForHomeFragment
+        )
     }
 
     private fun bundleWithProfileMode(currentProfileMode: ProfileMode) {

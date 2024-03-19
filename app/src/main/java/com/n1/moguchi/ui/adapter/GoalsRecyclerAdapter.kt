@@ -14,10 +14,23 @@ import com.n1.moguchi.databinding.GoalCardBinding
 import com.n1.moguchi.ui.views.CustomShapesView
 
 class GoalsRecyclerAdapter(
-    private val goalsList: List<Goal>,
-    private val tasksList: List<Task>
+    private val goalsList: MutableList<Goal>,
+    private val tasksList: MutableList<Task>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    // TODO - Dangerous code
+    var updatedGoal: Goal? = null
+        set(value) {
+            field = value
+            field?.let { goalsList.add(it) }
+        }
+    var updatedTasksList: MutableList<Task> = mutableListOf()
+        set(value) {
+            field = value
+            value.forEach {
+                tasksList.add(it)
+            }
+        }
     var onGoalButtonClicked: ((String) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {

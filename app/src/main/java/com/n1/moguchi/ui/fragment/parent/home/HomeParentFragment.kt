@@ -17,6 +17,8 @@ import com.google.firebase.ktx.Firebase
 import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
 import com.n1.moguchi.data.models.Child
+import com.n1.moguchi.data.models.Goal
+import com.n1.moguchi.data.models.Task
 import com.n1.moguchi.databinding.FragmentParentHomeBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.activity.MainActivity
@@ -124,9 +126,10 @@ class HomeParentFragment : Fragment() {
             viewModel.goals.observe(viewLifecycleOwner) {
                 val goalsRecyclerView: RecyclerView = binding.rvHomeGoalsList
                 goalsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-                goalsRecyclerAdapter = GoalsRecyclerAdapter(it.keys.toList(), it.flatMap { map ->
-                    map.value
-                })
+                goalsRecyclerAdapter =
+                    GoalsRecyclerAdapter(it.keys.toMutableList(), it.flatMap { map ->
+                        map.value
+                    }.toMutableList())
                 goalsRecyclerView.adapter = goalsRecyclerAdapter
 
                 goalsRecyclerAdapter.onGoalButtonClicked = { goalId ->
@@ -161,6 +164,21 @@ class HomeParentFragment : Fragment() {
                 }
 
                 else -> false
+            }
+        }
+        
+        requireActivity().supportFragmentManager.setFragmentResultListener(
+            "refreshGoalsListRequestKey",
+            viewLifecycleOwner
+        ) { _, innerBundle ->
+            val goal = innerBundle.getParcelable<Goal>("goal")
+            val tasks = innerBundle.getParcelableArrayList<Task>("tasks")
+            if (goal != null && tasks != null) {
+                goalsRecyclerAdapter.updatedGoal = goal
+                goalsRecyclerAdapter.updatedTasksList = tasks
+                goalsRecyclerAdapter.notifyItemInserted(
+                    childrenRecyclerAdapter.itemCount
+                )
             }
         }
     }
