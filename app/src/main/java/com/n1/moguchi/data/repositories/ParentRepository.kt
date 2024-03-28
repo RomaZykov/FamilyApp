@@ -12,8 +12,6 @@ interface ParentRepository {
 
     suspend fun fetchChildren(parentId: String): Map<String, Child>
 
-//    fun getAndSaveChildToDb(parentId: String, childUser: Child): Child
-
     fun returnCreatedChild(parentId: String, childUser: Child): Child
 
     fun getAndUpdateChildInDb(parentId: String, childUser: Child): Child
