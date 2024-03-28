@@ -20,6 +20,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
+import com.n1.moguchi.data.models.remote.ProfileMode
 import com.n1.moguchi.databinding.FragmentProfileBottomSheetBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.fragment.parent.profile.ProfileParentFragmentDirections
@@ -138,6 +139,7 @@ class ProfileContainerBottomSheetFragment : BottomSheetDialogFragment() {
                             text = getString(R.string.yes)
                             setOnClickListener {
                                 auth.signOut()
+                                viewModel.updateUserPrefs(ProfileMode.UNDEFINED)
                                 signInClient.signOut().addOnCompleteListener {
                                     dismiss()
                                     val action =

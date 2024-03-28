@@ -5,8 +5,8 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.core.view.isNotEmpty
-import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -16,14 +16,13 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
-import com.n1.moguchi.data.models.ProfileMode
+import com.n1.moguchi.data.models.remote.ProfileMode
 import com.n1.moguchi.databinding.ActivityMainBinding
 import com.n1.moguchi.ui.ViewModelFactory
-import com.n1.moguchi.ui.fragment.child.home.HomeChildFragment
 import com.n1.moguchi.ui.fragment.parent.PrimaryContainerBottomSheetFragment
-import com.n1.moguchi.ui.fragment.parent.home.HomeParentFragment
 import com.n1.moguchi.ui.fragment.switch_to_user.SwitchToChildBottomSheetFragment
 import com.n1.moguchi.ui.fragment.switch_to_user.SwitchToParentBottomSheetFragment
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
@@ -31,8 +30,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainActivityViewModel
-
     private lateinit var auth: FirebaseAuth
+    private var currentProfileMode: String? = null
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -48,7 +47,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         auth = Firebase.auth
-
         viewModel = ViewModelProvider(this, viewModelFactory)[MainActivityViewModel::class.java]
 
         val navHostFragment =
@@ -57,20 +55,24 @@ class MainActivity : AppCompatActivity() {
         val inflater = navController.navInflater
         val graph = inflater.inflate(R.navigation.nav_graph)
 
-        var currentProfileMode = viewModel.getProfileMode()
-        navController.setGraph(graph, bundleCurrentProfileMode(currentProfileMode))
+        lifecycleScope.launch {
+            viewModel.getUserPrefs().collect {
+                currentProfileMode = it.currentProfileMode
+                when (currentProfileMode) {
+                    "parent_mode" -> {
+                        graph.setStartDestination(R.id.home_parent_fragment)
+                    }
 
-        when (currentProfileMode) {
-            ProfileMode.PARENT_MODE -> {
-                graph.setStartDestination(R.id.home_parent_fragment)
-            }
+                    "child_mode" -> {
+                        graph.setStartDestination(R.id.home_child_fragment)
+                    }
 
-            ProfileMode.CHILD_MODE -> {
-                graph.setStartDestination(R.id.home_child_fragment)
-            }
-
-            ProfileMode.UNDEFINED -> {
-                graph.setStartDestination(R.id.registrationFragment)
+                    "undefined" -> {
+                        graph.setStartDestination(R.id.registrationFragment)
+                    }
+                }
+                navController.graph = graph
+                setupBottomNavigationView(currentProfileMode!!)
             }
         }
 
@@ -78,25 +80,23 @@ class MainActivity : AppCompatActivity() {
             "changeProfileModeRequestKey",
             this
         ) { _, _ ->
-            currentProfileMode = if (currentProfileMode == ProfileMode.PARENT_MODE) {
-                with(viewModel) {
-                    setProfileMode(ProfileMode.CHILD_MODE)
-                    getProfileMode()
+            lifecycleScope.launch {
+                viewModel.getUserPrefs().collect {
+                    currentProfileMode = it.currentProfileMode
                 }
-            } else {
-                with(viewModel) {
-                    setProfileMode(ProfileMode.PARENT_MODE)
-                    getProfileMode()
+                if (currentProfileMode == "parent_mode") {
+                    viewModel.updateUserPrefs(ProfileMode.PARENT_MODE)
+                } else {
+                    viewModel.updateUserPrefs(ProfileMode.CHILD_MODE)
                 }
             }
-            setupBottomNavigationView(currentProfileMode)
-            bundleCurrentProfileMode(currentProfileMode)
+            currentProfileMode?.let { setupBottomNavigationView(it) }
         }
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.homeParentFragment,
-                R.id.homeChildFragment -> {
+                R.id.home_parent_fragment,
+                R.id.home_child_fragment -> {
                     showUi()
                 }
 
@@ -120,53 +120,33 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         val currentUser = auth.currentUser
-        val currentProfileMode = viewModel.getProfileMode()
-        if (currentUser != null && currentProfileMode != ProfileMode.UNDEFINED) {
-            if (currentProfileMode == ProfileMode.PARENT_MODE) {
-                supportFragmentManager.commit {
-                    replace(
-                        R.id.fragment_container_view,
-                        HomeParentFragment()
-                    )
-                }
-            } else {
-                supportFragmentManager.commit {
-                    replace(
-                        R.id.fragment_container_view,
-                        HomeChildFragment()
-                    )
-                }
-            }
-        }
+//        val currentProfileMode = viewModel.getUserPrefs()
+//        if (currentUser != null && currentProfileMode != "undefined") {
+//            if (currentProfileMode == "parent_mode") {
+//                supportFragmentManager.commit {
+//                    replace(
+//                        R.id.fragment_container_view,
+//                        HomeParentFragment()
+//                    )
+//                }
+//            } else {
+//                supportFragmentManager.commit {
+//                    replace(
+//                        R.id.fragment_container_view,
+//                        HomeChildFragment()
+//                    )
+//                }
+//            }
+//        }
     }
 
-    private fun bundleCurrentProfileMode(currentProfileMode: ProfileMode): Bundle? {
-        val bundle = Bundle().apply {
-            when (currentProfileMode) {
-                ProfileMode.PARENT_MODE -> {
-                    putString("profileMode", "parentMode")
-                }
-
-                ProfileMode.CHILD_MODE -> {
-                    putString("profileMode", "childMode")
-                }
-
-                ProfileMode.UNDEFINED -> {
-                }
-            }
-        }
-        val intent = intent.putExtras(bundle)
-        intent.putExtras(bundle)
-        return intent.extras
-    }
-
-    private fun setupBottomNavigationView(currentProfileMode: ProfileMode) {
+    private fun setupBottomNavigationView(currentProfileMode: String) {
         binding.bottomNavigationView.setupWithNavController(navController)
         if (binding.bottomNavigationView.menu.isNotEmpty()) {
             binding.bottomNavigationView.menu.clear()
         }
 
-        if (currentProfileMode == ProfileMode.PARENT_MODE) {
+        if (currentProfileMode == "parent_mode") {
             binding.bottomNavigationView.inflateMenu(R.menu.bottom_menu_parent)
             binding.bottomNavigationView.menu.findItem(R.id.addGoal).setOnMenuItemClickListener {
                 showBottomSheet(PrimaryContainerBottomSheetFragment(), GOAL_CREATION_INTENT_TAG)

@@ -4,15 +4,20 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.n1.moguchi.data.models.Task
+import com.n1.moguchi.data.models.local.UserPreferences
+import com.n1.moguchi.data.models.remote.Task
+import com.n1.moguchi.data.repositories.AppRepository
 import com.n1.moguchi.data.repositories.GoalRepository
 import com.n1.moguchi.data.repositories.TaskRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class TasksViewModel @Inject constructor(
     private val taskRepository: TaskRepository,
-    private val goalRepository: GoalRepository
+    private val goalRepository: GoalRepository,
+    private val appRepository: AppRepository
 ) : ViewModel() {
 
     private val _activeTasks = MutableLiveData<List<Task>>()
@@ -26,6 +31,12 @@ class TasksViewModel @Inject constructor(
 
     private val _goalTitle = MutableLiveData<String>()
     val goalTitle: LiveData<String> = _goalTitle
+
+    fun getUserPrefs(): Flow<UserPreferences> {
+        return appRepository.getUserPrefs().map {
+            it
+        }
+    }
 
     fun fetchActiveTasks(goalId: String) {
         viewModelScope.launch {

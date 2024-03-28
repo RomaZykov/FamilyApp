@@ -21,9 +21,11 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
+import com.n1.moguchi.data.models.remote.ProfileMode
 import com.n1.moguchi.databinding.FragmentSwitchToParentBottomSheetBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.activity.MainActivity
+import com.n1.moguchi.ui.fragment.child.home.HomeChildFragmentDirections
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -104,9 +106,11 @@ class SwitchToParentBottomSheetFragment : BottomSheetDialogFragment() {
                                     "changeProfileModeRequestKey",
                                     bundleOf()
                                 )
-                                navController.navigate(
-                                    R.id.action_homeChildFragment_to_homeParentFragment
-                                )
+
+                                viewModel.updateUserPrefs(ProfileMode.PARENT_MODE, null)
+                                val action =
+                                    HomeChildFragmentDirections.actionHomeChildFragmentToHomeParentFragment()
+                                navController.navigate(action)
                                 dismiss()
                             } else {
                                 binding.passwordToParent.passwordForChildInputLayout.error =

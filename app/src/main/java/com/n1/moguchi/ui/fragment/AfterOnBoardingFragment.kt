@@ -9,19 +9,22 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.appbar.MaterialToolbar
 import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
-import com.n1.moguchi.data.models.Child
-import com.n1.moguchi.data.models.Goal
-import com.n1.moguchi.data.models.Task
+import com.n1.moguchi.data.models.remote.Child
+import com.n1.moguchi.data.models.remote.Goal
+import com.n1.moguchi.data.models.remote.ProfileMode
+import com.n1.moguchi.data.models.remote.Task
 import com.n1.moguchi.databinding.FragmentAfterOnboardingBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.fragment.parent.child_creation.ChildCreationFragment
 import com.n1.moguchi.ui.fragment.parent.goal_creation.GoalCreationFragment
 import com.n1.moguchi.ui.fragment.parent.task_creation.TaskCreationFragment
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class AfterOnBoardingFragment : Fragment() {
@@ -199,8 +202,14 @@ class AfterOnBoardingFragment : Fragment() {
                     tasks.toList()
                 )
             }
-            // TODO - Replace incorrect navigation instead of this use via action destination
-            navController.navigate(R.id.action_afterOnBoardingFragment_to_parentHomeFragment)
+
+            lifecycleScope.launch {
+                viewModel.updateUserPrefs(ProfileMode.PARENT_MODE)
+            }
+
+            val action =
+                AfterOnBoardingFragmentDirections.actionAfterOnBoardingFragmentToParentHomeFragment()
+            navController.navigate(action)
         } else {
             moveToFragment(currentFragmentInContainer, fragmentToMove)
         }

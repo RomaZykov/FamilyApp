@@ -2,6 +2,7 @@ package com.n1.moguchi.di.components
 
 import android.app.Application
 import com.n1.moguchi.MoguchiBaseApplication
+import com.n1.moguchi.di.modules.ApplicationContextModule
 import com.n1.moguchi.di.modules.DispatcherModule
 import com.n1.moguchi.di.modules.FirebaseModule
 import com.n1.moguchi.di.modules.ImageModule
@@ -9,7 +10,6 @@ import com.n1.moguchi.di.modules.ViewModelModule
 import com.n1.moguchi.di.modules.child_user.ChildUserModule
 import com.n1.moguchi.di.modules.goal.GoalModule
 import com.n1.moguchi.di.modules.parent_user.ParentUserModule
-import com.n1.moguchi.di.modules.switch_to_user.SwitchToUserModule
 import com.n1.moguchi.di.modules.task.TaskModule
 import com.n1.moguchi.ui.activity.MainActivity
 import com.n1.moguchi.ui.fragment.AfterOnBoardingFragment
@@ -21,6 +21,7 @@ import com.n1.moguchi.ui.fragment.parent.home.HomeParentFragment
 import com.n1.moguchi.ui.fragment.parent.profile.ProfileParentFragment
 import com.n1.moguchi.ui.fragment.parent.profile.related_bottom_sheet.ProfileContainerBottomSheetFragment
 import com.n1.moguchi.ui.fragment.parent.profile.related_bottom_sheet.edit_profile.EditParentProfileFragment
+import com.n1.moguchi.ui.fragment.parent.registration.RegistrationFragment
 import com.n1.moguchi.ui.fragment.parent.task_creation.TaskCreationFragment
 import com.n1.moguchi.ui.fragment.switch_to_user.SwitchToChildBottomSheetFragment
 import com.n1.moguchi.ui.fragment.switch_to_user.SwitchToParentBottomSheetFragment
@@ -36,14 +37,16 @@ import dagger.Component
         ChildUserModule::class,
         ParentUserModule::class,
         FirebaseModule::class,
-        SwitchToUserModule::class,
         DispatcherModule::class,
         ViewModelModule::class,
+        ApplicationContextModule::class,
         ImageModule::class]
 )
 interface AppComponent {
 
     fun inject(activity: MainActivity)
+
+    fun inject(registrationFragment: RegistrationFragment)
 
     fun inject(afterOnBoardingFragment: AfterOnBoardingFragment)
 

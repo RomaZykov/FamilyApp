@@ -29,7 +29,10 @@ class HomeChildFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var childGoalsRecyclerAdapter: GoalsRecyclerAdapter
-//    private lateinit var childCompletedGoalsRecyclerAdapter: CompletedGoalsRecyclerAdapter
+
+    //    private lateinit var childCompletedGoalsRecyclerAdapter: CompletedGoalsRecyclerAdapter
+    private var currentChildId: String? = null
+
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -61,22 +64,29 @@ class HomeChildFragment : Fragment() {
 
         val navController = findNavController()
 
-        val childId = requireArguments().getString("childId")
-        if (childId != null) {
-            (activity as MainActivity).intent.putExtras(
-                childIdBundle(childId)
-            )
+        if (arguments == null) {
             lifecycleScope.launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.fetchChildData(childId).collect {
-                        binding.childHomeAppBar.menu.findItem(R.id.childProfile)
-                            .setIcon(it.imageResourceId!!)
-                    }
+                viewModel.getUserPrefs().collect {
+                    currentChildId = it.currentChildId
                 }
             }
-            viewModel.fetchGoalsAndTasks(childId)
-            viewModel.fetchCompletedGoals(childId)
+        } else {
+            currentChildId = requireArguments().getString("childId")
         }
+
+        (activity as MainActivity).intent.putExtras(
+            childIdBundle(currentChildId!!)
+        )
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.fetchChildData(currentChildId!!).collect {
+                    binding.childHomeAppBar.menu.findItem(R.id.childProfile)
+                        .setIcon(it.imageResourceId!!)
+                }
+            }
+        }
+        viewModel.fetchGoalsAndTasks(currentChildId!!)
+        viewModel.fetchCompletedGoals(currentChildId!!)
 
 
         viewModel.goals.observe(viewLifecycleOwner) {
