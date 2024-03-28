@@ -4,11 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.n1.moguchi.data.models.Child
-import com.n1.moguchi.data.models.ProfileMode
+import com.n1.moguchi.data.models.local.UserPreferences
+import com.n1.moguchi.data.models.remote.Child
+import com.n1.moguchi.data.models.remote.ProfileMode
 import com.n1.moguchi.data.repositories.AppRepository
 import com.n1.moguchi.data.repositories.ParentRepository
 import com.n1.moguchi.interactors.FetchChildDataUseCase
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -23,8 +25,16 @@ class SwitchToUserViewModel @Inject constructor(
     private val _children = MutableLiveData<List<Child>>()
     val children: LiveData<List<Child>> = _children
 
-    fun getProfileMode(): ProfileMode {
-        return appRepository.getProfileMode()
+    fun getUserPrefs(): Flow<UserPreferences> {
+        return appRepository.getUserPrefs().map {
+            it
+        }
+    }
+
+    fun updateUserPrefs(newMode: ProfileMode, childId: String?) {
+        viewModelScope.launch(Dispatchers.IO) {
+            appRepository.updateUserPrefs(newMode, childId)
+        }
     }
 
     fun getChild(childId: String): Flow<Child> {

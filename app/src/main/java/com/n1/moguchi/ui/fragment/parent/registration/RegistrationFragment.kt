@@ -1,5 +1,6 @@
-package com.n1.moguchi.ui.fragment.parent
+package com.n1.moguchi.ui.fragment.parent.registration
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetCredentialResponse
 import androidx.credentials.exceptions.GetCredentialException
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
@@ -24,12 +26,16 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
+import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
-import com.n1.moguchi.data.models.Parent
+import com.n1.moguchi.data.models.remote.Parent
+import com.n1.moguchi.data.models.remote.ProfileMode
 import com.n1.moguchi.databinding.FragmentRegistrationBinding
+import com.n1.moguchi.ui.ViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class RegistrationFragment : Fragment() {
 
@@ -37,8 +43,22 @@ class RegistrationFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var auth: FirebaseAuth
-
     private lateinit var navController: NavController
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    private val viewModel by lazy {
+        ViewModelProvider(this, viewModelFactory)[RegistrationViewModel::class.java]
+    }
+
+    private val component by lazy {
+        (requireActivity().application as MoguchiBaseApplication).appComponent
+    }
+
+    override fun onAttach(context: Context) {
+        component.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -68,9 +88,8 @@ class RegistrationFragment : Fragment() {
 
     private fun signIn() {
         val googleIdOption: GetGoogleIdOption = GetGoogleIdOption.Builder()
-            .setFilterByAuthorizedAccounts(true)
+            .setFilterByAuthorizedAccounts(false)
             .setServerClientId(getString(R.string.web_client_id))
-            .setFilterByAuthorizedAccounts(true)
 //            .setNonce(<nonce string to use when generating a Google ID token>)
             .build()
 
@@ -147,6 +166,7 @@ class RegistrationFragment : Fragment() {
                                     RegistrationFragmentDirections.actionRegistrationFragmentToOnBoardingParentFragment()
                                 navController.navigate(action)
                             } else {
+                                viewModel.updateUserPrefs(ProfileMode.PARENT_MODE)
                                 val action =
                                     RegistrationFragmentDirections.actionRegistrationFragmentToHomeFragment()
                                 navController.navigate(action)
