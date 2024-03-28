@@ -1,9 +1,9 @@
 package com.n1.moguchi.data.repositories
 
-import com.n1.moguchi.data.models.Child
-import com.n1.moguchi.data.models.Goal
-import com.n1.moguchi.data.models.Parent
-import com.n1.moguchi.data.models.Task
+import com.n1.moguchi.data.models.remote.Child
+import com.n1.moguchi.data.models.remote.Goal
+import com.n1.moguchi.data.models.remote.Parent
+import com.n1.moguchi.data.models.remote.Task
 import kotlinx.coroutines.flow.Flow
 
 interface ParentRepository {

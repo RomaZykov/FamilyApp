@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/registrationFragment">
+    app:startDestination="@id/home_parent_fragment">
 
     <activity
         android:id="@+id/mainActivity"
@@ -28,14 +28,14 @@
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
-        android:name="com.n1.moguchi.ui.fragment.parent.RegistrationFragment"
+        android:name="com.n1.moguchi.ui.fragment.parent.registration.RegistrationFragment"
         android:label="RegistrationFragment">
         <action
             android:id="@+id/action_registrationFragment_to_onBoardingParentFragment"
             app:destination="@id/onBoardingParentFragment" />
         <action
             android:id="@+id/action_registrationFragment_to_homeFragment"
-            app:destination="@id/homeParentFragment"
+            app:destination="@id/home_parent_fragment"
             app:popUpTo="@id/registrationFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -58,7 +58,7 @@
             app:destination="@id/onBoardingChildFragment" />
         <action
             android:id="@+id/action_parentHomeFragment_to_homeChildFragment"
-            app:destination="@id/homeChildFragment"
+            app:destination="@id/home_child_fragment"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
     </fragment>
@@ -75,7 +75,7 @@
         </action>
         <action
             android:id="@+id/action_parentProfileFragment_to_parentHomeFragment"
-            app:destination="@id/homeParentFragment" />
+            app:destination="@id/home_parent_fragment" />
     </fragment>
     <fragment
         android:id="@+id/goalCreationFragment"
@@ -114,7 +114,7 @@
             app:destination="@id/tasksFragment" />
         <action
             android:id="@+id/action_homeChildFragment_to_homeParentFragment"
-            app:destination="@id/homeParentFragment" />
+            app:destination="@id/home_parent_fragment" />
     </fragment>
     <fragment
         android:id="@+id/firstSlideChildFragment"
@@ -134,7 +134,7 @@
         android:label="OnBoardingChildFragment">
         <action
             android:id="@+id/action_onBoardingChildFragment_to_homeChildFragment"
-            app:destination="@id/homeChildFragment"
+            app:destination="@id/home_child_fragment"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
     </fragment>
@@ -144,7 +144,8 @@
         android:label="AfterOnBoardingFragment">
         <action
             android:id="@+id/action_afterOnBoardingFragment_to_parentHomeFragment"
-            app:destination="@id/homeParentFragment"
+            app:destination="@id/home_parent_fragment"
+            app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment

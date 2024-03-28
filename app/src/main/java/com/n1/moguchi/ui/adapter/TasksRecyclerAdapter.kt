@@ -10,7 +10,7 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.get
 import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.R
-import com.n1.moguchi.data.models.Task
+import com.n1.moguchi.data.models.remote.Task
 import com.n1.moguchi.databinding.EditableTaskItemBinding
 
 class TasksRecyclerAdapter(
@@ -56,7 +56,7 @@ class TasksRecyclerAdapter(
             binding.taskTitle.text = task.title
             binding.taskPoints.text = task.height.toString()
 
-            if (profileMode == "parentMode") {
+            if (profileMode == "parent_mode") {
                 binding.taskSettingsButton.visibility = View.VISIBLE
                 binding.taskSettingsButton.setOnClickListener {
                     showOptionsPopup(isActiveTasks)
