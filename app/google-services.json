@@ -76,6 +76,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "868557684546-28b1a68cu46iprscic06lb4l26aiajmv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.n1.moguchi.debug",
+            "certificate_hash": "8d895579bc191bae8524e67baf6f841bc799ffd6"
+          }
+        },
+        {
           "client_id": "868557684546-b2d4pq11lsqjpku3q9inf2pkti9uj62b.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
