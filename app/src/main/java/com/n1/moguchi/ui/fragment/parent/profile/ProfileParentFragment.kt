@@ -111,9 +111,7 @@ class ProfileParentFragment : Fragment() {
             bundleOf("profileBundleKey" to tag)
         )
         val modalBottomSheet =
-            parentId?.let {
-                ProfileContainerBottomSheetFragment.newInstance(it)
-            } as BottomSheetDialogFragment
+            ProfileContainerBottomSheetFragment.newInstance(parentId!!) as BottomSheetDialogFragment
         modalBottomSheet.show(fragmentManager, null)
     }
 

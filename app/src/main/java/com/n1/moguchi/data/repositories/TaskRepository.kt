@@ -1,6 +1,6 @@
 package com.n1.moguchi.data.repositories
 
-import com.n1.moguchi.data.models.Task
+import com.n1.moguchi.data.models.remote.Task
 
 interface TaskRepository {
 

@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/ultra_light_orange"
-        tools:context=".ui.fragment.parent.RegistrationFragment">
+        tools:context=".ui.fragment.parent.registration.RegistrationFragment">
 
         <ImageView
             android:id="@+id/registration_image"

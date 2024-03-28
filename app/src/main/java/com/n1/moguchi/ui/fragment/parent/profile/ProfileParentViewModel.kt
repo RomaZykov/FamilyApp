@@ -2,7 +2,7 @@ package com.n1.moguchi.ui.fragment.parent.profile
 
 import android.widget.ImageView
 import androidx.lifecycle.ViewModel
-import com.n1.moguchi.data.models.Parent
+import com.n1.moguchi.data.models.remote.Parent
 import com.n1.moguchi.interactors.FetchParentDataUseCase
 import com.n1.moguchi.ui.ProfileImage
 import kotlinx.coroutines.flow.Flow

@@ -1,4 +1,4 @@
-package com.n1.moguchi.data.models
+package com.n1.moguchi.data.models.remote
 
 data class Parent(
     val uid: String? = null,
