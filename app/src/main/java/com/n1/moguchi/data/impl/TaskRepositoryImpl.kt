@@ -1,7 +1,7 @@
 package com.n1.moguchi.data.impl
 
 import com.google.firebase.database.FirebaseDatabase
-import com.n1.moguchi.data.models.Task
+import com.n1.moguchi.data.models.remote.Task
 import com.n1.moguchi.data.repositories.TaskRepository
 import kotlinx.coroutines.tasks.await
 import java.util.UUID

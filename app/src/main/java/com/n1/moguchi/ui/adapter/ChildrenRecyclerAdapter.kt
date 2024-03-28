@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.R
-import com.n1.moguchi.data.models.Child
+import com.n1.moguchi.data.models.remote.Child
 import com.n1.moguchi.databinding.MediumChildItemBinding
 import com.n1.moguchi.databinding.SmallAddChildButtonBinding
 import com.n1.moguchi.databinding.SmallChildItemBinding

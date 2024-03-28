@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.n1.moguchi.R
-import com.n1.moguchi.data.models.Goal
+import com.n1.moguchi.data.models.remote.Goal
 import com.n1.moguchi.databinding.CompletedGoalCardBinding
 
 class CompletedGoalsRecyclerAdapter(private val goalsList: List<Goal>) :

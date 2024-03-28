@@ -10,7 +10,6 @@ import dagger.Provides
 interface FirebaseModule {
 
     companion object {
-
         @ApplicationScope
         @Provides
         fun provideFirebaseAuthInstance(): FirebaseAuth {

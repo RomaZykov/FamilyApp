@@ -1,7 +1,7 @@
 package com.n1.moguchi.data.repositories
 
-import com.n1.moguchi.data.models.Goal
-import com.n1.moguchi.data.models.Task
+import com.n1.moguchi.data.models.remote.Goal
+import com.n1.moguchi.data.models.remote.Task
 
 interface GoalRepository {
     suspend fun getGoal(goalId: String): Goal

@@ -6,10 +6,10 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.n1.moguchi.data.models.Child
-import com.n1.moguchi.data.models.Goal
-import com.n1.moguchi.data.models.Parent
-import com.n1.moguchi.data.models.Task
+import com.n1.moguchi.data.models.remote.Child
+import com.n1.moguchi.data.models.remote.Goal
+import com.n1.moguchi.data.models.remote.Parent
+import com.n1.moguchi.data.models.remote.Task
 import com.n1.moguchi.data.repositories.ParentRepository
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow

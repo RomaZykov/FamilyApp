@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.n1.moguchi.MoguchiBaseApplication
-import com.n1.moguchi.data.models.Goal
-import com.n1.moguchi.data.models.Task
+import com.n1.moguchi.data.models.remote.Goal
+import com.n1.moguchi.data.models.remote.Task
 import com.n1.moguchi.databinding.FragmentTaskCreationBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.fragment.parent.TaskSettingsSecondaryBottomSheetFragment

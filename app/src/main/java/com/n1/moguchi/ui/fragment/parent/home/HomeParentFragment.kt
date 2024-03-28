@@ -16,9 +16,9 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
-import com.n1.moguchi.data.models.Child
-import com.n1.moguchi.data.models.Goal
-import com.n1.moguchi.data.models.Task
+import com.n1.moguchi.data.models.remote.Child
+import com.n1.moguchi.data.models.remote.Goal
+import com.n1.moguchi.data.models.remote.Task
 import com.n1.moguchi.databinding.FragmentParentHomeBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.adapter.ChildrenRecyclerAdapter
