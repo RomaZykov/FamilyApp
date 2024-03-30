@@ -83,4 +83,8 @@ class GoalRepositoryImpl @Inject constructor(
         }
         return completedGoals
     }
+
+    override suspend fun updateGoal(goalId: String, taskHeight: Int) {
+
+    }
 }

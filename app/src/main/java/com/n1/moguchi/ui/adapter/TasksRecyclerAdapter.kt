@@ -95,12 +95,12 @@ class TasksRecyclerAdapter(
 
         override fun onMenuItemClick(item: MenuItem?): Boolean {
             when (item?.itemId) {
-                R.id.task_done -> {
+                R.id.task_completed -> {
                     onTaskStatusChangedClicked?.invoke(task!!, isActiveTasks)
                     notifyItemRemoved(adapterPosition)
                 }
 
-                R.id.task_not_done -> {
+                R.id.task_not_completed -> {
                     onTaskStatusChangedClicked?.invoke(task!!, isActiveTasks)
                     notifyItemRemoved(adapterPosition)
                 }

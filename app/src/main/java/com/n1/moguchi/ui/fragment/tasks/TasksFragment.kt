@@ -8,6 +8,9 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -82,57 +85,38 @@ class TasksFragment : Fragment() {
             setProgression(it.keys.toString(), it.values.toString())
         }
 
-        viewModel.activeTasks.observe(viewLifecycleOwner) {
-            binding.activeTasks.text = getString(R.string.active_tasks, it.size)
-            if (currentProfileMode != null) {
-                setupRecyclerViewByRelatedTasks(
-                    relatedGoalId,
-                    it.toMutableList(),
-                    true,
-                    currentProfileMode!!
-                )
-            }
+        viewModel.activeTasks.observeOnce(viewLifecycleOwner) {
+            initRecyclerViewByRelatedTasks(
+                it.toMutableList(),
+                false,
+                currentProfileMode!!
+            )
+        }
+        recyclerViewCallbacks(relatedGoalId)
 
-            tasksRecyclerAdapter.onTaskDeleteClicked = { task, isActiveTask ->
-                if (relatedGoalId != null) {
-                    viewModel.deleteTask(relatedGoalId, task, isActiveTask)
-                    // TODO - Implement progression to complete goal
-//                    viewModel.updateGoalPoints(relatedGoalId, task.height)
-                }
-            }
-
-            tasksRecyclerAdapter.onTaskStatusChangedClicked = { task, isActiveTask ->
-                viewModel.updateTaskStatus(task, isActiveTask)
-                // TODO - Implement progression to complete goal
-//                viewModel.updateGoalPoints(relatedGoalId, task.height)
-            }
-
+        viewModel.activeTasks.observe(viewLifecycleOwner) { activeTasks ->
+            binding.activeTasks.text = getString(R.string.active_tasks, activeTasks.size)
             binding.activeTasks.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    if (currentProfileMode != null) {
-                        setupRecyclerViewByRelatedTasks(
-                            relatedGoalId,
-                            it.toMutableList(),
-                            true,
-                            currentProfileMode!!
-                        )
-                    }
+                if (isChecked && currentProfileMode != null) {
+                    initRecyclerViewByRelatedTasks(
+                        activeTasks.toMutableList(),
+                        true,
+                        currentProfileMode!!
+                    )
                 }
             }
         }
 
-        viewModel.completedTasks.observe(viewLifecycleOwner) {
-            binding.completedTasks.text = getString(R.string.completed_tasks, it?.size ?: 0)
+        viewModel.completedTasks.observe(viewLifecycleOwner) { completedTasks ->
+            binding.completedTasks.text =
+                getString(R.string.completed_tasks, completedTasks?.size ?: 0)
             binding.completedTasks.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    if (currentProfileMode != null) {
-                        setupRecyclerViewByRelatedTasks(
-                            relatedGoalId,
-                            it.toMutableList(),
-                            false,
-                            currentProfileMode!!
-                        )
-                    }
+                if (isChecked && currentProfileMode != null) {
+                    initRecyclerViewByRelatedTasks(
+                        completedTasks.toMutableList(),
+                        false,
+                        currentProfileMode!!
+                    )
                 }
             }
         }
@@ -165,8 +149,27 @@ class TasksFragment : Fragment() {
         }
     }
 
-    private fun setupRecyclerViewByRelatedTasks(
-        relatedGoalId: String?,
+    private fun recyclerViewCallbacks(relatedGoalId: String?) {
+        if (this::tasksRecyclerAdapter.isInitialized) {
+            tasksRecyclerAdapter.onTaskDeleteClicked = { task, isActiveTask ->
+                if (relatedGoalId != null) {
+                    viewModel.deleteTask(relatedGoalId, task, isActiveTask)
+                    // TODO - Implement progression to complete goal
+                    viewModel.updateRelatedGoal(relatedGoalId, -task.height)
+                }
+            }
+
+            tasksRecyclerAdapter.onTaskStatusChangedClicked = { task, isActiveTask ->
+                if (relatedGoalId != null) {
+                    viewModel.updateTaskStatus(task, isActiveTask)
+                    // TODO - Implement progression to complete goal
+                    viewModel.updateRelatedGoal(relatedGoalId, task.height)
+                }
+            }
+        }
+    }
+
+    private fun initRecyclerViewByRelatedTasks(
         relatedTasks: MutableList<Task>,
         isActive: Boolean,
         profileMode: String
@@ -176,7 +179,6 @@ class TasksFragment : Fragment() {
         tasksRecyclerAdapter =
             TasksRecyclerAdapter(relatedTasks, isActive, profileMode = profileMode)
         recyclerView.adapter = tasksRecyclerAdapter
-
     }
 
     private fun setProgression(cPoints: String, tPoints: String) {
@@ -194,6 +196,18 @@ class TasksFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
+        observe(
+            lifecycleOwner,
+            object : Observer<T> {
+                override fun onChanged(value: T) {
+                    observer.onChanged(value)
+                    removeObserver(this)
+                }
+            }
+        )
     }
 
     companion object {
