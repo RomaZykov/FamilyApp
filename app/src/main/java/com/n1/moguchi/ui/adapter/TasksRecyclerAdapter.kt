@@ -97,16 +97,19 @@ class TasksRecyclerAdapter(
             when (item?.itemId) {
                 R.id.task_completed -> {
                     onTaskStatusChangedClicked?.invoke(task!!, isActiveTasks)
+                    relatedTasksList.removeAt(adapterPosition)
                     notifyItemRemoved(adapterPosition)
                 }
 
                 R.id.task_not_completed -> {
                     onTaskStatusChangedClicked?.invoke(task!!, isActiveTasks)
+                    relatedTasksList.removeAt(adapterPosition)
                     notifyItemRemoved(adapterPosition)
                 }
 
                 R.id.delete -> {
                     onTaskDeleteClicked?.invoke(task!!, isActiveTasks)
+                    relatedTasksList.removeAt(adapterPosition)
                     notifyItemRemoved(adapterPosition)
                 }
             }
