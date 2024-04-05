@@ -1,6 +1,5 @@
 package com.n1.moguchi.ui.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,7 @@ import com.n1.moguchi.R
 import com.n1.moguchi.data.models.remote.Goal
 import com.n1.moguchi.databinding.CompletedGoalCardBinding
 
-class CompletedGoalsRecyclerAdapter(private val goalsList: List<Goal>) :
+class CompletedGoalsRecyclerAdapter(private val completedGoalsList: List<Goal>) :
     RecyclerView.Adapter<ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
@@ -20,18 +19,17 @@ class CompletedGoalsRecyclerAdapter(private val goalsList: List<Goal>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val completedGoal: Goal = goalsList[position]
+        val completedGoal: Goal = completedGoalsList[position]
         (holder as CardViewHolder).bind(completedGoal)
     }
 
     override fun getItemCount(): Int {
-        return goalsList.size
+        return completedGoalsList.size
     }
 
     inner class CardViewHolder(itemView: View) : ViewHolder(itemView) {
         private val binding = CompletedGoalCardBinding.bind(itemView)
         private var goal: Goal? = null
-        var context: Context = itemView.context
 
         fun bind(goal: Goal) {
             this.goal = goal
