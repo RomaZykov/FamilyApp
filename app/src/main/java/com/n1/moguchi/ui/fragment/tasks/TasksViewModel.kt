@@ -87,7 +87,7 @@ class TasksViewModel @Inject constructor(
                 if (taskToUpdate != null) {
                     _completedTasks.value = _completedTasks.value?.plus(taskToUpdate)
                 }
-                updateProgression(task)
+                updateGoalProgression(task)
             } else {
                 val taskToUpdate = _completedTasks.value?.single { it.taskId == task.taskId }.also {
                     it?.taskCompleted = false
@@ -97,17 +97,28 @@ class TasksViewModel @Inject constructor(
                 if (taskToUpdate != null) {
                     _activeTasks.value = _activeTasks.value?.plus(taskToUpdate)
                 }
-                updateProgression(task)
+                updateGoalProgression(task)
             }
             taskRepository.updateTask(task)
         }
     }
 
-    fun updateRelatedGoal() {
-
+    fun updateRelatedGoal(goalId: String, taskHeight: Int, isActiveTask: Boolean, ) {
+        viewModelScope.launch {
+            if (isActiveTask) {
+                goalRepository.updateGoalPoints(goalId, taskHeight)
+            } else {
+                goalRepository.updateGoalPoints(goalId, -taskHeight)
+            }
+            goalRepository.getGoal(goalId).also {
+                if (it.currentPoints >= it.totalPoints) {
+                    goalRepository.updateGoalStatus(goalId)
+                }
+            }
+        }
     }
 
-    private fun updateProgression(task: Task) {
+    private fun updateGoalProgression(task: Task) {
         viewModelScope.launch {
             goalRepository.getGoal(task.goalOwnerId!!).also {
                 if (task.taskCompleted) {

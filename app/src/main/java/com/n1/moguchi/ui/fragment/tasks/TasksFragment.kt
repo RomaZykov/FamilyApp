@@ -140,9 +140,7 @@ class TasksFragment : Fragment() {
                 "refreshRecyclerViewRequestKey",
                 viewLifecycleOwner
             ) { _, innerBundle ->
-                val addedTasks =
-                    innerBundle.getParcelableArrayList<Task>("tasks")
-                        ?.toList()
+                val addedTasks = innerBundle.getParcelableArrayList<Task>("tasks")?.toList()
                 if (addedTasks != null) {
                     tasksRecyclerAdapter.updateTasksList = addedTasks.toMutableList()
                     tasksRecyclerAdapter.notifyItemRangeInserted(
@@ -171,16 +169,13 @@ class TasksFragment : Fragment() {
         tasksRecyclerAdapter.onTaskDeleteClicked = { task, isActiveTask ->
             if (relatedGoalId != null) {
                 viewModel.deleteTask(relatedGoalId, task, isActiveTask)
-                // TODO - Implement progression to complete goal
-//                    viewModel.updateRelatedGoal(relatedGoalId, -task.height)
             }
         }
 
         tasksRecyclerAdapter.onTaskStatusChangedClicked = { task, isActiveTask ->
             if (relatedGoalId != null) {
                 viewModel.updateTaskStatus(task, isActiveTask)
-                // TODO - Implement progression to complete goal
-//                    viewModel.updateRelatedGoal(relatedGoalId, task.height)
+                viewModel.updateRelatedGoal(relatedGoalId, task.height, isActiveTask)
             }
         }
     }
