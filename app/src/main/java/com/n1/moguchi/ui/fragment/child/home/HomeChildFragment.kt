@@ -85,7 +85,7 @@ class HomeChildFragment : Fragment() {
                 }
             }
         }
-        viewModel.fetchGoalsAndTasks(currentChildId!!)
+        viewModel.fetchActiveGoalsWithTasks(currentChildId!!)
         viewModel.fetchCompletedGoals(currentChildId!!)
 
 

@@ -3,23 +3,25 @@ package com.n1.moguchi.ui.fragment.child.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.n1.moguchi.data.models.local.UserPreferences
 import com.n1.moguchi.data.models.remote.Child
 import com.n1.moguchi.data.models.remote.Goal
 import com.n1.moguchi.data.models.remote.Task
 import com.n1.moguchi.data.repositories.AppRepository
 import com.n1.moguchi.data.repositories.GoalRepository
+import com.n1.moguchi.interactors.FetchActiveGoalsUseCase
 import com.n1.moguchi.interactors.FetchChildDataUseCase
+import com.n1.moguchi.interactors.FetchCompletedGoalsUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class HomeChildViewModel @Inject constructor(
     private val goalRepository: GoalRepository,
     private val appRepository: AppRepository,
-    private val fetchChildDataUseCase: FetchChildDataUseCase
+    private val fetchChildDataUseCase: FetchChildDataUseCase,
+    private val fetchActiveGoalsUseCase: FetchActiveGoalsUseCase,
+    private val fetchCompletedGoalsUseCase: FetchCompletedGoalsUseCase
 ) : ViewModel() {
 
     private val _goals = MutableLiveData<Map<Goal, List<Task>>>()
@@ -43,18 +45,20 @@ class HomeChildViewModel @Inject constructor(
         }
     }
 
-    fun fetchGoalsAndTasks(childID: String) {
-        viewModelScope.launch {
-            val goals = goalRepository.fetchChildGoals(childID)
-            val goalsWithTasksMap = goalRepository.fetchTasks(goals)
-            _goals.value = goalsWithTasksMap
+    fun fetchActiveGoalsWithTasks(childId: String): Flow<Map<Goal, List<Task>>> {
+        return fetchActiveGoalsUseCase.invoke(childId).map {
+            it!!
         }
     }
+//        viewModelScope.launch {
+//            val goals = goalRepository.fetchActiveGoals(childId)
+//            val goalsWithTasksMap = goalRepository.fetchTasks(goals)
+//            _goals.value = goalsWithTasksMap
+//        }
 
-    fun fetchCompletedGoals(childID: String) {
-        viewModelScope.launch {
-            val completedGoals = goalRepository.fetchCompletedGoals(childID)
-            _completedGoals.value = completedGoals
+    fun fetchCompletedGoals(childId: String): Flow<List<Goal>?> {
+        return fetchCompletedGoalsUseCase.invoke(childId).map {
+            it
         }
     }
 }
