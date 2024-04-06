@@ -9,12 +9,9 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -32,7 +29,7 @@ import com.n1.moguchi.ui.adapter.ChildrenRecyclerAdapter
 import com.n1.moguchi.ui.adapter.CompletedGoalsRecyclerAdapter
 import com.n1.moguchi.ui.adapter.GoalsRecyclerAdapter
 import com.n1.moguchi.ui.fragment.parent.PrimaryContainerBottomSheetFragment
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -44,8 +41,8 @@ class HomeParentFragment : Fragment() {
     private lateinit var goalsRecyclerAdapter: GoalsRecyclerAdapter
     private lateinit var completedGoalsRecyclerAdapter: CompletedGoalsRecyclerAdapter
     private lateinit var childrenRecyclerAdapter: ChildrenRecyclerAdapter
-    private val childrenIdList = mutableListOf<String>()
-    private var selectedChildIndex = 0
+//    private val childrenIdList = mutableListOf<String>()
+//    private var selectedChildIndex = 0
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -78,128 +75,33 @@ class HomeParentFragment : Fragment() {
 
         val parentId = Firebase.auth.currentUser?.uid
         if (parentId != null) {
-            viewModel.fetchChildren(parentId)
-
             val menuItem = binding.parentHomeAppBar.menu.findItem(R.id.parentProfile)
             val photoUrl = Firebase.auth.currentUser?.photoUrl.toString()
             viewModel.load(photoUrl, menuItem)
 
-            viewModel.children.observeOnce(viewLifecycleOwner) { childrenMap ->
-                childrenMap.forEach {
-                    childrenIdList.add(it.key)
-                }
-                viewLifecycleOwner.lifecycleScope.launch {
-                    repeatOnLifecycle(Lifecycle.State.STARTED) {
-                        viewModel.fetchActiveGoalsWithTasks(childrenIdList[selectedChildIndex])
-                            .collectLatest {
-                                Log.d("HomeParentFragment", "childrenIdList = $childrenIdList, index = $selectedChildIndex")
-                                val goalsRecyclerView: RecyclerView = binding.rvHomeGoalsList
-                                goalsRecyclerView.layoutManager =
-                                    LinearLayoutManager(requireContext())
-                                goalsRecyclerAdapter =
-                                    GoalsRecyclerAdapter(
-                                        it.keys.toMutableList(),
-                                        it.flatMap { map ->
-                                            map.value
-                                        }.toMutableList()
-                                    )
-                                goalsRecyclerView.adapter = goalsRecyclerAdapter
-
-                                goalsRecyclerAdapter.onGoalButtonClicked = { goalId ->
-                                    val bundle = bundleOf("goalId" to goalId)
-                                    navController.navigate(
-                                        R.id.action_parentHomeFragment_to_tasksFragment,
-                                        bundle
-                                    )
-                                }
-                            }
-
-                        viewModel.fetchCompletedGoals(childrenIdList[selectedChildIndex])
-                            .collect { completedGoals ->
-                                if (completedGoals.isEmpty()) {
-                                    binding.completedGoalsParentSide.root.visibility = View.GONE
-                                } else {
-                                    binding.completedGoalsParentSide.root.visibility = View.VISIBLE
-
-                                    val completedGoalsRecyclerView: RecyclerView =
-                                        binding.completedGoalsParentSide.rvHomeCompletedGoalsList
-                                    completedGoalsRecyclerView.layoutManager =
-                                        LinearLayoutManager(requireContext())
-                                    completedGoalsRecyclerAdapter =
-                                        CompletedGoalsRecyclerAdapter(completedGoals)
-                                    completedGoalsRecyclerView.adapter =
-                                        completedGoalsRecyclerAdapter
-                                }
-                            }
-                    }
-                }
-            }
-
+            viewModel.fetchChildren(parentId)
             viewModel.children.observe(viewLifecycleOwner) { childrenMap ->
-                val childrenRecyclerView: RecyclerView = binding.rvChildren
-                childrenRecyclerView.layoutManager =
-                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-                childrenRecyclerAdapter =
-                    ChildrenRecyclerAdapter(childrenMap.values.toMutableList(), selectedChildIndex)
-                childrenRecyclerView.adapter = childrenRecyclerAdapter
+                setupChildrenRecyclerView(childrenMap)
 
-                childrenRecyclerAdapter.onChildClicked = { childIndex, _ ->
-                    selectedChildIndex = childIndex
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        viewModel.fetchActiveGoalsWithTasks(childrenIdList[selectedChildIndex])
-                            .collectLatest {
-                                Log.d("HomeParentFragment", "childrenIdList = $childrenIdList, index = $selectedChildIndex")
-                                goalsRecyclerAdapter =
-                                    GoalsRecyclerAdapter(
-                                        it.keys.toMutableList(),
-                                        it.flatMap { map ->
-                                            map.value
-                                        }.toMutableList()
-                                    )
-
-                                goalsRecyclerAdapter.onGoalButtonClicked = { goalId ->
-                                    val bundle = bundleOf("goalId" to goalId)
-                                    navController.navigate(
-                                        R.id.action_parentHomeFragment_to_tasksFragment,
-                                        bundle
-                                    )
-                                }
-                            }
-
-                        viewModel.fetchCompletedGoals(childrenIdList[selectedChildIndex])
-                            .collect { completedGoals ->
-                                if (completedGoals.isEmpty()) {
-                                    binding.completedGoalsParentSide.root.visibility = View.GONE
-                                } else {
-                                    binding.completedGoalsParentSide.root.visibility =
-                                        View.VISIBLE
-
-//                                        val completedGoalsRecyclerView: RecyclerView =
-//                                            binding.completedGoalsParentSide.rvHomeCompletedGoalsList
-//                                        completedGoalsRecyclerView.layoutManager =
-//                                            LinearLayoutManager(requireContext())
-//                                        completedGoalsRecyclerAdapter =
-//                                            CompletedGoalsRecyclerAdapter(completedGoals)
-//                                        completedGoalsRecyclerView.adapter =
-//                                            completedGoalsRecyclerAdapter
-                                }
-                            }
+                childrenRecyclerAdapter.onChildClicked = { _, child ->
+                    if (child != null) {
+                        viewModel.selectAnotherChild(child)
                     }
+//                    childrenRecyclerAdapter.currentChildIndex = childrenMap.values.toList().indexOf(child)
                 }
 
-                childrenRecyclerAdapter.onChildAddClicked = {
+                childrenRecyclerAdapter.onAddChildClicked = {
                     showBottomSheet(PrimaryContainerBottomSheetFragment(), CHILD_CREATION_TAG)
                     childFragmentManager.setFragmentResultListener(
                         "refreshRecyclerViewRequestKey",
                         viewLifecycleOwner
                     ) { _, innerBundle ->
                         val addedChildren =
-                            innerBundle.getParcelableArrayList<Child>("children")
-                                ?.toList()
+                            innerBundle.getParcelableArrayList<Child>("children")?.toList()
                         if (addedChildren != null) {
-                            addedChildren.forEach {
-                                childrenIdList.add(it.childId!!)
-                            }
+//                            addedChildren.forEach {
+//                                childrenIdList.add(it.childId!!)
+//                            }
                             childrenRecyclerAdapter.updateChildrenList =
                                 addedChildren.toMutableList()
                             childrenRecyclerAdapter.notifyItemRangeInserted(
@@ -208,6 +110,44 @@ class HomeParentFragment : Fragment() {
                             )
                         }
                     }
+                }
+            }
+
+            viewModel.selectedChild.observe(viewLifecycleOwner) { child ->
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewModel.fetchActiveGoalsWithTasks(child.childId!!)
+                        .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                        .catch {
+                            Log.d(
+                                "HomeParentFragment",
+                                "error"
+                            )
+                        }
+                        .collect {
+                            Log.d(
+                                "HomeParentFragment",
+                                "child = $child, goal with tasks = $it"
+                            )
+                            val goalsRecyclerView: RecyclerView = binding.rvHomeGoalsList
+                            goalsRecyclerView.layoutManager =
+                                LinearLayoutManager(requireContext())
+                            goalsRecyclerAdapter =
+                                GoalsRecyclerAdapter(
+                                    it.keys.toMutableList(),
+                                    it.flatMap { map ->
+                                        map.value
+                                    }.toMutableList()
+                                )
+                            goalsRecyclerView.adapter = goalsRecyclerAdapter
+
+                            goalsRecyclerAdapter.onGoalButtonClicked = { goalId ->
+                                val bundle = bundleOf("goalId" to goalId)
+                                navController.navigate(
+                                    R.id.action_parentHomeFragment_to_tasksFragment,
+                                    bundle
+                                )
+                            }
+                        }
                 }
             }
         }
@@ -243,6 +183,15 @@ class HomeParentFragment : Fragment() {
         }
     }
 
+    private fun setupChildrenRecyclerView(childrenMap: Map<String, Child>) {
+        val childrenRecyclerView: RecyclerView = binding.rvChildren
+        childrenRecyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        childrenRecyclerAdapter =
+            ChildrenRecyclerAdapter(childrenMap.values.toMutableList(), 0)
+        childrenRecyclerView.adapter = childrenRecyclerAdapter
+    }
+
     private fun showBottomSheet(bottomSheetFragment: BottomSheetDialogFragment, tag: String) {
         childFragmentManager.setFragmentResult(
             "primaryBottomSheetRequestKey",
@@ -251,19 +200,6 @@ class HomeParentFragment : Fragment() {
         bottomSheetFragment.show(
             childFragmentManager,
             tag
-        )
-    }
-
-    // TODO - Learn more about this solution
-    private fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
-        observe(
-            lifecycleOwner,
-            object : Observer<T> {
-                override fun onChanged(value: T) {
-                    observer.onChanged(value)
-                    removeObserver(this)
-                }
-            }
         )
     }
 

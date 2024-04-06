@@ -19,7 +19,12 @@ class ChildrenRecyclerAdapter(
     private val childSelectionEnable: Boolean
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+
     // TODO - Dangerous code
+//    var currentChildIndex: Int = selectedChildIndex
+//        set(value) {
+//            field = value
+//        }
     var updateChildrenList: MutableList<Child> = mutableListOf()
         set(value) {
             field = value
@@ -28,8 +33,8 @@ class ChildrenRecyclerAdapter(
             }
         }
 
-    var onChildClicked: ((Int, String?) -> Unit)? = null
-    var onChildAddClicked: (() -> Unit)? = null
+    var onChildClicked: ((Int, Child?) -> Unit)? = null
+    var onAddChildClicked: (() -> Unit)? = null
 
     constructor(childrenList: MutableList<Child>) : this(
         childrenList,
@@ -137,7 +142,7 @@ class ChildrenRecyclerAdapter(
         }
 
         override fun onClick(v: View) {
-            onChildClicked?.invoke(adapterPosition, child?.childId)
+            onChildClicked?.invoke(adapterPosition, child!!)
         }
     }
 
@@ -180,7 +185,7 @@ class ChildrenRecyclerAdapter(
 
         fun bind() {
             binding.root.setOnClickListener {
-                onChildAddClicked?.invoke()
+                onAddChildClicked?.invoke()
             }
         }
     }

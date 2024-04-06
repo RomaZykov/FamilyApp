@@ -85,15 +85,19 @@ class SwitchToChildBottomSheetFragment : BottomSheetDialogFragment() {
                     childrenRecyclerAdapter = ChildrenRecyclerAdapter(children.toMutableList())
                     recyclerView.adapter = childrenRecyclerAdapter
 
-                    childrenRecyclerAdapter.onChildClicked = { _, childId ->
-                        viewModel.updateUserPrefs(ProfileMode.CHILD_MODE, childId)
+                    childrenRecyclerAdapter.onChildClicked = { _, child ->
+                        if (child != null) {
+                            viewModel.updateUserPrefs(ProfileMode.CHILD_MODE, child.childId)
+                        }
 
                         (requireActivity() as MainActivity).supportFragmentManager.setFragmentResult(
                             "changeProfileModeRequestKey",
                             bundleOf()
                         )
                         val bundle = Bundle()
-                        bundle.putString("childId", childId)
+                        if (child != null) {
+                            bundle.putString("childId", child.childId)
+                        }
 
                         navController.navigate(
                             R.id.action_parentHomeFragment_to_onBoardingChildFragment,

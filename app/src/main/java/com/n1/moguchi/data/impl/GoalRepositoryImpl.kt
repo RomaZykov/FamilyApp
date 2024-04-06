@@ -34,7 +34,6 @@ class GoalRepositoryImpl @Inject constructor(
                                 .child("goalCompleted").getValue(Boolean::class.java) == false
                         ) {
                             val goal = relatedGoal.getValue(Goal::class.java)
-                            Log.d("GoalRepositoryImpl", "Goal = $goal")
                             if (goal != null) {
                                 val tasks = mutableListOf<Task>()
                                 tasksRef.child(goal.goalId!!)
@@ -48,6 +47,7 @@ class GoalRepositoryImpl @Inject constructor(
                                             }
 
                                             goalsWithTasks[goal] = tasks
+                                            Log.d("GoalRepositoryImpl", "Goal and tasks = $goalsWithTasks")
                                             trySend(goalsWithTasks)
                                         }
 

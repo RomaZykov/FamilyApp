@@ -31,6 +31,9 @@ class HomeParentViewModel @Inject constructor(
     private val _children = MutableLiveData<Map<String, Child>>()
     val children: LiveData<Map<String, Child>> = _children
 
+    private val _selectedChild = MutableLiveData<Child>()
+    val selectedChild: LiveData<Child> = _selectedChild
+
 //    private val _goals = MutableLiveData<Map<Goal, List<Task>>>()
 //    val goals: LiveData<Map<Goal, List<Task>>> = _goals
 
@@ -45,6 +48,7 @@ class HomeParentViewModel @Inject constructor(
     fun fetchChildren(parentId: String) {
         viewModelScope.launch {
             val children: Map<String, Child> = parentRepository.fetchChildren(parentId)
+            _selectedChild.value = children.values.first()
             _children.value = children
         }
     }
@@ -67,6 +71,10 @@ class HomeParentViewModel @Inject constructor(
         return fetchCompletedGoalsUseCase.invoke(childId).map {
             it!!
         }
+    }
+
+    fun selectAnotherChild(child: Child) {
+        _selectedChild.value = _children.value?.get(child.childId)
     }
 //        viewModelScope.launch {
 //            val completedGoals = goalRepository.fetchCompletedGoals(childID)
