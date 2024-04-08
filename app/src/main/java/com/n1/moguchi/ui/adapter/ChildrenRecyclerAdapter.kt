@@ -149,12 +149,14 @@ class ChildrenRecyclerAdapter(
     inner class SmallChildViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
         private val binding = SmallChildItemBinding.bind(itemView)
+        private var child: Child? = null
 
         init {
             itemView.setOnClickListener(this)
         }
 
         fun bind(child: Child) {
+            this.child = child
             binding.smallChildName.text = child.childName
             binding.smallChildAvatar.setImageResource(child.imageResourceId!!)
             binding.root.isSelected = selectedChildIndex == adapterPosition
@@ -174,7 +176,7 @@ class ChildrenRecyclerAdapter(
             val oldPosition = selectedChildIndex
             val newPosition = adapterPosition
             selectedChildIndex = newPosition
-            onChildClicked?.invoke(selectedChildIndex, null)
+            onChildClicked?.invoke(selectedChildIndex, child)
             notifyItemChanged(oldPosition)
             notifyItemChanged(newPosition)
         }

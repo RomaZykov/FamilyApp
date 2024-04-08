@@ -9,7 +9,6 @@ import com.n1.moguchi.data.models.remote.Goal
 import com.n1.moguchi.data.models.remote.Task
 import com.n1.moguchi.data.repositories.AppRepository
 import com.n1.moguchi.data.repositories.GoalRepository
-import com.n1.moguchi.interactors.FetchActiveGoalsUseCase
 import com.n1.moguchi.interactors.FetchChildDataUseCase
 import com.n1.moguchi.interactors.FetchCompletedGoalsUseCase
 import kotlinx.coroutines.flow.Flow
@@ -20,7 +19,6 @@ class HomeChildViewModel @Inject constructor(
     private val goalRepository: GoalRepository,
     private val appRepository: AppRepository,
     private val fetchChildDataUseCase: FetchChildDataUseCase,
-    private val fetchActiveGoalsUseCase: FetchActiveGoalsUseCase,
     private val fetchCompletedGoalsUseCase: FetchCompletedGoalsUseCase
 ) : ViewModel() {
 
@@ -45,11 +43,11 @@ class HomeChildViewModel @Inject constructor(
         }
     }
 
-    fun fetchActiveGoalsWithTasks(childId: String): Flow<Map<Goal, List<Task>>> {
-        return fetchActiveGoalsUseCase.invoke(childId).map {
-            it!!
-        }
-    }
+//    fun fetchActiveGoalsWithTasks(childId: String): Flow<Map<Goal, List<Task>>> {
+//        return fetchActiveGoalsUseCase.invoke(childId).map {
+//            it!!
+//        }
+//    }
 //        viewModelScope.launch {
 //            val goals = goalRepository.fetchActiveGoals(childId)
 //            val goalsWithTasksMap = goalRepository.fetchTasks(goals)

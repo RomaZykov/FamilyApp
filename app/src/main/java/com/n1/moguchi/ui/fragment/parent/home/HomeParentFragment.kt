@@ -2,15 +2,12 @@ package com.n1.moguchi.ui.fragment.parent.home
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,7 +26,6 @@ import com.n1.moguchi.ui.adapter.ChildrenRecyclerAdapter
 import com.n1.moguchi.ui.adapter.CompletedGoalsRecyclerAdapter
 import com.n1.moguchi.ui.adapter.GoalsRecyclerAdapter
 import com.n1.moguchi.ui.fragment.parent.PrimaryContainerBottomSheetFragment
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -114,40 +110,28 @@ class HomeParentFragment : Fragment() {
             }
 
             viewModel.selectedChild.observe(viewLifecycleOwner) { child ->
+                viewModel.fetchActiveGoalsWithTasks(child.childId!!)
                 viewLifecycleOwner.lifecycleScope.launch {
-                    viewModel.fetchActiveGoalsWithTasks(child.childId!!)
-                        .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-                        .catch {
-                            Log.d(
-                                "HomeParentFragment",
-                                "error"
+                    viewModel.goalsWithTasks.collect {
+                        val goalsRecyclerView: RecyclerView = binding.rvHomeGoalsList
+                        goalsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+                        goalsRecyclerAdapter =
+                            GoalsRecyclerAdapter(
+                                it.keys.toMutableList(),
+                                it.flatMap { map ->
+                                    map.value
+                                }.toMutableList()
                             )
-                        }
-                        .collect {
-                            Log.d(
-                                "HomeParentFragment",
-                                "child = $child, goal with tasks = $it"
-                            )
-                            val goalsRecyclerView: RecyclerView = binding.rvHomeGoalsList
-                            goalsRecyclerView.layoutManager =
-                                LinearLayoutManager(requireContext())
-                            goalsRecyclerAdapter =
-                                GoalsRecyclerAdapter(
-                                    it.keys.toMutableList(),
-                                    it.flatMap { map ->
-                                        map.value
-                                    }.toMutableList()
-                                )
-                            goalsRecyclerView.adapter = goalsRecyclerAdapter
+                        goalsRecyclerView.adapter = goalsRecyclerAdapter
 
-                            goalsRecyclerAdapter.onGoalButtonClicked = { goalId ->
-                                val bundle = bundleOf("goalId" to goalId)
-                                navController.navigate(
-                                    R.id.action_parentHomeFragment_to_tasksFragment,
-                                    bundle
-                                )
-                            }
+                        goalsRecyclerAdapter.onGoalButtonClicked = { goalId ->
+                            val bundle = bundleOf("goalId" to goalId)
+                            navController.navigate(
+                                R.id.action_parentHomeFragment_to_tasksFragment,
+                                bundle
+                            )
                         }
+                    }
                 }
             }
         }

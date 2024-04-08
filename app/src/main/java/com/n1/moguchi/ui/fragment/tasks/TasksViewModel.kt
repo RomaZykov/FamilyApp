@@ -43,8 +43,10 @@ class TasksViewModel @Inject constructor(
 
     fun fetchActiveTasks(goalId: String) {
         viewModelScope.launch {
-            val activeTasks = taskRepository.fetchActiveTasks(goalId)
-            _activeTasks.value = activeTasks
+            taskRepository.fetchActiveTasks(goalId)
+                .collect {
+                    _activeTasks.value = it
+                }
         }
     }
 
@@ -103,7 +105,7 @@ class TasksViewModel @Inject constructor(
         }
     }
 
-    fun updateRelatedGoal(goalId: String, taskHeight: Int, isActiveTask: Boolean, ) {
+    fun updateRelatedGoal(goalId: String, taskHeight: Int, isActiveTask: Boolean) {
         viewModelScope.launch {
             if (isActiveTask) {
                 goalRepository.updateGoalPoints(goalId, taskHeight)
