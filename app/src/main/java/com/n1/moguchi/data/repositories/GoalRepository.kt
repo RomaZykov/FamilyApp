@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 interface GoalRepository {
     // Goals
 //    fun fetchActiveGoals(childId: String): Flow<List<Goal>?>
-    fun fetchActiveGoals(childId: String): Flow<Map<Goal, List<Task>>?>
+    fun fetchActiveGoals(childId: String): Flow<List<Goal>?>
     fun fetchCompletedGoals(childId: String): Flow<List<Goal>?>
     suspend fun getGoal(goalId: String): Goal
     fun returnCreatedGoal(title: String, totalPoints: Int, childId: String): Goal

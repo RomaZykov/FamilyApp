@@ -1,6 +1,7 @@
 package com.n1.moguchi.data.repositories
 
 import com.n1.moguchi.data.models.remote.Task
+import kotlinx.coroutines.flow.Flow
 
 interface TaskRepository {
 
@@ -14,7 +15,8 @@ interface TaskRepository {
 
     fun markTaskCompleted(taskId: String, isCompleted: Boolean)
 
-    suspend fun fetchActiveTasks(goalId: String): List<Task>
+//    suspend fun fetchActiveTasks(goalId: String): List<Task>
+    fun fetchActiveTasks(goalId: String): Flow<List<Task>>
 
     suspend fun fetchCompletedTasks(goalId: String): List<Task>
 }

@@ -1,6 +1,5 @@
 package com.n1.moguchi.data.impl
 
-import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -24,8 +23,8 @@ class GoalRepositoryImpl @Inject constructor(
     private val goalsRef = database.getReference("goals")
     private val tasksRef = database.getReference("tasks")
 
-    override fun fetchActiveGoals(childId: String): Flow<Map<Goal, List<Task>>> = callbackFlow {
-        val goalsWithTasks = mutableMapOf<Goal, List<Task>>()
+    override fun fetchActiveGoals(childId: String): Flow<List<Goal>> = callbackFlow {
+        val goals = mutableListOf<Goal>()
         val goalsListener = goalsRef.orderByChild("childOwnerId").equalTo(childId)
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -35,28 +34,11 @@ class GoalRepositoryImpl @Inject constructor(
                         ) {
                             val goal = relatedGoal.getValue(Goal::class.java)
                             if (goal != null) {
-                                val tasks = mutableListOf<Task>()
-                                tasksRef.child(goal.goalId!!)
-                                    .addValueEventListener(object : ValueEventListener {
-                                        override fun onDataChange(snapshot: DataSnapshot) {
-                                            for (relatedTask in snapshot.children) {
-                                                val task = relatedTask.getValue(Task::class.java)
-                                                if (task != null) {
-                                                    tasks.add(task)
-                                                }
-                                            }
-
-                                            goalsWithTasks[goal] = tasks
-                                            Log.d("GoalRepositoryImpl", "Goal and tasks = $goalsWithTasks")
-                                            trySend(goalsWithTasks)
-                                        }
-
-                                        override fun onCancelled(error: DatabaseError) {
-                                        }
-                                    })
+                                goals.add(goal)
                             }
                         }
                     }
+                    trySend(goals)
                 }
 
                 override fun onCancelled(error: DatabaseError) {
