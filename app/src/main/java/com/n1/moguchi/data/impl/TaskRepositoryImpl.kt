@@ -61,22 +61,15 @@ class TaskRepositoryImpl @Inject constructor(
         return updatedTask
     }
 
-//    override suspend fun fetchActiveTasks(goalId: String): List<Task> {
-//        val tasksRefByCompletion = tasksRef.child(goalId)
-//            .orderByChild("taskCompleted")
-//            .equalTo(false)
-//        val tasks: MutableList<Task> = mutableListOf()
-//        tasksRefByCompletion.get().await().children.map {
-//            tasks.add(it.getValue(Task::class.java)!!)
-//        }
-//        return tasks
-//    }
+    override fun fetchAllTasks(goalId: String): Flow<List<Task>> {
+        TODO("Not yet implemented")
+    }
 
     override fun fetchActiveTasks(goalId: String): Flow<List<Task>> = callbackFlow {
-        val tasks = mutableListOf<Task>()
         val tasksListener = tasksRef.child(goalId)
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
+                    val tasks = mutableListOf<Task>()
                     for (relatedTask in snapshot.children) {
                         val task = relatedTask.getValue(Task::class.java)
                         if (task != null) {
@@ -89,10 +82,10 @@ class TaskRepositoryImpl @Inject constructor(
                 override fun onCancelled(error: DatabaseError) {
                 }
             })
-        awaitClose {tasksRef.removeEventListener(tasksListener) }
+        awaitClose { tasksRef.removeEventListener(tasksListener) }
     }
 
-    override suspend fun fetchCompletedTasks(goalId: String): List<Task> {
+    override fun fetchCompletedTasks(goalId: String): Flow<List<Task>> = callbackFlow {
         val completedTasksRefByGoalId = tasksRef.child(goalId)
             .orderByChild("taskCompleted")
             .equalTo(true)
@@ -100,6 +93,22 @@ class TaskRepositoryImpl @Inject constructor(
         completedTasksRefByGoalId.get().await().children.map {
             completedTasks.add(it.getValue(Task::class.java)!!)
         }
-        return completedTasks
+        val completedTasksListener = tasksRef.child(goalId)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val tasks = mutableListOf<Task>()
+                    for (relatedTask in snapshot.children) {
+                        val task = relatedTask.getValue(Task::class.java)
+                        if (task != null) {
+                            tasks.add(task)
+                        }
+                    }
+                    trySend(tasks)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                }
+            })
+        awaitClose { tasksRef.removeEventListener(completedTasksListener) }
     }
 }

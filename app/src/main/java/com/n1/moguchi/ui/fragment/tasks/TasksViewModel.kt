@@ -52,8 +52,10 @@ class TasksViewModel @Inject constructor(
 
     fun fetchCompletedTasks(goalId: String) {
         viewModelScope.launch {
-            val completedTasks = taskRepository.fetchCompletedTasks(goalId)
-            _completedTasks.value = completedTasks
+            taskRepository.fetchCompletedTasks(goalId)
+                .collect {
+                    _completedTasks.value = it
+                }
         }
     }
 
