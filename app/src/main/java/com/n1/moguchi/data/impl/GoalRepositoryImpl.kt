@@ -24,10 +24,10 @@ class GoalRepositoryImpl @Inject constructor(
     private val tasksRef = database.getReference("tasks")
 
     override fun fetchActiveGoals(childId: String): Flow<List<Goal>> = callbackFlow {
-        val goals = mutableListOf<Goal>()
         val goalsListener = goalsRef.orderByChild("childOwnerId").equalTo(childId)
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
+                    val goals = mutableListOf<Goal>()
                     for (relatedGoal in snapshot.children) {
                         if (relatedGoal
                                 .child("goalCompleted").getValue(Boolean::class.java) == false
@@ -38,7 +38,7 @@ class GoalRepositoryImpl @Inject constructor(
                             }
                         }
                     }
-                    trySend(goals)
+                    trySend(if (goals.isEmpty()) emptyList() else goals)
                 }
 
                 override fun onCancelled(error: DatabaseError) {

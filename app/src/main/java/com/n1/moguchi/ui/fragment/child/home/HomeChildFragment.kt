@@ -86,7 +86,7 @@ class HomeChildFragment : Fragment() {
             }
         }
 //        viewModel.fetchActiveGoalsWithTasks(currentChildId!!)
-        viewModel.fetchCompletedGoals(currentChildId!!)
+//        viewModel.fetchCompletedGoals(currentChildId!!)
 
 
         viewModel.goals.observe(viewLifecycleOwner) {

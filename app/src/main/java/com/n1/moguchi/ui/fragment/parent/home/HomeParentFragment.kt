@@ -37,8 +37,6 @@ class HomeParentFragment : Fragment() {
     private lateinit var goalsRecyclerAdapter: GoalsRecyclerAdapter
     private lateinit var completedGoalsRecyclerAdapter: CompletedGoalsRecyclerAdapter
     private lateinit var childrenRecyclerAdapter: ChildrenRecyclerAdapter
-//    private val childrenIdList = mutableListOf<String>()
-//    private var selectedChildIndex = 0
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -83,7 +81,6 @@ class HomeParentFragment : Fragment() {
                     if (child != null) {
                         viewModel.selectAnotherChild(child)
                     }
-//                    childrenRecyclerAdapter.currentChildIndex = childrenMap.values.toList().indexOf(child)
                 }
 
                 childrenRecyclerAdapter.onAddChildClicked = {
@@ -95,9 +92,7 @@ class HomeParentFragment : Fragment() {
                         val addedChildren =
                             innerBundle.getParcelableArrayList<Child>("children")?.toList()
                         if (addedChildren != null) {
-//                            addedChildren.forEach {
-//                                childrenIdList.add(it.childId!!)
-//                            }
+                            viewModel.fetchChildren(parentId)
                             childrenRecyclerAdapter.updateChildrenList =
                                 addedChildren.toMutableList()
                             childrenRecyclerAdapter.notifyItemRangeInserted(
@@ -112,7 +107,7 @@ class HomeParentFragment : Fragment() {
             viewModel.selectedChild.observe(viewLifecycleOwner) { child ->
                 viewModel.fetchActiveGoalsWithTasks(child.childId!!)
                 viewLifecycleOwner.lifecycleScope.launch {
-                    viewModel.goalsWithTasks.collect {
+                    viewModel.activeGoalsWithTasks.collect {
                         val goalsRecyclerView: RecyclerView = binding.rvHomeGoalsList
                         goalsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
                         goalsRecyclerAdapter =
@@ -131,6 +126,30 @@ class HomeParentFragment : Fragment() {
                                 bundle
                             )
                         }
+                    }
+                }
+
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewModel.completedGoalsWithTasks.collect {
+                        if (it.keys.isNotEmpty()) {
+                            binding.completedGoalsParentSide.root.visibility = View.VISIBLE
+                        }
+                        val completedGoalsRecycleView: RecyclerView =
+                            binding.completedGoalsParentSide.rvHomeCompletedGoalsList
+                        completedGoalsRecycleView.layoutManager =
+                            LinearLayoutManager(requireContext())
+                        completedGoalsRecyclerAdapter = CompletedGoalsRecyclerAdapter(
+                            it.keys.toMutableList()
+                        )
+                        completedGoalsRecycleView.adapter = completedGoalsRecyclerAdapter
+
+//                        completedGoalsRecyclerAdapter.onGoalButtonClicked = { goalId ->
+//                            val bundle = bundleOf("goalId" to goalId)
+//                            navController.navigate(
+//                                R.id.action_parentHomeFragment_to_tasksFragment,
+//                                bundle
+//                            )
+//                        }
                     }
                 }
             }
@@ -154,7 +173,8 @@ class HomeParentFragment : Fragment() {
         requireActivity().supportFragmentManager.setFragmentResultListener(
             "refreshGoalsListRequestKey",
             viewLifecycleOwner
-        ) { _, innerBundle ->
+        )
+        { _, innerBundle ->
             val goal = innerBundle.getParcelable<Goal>("goal")
             val tasks = innerBundle.getParcelableArrayList<Task>("tasks")
             if (goal != null && tasks != null) {
