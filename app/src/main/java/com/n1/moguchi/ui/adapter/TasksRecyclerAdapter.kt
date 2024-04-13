@@ -12,11 +12,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.R
 import com.n1.moguchi.data.models.remote.Task
 import com.n1.moguchi.databinding.EditableTaskItemBinding
+import com.n1.moguchi.ui.fragment.tasks.TasksMode
 
 class TasksRecyclerAdapter(
     private val relatedTasksList: MutableList<Task>,
-    private val isActiveTasks: Boolean,
-    private val profileMode: String,
+    private val tasksMode: TasksMode,
+    private val profileMode: String, // TODO - Remove value
 ) : RecyclerView.Adapter<TasksRecyclerAdapter.EditableTaskViewHolder>() {
 
     // TODO - Dangerous code
@@ -30,6 +31,23 @@ class TasksRecyclerAdapter(
 
     var onTaskStatusChangedClicked: ((Task, Boolean) -> Unit)? = null
     var onTaskDeleteClicked: ((Task, Boolean) -> Unit)? = null
+    private var isActiveTasks: Boolean = false
+
+    init {
+        isActiveTasks = when (tasksMode) {
+            TasksMode.ACTIVE_EDITABLE -> {
+                true
+            }
+
+            TasksMode.COMPLETED_EDITABLE -> {
+                false
+            }
+
+            TasksMode.NON_EDITABLE -> {
+                false
+            }
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EditableTaskViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -39,7 +57,7 @@ class TasksRecyclerAdapter(
 
     override fun onBindViewHolder(holder: EditableTaskViewHolder, position: Int) {
         val task: Task = relatedTasksList[position]
-        holder.bind(task, isActiveTasks)
+        holder.bind(task, tasksMode)
     }
 
     override fun getItemCount(): Int {
@@ -51,22 +69,38 @@ class TasksRecyclerAdapter(
         private val binding = EditableTaskItemBinding.bind(itemView)
         private var task: Task? = null
 
-        fun bind(task: Task, isActiveTasks: Boolean) {
+        fun bind(task: Task, tasksMode: TasksMode) {
             this.task = task
             binding.taskTitle.text = task.title
             binding.taskPoints.text = task.height.toString()
 
-            if (profileMode == "parent_mode") {
-                binding.taskSettingsButton.visibility = View.VISIBLE
-                binding.taskSettingsButton.setOnClickListener {
-                    showOptionsPopup(isActiveTasks)
+            when (tasksMode) {
+                TasksMode.ACTIVE_EDITABLE -> {
+                    binding.taskSettingsButton.visibility = View.VISIBLE
+                    binding.taskSettingsButton.setOnClickListener {
+                        showOptionsPopup(tasksMode)
+                    }
                 }
-            } else {
-                binding.taskSettingsButton.visibility = View.GONE
+
+                TasksMode.COMPLETED_EDITABLE -> {
+                    binding.taskSettingsButton.visibility = View.VISIBLE
+                    binding.taskSettingsButton.setOnClickListener {
+                        showOptionsPopup(tasksMode)
+                    }
+                }
+
+                TasksMode.NON_EDITABLE -> {
+                    binding.taskSettingsButton.visibility = View.GONE
+                    if (task.taskCompleted) {
+                        binding.taskCompletedIcon.visibility = View.VISIBLE
+                    } else {
+                        binding.taskCompletedIcon.visibility = View.GONE
+                    }
+                }
             }
         }
 
-        private fun showOptionsPopup(isActiveTasks: Boolean) {
+        private fun showOptionsPopup(tasksMode: TasksMode) {
             val popUpMenu = PopupMenu(
                 itemView.context,
                 binding.taskSettingsButton,
@@ -76,10 +110,18 @@ class TasksRecyclerAdapter(
             )
             popUpMenu.setOnMenuItemClickListener(this)
             val inflater = popUpMenu.menuInflater
-            if (isActiveTasks) {
-                inflater.inflate(R.menu.menu_task_settings_done, popUpMenu.menu)
-            } else {
-                inflater.inflate(R.menu.menu_task_settings_not_done, popUpMenu.menu)
+            when (tasksMode) {
+                TasksMode.ACTIVE_EDITABLE -> {
+                    inflater.inflate(R.menu.menu_task_settings_done, popUpMenu.menu)
+                }
+
+                TasksMode.COMPLETED_EDITABLE -> {
+                    inflater.inflate(R.menu.menu_task_settings_not_done, popUpMenu.menu)
+                }
+
+                TasksMode.NON_EDITABLE -> {
+                    binding.taskSettingsButton.visibility = View.GONE
+                }
             }
             val spanTitle = SpannableString(popUpMenu.menu[1].title.toString())
             spanTitle.setSpan(
