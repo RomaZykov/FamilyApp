@@ -102,21 +102,24 @@ class ParentRepositoryImpl @Inject constructor(
         for (databaseRef in databaseReferences) {
             when (databaseRef) {
                 goalsRef -> {
-                    var goalId = ""
-                    val listener = databaseRef.orderByChild("childOwnerId").equalTo(childId)
+                    val listener = goalsRef.orderByChild("childOwnerId").equalTo(childId)
                         .addValueEventListener(
                             object : ValueEventListener {
                                 override fun onDataChange(snapshot: DataSnapshot) {
                                     for (parameter in snapshot.children) {
-                                        if (parameter
-                                                .child("childOwnerId").getValue(String::class.java)
-                                                .toString() == childId
-                                        ) {
-                                            goalId = parameter
-                                                .child("goalId")
-                                                .getValue(String::class.java)
-                                                .toString()
-                                        }
+                                        val goalId = parameter
+                                            .child("goalId")
+                                            .getValue(String::class.java)
+                                            .toString()
+//                                        if (parameter
+//                                                .child("childOwnerId").getValue(String::class.java)
+//                                                .toString() == childId
+//                                        ) {
+//                                            goalId = parameter
+//                                                .child("goalId")
+//                                                .getValue(String::class.java)
+//                                                .toString()
+//                                        }
                                         tasksRef.child(goalId).removeValue()
                                         goalsRef.child(goalId).removeValue()
                                     }
@@ -130,7 +133,7 @@ class ParentRepositoryImpl @Inject constructor(
                 }
 
                 childrenRef -> {
-                    databaseRef.child(childId).removeValue()
+                    childrenRef.child(childId).removeValue()
                 }
             }
         }
