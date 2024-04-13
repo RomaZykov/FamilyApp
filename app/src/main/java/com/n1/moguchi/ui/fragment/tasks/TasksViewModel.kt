@@ -41,6 +41,15 @@ class TasksViewModel @Inject constructor(
         }
     }
 
+    fun fetchAllTasks(goalId: String) {
+        viewModelScope.launch {
+            taskRepository.fetchAllTasks(goalId)
+                .collect {
+                    _completedTasks.value = it
+                }
+        }
+    }
+
     fun fetchActiveTasks(goalId: String) {
         viewModelScope.launch {
             taskRepository.fetchActiveTasks(goalId)

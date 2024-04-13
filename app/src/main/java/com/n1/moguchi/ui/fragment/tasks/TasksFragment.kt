@@ -76,11 +76,35 @@ class TasksFragment : Fragment() {
             }
         }
         val relatedGoalId = arguments?.getString("goalId")
-        if (relatedGoalId != null) {
+        val isGoalCompleted = arguments?.getBoolean("goalCompleted")
+        if (relatedGoalId != null && isGoalCompleted != null) {
             with(viewModel) {
                 setupRelatedGoalDetails(relatedGoalId)
-                fetchCompletedTasks(relatedGoalId)
-                fetchActiveTasks(relatedGoalId)
+                if (isGoalCompleted == true) {
+                    fetchAllTasks(relatedGoalId)
+                    binding.addTaskFab.visibility = View.GONE
+                    binding.activeCompletedTasksRadioGroup.visibility = View.GONE
+                    binding.completedTasks.isChecked = true
+                    completedTasks.observeOnce(viewLifecycleOwner) {
+                        initRecyclerViewByRelatedTasks(
+                            relatedGoalId,
+                            it.toMutableList(),
+                            TasksMode.NON_EDITABLE,
+                            currentProfileMode!!
+                        )
+                    }
+                } else {
+                    fetchCompletedTasks(relatedGoalId)
+                    fetchActiveTasks(relatedGoalId)
+                    activeTasks.observeOnce(viewLifecycleOwner) {
+                        initRecyclerViewByRelatedTasks(
+                            relatedGoalId,
+                            it.toMutableList(),
+                            TasksMode.ACTIVE_EDITABLE,
+                            currentProfileMode!!
+                        )
+                    }
+                }
                 currentGoalPoints.observe(viewLifecycleOwner) { currentPoints ->
                     currentGoalHeight = currentPoints
                     totalGoalPoints.observe(viewLifecycleOwner) { totalPoints ->
@@ -91,14 +115,6 @@ class TasksFragment : Fragment() {
             }
         }
 
-        viewModel.activeTasks.observeOnce(viewLifecycleOwner) {
-            initRecyclerViewByRelatedTasks(
-                relatedGoalId,
-                it.toMutableList(),
-                true,
-                currentProfileMode!!
-            )
-        }
         viewModel.activeTasks.observe(viewLifecycleOwner) { activeTasks ->
             binding.activeTasks.text = getString(R.string.active_tasks, activeTasks.size)
             binding.activeTasks.setOnCheckedChangeListener { _, isChecked ->
@@ -106,7 +122,7 @@ class TasksFragment : Fragment() {
                     initRecyclerViewByRelatedTasks(
                         relatedGoalId,
                         activeTasks.toMutableList(),
-                        true,
+                        TasksMode.ACTIVE_EDITABLE,
                         currentProfileMode!!
                     )
                 }
@@ -121,7 +137,7 @@ class TasksFragment : Fragment() {
                     initRecyclerViewByRelatedTasks(
                         relatedGoalId,
                         completedTasks.toMutableList(),
-                        false,
+                        TasksMode.COMPLETED_EDITABLE,
                         currentProfileMode!!
                     )
                 }
@@ -157,13 +173,13 @@ class TasksFragment : Fragment() {
     private fun initRecyclerViewByRelatedTasks(
         relatedGoalId: String?,
         relatedTasks: MutableList<Task>,
-        isActive: Boolean,
+        tasksMode: TasksMode,
         profileMode: String
     ) {
         val recyclerView: RecyclerView = binding.rvTasksList
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         tasksRecyclerAdapter =
-            TasksRecyclerAdapter(relatedTasks, isActive, profileMode = profileMode)
+            TasksRecyclerAdapter(relatedTasks, tasksMode, profileMode = profileMode)
         recyclerView.adapter = tasksRecyclerAdapter
 
         tasksRecyclerAdapter.onTaskDeleteClicked = { task, isActiveTask ->
@@ -210,4 +226,10 @@ class TasksFragment : Fragment() {
     companion object {
         private const val TASK_CREATION_TAG = "TaskCreationIntent"
     }
+}
+
+enum class TasksMode {
+    ACTIVE_EDITABLE,
+    COMPLETED_EDITABLE,
+    NON_EDITABLE,
 }
