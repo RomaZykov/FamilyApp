@@ -31,7 +31,7 @@ class GoalsRecyclerAdapter(
                 tasksList.add(it)
             }
         }
-    var onGoalButtonClicked: ((String) -> Unit)? = null
+    var onTasksEditingClicked: ((String) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -78,19 +78,21 @@ class GoalsRecyclerAdapter(
                         val taskSmallItem =
                             LayoutInflater.from(context)
                                 .inflate(R.layout.task_item, this, false)
-                        taskSmallItem.backgroundTintList =
-                            ColorStateList.valueOf(resources.getColor(R.color.white_opacity_90))
-                        taskSmallItem.findViewById<TextView>(R.id.task_title).text =
-                            relatedTasks[i - 1].title
-                        taskSmallItem.rootView.findViewById<TextView>(R.id.task_points).text =
-                            relatedTasks[i - 1].height.toString()
+                        with(taskSmallItem) {
+                            backgroundTintList =
+                                ColorStateList.valueOf(resources.getColor(R.color.white_opacity_90))
+                            findViewById<TextView>(R.id.task_title).text = relatedTasks[i - 1].title
+                            rootView.findViewById<TextView>(R.id.task_points).text =
+                                relatedTasks[i - 1].height.toString()
+
+                        }
                         addView(taskSmallItem)
                     }
                 }
             }
 
             binding.allTasksButton.root.setOnClickListener {
-                onGoalButtonClicked?.invoke(goal.goalId!!)
+                onTasksEditingClicked?.invoke(goal.goalId!!)
             }
         }
 
