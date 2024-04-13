@@ -41,7 +41,7 @@
                     tools:text="Велосипед" />
 
                 <include
-                    android:id="@+id/goal_points"
+                    android:id="@+id/goal_points_layout"
                     layout="@layout/points_goal_item"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/all_completed_tasks_button"
+                android:id="@+id/tasks_history_button"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="4dp"

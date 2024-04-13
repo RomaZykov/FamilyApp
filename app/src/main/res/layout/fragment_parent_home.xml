@@ -63,6 +63,19 @@
                     android:orientation="horizontal"
                     app:layoutManager="LinearLayoutManager" />
 
+                <TextView
+                    android:id="@+id/active_goals_not_found"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/large_margin"
+                    android:layout_marginHorizontal="@dimen/medium_margin"
+                    android:fontFamily="@font/onest_regular"
+                    android:gravity="center"
+                    android:text="@string/active_goals_not_found"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/medium_font_size"
+                    android:visibility="gone" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_home_goals_list"
                     android:layout_width="match_parent"
@@ -76,7 +89,6 @@
                     layout="@layout/fragment_completed_goals"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/small_margin"
                     android:visibility="gone" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
