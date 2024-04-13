@@ -7,11 +7,13 @@ import com.n1.moguchi.data.models.remote.Goal
 import com.n1.moguchi.data.models.remote.Task
 import com.n1.moguchi.data.repositories.GoalRepository
 import com.n1.moguchi.data.repositories.ParentRepository
+import com.n1.moguchi.data.repositories.TaskRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class PrimaryContainerViewModel @Inject constructor(
     private val goalRepository: GoalRepository,
+    private val taskRepository: TaskRepository,
     private val parentRepository: ParentRepository,
 ) : ViewModel() {
 
@@ -30,7 +32,7 @@ class PrimaryContainerViewModel @Inject constructor(
     fun saveTasksToDb(tasks: List<Task>) {
         val goalId = tasks.last().goalOwnerId
         viewModelScope.launch {
-            goalRepository.saveTasksToDb(goalId!!, tasks)
+            taskRepository.saveTasksToDb(goalId!!, tasks)
         }
     }
 }
