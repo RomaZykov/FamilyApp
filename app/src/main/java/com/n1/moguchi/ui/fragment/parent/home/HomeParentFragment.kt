@@ -105,9 +105,17 @@ class HomeParentFragment : Fragment() {
             }
 
             viewModel.selectedChild.observe(viewLifecycleOwner) { child ->
-                viewModel.fetchActiveGoalsWithTasks(child.childId!!)
+                if (child != null) {
+                    viewModel.fetchActiveGoalsWithTasks(child.childId!!)
+                    viewModel.fetchCompletedGoalsWithTasks(child.childId)
+                }
                 viewLifecycleOwner.lifecycleScope.launch {
                     viewModel.activeGoalsWithTasks.collect {
+                        if (it.keys.isEmpty()) {
+                            binding.activeGoalsNotFound.visibility = View.VISIBLE
+                        } else {
+                            binding.activeGoalsNotFound.visibility = View.GONE
+                        }
                         val goalsRecyclerView: RecyclerView = binding.rvHomeGoalsList
                         goalsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
                         goalsRecyclerAdapter =
@@ -119,8 +127,8 @@ class HomeParentFragment : Fragment() {
                             )
                         goalsRecyclerView.adapter = goalsRecyclerAdapter
 
-                        goalsRecyclerAdapter.onGoalButtonClicked = { goalId ->
-                            val bundle = bundleOf("goalId" to goalId)
+                        goalsRecyclerAdapter.onTasksEditingClicked = { goalId ->
+                            val bundle = bundleOf("goalId" to goalId,  "goalCompleted" to false)
                             navController.navigate(
                                 R.id.action_parentHomeFragment_to_tasksFragment,
                                 bundle
@@ -133,6 +141,8 @@ class HomeParentFragment : Fragment() {
                     viewModel.completedGoalsWithTasks.collect {
                         if (it.keys.isNotEmpty()) {
                             binding.completedGoalsParentSide.root.visibility = View.VISIBLE
+                        } else {
+                            binding.completedGoalsParentSide.root.visibility = View.GONE
                         }
                         val completedGoalsRecycleView: RecyclerView =
                             binding.completedGoalsParentSide.rvHomeCompletedGoalsList
@@ -143,13 +153,13 @@ class HomeParentFragment : Fragment() {
                         )
                         completedGoalsRecycleView.adapter = completedGoalsRecyclerAdapter
 
-//                        completedGoalsRecyclerAdapter.onGoalButtonClicked = { goalId ->
-//                            val bundle = bundleOf("goalId" to goalId)
-//                            navController.navigate(
-//                                R.id.action_parentHomeFragment_to_tasksFragment,
-//                                bundle
-//                            )
-//                        }
+                        completedGoalsRecyclerAdapter.onTasksHistoryClicked = { goalId ->
+                            val bundle = bundleOf("goalId" to goalId, "goalCompleted" to true)
+                            navController.navigate(
+                                R.id.action_parentHomeFragment_to_tasksFragment,
+                                bundle
+                            )
+                        }
                     }
                 }
             }
