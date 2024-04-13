@@ -118,13 +118,4 @@ class GoalRepositoryImpl @Inject constructor(
         val goalValues = updatedGoal?.toMap()
         goalsRef.child(goalId).updateChildren(goalValues!!)
     }
-
-    override suspend fun saveTasksToDb(goalId: String, tasks: List<Task>) {
-        for (task in tasks) {
-            if (task.goalOwnerId == goalId) {
-                val taskRefByGoalId = tasksRef.child(goalId).child(task.taskId)
-                taskRefByGoalId.setValue(task)
-            }
-        }
-    }
 }

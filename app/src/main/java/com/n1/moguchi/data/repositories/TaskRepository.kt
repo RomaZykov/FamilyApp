@@ -20,4 +20,6 @@ interface TaskRepository {
     fun fetchActiveTasks(goalId: String): Flow<List<Task>>
 
     fun fetchCompletedTasks(goalId: String): Flow<List<Task>>
+
+    suspend fun saveTasksToDb(goalId: String, tasks: List<Task>)
 }

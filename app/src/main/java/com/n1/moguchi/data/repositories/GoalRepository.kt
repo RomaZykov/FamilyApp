@@ -5,7 +5,6 @@ import com.n1.moguchi.data.models.remote.Task
 import kotlinx.coroutines.flow.Flow
 
 interface GoalRepository {
-    // Goals
     fun fetchActiveGoals(childId: String): Flow<List<Goal>>
     fun fetchCompletedGoals(childId: String): Flow<List<Goal>?>
     suspend fun getGoal(goalId: String): Goal
@@ -13,8 +12,4 @@ interface GoalRepository {
     suspend fun saveGoalWithTasksToDb(goal: Goal, tasks: List<Task>)
     suspend fun updateGoalPoints(goalId: String, taskHeight: Int)
     suspend fun updateGoalStatus(goalId: String)
-
-
-    // Tasks
-    suspend fun saveTasksToDb(goalId: String, tasks: List<Task>)
 }
