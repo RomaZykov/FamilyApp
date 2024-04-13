@@ -9,7 +9,6 @@ import com.n1.moguchi.data.repositories.TaskRepository
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.tasks.await
 import java.util.UUID
 import javax.inject.Inject
 
@@ -26,6 +25,15 @@ class TaskRepositoryImpl @Inject constructor(
             goalOwnerId = goalId,
             taskCompleted = false
         )
+    }
+
+    override suspend fun saveTasksToDb(goalId: String, tasks: List<Task>) {
+        for (task in tasks) {
+            if (task.goalOwnerId == goalId) {
+                val taskRefByGoalId = tasksRef.child(goalId).child(task.taskId)
+                taskRefByGoalId.setValue(task)
+            }
+        }
     }
 
     override suspend fun createTask(task: Task, goalId: String): Task {
@@ -61,12 +69,28 @@ class TaskRepositoryImpl @Inject constructor(
         return updatedTask
     }
 
-    override fun fetchAllTasks(goalId: String): Flow<List<Task>> {
-        TODO("Not yet implemented")
+    override fun fetchAllTasks(goalId: String): Flow<List<Task>> = callbackFlow {
+        val allTasksListener = tasksRef.child(goalId)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val tasks = mutableListOf<Task>()
+                    for (relatedTask in snapshot.children) {
+                        val task = relatedTask.getValue(Task::class.java)
+                        if (task != null) {
+                            tasks.add(task)
+                        }
+                    }
+                    trySend(tasks)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                }
+            })
+        awaitClose { tasksRef.removeEventListener(allTasksListener) }
     }
 
     override fun fetchActiveTasks(goalId: String): Flow<List<Task>> = callbackFlow {
-        val tasksListener = tasksRef.child(goalId)
+        val tasksListener = tasksRef.child(goalId).orderByChild("taskCompleted").equalTo(false)
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val tasks = mutableListOf<Task>()
@@ -86,29 +110,23 @@ class TaskRepositoryImpl @Inject constructor(
     }
 
     override fun fetchCompletedTasks(goalId: String): Flow<List<Task>> = callbackFlow {
-        val completedTasksRefByGoalId = tasksRef.child(goalId)
-            .orderByChild("taskCompleted")
-            .equalTo(true)
-        val completedTasks: MutableList<Task> = mutableListOf()
-        completedTasksRefByGoalId.get().await().children.map {
-            completedTasks.add(it.getValue(Task::class.java)!!)
-        }
-        val completedTasksListener = tasksRef.child(goalId)
-            .addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val tasks = mutableListOf<Task>()
-                    for (relatedTask in snapshot.children) {
-                        val task = relatedTask.getValue(Task::class.java)
-                        if (task != null) {
-                            tasks.add(task)
+        val completedTasksListener =
+            tasksRef.child(goalId).orderByChild("taskCompleted").equalTo(true)
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val tasks = mutableListOf<Task>()
+                        for (relatedTask in snapshot.children) {
+                            val task = relatedTask.getValue(Task::class.java)
+                            if (task != null) {
+                                tasks.add(task)
+                            }
                         }
+                        trySend(tasks)
                     }
-                    trySend(tasks)
-                }
 
-                override fun onCancelled(error: DatabaseError) {
-                }
-            })
+                    override fun onCancelled(error: DatabaseError) {
+                    }
+                })
         awaitClose { tasksRef.removeEventListener(completedTasksListener) }
     }
 }
