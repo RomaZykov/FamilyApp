@@ -91,11 +91,12 @@
                     app:boxCornerRadiusTopStart="@dimen/semi_medium_corner_radius"
                     app:boxStrokeColor="@color/orange"
                     app:boxStrokeWidth="@dimen/zero_stroke_width"
+                    app:endIconCheckable="true"
+                    app:endIconDrawable="@drawable/password_icon_selector"
+                    app:endIconMode="password_toggle"
                     app:hintEnabled="false"
                     app:hintTextAppearance="@style/TextAppearance.Design.Hint.Small"
-                    app:hintTextColor="@color/black"
-                    app:passwordToggleDrawable="@drawable/password_icon_selector"
-                    app:passwordToggleEnabled="true">
+                    app:hintTextColor="@color/black">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/set_password_edit_text"

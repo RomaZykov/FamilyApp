@@ -180,11 +180,12 @@ class ChildrenCreationRecyclerAdapter(
                     }
 
                     override fun afterTextChanged(password: Editable?) {
+                        binding.setPasswordInputLayout.isEndIconVisible = password.toString().isNotBlank()
                         children[adapterPosition].passwordFromParent =
                             if (password.isNullOrBlank()) -1 else password.toString().toInt()
                         if (password.toString().isBlank()) {
                             binding.setPasswordEditText.error =
-                                getString(context, R.string.child_name_edit_text_error)
+                                getString(context, R.string.password_edit_text_error)
                         }
                         notifyItemChanged(itemCount - FOOTER_ADD_CHILD_BUTTON)
                     }
