@@ -146,7 +146,7 @@
     <string name="completed_tasks">Выполненные %d</string>
     <string name="done">Готово</string>
     <string name="error_goal_title">Присутствуют недопустимые символы либо пусто</string>
-    <string name="child_name_edit_text_error">Имя содержит недопустимые символы либо не выбран аватар</string>
+    <string name="child_name_edit_text_error">Имя содержит недопустимые символы</string>
     <string name="new_tasks">Новые задачи</string>
     <string name="tasks_history">История задач</string>
     <string name="not_all_conditions_is_done">Выполните все условия</string>
@@ -159,5 +159,6 @@
     <string name="reset_password_mail_instructions">На вашу почту %s были отправлены дальнейшие инструкции по восстановлению пароля</string>
     <string name="slash_symbol">/</string>
     <string name="active_goals_not_found">Активных целей нет</string>
+    <string name="password_edit_text_error">Поле пусто</string>
 
 </resources>

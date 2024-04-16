@@ -159,5 +159,6 @@
     <string name="reset_password_mail_instructions">На вашу почту %s были отправлены дальнейшие инструкции по восстановлению пароля</string>
     <string name="slash_symbol">/</string>
     <string name="active_goals_not_found">Активных целей нет</string>
+    <string name="password_edit_text_error">Поле пусто</string>
 
 </resources>
