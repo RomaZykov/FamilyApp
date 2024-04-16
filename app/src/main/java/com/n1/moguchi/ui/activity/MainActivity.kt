@@ -11,6 +11,9 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.firebase.FirebaseApp
+import com.google.firebase.appcheck.ktx.appCheck
+import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -41,6 +44,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        FirebaseApp.initializeApp(this)
+        Firebase.appCheck.installAppCheckProviderFactory(
+            PlayIntegrityAppCheckProviderFactory.getInstance(),
+        )
+
         component.inject(this)
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -115,29 +123,6 @@ class MainActivity : AppCompatActivity() {
             "refreshGoalsListRequestKey",
             bundleForHomeFragment
         )
-    }
-
-    override fun onStart() {
-        super.onStart()
-        val currentUser = auth.currentUser
-//        val currentProfileMode = viewModel.getUserPrefs()
-//        if (currentUser != null && currentProfileMode != "undefined") {
-//            if (currentProfileMode == "parent_mode") {
-//                supportFragmentManager.commit {
-//                    replace(
-//                        R.id.fragment_container_view,
-//                        HomeParentFragment()
-//                    )
-//                }
-//            } else {
-//                supportFragmentManager.commit {
-//                    replace(
-//                        R.id.fragment_container_view,
-//                        HomeChildFragment()
-//                    )
-//                }
-//            }
-//        }
     }
 
     private fun setupBottomNavigationView(currentProfileMode: String) {
