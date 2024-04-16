@@ -124,7 +124,10 @@ class TasksViewModel @Inject constructor(
                 goalRepository.updateGoalPoints(goalId, -taskHeight)
             }
             goalRepository.getGoal(goalId).also {
-                if (it.currentPoints >= it.totalPoints) {
+                if (it.currentPoints >= it.totalPoints && !it.goalCompleted) {
+                    goalRepository.updateGoalStatus(goalId)
+                }
+                if (it.currentPoints < it.totalPoints && it.goalCompleted) {
                     goalRepository.updateGoalStatus(goalId)
                 }
             }

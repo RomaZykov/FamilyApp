@@ -17,7 +17,7 @@ import com.n1.moguchi.ui.fragment.tasks.TasksMode
 class TasksRecyclerAdapter(
     private val relatedTasksList: MutableList<Task>,
     private val tasksMode: TasksMode,
-    private val profileMode: String, // TODO - Remove value
+    private val isActiveTasks: Boolean
 ) : RecyclerView.Adapter<TasksRecyclerAdapter.EditableTaskViewHolder>() {
 
     // TODO - Dangerous code
@@ -31,23 +31,6 @@ class TasksRecyclerAdapter(
 
     var onTaskStatusChangedClicked: ((Task, Boolean) -> Unit)? = null
     var onTaskDeleteClicked: ((Task, Boolean) -> Unit)? = null
-    private var isActiveTasks: Boolean = false
-
-    init {
-        isActiveTasks = when (tasksMode) {
-            TasksMode.ACTIVE_EDITABLE -> {
-                true
-            }
-
-            TasksMode.COMPLETED_EDITABLE -> {
-                false
-            }
-
-            TasksMode.NON_EDITABLE -> {
-                false
-            }
-        }
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EditableTaskViewHolder {
         val view = LayoutInflater.from(parent.context)

@@ -69,7 +69,6 @@ class TasksFragment : Fragment() {
             parentFragmentManager.popBackStack()
         }
 
-        // Setup goal details
         lifecycleScope.launch {
             viewModel.getUserPrefs().collect {
                 currentProfileMode = it.currentProfileMode
@@ -89,8 +88,8 @@ class TasksFragment : Fragment() {
                         initRecyclerViewByRelatedTasks(
                             relatedGoalId,
                             it.toMutableList(),
-                            TasksMode.NON_EDITABLE,
-                            currentProfileMode!!
+                            false,
+                            TasksMode.NON_EDITABLE
                         )
                     }
                 } else {
@@ -100,8 +99,8 @@ class TasksFragment : Fragment() {
                         initRecyclerViewByRelatedTasks(
                             relatedGoalId,
                             it.toMutableList(),
-                            TasksMode.ACTIVE_EDITABLE,
-                            currentProfileMode!!
+                            true,
+                            TasksMode.ACTIVE_EDITABLE
                         )
                     }
                 }
@@ -122,8 +121,8 @@ class TasksFragment : Fragment() {
                     initRecyclerViewByRelatedTasks(
                         relatedGoalId,
                         activeTasks.toMutableList(),
-                        TasksMode.ACTIVE_EDITABLE,
-                        currentProfileMode!!
+                        true,
+                        TasksMode.ACTIVE_EDITABLE
                     )
                 }
             }
@@ -137,8 +136,8 @@ class TasksFragment : Fragment() {
                     initRecyclerViewByRelatedTasks(
                         relatedGoalId,
                         completedTasks.toMutableList(),
+                        false,
                         TasksMode.COMPLETED_EDITABLE,
-                        currentProfileMode!!
                     )
                 }
             }
@@ -173,13 +172,12 @@ class TasksFragment : Fragment() {
     private fun initRecyclerViewByRelatedTasks(
         relatedGoalId: String?,
         relatedTasks: MutableList<Task>,
-        tasksMode: TasksMode,
-        profileMode: String
+        isActiveTasks: Boolean,
+        tasksMode: TasksMode
     ) {
         val recyclerView: RecyclerView = binding.rvTasksList
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        tasksRecyclerAdapter =
-            TasksRecyclerAdapter(relatedTasks, tasksMode, profileMode = profileMode)
+        tasksRecyclerAdapter = TasksRecyclerAdapter(relatedTasks, tasksMode, isActiveTasks)
         recyclerView.adapter = tasksRecyclerAdapter
 
         tasksRecyclerAdapter.onTaskDeleteClicked = { task, isActiveTask ->
