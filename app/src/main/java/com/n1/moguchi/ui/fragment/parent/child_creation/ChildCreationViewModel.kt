@@ -32,15 +32,6 @@ class ChildCreationViewModel @Inject constructor(private val parentRepository: P
         return childrenList.last()
     }
 
-//    fun saveChildrenToDb(parentId: String, children: List<Child>) {
-//        viewModelScope.launch {
-//            val newChild = parentRepository.getAndSaveChildToDb(parentId, child)
-//            childrenList.add(newChild)
-//            _children.value = childrenList
-//        }
-//        return childrenList.last()
-//    }
-
     fun deleteChildProfile(childId: String) {
         viewModelScope.launch {
             parentRepository.deleteChildProfile(childId)
@@ -59,10 +50,4 @@ class ChildCreationViewModel @Inject constructor(private val parentRepository: P
             it?.imageResourceId = child.imageResourceId
         }
     }
-
-//    fun updateChildrenInDb(parentId: String, children: List<Child>) {
-//        viewModelScope.launch {
-//            val updatedChild = parentRepository.updateChildrenInDb(parentId, children)
-//        }
-//    }
 }

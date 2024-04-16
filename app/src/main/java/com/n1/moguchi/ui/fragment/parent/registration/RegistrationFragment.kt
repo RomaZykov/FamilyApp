@@ -2,7 +2,6 @@ package com.n1.moguchi.ui.fragment.parent.registration
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,6 +36,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+// TODO - Warning - Too many logic in UI and empty catch statements
 class RegistrationFragment : Fragment() {
 
     private var _binding: FragmentRegistrationBinding? = null
@@ -71,7 +71,6 @@ class RegistrationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         navController = findNavController()
 
         auth = Firebase.auth
@@ -107,11 +106,6 @@ class RegistrationFragment : Fragment() {
                 handleSignIn(result)
             } catch (e: GetCredentialException) {
 //                handleFailure(e)
-                Log.e(
-                    "RegistrationFragment",
-                    "Invalid credentialManager $e",
-                    e
-                )
             }
         }
     }
@@ -125,21 +119,14 @@ class RegistrationFragment : Fragment() {
                             GoogleIdTokenCredential.createFrom(credential.data)
                         firebaseAuthWithGoogle(googleIdTokenCredential)
                     } catch (e: GoogleIdTokenParsingException) {
-                        Log.e(
-                            "RegistrationFragment",
-                            "Received an invalid google id token response",
-                            e
-                        )
                     }
                 } else {
                     // Catch any unrecognized custom credential type here.
-                    Log.e("RegistrationFragment", "Unexpected type of credential")
                 }
             }
 
             else -> {
                 // Catch any unrecognized credential type here.
-                Log.e("RegistrationFragment", "Unexpected type of credential")
             }
         }
     }
@@ -175,18 +162,15 @@ class RegistrationFragment : Fragment() {
 
                         override fun onCancelled(error: DatabaseError) {
                             //Don't ignore potential errors!
-                            Log.d("TAG", error.message)
                         }
                     }
                     uidRef.addListenerForSingleValueEvent(eventListener)
                 } else {
-                    Log.w("RegistrationFragment", "signInWithCredential:failure", task.exception)
                     // TODO - show warning
                 }
             }
     }
 
-    // TODO - Warning - Logic in UI
     private fun saveParentToFirebase(
         email: String
     ) {
