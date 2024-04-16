@@ -102,7 +102,7 @@ class GoalRepositoryImpl @Inject constructor(
         val goalRef = goalsRef.child(goalId)
         val goal = goalRef.get().await().getValue(Goal::class.java)
         val updatedGoal = goal?.copy(
-            goalCompleted = true
+            goalCompleted = !goal.goalCompleted
         )
         val goalValues = updatedGoal?.toMap()
         goalsRef.child(goalId).updateChildren(goalValues!!)

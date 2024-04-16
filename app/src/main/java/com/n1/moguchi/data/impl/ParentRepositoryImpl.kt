@@ -102,7 +102,7 @@ class ParentRepositoryImpl @Inject constructor(
         for (databaseRef in databaseReferences) {
             when (databaseRef) {
                 goalsRef -> {
-                    val listener = goalsRef.orderByChild("childOwnerId").equalTo(childId)
+                    goalsRef.orderByChild("childOwnerId").equalTo(childId)
                         .addValueEventListener(
                             object : ValueEventListener {
                                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -111,25 +111,18 @@ class ParentRepositoryImpl @Inject constructor(
                                             .child("goalId")
                                             .getValue(String::class.java)
                                             .toString()
-//                                        if (parameter
-//                                                .child("childOwnerId").getValue(String::class.java)
-//                                                .toString() == childId
-//                                        ) {
-//                                            goalId = parameter
-//                                                .child("goalId")
-//                                                .getValue(String::class.java)
-//                                                .toString()
-//                                        }
-                                        tasksRef.child(goalId).removeValue()
-                                        goalsRef.child(goalId).removeValue()
+                                        if (goalId.isNotBlank()) {
+                                            tasksRef.child(goalId).removeValue()
+                                            goalsRef.child(goalId).removeValue()
+                                        }
                                     }
+                                    goalsRef.removeEventListener(this)
                                 }
 
                                 override fun onCancelled(error: DatabaseError) {
                                 }
                             }
                         )
-                    goalsRef.addValueEventListener(listener)
                 }
 
                 childrenRef -> {
