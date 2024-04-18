@@ -32,9 +32,6 @@ class HomeChildViewModel @Inject constructor(
     private val fetchChildDataUseCase: FetchChildDataUseCase
 ) : ViewModel() {
 
-    private val _totalTasks = MutableLiveData<Int>()
-    val totalTasks: LiveData<Int> = _totalTasks
-
     private val _activeGoalsWithTasks = MutableSharedFlow<Map<Goal, List<Task>>>()
     val activeGoalsWithTasks: SharedFlow<Map<Goal, List<Task>>> = _activeGoalsWithTasks
 
