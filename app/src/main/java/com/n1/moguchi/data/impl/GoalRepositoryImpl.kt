@@ -112,8 +112,21 @@ class GoalRepositoryImpl @Inject constructor(
         val goalRef = goalsRef.child(goalId)
         val goal = goalRef.get().await().getValue(Goal::class.java)
         val currentGoalPoints = goal?.currentPoints
+        val secondaryGoalPoints = goal?.secondaryPoints
         val updatedGoal = goal?.copy(
-            currentPoints = currentGoalPoints?.plus(taskHeight) ?: 0
+            currentPoints = currentGoalPoints?.plus(taskHeight) ?: 0,
+            secondaryPoints = secondaryGoalPoints?.plus(taskHeight) ?: 0
+        )
+        val goalValues = updatedGoal?.toMap()
+        goalsRef.child(goalId).updateChildren(goalValues!!)
+    }
+
+    override suspend fun updateSecondaryGoalPoints(goalId: String, taskHeight: Int) {
+        val goalRef = goalsRef.child(goalId)
+        val goal = goalRef.get().await().getValue(Goal::class.java)
+        val secondaryGoalPoints = goal?.secondaryPoints
+        val updatedGoal = goal?.copy(
+            secondaryPoints = secondaryGoalPoints?.plus(taskHeight) ?: 0
         )
         val goalValues = updatedGoal?.toMap()
         goalsRef.child(goalId).updateChildren(goalValues!!)

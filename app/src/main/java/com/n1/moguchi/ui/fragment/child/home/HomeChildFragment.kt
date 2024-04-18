@@ -19,6 +19,7 @@ import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentChildHomeBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.activity.MainActivity
+import com.n1.moguchi.ui.adapter.CompletedGoalsRecyclerAdapter
 import com.n1.moguchi.ui.adapter.GoalsRecyclerAdapter
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,7 +31,7 @@ class HomeChildFragment : Fragment() {
 
     private lateinit var childGoalsRecyclerAdapter: GoalsRecyclerAdapter
 
-    //    private lateinit var childCompletedGoalsRecyclerAdapter: CompletedGoalsRecyclerAdapter
+    private lateinit var childCompletedGoalsRecyclerAdapter: CompletedGoalsRecyclerAdapter
     private var currentChildId: String? = null
 
 
@@ -82,27 +83,56 @@ class HomeChildFragment : Fragment() {
                 }
             }
         }
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.fetchActiveGoalsWithTasks(currentChildId!!)
-                viewModel.fetchCompletedGoalsWithTasks(currentChildId!!)
-                viewModel.activeGoalsWithTasks.collect {
-                    val recyclerViewGoals: RecyclerView =
-                        view.findViewById(R.id.rv_child_home_goals_list)
-                    recyclerViewGoals.layoutManager = LinearLayoutManager(requireContext())
-                    childGoalsRecyclerAdapter =
-                        GoalsRecyclerAdapter(it.keys.toMutableList(), it.flatMap { map ->
-                            map.value
-                        }.toMutableList())
-                    recyclerViewGoals.adapter = childGoalsRecyclerAdapter
 
-                    childGoalsRecyclerAdapter.onTasksEditingClicked = { goalId ->
-                        val bundle = bundleOf("goalId" to goalId, "goalCompleted" to false)
-                        navController.navigate(
-                            R.id.action_homeChildFragment_to_tasksFragment,
-                            bundle
-                        )
-                    }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.fetchActiveGoalsWithTasks(currentChildId!!)
+            viewModel.fetchCompletedGoalsWithTasks(currentChildId!!)
+            viewModel.activeGoalsWithTasks.collect {
+                if (it.keys.isEmpty()) {
+                    binding.activeGoalsNotFoundChild.visibility = View.VISIBLE
+                } else {
+                    binding.activeGoalsNotFoundChild.visibility = View.GONE
+                }
+                val activeGoalsRecycler: RecyclerView =
+                    view.findViewById(R.id.rv_child_home_goals_list)
+                activeGoalsRecycler.layoutManager = LinearLayoutManager(requireContext())
+                childGoalsRecyclerAdapter =
+                    GoalsRecyclerAdapter(it.keys.toMutableList(), it.flatMap { map ->
+                        map.value
+                    }.toMutableList())
+                activeGoalsRecycler.adapter = childGoalsRecyclerAdapter
+
+                childGoalsRecyclerAdapter.onTasksEditingClicked = { goalId ->
+                    val bundle = bundleOf("goalId" to goalId, "goalCompleted" to false)
+                    navController.navigate(
+                        R.id.action_homeChildFragment_to_tasksFragment,
+                        bundle
+                    )
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.completedGoalsWithTasks.collect {
+                if (it.keys.isNotEmpty()) {
+                    binding.completedGoalsChildSide.root.visibility = View.VISIBLE
+                } else {
+                    binding.completedGoalsChildSide.root.visibility = View.GONE
+                }
+                val completedGoalsRecycler: RecyclerView =
+                    binding.completedGoalsChildSide.rvHomeCompletedGoalsList
+                completedGoalsRecycler.layoutManager = LinearLayoutManager(requireContext())
+                childCompletedGoalsRecyclerAdapter = CompletedGoalsRecyclerAdapter(
+                    it.keys.toMutableList()
+                )
+                completedGoalsRecycler.adapter = childCompletedGoalsRecyclerAdapter
+
+                childCompletedGoalsRecyclerAdapter.onTasksHistoryClicked = { goalId ->
+                    val bundle = bundleOf("goalId" to goalId, "goalCompleted" to true)
+                    navController.navigate(
+                        R.id.action_homeChildFragment_to_tasksFragment,
+                        bundle
+                    )
                 }
             }
         }

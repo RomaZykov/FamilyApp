@@ -47,7 +47,7 @@
     <string name="tasks_title">Задачи:</string>
     <string name="alternative_way">Or</string>
     <string name="add_task_text_button"><u>Добавить задачу underline</u></string>
-    <string name="n_moguchi">Добро пожаловать \nв <font color='#FA824C'>Moguchi</font>!</string>
+    <string name="moguchi_welcome_title">Добро пожаловать \nв <font color='#FA824C'>Могучи</font>!</string>
     <string name="set_date_hint">Укажите дату</string>
     <string name="avatar">Аватар</string>
     <string name="set_child_name_hint">Введите имя ребенка</string>
@@ -160,5 +160,6 @@
     <string name="slash_symbol">/</string>
     <string name="active_goals_not_found">Активных целей нет</string>
     <string name="password_edit_text_error">Поле пусто</string>
+    <string name="check_completed_task">Сделано, на проверку</string>
 
 </resources>

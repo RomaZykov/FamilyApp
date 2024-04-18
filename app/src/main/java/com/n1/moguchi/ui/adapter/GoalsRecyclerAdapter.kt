@@ -5,6 +5,7 @@ import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.R
@@ -75,16 +76,18 @@ class GoalsRecyclerAdapter(
             binding.tasksContainerLl.apply {
                 for (i in 1..3) {
                     if (relatedTasks.size - i >= 0) {
-                        val taskSmallItem =
-                            LayoutInflater.from(context)
-                                .inflate(R.layout.task_item, this, false)
+                        val taskSmallItem = LayoutInflater.from(context)
+                            .inflate(R.layout.task_item, this, false)
                         with(taskSmallItem) {
                             backgroundTintList =
                                 ColorStateList.valueOf(resources.getColor(R.color.white_opacity_90))
                             findViewById<TextView>(R.id.task_title).text = relatedTasks[i - 1].title
                             rootView.findViewById<TextView>(R.id.task_points).text =
                                 relatedTasks[i - 1].height.toString()
-
+                            if (relatedTasks[i - 1].onCheck) {
+                                findViewById<ImageView>(R.id.task_check_status_icon).visibility =
+                                    View.VISIBLE
+                            }
                         }
                         addView(taskSmallItem)
                     }

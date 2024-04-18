@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.get
+import androidx.core.view.size
 import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.R
 import com.n1.moguchi.data.models.remote.Task
@@ -29,7 +30,7 @@ class TasksRecyclerAdapter(
             }
         }
 
-    var onTaskStatusChangedClicked: ((Task, Boolean) -> Unit)? = null
+    var onTaskStatusChangedClicked: ((Task, Boolean?) -> Unit)? = null
     var onTaskDeleteClicked: ((Task, Boolean) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EditableTaskViewHolder {
@@ -56,6 +57,9 @@ class TasksRecyclerAdapter(
             this.task = task
             binding.taskTitle.text = task.title
             binding.taskPoints.text = task.height.toString()
+            if (task.onCheck) {
+                binding.taskOnCheckStatusIcon.visibility = View.VISIBLE
+            }
 
             when (tasksMode) {
                 TasksMode.ACTIVE_EDITABLE -> {
@@ -72,6 +76,13 @@ class TasksRecyclerAdapter(
                     }
                 }
 
+                TasksMode.CHECKABLE -> {
+                    binding.taskSettingsButton.visibility = View.VISIBLE
+                    binding.taskSettingsButton.setOnClickListener {
+                        showOptionsPopup(tasksMode)
+                    }
+                }
+
                 TasksMode.NON_EDITABLE -> {
                     binding.taskSettingsButton.visibility = View.GONE
                     if (task.taskCompleted) {
@@ -81,6 +92,34 @@ class TasksRecyclerAdapter(
                     }
                 }
             }
+        }
+
+        override fun onMenuItemClick(item: MenuItem?): Boolean {
+            when (item?.itemId) {
+                R.id.task_completed -> {
+                    onTaskStatusChangedClicked?.invoke(task!!, isActiveTasks)
+                    relatedTasksList.removeAt(adapterPosition)
+                    notifyItemRemoved(adapterPosition)
+                }
+
+                R.id.task_not_completed -> {
+                    onTaskStatusChangedClicked?.invoke(task!!, isActiveTasks)
+                    relatedTasksList.removeAt(adapterPosition)
+                    notifyItemRemoved(adapterPosition)
+                }
+
+                R.id.check_completed_task -> {
+                    onTaskStatusChangedClicked?.invoke(task!!, null)
+                    notifyItemChanged(adapterPosition)
+                }
+
+                R.id.delete -> {
+                    onTaskDeleteClicked?.invoke(task!!, isActiveTasks)
+                    relatedTasksList.removeAt(adapterPosition)
+                    notifyItemRemoved(adapterPosition)
+                }
+            }
+            return true
         }
 
         private fun showOptionsPopup(tasksMode: TasksMode) {
@@ -102,43 +141,26 @@ class TasksRecyclerAdapter(
                     inflater.inflate(R.menu.menu_task_settings_not_done, popUpMenu.menu)
                 }
 
+                TasksMode.CHECKABLE -> {
+                    inflater.inflate(R.menu.menu_child_completed_task, popUpMenu.menu)
+                }
+
                 TasksMode.NON_EDITABLE -> {
                     binding.taskSettingsButton.visibility = View.GONE
                 }
             }
-            val spanTitle = SpannableString(popUpMenu.menu[1].title.toString())
-            spanTitle.setSpan(
-                ForegroundColorSpan(itemView.context.getColor(R.color.red)),
-                0,
-                spanTitle.length,
-                0
-            )
-            popUpMenu.menu[1].title = spanTitle
+            if (popUpMenu.menu.size > 1) {
+                val spanTitle = SpannableString(popUpMenu.menu[1].title.toString())
+                spanTitle.setSpan(
+                    ForegroundColorSpan(itemView.context.getColor(R.color.red)),
+                    0,
+                    spanTitle.length,
+                    0
+                )
+                popUpMenu.menu[1].title = spanTitle
+            }
             popUpMenu.setForceShowIcon(true)
             popUpMenu.show()
-        }
-
-        override fun onMenuItemClick(item: MenuItem?): Boolean {
-            when (item?.itemId) {
-                R.id.task_completed -> {
-                    onTaskStatusChangedClicked?.invoke(task!!, isActiveTasks)
-                    relatedTasksList.removeAt(adapterPosition)
-                    notifyItemRemoved(adapterPosition)
-                }
-
-                R.id.task_not_completed -> {
-                    onTaskStatusChangedClicked?.invoke(task!!, isActiveTasks)
-                    relatedTasksList.removeAt(adapterPosition)
-                    notifyItemRemoved(adapterPosition)
-                }
-
-                R.id.delete -> {
-                    onTaskDeleteClicked?.invoke(task!!, isActiveTasks)
-                    relatedTasksList.removeAt(adapterPosition)
-                    notifyItemRemoved(adapterPosition)
-                }
-            }
-            return true
         }
     }
 }

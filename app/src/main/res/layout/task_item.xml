@@ -22,6 +22,16 @@
             android:textSize="@dimen/semi_small_font_size"
             tools:text="Написать контрольную минимум на 4" />
 
+        <!--    TODO - Replace with common layout-->
+        <ImageView
+            android:id="@+id/task_check_status_icon"
+            android:layout_width="@dimen/large_icon_size"
+            android:layout_height="@dimen/large_icon_size"
+            android:layout_gravity="center"
+            android:backgroundTint="@android:color/transparent"
+            android:src="@drawable/baseline_assignment_late_24"
+            android:visibility="gone" />
+
         <include
             android:id="@+id/task_item_points"
             layout="@layout/points_task_item"

@@ -85,11 +85,13 @@
             android:layout_marginTop="@dimen/tiny_margin"
             android:progressDrawable="@drawable/round_progress_bar"
             android:progressTint="@color/orange"
+            android:secondaryProgressTint="@color/gray"
             app:layout_constraintBottom_toTopOf="@+id/active_completed_tasks_radio_group"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/goal_points_ll"
-            tools:progress="25" />
+            tools:progress="25"
+            tools:secondaryProgress="50" />
 
         <RadioGroup
             android:id="@+id/active_completed_tasks_radio_group"

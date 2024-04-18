@@ -13,8 +13,6 @@ interface TaskRepository {
 
     suspend fun deleteTask(goalId: String, task: Task)
 
-    fun markTaskCompleted(taskId: String, isCompleted: Boolean)
-
     fun fetchAllTasks(goalId: String): Flow<List<Task>>
 
     fun fetchActiveTasks(goalId: String): Flow<List<Task>>

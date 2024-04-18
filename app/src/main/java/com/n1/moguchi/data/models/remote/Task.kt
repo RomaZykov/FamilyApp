@@ -9,6 +9,7 @@ data class Task(
     var title: String = "",
     var goalOwnerId: String? = null,
     var taskCompleted: Boolean = false,
+    var onCheck: Boolean = false,
     var height: Int = 1
 ) : Parcelable {
     fun toMap(): Map<String, Any?> {
@@ -17,6 +18,7 @@ data class Task(
             "title" to title,
             "goalOwnerId" to goalOwnerId,
             "taskCompleted" to taskCompleted,
+            "onCheck" to onCheck,
             "height" to height
         )
     }

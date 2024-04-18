@@ -52,17 +52,13 @@ class TaskRepositoryImpl @Inject constructor(
         val taskRefById = tasksRef.child(goalId).child(task.taskId)
         taskRefById.removeValue()
     }
-
-    override fun markTaskCompleted(taskId: String, isCompleted: Boolean) {
-        TODO("Not yet implemented")
-    }
-
     override suspend fun updateTask(task: Task): Task {
         val taskRefByGoalId = tasksRef.child(task.goalOwnerId!!).child(task.taskId)
         val updatedTask = task.copy(
             height = task.height,
             title = task.title,
-            taskCompleted = task.taskCompleted
+            taskCompleted = task.taskCompleted,
+            onCheck = !task.onCheck
         )
         val taskValues = updatedTask.toMap()
         taskRefByGoalId.updateChildren(taskValues)
