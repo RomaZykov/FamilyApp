@@ -34,6 +34,7 @@ class TasksFragment : Fragment() {
     private lateinit var tasksRecyclerAdapter: TasksRecyclerAdapter
     private var currentProfileMode: String? = null
     private var currentGoalHeight: Int = 0
+    private var secondaryGoalHeight: Int = 0
     private var totalGoalHeight: Int = 0
 
     @Inject
@@ -74,41 +75,78 @@ class TasksFragment : Fragment() {
                 currentProfileMode = it.currentProfileMode
             }
         }
-        val relatedGoalId = arguments?.getString("goalId")
-        val isGoalCompleted = arguments?.getBoolean("goalCompleted")
+        val relatedGoalId = arguments?.getString(GOAL_ID_KEY)
+        val isGoalCompleted = arguments?.getBoolean(GOAL_COMPLETED_KEY)
         if (relatedGoalId != null && isGoalCompleted != null) {
             with(viewModel) {
                 setupRelatedGoalDetails(relatedGoalId)
-                if (isGoalCompleted == true) {
-                    fetchAllTasks(relatedGoalId)
-                    binding.addTaskFab.visibility = View.GONE
-                    binding.activeCompletedTasksRadioGroup.visibility = View.GONE
-                    binding.completedTasks.isChecked = true
-                    completedTasks.observeOnce(viewLifecycleOwner) {
-                        initRecyclerViewByRelatedTasks(
-                            relatedGoalId,
-                            it.toMutableList(),
-                            false,
-                            TasksMode.NON_EDITABLE
-                        )
+                when (currentProfileMode) {
+                    "parent_mode" -> {
+                        if (isGoalCompleted == false) {
+                            fetchCompletedTasks(relatedGoalId)
+                            fetchActiveTasks(relatedGoalId)
+                            activeTasks.observeOnce(viewLifecycleOwner) {
+                                initRecyclerViewByRelatedTasks(
+                                    relatedGoalId,
+                                    it.toMutableList(),
+                                    true,
+                                    TasksMode.ACTIVE_EDITABLE
+                                )
+                            }
+                        } else {
+                            fetchAllTasks(relatedGoalId)
+                            binding.addTaskFab.visibility = View.GONE
+                            binding.activeCompletedTasksRadioGroup.visibility = View.GONE
+                            binding.completedTasks.isChecked = true
+                            completedTasks.observeOnce(viewLifecycleOwner) {
+                                initRecyclerViewByRelatedTasks(
+                                    relatedGoalId,
+                                    it.toMutableList(),
+                                    false,
+                                    TasksMode.NON_EDITABLE
+                                )
+                            }
+                        }
                     }
-                } else {
-                    fetchCompletedTasks(relatedGoalId)
-                    fetchActiveTasks(relatedGoalId)
-                    activeTasks.observeOnce(viewLifecycleOwner) {
-                        initRecyclerViewByRelatedTasks(
-                            relatedGoalId,
-                            it.toMutableList(),
-                            true,
-                            TasksMode.ACTIVE_EDITABLE
-                        )
+
+                    "child_mode" -> {
+                        binding.addTaskFab.visibility = View.GONE
+                        if (isGoalCompleted == false) {
+                            fetchCompletedTasks(relatedGoalId)
+                            fetchActiveTasks(relatedGoalId)
+                            activeTasks.observeOnce(viewLifecycleOwner) {
+                                initRecyclerViewByRelatedTasks(
+                                    relatedGoalId,
+                                    it.toMutableList(),
+                                    true,
+                                    TasksMode.CHECKABLE
+                                )
+                            }
+                        } else {
+                            fetchAllTasks(relatedGoalId)
+                            binding.activeCompletedTasksRadioGroup.visibility = View.GONE
+                            binding.completedTasks.isChecked = true
+                            completedTasks.observeOnce(viewLifecycleOwner) {
+                                initRecyclerViewByRelatedTasks(
+                                    relatedGoalId,
+                                    it.toMutableList(),
+                                    false,
+                                    TasksMode.NON_EDITABLE
+                                )
+                            }
+                        }
                     }
                 }
+
+                // Observe progression
                 currentGoalPoints.observe(viewLifecycleOwner) { currentPoints ->
                     currentGoalHeight = currentPoints
                     totalGoalPoints.observe(viewLifecycleOwner) { totalPoints ->
                         totalGoalHeight = totalPoints
-                        setProgression(currentGoalHeight, totalGoalHeight)
+                        secondaryProgression.observe(viewLifecycleOwner) { secondaryProgress ->
+                            secondaryGoalHeight = secondaryProgress
+                            setProgression(currentGoalHeight, totalGoalHeight, secondaryGoalHeight)
+                        }
                     }
                 }
             }
@@ -122,7 +160,7 @@ class TasksFragment : Fragment() {
                         relatedGoalId,
                         activeTasks.toMutableList(),
                         true,
-                        TasksMode.ACTIVE_EDITABLE
+                        if (currentProfileMode == "parent_mode") TasksMode.ACTIVE_EDITABLE else TasksMode.CHECKABLE
                     )
                 }
             }
@@ -137,7 +175,7 @@ class TasksFragment : Fragment() {
                         relatedGoalId,
                         completedTasks.toMutableList(),
                         false,
-                        TasksMode.COMPLETED_EDITABLE,
+                        if (currentProfileMode == "parent_mode") TasksMode.COMPLETED_EDITABLE else TasksMode.NON_EDITABLE
                     )
                 }
             }
@@ -188,19 +226,25 @@ class TasksFragment : Fragment() {
 
         tasksRecyclerAdapter.onTaskStatusChangedClicked = { task, isActiveTask ->
             if (relatedGoalId != null) {
-                viewModel.updateTaskStatus(task, isActiveTask)
-                viewModel.updateRelatedGoal(relatedGoalId, task.height, isActiveTask)
+                if (isActiveTask != null) {
+                    viewModel.updateTaskStatus(task, isActiveTask)
+                    viewModel.updateRelatedGoal(relatedGoalId, task.height, isActiveTask)
+                } else {
+                    viewModel.updateTaskToCheckStatus(task)
+                    viewModel.updateRelatedGoal(relatedGoalId, task.height, null)
+                }
             }
         }
     }
 
-    private fun setProgression(currentPoints: Int, totalPoints: Int) {
+    private fun setProgression(currentPoints: Int, totalPoints: Int, secondaryProgress: Int) {
         binding.tasksPoints.text = getString(
             R.string.current_total_goal_points,
             currentPoints,
             totalPoints
         )
         binding.tasksProgressBar.progress = currentPoints
+        binding.tasksProgressBar.secondaryProgress = secondaryProgress
         binding.tasksProgressBar.max = totalPoints
     }
 
@@ -223,11 +267,7 @@ class TasksFragment : Fragment() {
 
     companion object {
         private const val TASK_CREATION_TAG = "TaskCreationIntent"
+        private const val GOAL_ID_KEY = "goalId"
+        private const val GOAL_COMPLETED_KEY = "goalCompleted"
     }
-}
-
-enum class TasksMode {
-    ACTIVE_EDITABLE,
-    COMPLETED_EDITABLE,
-    NON_EDITABLE,
 }

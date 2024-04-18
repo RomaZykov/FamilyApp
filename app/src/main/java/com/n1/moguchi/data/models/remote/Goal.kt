@@ -10,6 +10,7 @@ data class Goal(
     var childOwnerId: String? = null,
     val title: String = "",
     val currentPoints: Int = 0,
+    val secondaryPoints: Int = 0,
     val totalPoints: Int = 0,
     val goalCompleted: Boolean = false
 ) : Parcelable {
@@ -21,6 +22,7 @@ data class Goal(
             "childOwnerId" to childOwnerId,
             "title" to title,
             "currentPoints" to currentPoints,
+            "secondaryPoints" to secondaryPoints,
             "totalPoints" to totalPoints,
             "goalCompleted" to goalCompleted
         )

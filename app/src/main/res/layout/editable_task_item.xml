@@ -22,13 +22,23 @@
             android:textSize="14sp"
             tools:text="Написать контрольную минимум на 4" />
 
-        <ImageButton
+        <ImageView
             android:id="@+id/task_completed_icon"
             android:layout_width="@dimen/large_icon_size"
             android:layout_height="@dimen/large_icon_size"
             android:layout_gravity="center"
             android:backgroundTint="@android:color/transparent"
             android:src="@drawable/orange_done"
+            android:visibility="gone" />
+
+        <!--    TODO - Replace with common layout-->
+        <ImageView
+            android:id="@+id/task_on_check_status_icon"
+            android:layout_width="@dimen/large_icon_size"
+            android:layout_height="@dimen/large_icon_size"
+            android:layout_gravity="center"
+            android:backgroundTint="@android:color/transparent"
+            android:src="@drawable/baseline_assignment_late_24"
             android:visibility="gone" />
 
         <com.google.android.material.card.MaterialCardView
