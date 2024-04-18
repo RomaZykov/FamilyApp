@@ -4,17 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.n1.moguchi.data.models.Child
-import com.n1.moguchi.data.models.Task
+import com.n1.moguchi.data.models.remote.Child
+import com.n1.moguchi.data.models.remote.Goal
+import com.n1.moguchi.data.models.remote.Task
 import com.n1.moguchi.data.repositories.GoalRepository
-import com.n1.moguchi.data.repositories.ParentRepository
 import com.n1.moguchi.data.repositories.TaskRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 class TaskCreationViewModel @Inject constructor(
-    private val parentRepository: ParentRepository,
     private val goalRepository: GoalRepository,
     private val taskRepository: TaskRepository
 ) : ViewModel() {
@@ -28,61 +27,57 @@ class TaskCreationViewModel @Inject constructor(
     private val _totalGoalPoints = MutableLiveData<Int>()
     val totalGoalPoints: LiveData<Int> = _totalGoalPoints
 
-    private val _taskHeightTotal = MutableLiveData<Int>()
-    val taskHeightTotal: LiveData<Int> = _taskHeightTotal
+    private val _currentGoalPoints = MutableLiveData<Int>()
+    val currentGoalPoints: LiveData<Int> = _currentGoalPoints
 
-    private val _taskName = MutableLiveData<String>()
-    val taskName: LiveData<String> = _taskName
+    private val tasksList = mutableListOf<Task>()
+    private var taskHeightTotal = 0
 
     init {
-        _taskHeightTotal.value = 0
+        _tasks.value = tasksList
+        _currentGoalPoints.value = taskHeightTotal
     }
 
-    fun createTask(task: Task, goalId: String): Task {
-        val newTask = runBlocking {
-            taskRepository.createTask(task, goalId)
-        }
-        viewModelScope.launch {
-            _taskHeightTotal.value = _taskHeightTotal.value?.plus(newTask.height)
-            _tasks.value = (_tasks.value ?: emptyList()) + newTask
-        }
-        return newTask
+    fun returnCreatedTask(goalId: String): Task {
+        val preparedTask = taskRepository.returnCreatedTask(goalId)
+        tasksList.add(preparedTask)
+        taskHeightTotal += preparedTask.height
+        _currentGoalPoints.value = taskHeightTotal
+        _tasks.value = tasksList
+        return tasksList.last()
+    }
+
+    fun setupGoal(relatedGoal: Goal) {
+        _totalGoalPoints.value = relatedGoal.totalPoints
     }
 
     fun setupMaxPointsOfGoal(goalId: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _totalGoalPoints.postValue(goalRepository.getGoal(goalId).totalPoints)
         }
     }
 
-    fun deleteTask(goalId: String, task: Task) {
-        viewModelScope.launch {
-            taskRepository.deleteTask(goalId, task)
-            _tasks.value =
-                _tasks.value?.dropWhile { it.taskId == task.taskId }
-            _taskHeightTotal.value = _taskHeightTotal.value?.minus(task.height)
+    fun deleteTask(task: Task) {
+        _tasks.value = _tasks.value?.dropWhile {
+            it.taskId == task.taskId
         }
+        taskHeightTotal -= task.height
+        _currentGoalPoints.value = taskHeightTotal
     }
 
-    fun getTasksByGoalId(goalId: String) {
-        viewModelScope.launch {
-            val tasks: List<Task> = taskRepository.fetchActiveTasks(goalId)
-            _tasks.value = (_tasks.value ?: emptyList()) + tasks
+    fun onTaskUpdate(task: Task, taskPointsChanged: Boolean) {
+        _tasks.value?.find {
+            it.taskId == task.taskId
+        }.also {
+            it?.title = task.title
+            it?.height = task.height
         }
-    }
-
-    fun updateTask(task: Task, taskPointsChanged: Boolean, taskTitleChanged: Boolean) {
-        viewModelScope.launch {
-            if (!taskTitleChanged) {
-                if (taskPointsChanged) {
-                    _taskHeightTotal.value =
-                        _taskHeightTotal.value?.plus(1)
-                } else {
-                    _taskHeightTotal.value =
-                        _taskHeightTotal.value?.minus(1)
-                }
-            }
-            taskRepository.updateTask(task)
+        if (taskPointsChanged) {
+            ++taskHeightTotal
+            _currentGoalPoints.value = taskHeightTotal
+        } else {
+            --taskHeightTotal
+            _currentGoalPoints.value = taskHeightTotal
         }
     }
 }

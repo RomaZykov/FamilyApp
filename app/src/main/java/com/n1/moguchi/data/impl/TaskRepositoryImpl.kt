@@ -1,9 +1,14 @@
 package com.n1.moguchi.data.impl
 
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.n1.moguchi.data.models.Task
+import com.google.firebase.database.ValueEventListener
+import com.n1.moguchi.data.models.remote.Task
 import com.n1.moguchi.data.repositories.TaskRepository
-import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import java.util.UUID
 import javax.inject.Inject
 
@@ -13,24 +18,42 @@ class TaskRepositoryImpl @Inject constructor(
 
     private val tasksRef = database.getReference("tasks")
 
-    override suspend fun createTask(task: Task, goalID: String): Task {
+    override fun returnCreatedTask(goalId: String): Task {
         val taskId: String = UUID.randomUUID().toString()
-        val taskRefByGoalId = tasksRef.child(goalID).child(taskId)
+        return Task(
+            taskId = taskId,
+            goalOwnerId = goalId,
+            taskCompleted = false
+        )
+    }
+
+    override suspend fun saveTasksToDb(goalId: String, tasks: List<Task>) {
+        for (task in tasks) {
+            if (task.goalOwnerId == goalId) {
+                val taskRefByGoalId = tasksRef.child(goalId).child(task.taskId)
+                taskRefByGoalId.setValue(task)
+            }
+        }
+    }
+
+    override suspend fun createTask(task: Task, goalId: String): Task {
+        val taskId: String = UUID.randomUUID().toString()
+        val taskRefByGoalId = tasksRef.child(goalId).child(taskId)
         val newTask = task.copy(
             taskId = taskId,
-            goalOwnerId = goalID,
+            goalOwnerId = goalId,
             taskCompleted = false
         )
         taskRefByGoalId.setValue(newTask)
         return newTask
     }
 
-    override suspend fun deleteTask(goalID: String, task: Task) {
-        val taskRefById = tasksRef.child(goalID).child(task.taskId)
+    override suspend fun deleteTask(goalId: String, task: Task) {
+        val taskRefById = tasksRef.child(goalId).child(task.taskId)
         taskRefById.removeValue()
     }
 
-    override fun markTaskCompleted(taskID: String, isCompleted: Boolean) {
+    override fun markTaskCompleted(taskId: String, isCompleted: Boolean) {
         TODO("Not yet implemented")
     }
 
@@ -46,25 +69,64 @@ class TaskRepositoryImpl @Inject constructor(
         return updatedTask
     }
 
-    override suspend fun fetchActiveTasks(goalID: String): List<Task> {
-        val tasksRefByCompletion = tasksRef.child(goalID)
-            .orderByChild("taskCompleted")
-            .equalTo(false)
-        val tasks: MutableList<Task> = mutableListOf()
-        tasksRefByCompletion.get().await().children.map {
-            tasks.add(it.getValue(Task::class.java)!!)
-        }
-        return tasks
+    override fun fetchAllTasks(goalId: String): Flow<List<Task>> = callbackFlow {
+        val allTasksListener = tasksRef.child(goalId)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val tasks = mutableListOf<Task>()
+                    for (relatedTask in snapshot.children) {
+                        val task = relatedTask.getValue(Task::class.java)
+                        if (task != null) {
+                            tasks.add(task)
+                        }
+                    }
+                    trySend(tasks)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                }
+            })
+        awaitClose { tasksRef.removeEventListener(allTasksListener) }
     }
 
-    override suspend fun fetchCompletedTasks(goalID: String): List<Task> {
-        val completedTasksRefByGoalId = tasksRef.child(goalID)
-            .orderByChild("taskCompleted")
-            .equalTo(true)
-        val completedTasks: MutableList<Task> = mutableListOf()
-        completedTasksRefByGoalId.get().await().children.map {
-            completedTasks.add(it.getValue(Task::class.java)!!)
-        }
-        return completedTasks
+    override fun fetchActiveTasks(goalId: String): Flow<List<Task>> = callbackFlow {
+        val tasksListener = tasksRef.child(goalId).orderByChild("taskCompleted").equalTo(false)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val tasks = mutableListOf<Task>()
+                    for (relatedTask in snapshot.children) {
+                        val task = relatedTask.getValue(Task::class.java)
+                        if (task != null) {
+                            tasks.add(task)
+                        }
+                    }
+                    trySend(tasks)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                }
+            })
+        awaitClose { tasksRef.removeEventListener(tasksListener) }
+    }
+
+    override fun fetchCompletedTasks(goalId: String): Flow<List<Task>> = callbackFlow {
+        val completedTasksListener =
+            tasksRef.child(goalId).orderByChild("taskCompleted").equalTo(true)
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val tasks = mutableListOf<Task>()
+                        for (relatedTask in snapshot.children) {
+                            val task = relatedTask.getValue(Task::class.java)
+                            if (task != null) {
+                                tasks.add(task)
+                            }
+                        }
+                        trySend(tasks)
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                    }
+                })
+        awaitClose { tasksRef.removeEventListener(completedTasksListener) }
     }
 }

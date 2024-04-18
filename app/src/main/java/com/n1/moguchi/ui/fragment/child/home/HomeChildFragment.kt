@@ -5,15 +5,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentChildHomeBinding
 import com.n1.moguchi.ui.ViewModelFactory
+import com.n1.moguchi.ui.activity.MainActivity
 import com.n1.moguchi.ui.adapter.GoalsRecyclerAdapter
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class HomeChildFragment : Fragment() {
@@ -22,7 +29,10 @@ class HomeChildFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var childGoalsRecyclerAdapter: GoalsRecyclerAdapter
-//    private lateinit var childCompletedGoalsRecyclerAdapter: CompletedGoalsRecyclerAdapter
+
+    //    private lateinit var childCompletedGoalsRecyclerAdapter: CompletedGoalsRecyclerAdapter
+    private var currentChildId: String? = null
+
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -51,21 +61,58 @@ class HomeChildFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val navController = findNavController()
 
-        val childId = requireArguments().getString("childId")
-        if (childId != null) {
-            viewModel.fetchGoalsAndTasks(childId)
-            viewModel.fetchCompletedGoals(childId)
+        if (arguments == null) {
+            lifecycleScope.launch {
+                viewModel.getUserPrefs().collect {
+                    currentChildId = it.currentChildId
+                }
+            }
+        } else {
+            currentChildId = requireArguments().getString("childId")
         }
+        (activity as MainActivity).intent.putExtras(childIdBundle(currentChildId!!))
 
-        viewModel.goals.observe(viewLifecycleOwner) {
-            val recyclerViewGoals: RecyclerView = view.findViewById(R.id.rv_child_home_goals_list)
-            recyclerViewGoals.layoutManager = LinearLayoutManager(requireContext())
-            childGoalsRecyclerAdapter = GoalsRecyclerAdapter(it.keys.toList(), it.flatMap { map ->
-                map.value
-            })
-            recyclerViewGoals.adapter = childGoalsRecyclerAdapter
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.fetchChildData(currentChildId!!).collect {
+                    binding.childHomeAppBar.menu.findItem(R.id.childProfile)
+                        .setIcon(it.imageResourceId!!)
+                }
+            }
         }
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.fetchActiveGoalsWithTasks(currentChildId!!)
+                viewModel.fetchCompletedGoalsWithTasks(currentChildId!!)
+                viewModel.activeGoalsWithTasks.collect {
+                    val recyclerViewGoals: RecyclerView =
+                        view.findViewById(R.id.rv_child_home_goals_list)
+                    recyclerViewGoals.layoutManager = LinearLayoutManager(requireContext())
+                    childGoalsRecyclerAdapter =
+                        GoalsRecyclerAdapter(it.keys.toMutableList(), it.flatMap { map ->
+                            map.value
+                        }.toMutableList())
+                    recyclerViewGoals.adapter = childGoalsRecyclerAdapter
+
+                    childGoalsRecyclerAdapter.onTasksEditingClicked = { goalId ->
+                        val bundle = bundleOf("goalId" to goalId, "goalCompleted" to false)
+                        navController.navigate(
+                            R.id.action_homeChildFragment_to_tasksFragment,
+                            bundle
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    private fun childIdBundle(childId: String): Bundle {
+        val bundle = Bundle().apply {
+            this.putString("childId", childId)
+        }
+        return bundle
     }
 
     override fun onDestroyView() {

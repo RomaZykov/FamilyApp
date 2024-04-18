@@ -8,18 +8,22 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResult
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
-import com.n1.moguchi.data.models.Task
+import com.n1.moguchi.data.models.remote.Task
 import com.n1.moguchi.databinding.FragmentTasksBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.adapter.TasksRecyclerAdapter
-import com.n1.moguchi.ui.fragment.parent.PrimaryBottomSheetFragment
+import com.n1.moguchi.ui.fragment.parent.PrimaryContainerBottomSheetFragment
 import com.n1.moguchi.ui.fragment.parent.goal_creation.GoalCreationFragment
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class TasksFragment : Fragment() {
@@ -28,6 +32,9 @@ class TasksFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var tasksRecyclerAdapter: TasksRecyclerAdapter
+    private var currentProfileMode: String? = null
+    private var currentGoalHeight: Int = 0
+    private var totalGoalHeight: Int = 0
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -62,59 +69,115 @@ class TasksFragment : Fragment() {
             parentFragmentManager.popBackStack()
         }
 
+        lifecycleScope.launch {
+            viewModel.getUserPrefs().collect {
+                currentProfileMode = it.currentProfileMode
+            }
+        }
         val relatedGoalId = arguments?.getString("goalId")
-        if (relatedGoalId != null) {
-            viewModel.setupRelatedGoalDetails(relatedGoalId)
-            viewModel.fetchCompletedTasks(relatedGoalId)
-            viewModel.fetchActiveTasks(relatedGoalId)
-        }
-
-        viewModel.currentAndTotalGoalPoints.observe(viewLifecycleOwner) {
-            setProgression(it.keys.toString(), it.values.toString())
-        }
-
-        viewModel.activeTasks.observe(viewLifecycleOwner) {
-            binding.activeTasks.text = getString(R.string.active_tasks, it.size)
-            setupRecyclerViewByRelatedTasks(relatedGoalId, it, true)
-            binding.activeTasks.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    setupRecyclerViewByRelatedTasks(relatedGoalId, it, true)
+        val isGoalCompleted = arguments?.getBoolean("goalCompleted")
+        if (relatedGoalId != null && isGoalCompleted != null) {
+            with(viewModel) {
+                setupRelatedGoalDetails(relatedGoalId)
+                if (isGoalCompleted == true) {
+                    fetchAllTasks(relatedGoalId)
+                    binding.addTaskFab.visibility = View.GONE
+                    binding.activeCompletedTasksRadioGroup.visibility = View.GONE
+                    binding.completedTasks.isChecked = true
+                    completedTasks.observeOnce(viewLifecycleOwner) {
+                        initRecyclerViewByRelatedTasks(
+                            relatedGoalId,
+                            it.toMutableList(),
+                            false,
+                            TasksMode.NON_EDITABLE
+                        )
+                    }
+                } else {
+                    fetchCompletedTasks(relatedGoalId)
+                    fetchActiveTasks(relatedGoalId)
+                    activeTasks.observeOnce(viewLifecycleOwner) {
+                        initRecyclerViewByRelatedTasks(
+                            relatedGoalId,
+                            it.toMutableList(),
+                            true,
+                            TasksMode.ACTIVE_EDITABLE
+                        )
+                    }
+                }
+                currentGoalPoints.observe(viewLifecycleOwner) { currentPoints ->
+                    currentGoalHeight = currentPoints
+                    totalGoalPoints.observe(viewLifecycleOwner) { totalPoints ->
+                        totalGoalHeight = totalPoints
+                        setProgression(currentGoalHeight, totalGoalHeight)
+                    }
                 }
             }
         }
 
-        viewModel.completedTasks.observe(viewLifecycleOwner) {
-            binding.completedTasks.text = getString(R.string.completed_tasks, it?.size ?: 0)
+        viewModel.activeTasks.observe(viewLifecycleOwner) { activeTasks ->
+            binding.activeTasks.text = getString(R.string.active_tasks, activeTasks.size)
+            binding.activeTasks.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked && currentProfileMode != null) {
+                    initRecyclerViewByRelatedTasks(
+                        relatedGoalId,
+                        activeTasks.toMutableList(),
+                        true,
+                        TasksMode.ACTIVE_EDITABLE
+                    )
+                }
+            }
+        }
+
+        viewModel.completedTasks.observe(viewLifecycleOwner) { completedTasks ->
+            binding.completedTasks.text =
+                getString(R.string.completed_tasks, completedTasks?.size ?: 0)
             binding.completedTasks.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    setupRecyclerViewByRelatedTasks(relatedGoalId, it, false)
+                if (isChecked && currentProfileMode != null) {
+                    initRecyclerViewByRelatedTasks(
+                        relatedGoalId,
+                        completedTasks.toMutableList(),
+                        false,
+                        TasksMode.COMPLETED_EDITABLE,
+                    )
                 }
             }
         }
 
         binding.addTaskFab.setOnClickListener {
-            val fragmentManager = parentFragmentManager
-            val fragmentTag = TASK_CREATION_TAG
-            setFragmentResult(
-                "requestKey",
+            childFragmentManager.setFragmentResult(
+                "primaryBottomSheetRequestKey",
                 bundleOf(
-                    "bundleKey" to fragmentTag,
+                    "primaryBundleKey" to TASK_CREATION_TAG,
                     GoalCreationFragment.GOAL_ID_KEY to relatedGoalId
                 )
             )
-            val bottomSheet = PrimaryBottomSheetFragment()
-            bottomSheet.show(fragmentManager, TASK_CREATION_TAG)
+            childFragmentManager.setFragmentResultListener(
+                "refreshRecyclerViewRequestKey",
+                viewLifecycleOwner
+            ) { _, innerBundle ->
+                val addedTasks = innerBundle.getParcelableArrayList<Task>("tasks")?.toList()
+                if (addedTasks != null) {
+                    tasksRecyclerAdapter.updateTasksList = addedTasks.toMutableList()
+                    tasksRecyclerAdapter.notifyItemRangeInserted(
+                        tasksRecyclerAdapter.itemCount - 1,
+                        addedTasks.size
+                    )
+                }
+            }
+            val bottomSheet = PrimaryContainerBottomSheetFragment()
+            bottomSheet.show(childFragmentManager, TASK_CREATION_TAG)
         }
     }
 
-    private fun setupRecyclerViewByRelatedTasks(
+    private fun initRecyclerViewByRelatedTasks(
         relatedGoalId: String?,
-        relatedTasks: List<Task>,
-        isActive: Boolean
+        relatedTasks: MutableList<Task>,
+        isActiveTasks: Boolean,
+        tasksMode: TasksMode
     ) {
         val recyclerView: RecyclerView = binding.rvTasksList
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        tasksRecyclerAdapter = TasksRecyclerAdapter(relatedTasks, isActive)
+        tasksRecyclerAdapter = TasksRecyclerAdapter(relatedTasks, tasksMode, isActiveTasks)
         recyclerView.adapter = tasksRecyclerAdapter
 
         tasksRecyclerAdapter.onTaskDeleteClicked = { task, isActiveTask ->
@@ -124,20 +187,33 @@ class TasksFragment : Fragment() {
         }
 
         tasksRecyclerAdapter.onTaskStatusChangedClicked = { task, isActiveTask ->
-            viewModel.updateTaskStatus(task, isActiveTask)
+            if (relatedGoalId != null) {
+                viewModel.updateTaskStatus(task, isActiveTask)
+                viewModel.updateRelatedGoal(relatedGoalId, task.height, isActiveTask)
+            }
         }
     }
 
-    private fun setProgression(cPoints: String, tPoints: String) {
-        val currentPoints = cPoints.trim('[', ']').toInt()
-        val totalPoints = tPoints.trim('[', ']').toInt()
+    private fun setProgression(currentPoints: Int, totalPoints: Int) {
         binding.tasksPoints.text = getString(
             R.string.current_total_goal_points,
             currentPoints,
             totalPoints
         )
-        binding.tasksProgressBar.max = totalPoints
         binding.tasksProgressBar.progress = currentPoints
+        binding.tasksProgressBar.max = totalPoints
+    }
+
+    private fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
+        observe(
+            lifecycleOwner,
+            object : Observer<T> {
+                override fun onChanged(value: T) {
+                    observer.onChanged(value)
+                    removeObserver(this)
+                }
+            }
+        )
     }
 
     override fun onDestroyView() {
@@ -148,4 +224,10 @@ class TasksFragment : Fragment() {
     companion object {
         private const val TASK_CREATION_TAG = "TaskCreationIntent"
     }
+}
+
+enum class TasksMode {
+    ACTIVE_EDITABLE,
+    COMPLETED_EDITABLE,
+    NON_EDITABLE,
 }

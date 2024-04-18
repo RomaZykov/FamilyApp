@@ -68,7 +68,7 @@
     <string name="task_completed">Задача выполнена</string>
     <string name="pull_to_complete">Потяни, чтобы завершить</string>
     <string name="delete_profile">Удаление профиля</string>
-    <string name="delete_child_profile">Удалить профиль ребёнка</string>
+    <string name="delete_child_profile">Удалить профиль ребёнка?</string>
     <string name="delete_warning_description">Все цели и задачи ребёнка так же будут удалены</string>
     <string name="delete">Delete</string>
     <string name="delete_account">Удалить аккаунт?</string>
@@ -151,5 +151,14 @@
     <string name="tasks_history">Tasks history</string>
     <string name="not_all_conditions_is_done">Выполните все условия</string>
     <string name="switch_to_parent_description">Для перехода в режим родителя необходимо ввести пароль</string>
+    <string name="my_goals_title">Мои цели</string>
+    <string name="password_error">Нужно установить код</string>
+    <string name="msg_token_fmt">Проверка токена %s</string>
+    <string name="child_password_notification_by_email">Отправили пароль ребенка на ваш E-mail</string>
+    <string name="not_correct_child_password">Неверный пароль</string>
+    <string name="reset_password_mail_instructions">На вашу почту %s были отправлены дальнейшие инструкции по восстановлению пароля</string>
+    <string name="slash_symbol">/</string>
+    <string name="active_goals_not_found">Активных целей нет</string>
+    <string name="password_edit_text_error">Поле пусто</string>
 
 </resources>

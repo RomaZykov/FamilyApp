@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.n1.moguchi.data.models.Child
-import com.n1.moguchi.data.models.Goal
-import com.n1.moguchi.data.models.Task
+import com.n1.moguchi.data.models.remote.Child
+import com.n1.moguchi.data.models.remote.Goal
+import com.n1.moguchi.data.models.remote.Task
 import com.n1.moguchi.data.repositories.GoalRepository
 import com.n1.moguchi.data.repositories.ParentRepository
 import com.n1.moguchi.data.repositories.TaskRepository
@@ -24,6 +24,9 @@ open class GoalCreationViewModel @Inject constructor(
 
     private val _children = MutableLiveData<List<Child>>()
     val children: LiveData<List<Child>> = _children
+
+    private val _goal = MutableLiveData<Goal>()
+    val goal: LiveData<Goal> = _goal
 
     private val _tasks = MutableLiveData<List<Task>>()
     val tasks: LiveData<List<Task>> = _tasks
@@ -43,8 +46,8 @@ open class GoalCreationViewModel @Inject constructor(
         _totalGoalPoints.value = counterGoalHeight
     }
 
-    fun createGoal(goal: Goal, childId: String) {
-        goalRepository.createGoal(goal, childId)
+    fun createGoal(title: String, totalPoints: Int, childId: String) {
+        _goal.value = goalRepository.returnCreatedGoal(title, totalPoints, childId)
     }
 
     fun increaseGoalHeight() {
@@ -61,6 +64,10 @@ open class GoalCreationViewModel @Inject constructor(
 
     fun setGoalTitle(title: String) {
         _goalName.value = title
+    }
+
+    fun setChildrenFromBundle(children: List<Child>) {
+        _children.value = children
     }
 
     fun getChildren(parentId: String) {

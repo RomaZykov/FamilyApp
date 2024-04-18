@@ -8,17 +8,30 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.R
-import com.n1.moguchi.data.models.Goal
-import com.n1.moguchi.data.models.Task
+import com.n1.moguchi.data.models.remote.Goal
+import com.n1.moguchi.data.models.remote.Task
 import com.n1.moguchi.databinding.GoalCardBinding
 import com.n1.moguchi.ui.views.CustomShapesView
 
 class GoalsRecyclerAdapter(
-    private val goalsList: List<Goal>,
-    private val tasksList: List<Task>
+    private val goalsList: MutableList<Goal>,
+    private val tasksList: MutableList<Task>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var onGoalButtonClicked: ((String) -> Unit)? = null
+    // TODO - Dangerous code
+    var updatedGoal: Goal? = null
+        set(value) {
+            field = value
+            field?.let { goalsList.add(it) }
+        }
+    var updatedTasksList: MutableList<Task> = mutableListOf()
+        set(value) {
+            field = value
+            value.forEach {
+                tasksList.add(it)
+            }
+        }
+    var onTasksEditingClicked: ((String) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -65,18 +78,21 @@ class GoalsRecyclerAdapter(
                         val taskSmallItem =
                             LayoutInflater.from(context)
                                 .inflate(R.layout.task_item, this, false)
-                        taskSmallItem.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.white_opacity_90)) // R.color.white_opacity_90
-                        taskSmallItem.findViewById<TextView>(R.id.task_title).text =
-                            relatedTasks[i - 1].title
-                        taskSmallItem.rootView.findViewById<TextView>(R.id.task_points).text =
-                            relatedTasks[i - 1].height.toString()
+                        with(taskSmallItem) {
+                            backgroundTintList =
+                                ColorStateList.valueOf(resources.getColor(R.color.white_opacity_90))
+                            findViewById<TextView>(R.id.task_title).text = relatedTasks[i - 1].title
+                            rootView.findViewById<TextView>(R.id.task_points).text =
+                                relatedTasks[i - 1].height.toString()
+
+                        }
                         addView(taskSmallItem)
                     }
                 }
             }
 
             binding.allTasksButton.root.setOnClickListener {
-                onGoalButtonClicked?.invoke(goal.goalId!!)
+                onTasksEditingClicked?.invoke(goal.goalId!!)
             }
         }
 
@@ -91,6 +107,4 @@ class GoalsRecyclerAdapter(
             binding.goalProgressBar.progress = currentPoints
         }
     }
-
-    }
-
+}

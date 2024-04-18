@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.R
-import com.n1.moguchi.data.models.Task
+import com.n1.moguchi.data.models.remote.Task
 import com.n1.moguchi.databinding.CreationSectionFooterBinding
 import com.n1.moguchi.databinding.TaskCardBinding
 
@@ -18,9 +18,9 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
 
     var tasksCardList: MutableList<Task> = ArrayList()
     var onTaskSettingsClicked: (() -> Unit)? = null
-    var onTaskUpdate: ((Task, Boolean, Boolean) -> Unit)? = null
+    var onTaskUpdate: ((Task, Boolean) -> Unit)? = null
     var onNewTaskAddClicked: (() -> Unit)? = null
-    var onTaskDeleteClicked: ((Task) -> Unit)? = null
+    var onTaskDeleteClicked: ((Task, Int) -> Unit)? = null
     var onCardsStatusUpdate: ((Boolean) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -74,7 +74,13 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
         private val binding = TaskCardBinding.bind(itemView)
 
         fun bind(task: Task) {
+            if (tasksCardList.size == 1) {
+                binding.deleteTaskButton.visibility = View.GONE
+            } else {
+                binding.deleteTaskButton.visibility = View.VISIBLE
+            }
             binding.taskHeight.text = task.height.toString()
+            binding.taskNameEditText.setText(task.title)
             binding.taskNameEditText.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 }
@@ -87,30 +93,32 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
                     if (taskName.toString().isEmpty()) {
                         binding.taskNameEditText.error =
                             context.getString(R.string.not_all_conditions_is_done)
-                    } else {
-                        onTaskUpdate?.invoke(task, false, true)
                     }
                     notifyItemChanged(itemCount - FOOTER_ADD_TASK_BUTTON)
                 }
             })
+
             binding.deleteTaskButton.setOnClickListener {
-                onTaskDeleteClicked?.invoke(task)
+                onTaskDeleteClicked?.invoke(task, adapterPosition)
                 tasksCardList.removeAt(adapterPosition)
                 notifyItemRemoved(adapterPosition)
+                notifyItemChanged(itemCount - 1)
             }
+
 //            binding.taskSettingsButton.setOnClickListener {
 //                onTaskSettingsClicked?.invoke()
 //            }
+
             binding.increaseButton.setOnClickListener {
                 if (task.height < MAX_TASK_HEIGHT) {
+                    onTaskUpdate?.invoke(task, true)
                     binding.taskHeight.text = (++task.height).toString()
-                    onTaskUpdate?.invoke(task, true, false)
                 }
             }
             binding.decreaseButton.setOnClickListener {
                 if (task.height > MIN_TASK_HEIGHT) {
+                    onTaskUpdate?.invoke(task, false)
                     binding.taskHeight.text = (--task.height).toString()
-                    onTaskUpdate?.invoke(task, false, false)
                 }
             }
         }

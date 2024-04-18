@@ -1,17 +1,25 @@
 package com.n1.moguchi.data.repositories
 
-import com.n1.moguchi.data.models.Task
+import com.n1.moguchi.data.models.remote.Task
+import kotlinx.coroutines.flow.Flow
 
 interface TaskRepository {
-    suspend fun createTask(task: Task, goalID: String): Task
+
+    suspend fun createTask(task: Task, goalId: String): Task
+
+    fun returnCreatedTask(goalId: String): Task
 
     suspend fun updateTask(task: Task): Task
 
-    suspend fun deleteTask(goalID: String, task: Task)
+    suspend fun deleteTask(goalId: String, task: Task)
 
-    fun markTaskCompleted(taskID: String, isCompleted: Boolean)
+    fun markTaskCompleted(taskId: String, isCompleted: Boolean)
 
-    suspend fun fetchActiveTasks(goalID: String): List<Task>
+    fun fetchAllTasks(goalId: String): Flow<List<Task>>
 
-    suspend fun fetchCompletedTasks(goalID: String): List<Task>
+    fun fetchActiveTasks(goalId: String): Flow<List<Task>>
+
+    fun fetchCompletedTasks(goalId: String): Flow<List<Task>>
+
+    suspend fun saveTasksToDb(goalId: String, tasks: List<Task>)
 }

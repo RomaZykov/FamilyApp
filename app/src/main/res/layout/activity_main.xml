@@ -19,7 +19,6 @@
             android:layout_alignParentEnd="true"
             app:defaultNavHost="true"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-            app:navGraph="@navigation/nav_graph"
             tools:layout="@layout/fragment_child_home" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView

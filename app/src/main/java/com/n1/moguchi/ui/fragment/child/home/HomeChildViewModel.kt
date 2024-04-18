@@ -4,37 +4,83 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.n1.moguchi.data.models.Goal
-import com.n1.moguchi.data.models.Task
+import com.n1.moguchi.data.models.local.UserPreferences
+import com.n1.moguchi.data.models.remote.Child
+import com.n1.moguchi.data.models.remote.Goal
+import com.n1.moguchi.data.models.remote.Task
+import com.n1.moguchi.data.repositories.AppRepository
 import com.n1.moguchi.data.repositories.GoalRepository
+import com.n1.moguchi.data.repositories.TaskRepository
+import com.n1.moguchi.interactors.FetchChildDataUseCase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEmpty
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class HomeChildViewModel @Inject constructor(
-    private val goalRepository: GoalRepository
+    private val goalRepository: GoalRepository,
+    private val taskRepository: TaskRepository,
+    private val appRepository: AppRepository,
+    private val fetchChildDataUseCase: FetchChildDataUseCase
 ) : ViewModel() {
 
-    private val _goals = MutableLiveData<Map<Goal, List<Task>>>()
-    val goals: LiveData<Map<Goal, List<Task>>> = _goals
+    private val _activeGoalsWithTasks = MutableSharedFlow<Map<Goal, List<Task>>>()
+    val activeGoalsWithTasks: SharedFlow<Map<Goal, List<Task>>> = _activeGoalsWithTasks
 
-    private val _totalTasks = MutableLiveData<Int>()
-    val totalTasks: LiveData<Int> = _totalTasks
+    private val _completedGoalsWithTasks = MutableSharedFlow<Map<Goal, List<Task>>>()
+    val completedGoalsWithTasks: SharedFlow<Map<Goal, List<Task>>> = _completedGoalsWithTasks
 
-    private val _completedGoals = MutableLiveData<List<Goal>>()
-    val completedGoals: LiveData<List<Goal>> = _completedGoals
-
-    fun fetchGoalsAndTasks(childID: String) {
-        viewModelScope.launch {
-            val goals = goalRepository.fetchChildGoals(childID)
-            val goalsWithTasksMap = goalRepository.fetchTasks(goals)
-            _goals.value = goalsWithTasksMap
+    fun getUserPrefs(): Flow<UserPreferences> {
+        return appRepository.getUserPrefs().map {
+            it
         }
     }
 
-    fun fetchCompletedGoals(childID: String) {
+    fun fetchChildData(childId: String): Flow<Child> {
+        return fetchChildDataUseCase.invoke(childId).map {
+            it!!
+        }
+    }
+
+    fun fetchActiveGoalsWithTasks(childId: String) {
         viewModelScope.launch {
-            val completedGoals = goalRepository.fetchCompletedGoals(childID)
-            _completedGoals.value = completedGoals
+            goalRepository.fetchActiveGoals(childId)
+                .filterNotNull()
+                .flowOn(Dispatchers.IO)
+                .flatMapLatest { goals ->
+                    combine(goals.map { taskRepository.fetchActiveTasks(it.goalId!!) }) {
+                        goals.zip(it)
+                    }.onEmpty {
+                        _activeGoalsWithTasks.emit(emptyMap())
+                    }
+                }.collect { goalsWithTasksList ->
+                    _activeGoalsWithTasks.emit(goalsWithTasksList.toMap())
+                }
+        }
+    }
+
+    fun fetchCompletedGoalsWithTasks(childId: String) {
+        viewModelScope.launch {
+            goalRepository.fetchCompletedGoals(childId)
+                .filterNotNull()
+                .flowOn(Dispatchers.IO)
+                .flatMapLatest { goals ->
+                    combine(goals.map { taskRepository.fetchCompletedTasks(it.goalId!!) }) {
+                        goals.zip(it)
+                    }.onEmpty {
+                        _completedGoalsWithTasks.emit(emptyMap())
+                    }
+                }.collect { goalsWithTasksList ->
+                    _completedGoalsWithTasks.emit(goalsWithTasksList.toMap())
+                }
         }
     }
 }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_edit_ll"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/medium_margin"
+    android:gravity="center"
+    android:orientation="horizontal"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    tools:showIn="@layout/fragment_profile_bottom_sheet">
+
+    <Button
+        android:id="@+id/left_button"
+        android:layout_width="@dimen/cancel_continue_button_width"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        android:fontFamily="@font/onest_regular"
+        android:paddingHorizontal="@dimen/large_padding"
+        android:paddingVertical="@dimen/medium_padding"
+        android:text="@string/cancel"
+        android:textColor="@color/black" />
+
+    <Space
+        android:layout_width="@dimen/small_space_width"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/right_button"
+        android:layout_width="@dimen/cancel_continue_button_width"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/orange"
+        android:fontFamily="@font/onest_regular"
+        android:paddingHorizontal="@dimen/large_padding"
+        android:paddingVertical="@dimen/medium_padding"
+        android:textColor="@color/white"
+        tools:text="@string/save" />
+</LinearLayout>

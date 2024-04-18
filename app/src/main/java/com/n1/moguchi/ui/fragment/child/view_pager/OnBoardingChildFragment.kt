@@ -10,11 +10,11 @@ import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.n1.moguchi.R
 import com.n1.moguchi.databinding.FragmentOnboardingBinding
-import com.n1.moguchi.ui.activity.MainActivity
 
 private const val NUM_PAGES = 2
 
@@ -34,6 +34,8 @@ class OnBoardingChildFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val navController = findNavController()
 
         viewPager = binding.onboardingPager
         val adapter = OnBoardingChildViewPagerAdapter(
@@ -69,7 +71,7 @@ class OnBoardingChildFragment : Fragment() {
 
         val bundle = childIdBundle()
         binding.skipButton.setOnClickListener {
-            (activity as MainActivity).navController.navigate(
+            navController.navigate(
                 R.id.action_onBoardingChildFragment_to_homeChildFragment,
                 bundle
             )
@@ -80,7 +82,7 @@ class OnBoardingChildFragment : Fragment() {
             if (currentItem != 1) {
                 viewPager.setCurrentItem(currentItem + 1, true)
             } else {
-                (activity as MainActivity).navController.navigate(
+                navController.navigate(
                     R.id.action_onBoardingChildFragment_to_homeChildFragment,
                     bundle
                 )

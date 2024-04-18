@@ -13,11 +13,12 @@
         <TextView
             android:id="@+id/task_title"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginHorizontal="@dimen/small_margin"
+            android:layout_weight="1"
             android:gravity="start"
+            android:textColor="@color/black"
             android:textSize="@dimen/semi_small_font_size"
             tools:text="Написать контрольную минимум на 4" />
 
@@ -26,8 +27,8 @@
             layout="@layout/points_task_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/small_margin"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/small_margin" />
 
     </LinearLayout>
 </layout>

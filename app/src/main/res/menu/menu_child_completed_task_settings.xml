@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/task_not_done"
+        android:id="@+id/task_not_completed_child"
         android:icon="@drawable/done"
         android:title="@string/task_not_done" />
 </menu>

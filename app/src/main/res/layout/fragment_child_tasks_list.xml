@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/ultra_light_orange"
-        tools:context=".ui.fragment.parent.children_creation.ChildCreationFragment">
+        tools:context=".ui.fragment.parent.child_creation.ChildCreationFragment">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/topAppBar"
@@ -29,7 +29,8 @@
                 app:navigationIcon="@drawable/baseline_arrow_back_24"
                 app:title="Добавление ребёнка"
                 app:titleCentered="true"
-                app:titleTextAppearance="@style/ActionBar.TitleText.Medium" />
+                app:titleTextAppearance="@style/ActionBar.TitleText.Medium"
+                app:titleTextColor="@color/black" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.core.widget.NestedScrollView
@@ -83,9 +84,9 @@
                         android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/medium_margin"
                         android:fontFamily="@font/onest_regular"
-                        android:textColor="@color/black"
                         android:gravity="center"
                         android:text="@string/add_child_button_text"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/semi_small_font_size" />
                 </LinearLayout>
             </LinearLayout>

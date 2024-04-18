@@ -14,6 +14,7 @@ class ChangeProfileBottomSheetFragment : BottomSheetDialogFragment() {
 
     private var _binding: FragmentChangeProfileBottomSheetBinding? = null
     private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,9 +36,9 @@ class ChangeProfileBottomSheetFragment : BottomSheetDialogFragment() {
         binding.passwordAreaLl.visibility = View.VISIBLE
 
         binding.forgotPassword.setOnClickListener {
-            binding.subTitle.text = "На вашу почту mail@mail.ru были отправлены дальнейшие инструкции по восстановлению пароля"
+            binding.subTitle.text = getString(R.string.reset_password_mail_instructions)
             binding.passwordAreaLl.visibility = View.GONE
-            binding.cancelButton.text = "Отлично"
+            binding.cancelButton.text = getString(R.string.congrats)
             binding.cancelButton.setTextColor(resources.getColor(R.color.white))
             binding.cancelButton.setBackgroundColor(resources.getColor(R.color.orange))
         }
@@ -50,9 +51,5 @@ class ChangeProfileBottomSheetFragment : BottomSheetDialogFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    companion object {
-        const val TAG = "ChangeProfileBottomSheet"
     }
 }

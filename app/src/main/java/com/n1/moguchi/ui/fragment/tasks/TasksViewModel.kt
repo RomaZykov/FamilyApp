@@ -4,15 +4,20 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.n1.moguchi.data.models.Task
+import com.n1.moguchi.data.models.local.UserPreferences
+import com.n1.moguchi.data.models.remote.Task
+import com.n1.moguchi.data.repositories.AppRepository
 import com.n1.moguchi.data.repositories.GoalRepository
 import com.n1.moguchi.data.repositories.TaskRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class TasksViewModel @Inject constructor(
     private val taskRepository: TaskRepository,
-    private val goalRepository: GoalRepository
+    private val goalRepository: GoalRepository,
+    private val appRepository: AppRepository
 ) : ViewModel() {
 
     private val _activeTasks = MutableLiveData<List<Task>>()
@@ -21,23 +26,45 @@ class TasksViewModel @Inject constructor(
     private val _completedTasks = MutableLiveData<List<Task>>()
     val completedTasks: LiveData<List<Task>> = _completedTasks
 
-    private val _currentAndTotalGoalPoints = MutableLiveData<Map<Int, Int>>()
-    val currentAndTotalGoalPoints: LiveData<Map<Int, Int>> = _currentAndTotalGoalPoints
+    private val _totalGoalPoints = MutableLiveData<Int>()
+    val totalGoalPoints: LiveData<Int> = _totalGoalPoints
+
+    private val _currentGoalPoints = MutableLiveData<Int>()
+    val currentGoalPoints: LiveData<Int> = _currentGoalPoints
 
     private val _goalTitle = MutableLiveData<String>()
     val goalTitle: LiveData<String> = _goalTitle
 
+    fun getUserPrefs(): Flow<UserPreferences> {
+        return appRepository.getUserPrefs().map {
+            it
+        }
+    }
+
+    fun fetchAllTasks(goalId: String) {
+        viewModelScope.launch {
+            taskRepository.fetchAllTasks(goalId)
+                .collect {
+                    _completedTasks.value = it
+                }
+        }
+    }
+
     fun fetchActiveTasks(goalId: String) {
         viewModelScope.launch {
-            val activeTasks = taskRepository.fetchActiveTasks(goalId)
-            _activeTasks.value = activeTasks
+            taskRepository.fetchActiveTasks(goalId)
+                .collect {
+                    _activeTasks.value = it
+                }
         }
     }
 
     fun fetchCompletedTasks(goalId: String) {
         viewModelScope.launch {
-            val completedTasks = taskRepository.fetchCompletedTasks(goalId)
-            _completedTasks.value = completedTasks
+            taskRepository.fetchCompletedTasks(goalId)
+                .collect {
+                    _completedTasks.value = it
+                }
         }
     }
 
@@ -56,9 +83,8 @@ class TasksViewModel @Inject constructor(
     fun setupRelatedGoalDetails(goalId: String) {
         viewModelScope.launch {
             goalRepository.getGoal(goalId).also {
-                val currentAndTotalGoalPointsMap: MutableMap<Int, Int> = mutableMapOf()
-                currentAndTotalGoalPointsMap[it.currentPoints] = it.totalPoints
-                _currentAndTotalGoalPoints.value = currentAndTotalGoalPointsMap
+                _currentGoalPoints.value = it.currentPoints
+                _totalGoalPoints.value = it.totalPoints
                 _goalTitle.value = it.title
             }
         }
@@ -72,10 +98,9 @@ class TasksViewModel @Inject constructor(
                 }
                 _activeTasks.value = _activeTasks.value?.dropWhile { it.taskId == task.taskId }
                 if (taskToUpdate != null) {
-                    _completedTasks.value =
-                        _completedTasks.value?.plus(taskToUpdate)
+                    _completedTasks.value = _completedTasks.value?.plus(taskToUpdate)
                 }
-                updateProgression(task)
+                updateGoalProgression(task)
             } else {
                 val taskToUpdate = _completedTasks.value?.single { it.taskId == task.taskId }.also {
                     it?.taskCompleted = false
@@ -83,21 +108,40 @@ class TasksViewModel @Inject constructor(
                 _completedTasks.value =
                     _completedTasks.value?.dropWhile { it.taskId == task.taskId }
                 if (taskToUpdate != null) {
-                    _activeTasks.value =
-                        _activeTasks.value?.plus(taskToUpdate)
+                    _activeTasks.value = _activeTasks.value?.plus(taskToUpdate)
                 }
-                updateProgression(task)
+                updateGoalProgression(task)
             }
             taskRepository.updateTask(task)
         }
     }
 
-    private fun updateProgression(task: Task) {
+    fun updateRelatedGoal(goalId: String, taskHeight: Int, isActiveTask: Boolean) {
+        viewModelScope.launch {
+            if (isActiveTask) {
+                goalRepository.updateGoalPoints(goalId, taskHeight)
+            } else {
+                goalRepository.updateGoalPoints(goalId, -taskHeight)
+            }
+            goalRepository.getGoal(goalId).also {
+                if (it.currentPoints >= it.totalPoints && !it.goalCompleted) {
+                    goalRepository.updateGoalStatus(goalId)
+                }
+                if (it.currentPoints < it.totalPoints && it.goalCompleted) {
+                    goalRepository.updateGoalStatus(goalId)
+                }
+            }
+        }
+    }
+
+    private fun updateGoalProgression(task: Task) {
         viewModelScope.launch {
             goalRepository.getGoal(task.goalOwnerId!!).also {
-                val currentAndTotalGoalPointsMap: MutableMap<Int, Int> = mutableMapOf()
-                currentAndTotalGoalPointsMap[it.currentPoints + task.height] = it.totalPoints
-                _currentAndTotalGoalPoints.value = currentAndTotalGoalPointsMap
+                if (task.taskCompleted) {
+                    _currentGoalPoints.value = _currentGoalPoints.value?.plus(task.height)
+                } else {
+                    _currentGoalPoints.value = _currentGoalPoints.value?.minus(task.height)
+                }
             }
         }
     }

@@ -38,6 +38,7 @@
                 android:layout_marginBottom="@dimen/tiny_margin"
                 android:fontFamily="@font/onest_regular"
                 android:text="@string/task_creation_welcome_description"
+                android:textColor="@color/black"
                 android:textSize="@dimen/semi_small_font_size" />
 
             <LinearLayout
@@ -54,15 +55,17 @@
                     android:fontFamily="@font/onest_regular"
                     android:gravity="center"
                     android:text="@string/points_goal_counter"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/small_font_size" />
 
                 <TextView
+                    android:id="@+id/task_height_total"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:fontFamily="@font/onest_regular"
                     android:gravity="center|end"
-                    android:text="@{viewModel.taskHeightTotal.toString()}"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/small_font_size"
                     tools:text="5" />
 
@@ -73,7 +76,8 @@
                     android:layout_weight="0"
                     android:fontFamily="@font/onest_regular"
                     android:gravity="center"
-                    android:text="/"
+                    android:text="@string/slash_symbol"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/small_font_size" />
 
                 <TextView
@@ -84,6 +88,7 @@
                     android:fontFamily="@font/onest_regular"
                     android:gravity="center|end"
                     android:text="@{viewModel.totalGoalPoints.toString()}"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/small_font_size"
                     tools:text="10" />
 
@@ -91,7 +96,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/points" />
-
             </LinearLayout>
 
             <ProgressBar
@@ -100,8 +104,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/semi_medium_margin"
-                android:max="@{viewModel.totalGoalPoints.intValue()}"
-                android:progress="@{viewModel.taskHeightTotal.intValue()}"
                 android:progressTint="@color/orange" />
         </LinearLayout>
 
@@ -109,7 +111,6 @@
             android:id="@+id/nested_scroll"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/small_margin"
             android:fitsSystemWindows="true"
             android:scrollbars="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
