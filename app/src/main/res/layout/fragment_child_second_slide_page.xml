@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:background="@color/ultra_light_orange"
+        android:fadeScrollbars="false"
+        android:fillViewport="true"
+        android:fitsSystemWindows="true"
+        android:isScrollContainer="true"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:scrollbars="horizontal"
+        app:layout_scrollFlags="scroll">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/onboarding_page2_child"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/welcome_page_height"
+                android:scaleType="fitXY"
+                android:src="@drawable/onboarding_child_1"
+                app:layout_constraintBottom_toTopOf="@+id/child_title_name_2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.15"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/child_title_name_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/large_margin"
+                android:layout_marginBottom="@dimen/large_margin"
+                android:fontFamily="@font/onest_regular"
+                android:text="@string/complete_tasks"
+                android:textColor="@color/black"
+                android:textSize="@dimen/large_font_size"
+                app:layout_constraintBottom_toTopOf="@id/tv_child_onboarding_description_2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/onboarding_page2_child" />
+
+            <TextView
+                android:id="@+id/tv_child_onboarding_description_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/super_margin"
+                android:gravity="center"
+                android:text="@string/complete_tasks_description"
+                android:textColor="@color/black"
+                android:textSize="@dimen/semi_small_font_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/child_title_name_2" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/ultra_light_orange">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/myChildrenTopAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/ultra_light_orange"
+            android:fitsSystemWindows="true"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/childCreationAppBar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:navigationIcon="@drawable/baseline_arrow_back_24"
+                app:title="@string/my_children_title"
+                app:titleCentered="true"
+                app:titleTextAppearance="@style/ActionBar.TitleText.Medium" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_children_creation_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/small_margin"
+            app:layoutManager="LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@id/my_children_bottom_bar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/myChildrenTopAppBar" />
+
+        <LinearLayout
+            android:id="@+id/my_children_bottom_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/medium_margin"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <Button
+                android:id="@+id/cancel_button"
+                android:layout_width="@dimen/cancel_continue_button_width"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
+                android:fontFamily="@font/onest_regular"
+                android:paddingHorizontal="@dimen/large_padding"
+                android:paddingVertical="@dimen/medium_padding"
+                android:text="@string/cancel"
+                android:textColor="@color/black" />
+
+            <Space
+                android:layout_width="@dimen/small_space_width"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/next_button"
+                android:layout_width="@dimen/cancel_continue_button_width"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/orange"
+                android:fontFamily="@font/onest_regular"
+                android:paddingHorizontal="@dimen/large_padding"
+                android:paddingVertical="@dimen/medium_padding"
+                android:text="@string/save"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

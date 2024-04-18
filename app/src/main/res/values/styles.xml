@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="ShapeAppearance.App.LargeComponent" parent="ShapeAppearance.Material3.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">32dp</item>
+    </style>
+
+    <style name="ModalBottomSheetDialog" parent="Widget.Material3.BottomSheet.Modal">
+        <item name="backgroundTint">@color/ultra_light_orange</item>
+    </style>
+
+    <style name="CustomFabStyle" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="backgroundTint">@color/orange</item>
+        <item name="rippleColor">@color/white</item>
+        <item name="borderWidth">4dp</item>
+        <item name="shapeAppearance">?attr/shapeAppearanceSmallComponent</item>
+        <item name="shapeAppearanceOverlay">
+            @style/ShapeAppearanceOverlay.MaterialComponents.FloatingActionButton
+        </item>
+    </style>
+
+    <style name="Toolbar.TitleText.Medium" parent="TextAppearance.Material3.ActionBar.Title">
+        <item name="android:textSize">16sp</item>
+        <item name="android:font" tools:targetApi="o">@font/onest_regular</item>
+    </style>
+
+    <style name="Toolbar.TitleText.Large" parent="TextAppearance.Material3.ActionBar.Title">
+        <item name="android:textSize">32sp</item>
+        <item name="android:font" tools:targetApi="o">@font/onest_regular</item>
+    </style>
+
+    <style name="TextAppearance.Design.Hint.Small" parent="TextAppearance.Material3.TitleSmall">
+        <item name="android:textSize">12sp</item>
+        <item name="android:font" tools:targetApi="o">@font/onest_regular</item>
+    </style>
+
+    <style name="Widget.App.RadioButton" parent="Widget.Material3.CompoundButton.RadioButton">
+        <item name="buttonTint">@color/button_tint</item>
+    </style>
+
+    <style name="Widget.App.ExtendedFloatingActionButton" parent="Widget.Material3.ExtendedFloatingActionButton.Icon.Primary">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.FloatingActionButton</item>
+    </style>
+
+    <style name="ThemeOverlay.App.FloatingActionButton" parent="">
+        <item name="colorContainer">@color/orange</item>
+        <item name="colorOnContainer">@color/pink</item>
+    </style>
+
+    <style name="Theme.DatePicker" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/orange</item>
+        <item name="colorControlHighlight">@color/orange</item>
+    </style>
+
+    <style name="PopupMenuStyle" parent="@style/Widget.AppCompat.PopupMenu">
+        <item name="android:popupBackground">@drawable/popup_menu_background</item>
+        <item name="android:textSize">@dimen/medium_font_size</item>
+    </style>
+
+    <style name="PopupMenuListView" parent="@style/Widget.AppCompat.ListView.DropDown">
+        <item name="android:dividerHeight">1dp</item>
+        <item name="android:divider">@color/gray</item>
+    </style>
+
+</resources>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/ultra_light_orange"
+        tools:context=".ui.fragment.parent.children_creation.ChildCreationFragment">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/topAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/ultra_light_orange"
+            android:fitsSystemWindows="true"
+            app:layout_constraintBottom_toTopOf="@+id/rv_children_nested"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintVertical_chainStyle="packed">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/addChildAppBar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:navigationIcon="@drawable/baseline_arrow_back_24"
+                app:title="Добавление ребёнка"
+                app:titleCentered="true"
+                app:titleTextAppearance="@style/ActionBar.TitleText.Medium" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/rv_children_nested"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/medium_margin"
+            android:layout_marginBottom="@dimen/medium_margin"
+            android:fitsSystemWindows="true"
+            android:scrollbars="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_add_children_ll"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/topAppBar">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_children_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    app:layoutManager="LinearLayoutManager" />
+
+                <LinearLayout
+                    android:id="@+id/add_child_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/small_margin"
+                    android:background="@drawable/round_white_button"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:padding="@dimen/medium_padding"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:src="@drawable/plus"
+                        app:tint="@color/black" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/medium_margin"
+                        android:fontFamily="@font/onest_regular"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:text="@string/add_child_button_text"
+                        android:textSize="@dimen/semi_small_font_size" />
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <LinearLayout
+            android:id="@+id/bottom_add_children_ll"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/medium_margin"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <Button
+                android:id="@+id/cancel_button"
+                android:layout_width="@dimen/cancel_continue_button_width"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
+                android:fontFamily="@font/onest_regular"
+                android:paddingHorizontal="@dimen/large_padding"
+                android:paddingVertical="@dimen/medium_padding"
+                android:text="@string/cancel"
+                android:textColor="@color/black" />
+
+            <Space
+                android:layout_width="@dimen/small_space_width"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/save_children_button"
+                android:layout_width="@dimen/cancel_continue_button_width"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/orange"
+                android:fontFamily="@font/onest_regular"
+                android:paddingHorizontal="@dimen/large_padding"
+                android:paddingVertical="@dimen/medium_padding"
+                android:text="@string/next"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

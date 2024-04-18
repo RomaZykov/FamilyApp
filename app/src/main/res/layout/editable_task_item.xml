@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/task_layout_height"
+        android:layout_margin="@dimen/extra_tiny_margin"
+        android:background="@drawable/round_task_card"
+        android:orientation="horizontal"
+        android:padding="@dimen/small_padding">
+
+        <TextView
+            android:id="@+id/task_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/small_margin"
+            android:layout_weight="1"
+            android:gravity="start"
+            android:textSize="14sp"
+            tools:text="Написать контрольную минимум на 4" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/goal_item_points"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/tiny_margin"
+            android:backgroundTint="@color/white_opacity_90"
+            app:cardCornerRadius="@dimen/extra_large_corner_radius">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/tiny_padding">
+
+                <TextView
+                    android:id="@+id/task_points"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/onest_regular"
+                    android:textColor="@color/black"
+                    android:gravity="center"
+                    android:paddingHorizontal="@dimen/small_padding"
+                    tools:text="4" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/points" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <ImageButton
+            android:id="@+id/task_settings_button"
+            android:layout_width="@dimen/large_icon_size"
+            android:layout_height="@dimen/large_icon_size"
+            android:layout_gravity="center"
+            android:backgroundTint="@android:color/transparent"
+            android:src="@drawable/baseline_more_vert_24"
+            android:visibility="gone" />
+    </LinearLayout>
+</layout>

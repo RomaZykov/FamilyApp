@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/secondary_bottom_sheet_creation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/secondary_modal_bottom_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="720dp"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+            <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+                android:id="@+id/drag_handle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/extra_large_margin"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@id/bottom_linear_layout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:id="@+id/top_bar_ll"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:id="@+id/back_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginHorizontal="@dimen/small_margin"
+                            android:background="@drawable/arrow_l"
+                            android:padding="@dimen/medium_padding" />
+
+                        <TextView
+                            android:id="@+id/title"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:fontFamily="@font/onest_regular"
+                            android:gravity="center"
+                            android:text="@string/repeat_task"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/medium_font_size" />
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:id="@+id/task_settings_ll"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RadioGroup
+                            android:id="@+id/radio_group_1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/medium_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:orientation="vertical">
+
+                            <RadioButton
+                                android:id="@+id/radio_every_day"
+                                style="@style/Widget.App.RadioButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="true"
+                                android:fontFamily="@font/onest_regular"
+                                android:text="@string/radio_every_day"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/semi_small_font_size" />
+
+                            <RadioButton
+                                android:id="@+id/radio_per_week"
+                                style="@style/Widget.App.RadioButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/onest_regular"
+                                android:text="@string/radio_per_week"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/semi_small_font_size" />
+
+                            <RadioButton
+                                android:id="@+id/radio_per_month"
+                                style="@style/Widget.App.RadioButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/onest_regular"
+                                android:text="@string/radio_per_month"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/semi_small_font_size" />
+                        </RadioGroup>
+
+                        <com.google.android.material.divider.MaterialDivider
+                            android:id="@+id/divider_1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            app:dividerColor="@color/soft_orange"
+                            app:dividerInsetEnd="@dimen/divider_inset"
+                            app:dividerInsetStart="@dimen/divider_inset" />
+
+                        <LinearLayout
+                            android:id="@+id/month_days_ll"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/semi_medium_margin"
+                            android:layout_marginVertical="@dimen/medium_margin"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:id="@+id/days_of_month_to_repeat_tv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/medium_margin"
+                                android:fontFamily="@font/onest_regular"
+                                android:gravity="start"
+                                android:text="@string/days_of_month_to_repeat"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/medium_font_size" />
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/set_date_edit_text"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                android:layout_width="@dimen/date_box_width"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/small_margin"
+                                android:hint="@string/set_date_hint"
+                                app:boxBackgroundColor="@color/white"
+                                app:boxCornerRadiusBottomEnd="@dimen/medium_corner_radius"
+                                app:boxCornerRadiusBottomStart="@dimen/medium_corner_radius"
+                                app:boxCornerRadiusTopEnd="@dimen/medium_corner_radius"
+                                app:boxCornerRadiusTopStart="@dimen/medium_corner_radius"
+                                app:boxStrokeColor="@color/orange"
+                                app:boxStrokeWidth="@dimen/zero_stroke_width"
+                                app:hintTextAppearance="@style/TextAppearance.Design.Hint.Small"
+                                app:hintTextColor="@color/black">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/black"
+                                    android:inputType="date" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <LinearLayout
+                                android:id="@+id/add_date"
+                                android:layout_width="@dimen/date_box_width"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="@dimen/small_margin"
+                                android:background="@drawable/round_white_button"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:gravity="center"
+                                android:padding="@dimen/small_padding"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:src="@drawable/plus"
+                                    app:tint="@color/black" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginStart="@dimen/medium_margin"
+                                    android:fontFamily="@font/onest_regular"
+                                    android:gravity="center"
+                                    android:text="@string/set_date"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/semi_small_font_size" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/days_to_repeat_tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/semi_small_font_size"
+                            android:layout_marginTop="@dimen/medium_margin"
+                            android:fontFamily="@font/onest_regular"
+                            android:gravity="start"
+                            android:text="@string/days_to_repeat"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/medium_font_size"
+                            android:visibility="gone" />
+
+                        <LinearLayout
+                            android:id="@+id/weekdays_ll"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/super_layout_height"
+                            android:layout_marginHorizontal="@dimen/medium_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginBottom="@dimen/medium_margin"
+                            android:orientation="horizontal"
+                            android:visibility="gone">
+
+                            <ToggleButton
+                                android:id="@+id/monday"
+                                android:layout_width="@dimen/super_layout_height"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/checked_weekdays_button"
+                                android:checked="false"
+                                android:clickable="true"
+                                android:elevation="@dimen/zero_elevation"
+                                android:focusable="true"
+                                android:fontFamily="@font/onest_regular"
+                                android:textColor="@color/black"
+                                android:textOff="@string/monday_short"
+                                android:textOn="@string/monday_short" />
+
+                            <Space
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1" />
+
+                            <ToggleButton
+                                android:id="@+id/tuesday"
+                                android:layout_width="@dimen/super_layout_width"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/checked_weekdays_button"
+                                android:checked="false"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:fontFamily="@font/onest_regular"
+                                android:textColor="@color/black"
+                                android:textOff="@string/tuesday_short"
+                                android:textOn="@string/tuesday_short" />
+
+                            <Space
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1" />
+
+                            <ToggleButton
+                                android:id="@+id/wednesday"
+                                android:layout_width="@dimen/super_layout_width"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/checked_weekdays_button"
+                                android:checked="false"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:fontFamily="@font/onest_regular"
+                                android:textColor="@color/black"
+                                android:textOff="@string/wednesday_short"
+                                android:textOn="@string/wednesday_short" />
+
+                            <Space
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1" />
+
+                            <ToggleButton
+                                android:id="@+id/thursday"
+                                android:layout_width="@dimen/super_layout_width"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/checked_weekdays_button"
+                                android:checked="false"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:fontFamily="@font/onest_regular"
+                                android:textColor="@color/black"
+                                android:textOff="@string/thursday_short"
+                                android:textOn="@string/thursday_short" />
+
+                            <Space
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1" />
+
+                            <ToggleButton
+                                android:id="@+id/friday"
+                                android:layout_width="@dimen/super_layout_width"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/checked_weekdays_button"
+                                android:checked="false"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:fontFamily="@font/onest_regular"
+                                android:textColor="@color/black"
+                                android:textOff="@string/friday_short"
+                                android:textOn="@string/friday_short" />
+
+                            <Space
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1" />
+
+                            <ToggleButton
+                                android:id="@+id/saturday"
+                                android:layout_width="@dimen/super_layout_width"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/checked_weekdays_button"
+                                android:checked="false"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:fontFamily="@font/onest_regular"
+                                android:textColor="@color/black"
+                                android:textOff="@string/saturday_short"
+                                android:textOn="@string/saturday_short" />
+
+                            <Space
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1" />
+
+                            <ToggleButton
+                                android:id="@+id/sunday"
+                                android:layout_width="@dimen/super_layout_width"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/checked_weekdays_button"
+                                android:checked="false"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:fontFamily="@font/onest_regular"
+                                android:textColor="@color/black"
+                                android:textOff="@string/sunday_short"
+                                android:textOn="@string/sunday_short" />
+                        </LinearLayout>
+
+                        <com.google.android.material.divider.MaterialDivider
+                            android:id="@+id/divider_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:dividerColor="@color/soft_orange"
+                            app:dividerInsetEnd="@dimen/divider_inset"
+                            app:dividerInsetStart="@dimen/divider_inset" />
+
+                        <TextView
+                            android:id="@+id/when_to_stop_tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/medium_margin"
+                            android:layout_marginTop="@dimen/medium_margin"
+                            android:fontFamily="@font/onest_regular"
+                            android:textColor="@color/black"
+                            android:gravity="start"
+                            android:text="@string/when_to_stop"
+                            android:textSize="@dimen/medium_font_size" />
+
+                        <RadioGroup
+                            android:id="@+id/radio_group_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/medium_margin"
+                            android:orientation="vertical">
+
+                            <RadioButton
+                                android:id="@+id/radio_never"
+                                style="@style/Widget.App.RadioButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="true"
+                                android:fontFamily="@font/onest_regular"
+                                android:textColor="@color/black"
+                                android:text="@string/radio_never"
+                                android:textSize="@dimen/semi_small_font_size" />
+
+                            <RadioButton
+                                android:id="@+id/radio_on_specific_date"
+                                style="@style/Widget.App.RadioButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/onest_regular"
+                                android:textColor="@color/black"
+                                android:text="@string/radio_on_specific_date"
+                                android:textSize="@dimen/semi_small_font_size" />
+
+                            <LinearLayout
+                                android:id="@+id/specific_date_edit_text"
+                                android:layout_width="@dimen/set_date_width"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/round_bg"
+                                android:orientation="horizontal"
+                                android:visibility="gone">
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    app:boxBackgroundMode="none"
+                                    app:hintEnabled="false"
+                                    app:hintTextAppearance="@style/TextAppearance.Design.Hint.Small"
+                                    app:hintTextColor="@color/gray">
+
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:hint="@string/set_date_hint"
+                                        android:textColor="@color/black"
+                                        android:inputType="date" />
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                                <ImageButton
+                                    android:id="@+id/date_picker_button"
+                                    android:layout_width="@dimen/date_picker_width"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginEnd="@dimen/medium_margin"
+                                    android:backgroundTint="@color/transparent"
+                                    android:src="@drawable/calendar" />
+                            </LinearLayout>
+
+                            <RadioButton
+                                android:id="@+id/radio_after_repeats"
+                                style="@style/Widget.App.RadioButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/onest_regular"
+                                android:text="@string/radio_after_repeats"
+                                android:textSize="@dimen/semi_small_font_size" />
+                        </RadioGroup>
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/repeat_counter_edit_text"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="@dimen/set_repeat_counter_date_width"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/medium_margin"
+                            android:layout_marginBottom="@dimen/small_margin"
+                            android:hint="@string/set_counter_of_day"
+                            android:visibility="gone"
+                            app:boxBackgroundColor="@color/white"
+                            app:boxCornerRadiusBottomEnd="@dimen/medium_corner_radius"
+                            app:boxCornerRadiusBottomStart="@dimen/medium_corner_radius"
+                            app:boxCornerRadiusTopEnd="@dimen/medium_corner_radius"
+                            app:boxCornerRadiusTopStart="@dimen/medium_corner_radius"
+                            app:boxStrokeColor="@color/orange"
+                            app:boxStrokeWidth="@dimen/zero_stroke_width"
+                            app:hintTextAppearance="@style/TextAppearance.Design.Hint.Small"
+                            app:hintTextColor="@color/black">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:inputType="number" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+
+            <LinearLayout
+                android:id="@id/bottom_linear_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/medium_margin"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <Button
+                    android:id="@+id/cancel_button"
+                    android:layout_width="@dimen/cancel_continue_button_width"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:fontFamily="@font/onest_regular"
+                    android:paddingHorizontal="@dimen/large_padding"
+                    android:paddingVertical="@dimen/medium_padding"
+                    android:text="@string/cancel"
+                    android:textColor="@color/black" />
+
+                <Space
+                    android:layout_width="@dimen/small_space_width"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:id="@+id/next_button"
+                    android:layout_width="@dimen/cancel_continue_button_width"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/orange"
+                    android:fontFamily="@font/onest_regular"
+                    android:paddingHorizontal="@dimen/large_padding"
+                    android:paddingVertical="@dimen/medium_padding"
+                    android:text="@string/save"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

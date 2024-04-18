@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/medium_child_card_height"
+        android:layout_margin="@dimen/tiny_margin"
+        android:background="@drawable/round_task_card"
+        android:clickable="true"
+        android:focusable="true"
+        android:orientation="horizontal"
+        android:padding="@dimen/small_padding">
+
+        <ImageView
+            android:id="@+id/medium_child_avatar"
+            android:layout_width="@dimen/super_icon_size"
+            android:layout_height="@dimen/super_icon_size"
+            android:src="@drawable/avatar_male_1" />
+
+        <TextView
+            android:id="@+id/child_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/medium_margin"
+            android:gravity="start"
+            android:textSize="@dimen/semi_small_font_size"
+            tools:text="Кирилл" />
+    </LinearLayout>
+</layout>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="default_background_stroke_width">12dp</dimen>
+
+    <dimen name="bottom_navigation_icons_padding">18dp</dimen>
+
+    <dimen name="menu_radius">24dp</dimen>
+    <dimen name="small_child_card_corner_radius">32dp</dimen>
+
+    <dimen name="medium_corner_radius">18dp</dimen>
+    <dimen name="zero_stroke_width">0dp</dimen>
+
+    <dimen name="super_layout_width">48dp</dimen>
+    <dimen name="super_layout_height">48dp</dimen>
+
+    <dimen name="icon_padding">8dp</dimen>
+
+    <dimen name="badge_size">8dp</dimen>
+
+    <dimen name="super_icon_size">48dp</dimen>
+    <dimen name="large_icon_size">32dp</dimen>
+    <dimen name="medium_icon_size">24dp</dimen>
+    <dimen name="small_icon_size">16dp</dimen>
+
+    <dimen name="large_padding">24dp</dimen>
+    <dimen name="semi_medium_padding">18dp</dimen>
+    <dimen name="medium_padding">16dp</dimen>
+    <dimen name="semi_small_padding">12dp</dimen>
+    <dimen name="small_padding">8dp</dimen>
+    <dimen name="tiny_padding">4dp</dimen>
+    <dimen name="extra_tiny_padding">2dp</dimen>
+
+    <dimen name="super_margin">48dp</dimen>
+    <dimen name="extra_large_margin">32dp</dimen>
+    <dimen name="large_margin">24dp</dimen>
+    <dimen name="semi_medium_margin">18dp</dimen>
+    <dimen name="medium_margin">16dp</dimen>
+    <dimen name="small_margin">8dp</dimen>
+    <dimen name="tiny_margin">4dp</dimen>
+    <dimen name="extra_tiny_margin">2dp</dimen>
+
+    <dimen name="large_font_size">24sp</dimen>
+    <dimen name="semi_medium_font_size">18sp</dimen>
+    <dimen name="medium_font_size">16sp</dimen>
+    <dimen name="semi_small_font_size">14sp</dimen>
+    <dimen name="small_font_size">12sp</dimen>
+    <dimen name="tiny_font_size">10sp</dimen>
+
+    <dimen name="extra_large_corner_radius">32dp</dimen>
+    <dimen name="semi_medium_corner_radius">18dp</dimen>
+    <dimen name="medium_corners_radius">16dp</dimen>
+
+    <dimen name="set_data_width">170dp</dimen>
+
+    <dimen name="radio_button_width">52dp</dimen>
+
+    <dimen name="task_layout_height">68dp</dimen>
+
+    <dimen name="cancel_continue_button_width">178dp</dimen>
+
+    <dimen name="small_space_width">8dp</dimen>
+
+    <dimen name="welcome_page_height">480dp</dimen>
+    <dimen name="common_page_height">450dp</dimen>
+
+    <dimen name="medium_elevation">6dp</dimen>
+    <dimen name="zero_elevation">0dp</dimen>
+
+    <dimen name="slider_height">72dp</dimen>
+    <dimen name="slider_border_radius">2dp</dimen>
+    <dimen name="profile_image_size">120dp</dimen>
+
+    <dimen name="divider_inset">20dp</dimen>
+
+    <dimen name="date_box_width">170dp</dimen>
+
+    <dimen name="set_date_width">184dp</dimen>
+
+    <dimen name="date_picker_width">24dp</dimen>
+
+    <dimen name="set_repeat_counter_date_width">200dp</dimen>
+
+    <dimen name="medium_child_card_height">68dp</dimen>
+
+    <dimen name="notification_height">68dp</dimen>
+
+    <dimen name="profile_photo_size">56dp</dimen>
+
+    <dimen name="add_child_button_width">48dp</dimen>
+
+    <dimen name="small_child_width">144dp</dimen>
+    <dimen name="small_child_height">48dp</dimen>
+
+    <dimen name="medium_task_height">68dp</dimen>
+
+    <dimen name="task_creation_stroke_width">0dp</dimen>
+</resources>

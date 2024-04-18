@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/ultra_light_orange"
+        tools:context=".ParentProfileFragment">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/parent_profile_top_app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            app:layout_constraintBottom_toTopOf="@+id/profile_card"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintVertical_chainStyle="packed">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/parent_profile_app_bar"
+                style="@style/Widget.MaterialComponents.Toolbar.Primary"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:navigationIcon="@drawable/baseline_arrow_back_24"
+                app:title="@string/profile_title"
+                app:titleCentered="true"
+                app:titleTextAppearance="@style/ActionBar.TitleText.Medium"
+                app:titleTextColor="@color/black" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <include
+            android:id="@+id/profile_card"
+            layout="@layout/parent_profile_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/medium_margin"
+            app:layout_constraintBottom_toTopOf="@id/profile_ll"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/parent_profile_top_app_bar" />
+
+        <LinearLayout
+            android:id="@+id/profile_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/medium_margin"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@id/top_notifications_ll"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profile_card">
+
+            <LinearLayout
+                android:id="@+id/my_children_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/medium_margin"
+                android:layout_marginVertical="@dimen/tiny_margin"
+                android:background="@drawable/round_wide_button"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="horizontal"
+                android:paddingVertical="@dimen/large_padding"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/large_margin"
+                    android:gravity="center"
+                    android:src="@drawable/profile" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/medium_margin"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/onest_regular"
+                    android:textColor="@color/black"
+                    android:gravity="start|center"
+                    android:text="@string/my_children"
+                    android:textSize="@dimen/semi_small_font_size" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:paddingHorizontal="@dimen/small_padding"
+                    android:src="@drawable/chevron_r" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/notifications_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/medium_margin"
+                android:layout_marginVertical="@dimen/tiny_margin"
+                android:background="@drawable/round_wide_button"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="horizontal"
+                android:paddingVertical="@dimen/tiny_padding"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/large_margin"
+                    android:gravity="center"
+                    android:src="@drawable/notification_bing" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/medium_margin"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/onest_regular"
+                    android:textColor="@color/black"
+                    android:gravity="start|center"
+                    android:text="@string/notifications"
+                    android:textSize="@dimen/semi_small_font_size" />
+
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/notifications_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingHorizontal="@dimen/large_padding" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/sign_out_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/medium_margin"
+                android:layout_marginVertical="@dimen/tiny_margin"
+                android:background="@drawable/round_wide_button"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="horizontal"
+                android:paddingVertical="@dimen/large_padding"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="@dimen/large_margin"
+                    android:gravity="center"
+                    android:src="@drawable/logout" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/medium_margin"
+                    android:fontFamily="@font/onest_regular"
+                    android:textColor="@color/black"
+                    android:gravity="center"
+                    android:text="@string/log_out"
+                    android:textSize="@dimen/semi_small_font_size" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/top_notifications_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/medium_margin"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/rv_notifications_list"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profile_ll">
+
+            <TextView
+                android:id="@+id/notifications_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/onest_regular"
+                android:textColor="@color/black"
+                android:gravity="start"
+                android:text="@string/notifications"
+                android:textSize="@dimen/medium_font_size" />
+
+            <TextView
+                android:id="@+id/notifications_title_badge"
+                android:layout_width="@dimen/small_icon_size"
+                android:layout_height="@dimen/small_icon_size"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/small_margin"
+                android:background="@drawable/badge_circle_red"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/tiny_font_size"
+                tools:text="99" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/delete_notifications_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="@font/onest_regular"
+                android:gravity="center"
+                android:text="@string/delete_all_notifications"
+                android:textColor="@color/red"
+                android:textSize="@dimen/semi_small_font_size"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/empty_notifications_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/medium_margin"
+            android:layout_marginTop="@dimen/medium_margin"
+            android:fontFamily="@font/onest_regular"
+            android:gravity="start"
+            android:text="@string/empty_notifications"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/semi_small_font_size"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/top_notifications_ll" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_notifications_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/medium_margin"
+            android:layout_marginTop="@dimen/small_margin"
+            android:nestedScrollingEnabled="false"
+            android:visibility="gone"
+            app:layoutManager="LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/top_notifications_ll" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

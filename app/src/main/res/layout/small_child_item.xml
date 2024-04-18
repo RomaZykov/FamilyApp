@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/small_child_width"
+    android:layout_height="@dimen/small_child_height"
+    android:layout_marginHorizontal="@dimen/tiny_margin"
+    android:backgroundTint="@color/child_item_selector"
+    android:clickable="true"
+    android:focusable="true"
+    card_view:cardCornerRadius="@dimen/small_child_card_corner_radius"
+    card_view:checkedIcon="@color/transparent"
+    card_view:strokeWidth="@dimen/zero_stroke_width">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/small_child_avatar"
+            android:layout_width="@dimen/super_icon_size"
+            android:layout_height="match_parent"
+            android:padding="@dimen/extra_tiny_padding"
+            android:src="@drawable/avatar_male_1" />
+
+        <TextView
+            android:id="@+id/small_child_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/tiny_margin"
+            android:layout_marginEnd="@dimen/medium_margin"
+            android:fontFamily="@font/onest_regular"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:textSize="@dimen/semi_small_font_size"
+            tools:text="Ребёнок" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <com.google.android.material.button.MaterialButton xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/add_child_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/small_margin"
+        android:clickable="true"
+        android:enabled="false"
+        android:focusable="true"
+        android:fontFamily="@font/onest_regular"
+        android:gravity="center"
+        android:padding="@dimen/medium_padding"
+        android:text="@string/add_child_button_text"
+        android:textColor="@color/black"
+        app:icon="@drawable/plus"
+        app:iconGravity="textStart"
+        app:iconSize="@dimen/medium_icon_size"
+        app:iconTint="@color/black" />
+</layout>

@@ -1,0 +1,19 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Moguchi" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="colorPrimary">@color/ultra_light_orange</item>
+        <item name="colorPrimaryVariant">@color/ultra_soft_orange</item>
+        <item name="colorOnPrimary">@color/orange</item>
+        <item name="extendedFloatingActionButtonStyle">
+            @style/Widget.App.ExtendedFloatingActionButton
+        </item>
+        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialog</item>
+        <item name="android:dropDownListViewStyle">@style/PopupMenuListView</item>
+    </style>
+
+    <style name="ThemeOverlay.App.BottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/ModalBottomSheetDialog</item>
+    </style>
+
+</resources>
