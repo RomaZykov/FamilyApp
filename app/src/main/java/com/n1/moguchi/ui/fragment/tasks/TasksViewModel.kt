@@ -97,32 +97,29 @@ class TasksViewModel @Inject constructor(
     fun updateTaskStatus(task: Task, isActiveTask: Boolean) {
         viewModelScope.launch {
             if (isActiveTask) {
-                val taskToUpdate = _activeTasks.value?.single { it.taskId == task.taskId }.also {
+                val taskToUpdate = _activeTasks.value?.find { it.taskId == task.taskId }.also {
                     it?.taskCompleted = true
                 }
-                _activeTasks.value = _activeTasks.value?.dropWhile { it.taskId == task.taskId }
+                _activeTasks.value?.dropWhile { it.taskId == task.taskId }
                 if (taskToUpdate != null) {
-                    _completedTasks.value = _completedTasks.value?.plus(taskToUpdate)
+                    _completedTasks.value?.plus(taskToUpdate)
                 }
             } else {
-                val taskToUpdate = _completedTasks.value?.single { it.taskId == task.taskId }.also {
+                val taskToUpdate = _completedTasks.value?.find { it.taskId == task.taskId }.also {
                     it?.taskCompleted = false
                 }
-                _completedTasks.value =
-                    _completedTasks.value?.dropWhile { it.taskId == task.taskId }
+                _completedTasks.value?.dropWhile { it.taskId == task.taskId }
                 if (taskToUpdate != null) {
-                    _activeTasks.value = _activeTasks.value?.plus(taskToUpdate)
+                    _activeTasks.value?.plus(taskToUpdate)
                 }
             }
 
             // Update goal progression
-            viewModelScope.launch {
-                goalRepository.getGoal(task.goalOwnerId!!).also {
-                    if (task.taskCompleted) {
-                        _currentGoalPoints.value = _currentGoalPoints.value?.plus(task.height)
-                    } else {
-                        _currentGoalPoints.value = _currentGoalPoints.value?.minus(task.height)
-                    }
+            goalRepository.getGoal(task.goalOwnerId!!).also {
+                if (task.taskCompleted) {
+                    _currentGoalPoints.value = _currentGoalPoints.value?.plus(task.height)
+                } else {
+                    _currentGoalPoints.value = _currentGoalPoints.value?.minus(task.height)
                 }
             }
             taskRepository.updateTask(task)
@@ -134,7 +131,10 @@ class TasksViewModel @Inject constructor(
             goalRepository.getGoal(task.goalOwnerId!!).also {
                 _secondaryProgression.value = _secondaryProgression.value?.plus(task.height)
             }
-            taskRepository.updateTask(task)
+            val updatedTask = task.copy(
+                onCheck = !task.onCheck
+            )
+            taskRepository.updateTask(updatedTask)
         }
     }
 
@@ -149,6 +149,7 @@ class TasksViewModel @Inject constructor(
             } else {
                 goalRepository.updateSecondaryGoalPoints(goalId, taskHeight)
             }
+
             goalRepository.getGoal(goalId).also {
                 if (it.currentPoints >= it.totalPoints && !it.goalCompleted) {
                     goalRepository.updateGoalStatus(goalId)
