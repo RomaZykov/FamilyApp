@@ -18,7 +18,7 @@ class TaskRepositoryImpl @Inject constructor(
 
     private val tasksRef = database.getReference("tasks")
 
-    override fun returnCreatedTask(goalId: String): Task {
+    override fun createTask(goalId: String): Task {
         val taskId: String = UUID.randomUUID().toString()
         return Task(
             taskId = taskId,
@@ -36,33 +36,20 @@ class TaskRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun createTask(task: Task, goalId: String): Task {
-        val taskId: String = UUID.randomUUID().toString()
-        val taskRefByGoalId = tasksRef.child(goalId).child(taskId)
-        val newTask = task.copy(
-            taskId = taskId,
-            goalOwnerId = goalId,
-            taskCompleted = false
-        )
-        taskRefByGoalId.setValue(newTask)
-        return newTask
-    }
-
     override suspend fun deleteTask(goalId: String, task: Task) {
         val taskRefById = tasksRef.child(goalId).child(task.taskId)
         taskRefById.removeValue()
     }
-    override suspend fun updateTask(task: Task): Task {
+    override suspend fun updateTask(task: Task) {
         val taskRefByGoalId = tasksRef.child(task.goalOwnerId!!).child(task.taskId)
         val updatedTask = task.copy(
             height = task.height,
             title = task.title,
             taskCompleted = task.taskCompleted,
-            onCheck = !task.onCheck
+            onCheck = task.onCheck
         )
         val taskValues = updatedTask.toMap()
         taskRefByGoalId.updateChildren(taskValues)
-        return updatedTask
     }
 
     override fun fetchAllTasks(goalId: String): Flow<List<Task>> = callbackFlow {
