@@ -113,8 +113,9 @@ class GoalRepositoryImpl @Inject constructor(
         val goal = goalRef.get().await().getValue(Goal::class.java)
         val currentGoalPoints = goal?.currentPoints
         val secondaryGoalPoints = goal?.secondaryPoints
+        val currentGoalPointsAfterChange = currentGoalPoints?.plus(taskHeight) ?: 0
         val updatedGoal = goal?.copy(
-            currentPoints = currentGoalPoints?.plus(taskHeight) ?: 0,
+            currentPoints = if (currentGoalPointsAfterChange > 0) currentGoalPointsAfterChange else 0,
             secondaryPoints = secondaryGoalPoints?.plus(taskHeight) ?: 0
         )
         val goalValues = updatedGoal?.toMap()

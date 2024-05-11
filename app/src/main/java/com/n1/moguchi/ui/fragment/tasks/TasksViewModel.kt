@@ -75,10 +75,9 @@ class TasksViewModel @Inject constructor(
         viewModelScope.launch {
             taskRepository.deleteTask(goalId, task)
             if (isActiveTask) {
-                _activeTasks.value = _activeTasks.value?.dropWhile { it.taskId == task.taskId }
+                _activeTasks.value?.dropWhile { it.taskId == task.taskId }
             } else {
-                _completedTasks.value =
-                    _completedTasks.value?.dropWhile { it.taskId == task.taskId }
+                _completedTasks.value?.dropWhile { it.taskId == task.taskId }
             }
         }
     }
@@ -103,6 +102,7 @@ class TasksViewModel @Inject constructor(
                 _activeTasks.value?.dropWhile { it.taskId == task.taskId }
                 if (taskToUpdate != null) {
                     _completedTasks.value?.plus(taskToUpdate)
+                    taskRepository.updateTask(taskToUpdate)
                 }
             } else {
                 val taskToUpdate = _completedTasks.value?.find { it.taskId == task.taskId }.also {
@@ -111,25 +111,25 @@ class TasksViewModel @Inject constructor(
                 _completedTasks.value?.dropWhile { it.taskId == task.taskId }
                 if (taskToUpdate != null) {
                     _activeTasks.value?.plus(taskToUpdate)
+                    taskRepository.updateTask(taskToUpdate)
                 }
             }
 
             // Update goal progression
             goalRepository.getGoal(task.goalOwnerId!!).also {
                 if (task.taskCompleted) {
-                    _currentGoalPoints.value = _currentGoalPoints.value?.plus(task.height)
+                    _currentGoalPoints.value?.plus(task.height)
                 } else {
-                    _currentGoalPoints.value = _currentGoalPoints.value?.minus(task.height)
+                    _currentGoalPoints.value?.minus(task.height)
                 }
             }
-            taskRepository.updateTask(task)
         }
     }
 
     fun updateTaskToCheckStatus(task: Task) {
         viewModelScope.launch {
             goalRepository.getGoal(task.goalOwnerId!!).also {
-                _secondaryProgression.value = _secondaryProgression.value?.plus(task.height)
+                _secondaryProgression.value?.plus(task.height)
             }
             val updatedTask = task.copy(
                 onCheck = !task.onCheck

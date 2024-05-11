@@ -54,6 +54,7 @@ class TasksViewModelTest {
         )
 
         viewModel.updateTaskStatus(activeTasksList[0], activeTasksList[0].taskCompleted)
+        taskRepository.updateTask(TODO())
         advanceUntilIdle()
         activeTasksList.remove(activeTasksList[0])
         completedTasksList.add(activeTasksList[0])

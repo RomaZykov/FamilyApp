@@ -194,14 +194,14 @@ class TasksFragment : Fragment() {
     private fun TasksViewModel.observeProgression() {
         currentGoalPoints.observe(viewLifecycleOwner) { currentPoints ->
             currentGoalHeight = currentPoints
-            totalGoalPoints.observe(viewLifecycleOwner) { totalPoints ->
-                totalGoalHeight = totalPoints
-                secondaryProgression.observe(viewLifecycleOwner) { secondaryProgress ->
-                    secondaryGoalHeight = secondaryProgress
+            secondaryProgression.observe(viewLifecycleOwner) { secondaryProgress ->
+                secondaryGoalHeight = secondaryProgress
+                totalGoalPoints.observe(viewLifecycleOwner) { totalPoints ->
+                    totalGoalHeight = totalPoints
                     setProgression(
                         currentGoalHeight,
-                        totalGoalHeight,
-                        secondaryGoalHeight
+                        secondaryGoalHeight,
+                        totalGoalHeight
                     )
                 }
             }
@@ -238,7 +238,7 @@ class TasksFragment : Fragment() {
         }
     }
 
-    private fun setProgression(currentPoints: Int, totalPoints: Int, secondaryProgress: Int) {
+    private fun setProgression(currentPoints: Int, secondaryProgress: Int, totalPoints: Int) {
         binding.tasksPoints.text = getString(
             R.string.current_total_goal_points,
             currentPoints,
