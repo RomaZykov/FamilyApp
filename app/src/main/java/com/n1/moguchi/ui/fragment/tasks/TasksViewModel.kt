@@ -1,5 +1,6 @@
 package com.n1.moguchi.ui.fragment.tasks
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -98,6 +99,7 @@ class TasksViewModel @Inject constructor(
             if (isActiveTask) {
                 val taskToUpdate = _activeTasks.value?.find { it.taskId == task.taskId }.also {
                     it?.taskCompleted = true
+                    it?.onCheck = if (task.onCheck) !task.onCheck else false
                 }
                 _activeTasks.value?.dropWhile { it.taskId == task.taskId }
                 if (taskToUpdate != null) {
@@ -107,6 +109,7 @@ class TasksViewModel @Inject constructor(
             } else {
                 val taskToUpdate = _completedTasks.value?.find { it.taskId == task.taskId }.also {
                     it?.taskCompleted = false
+                    it?.onCheck = if (task.onCheck) !task.onCheck else false
                 }
                 _completedTasks.value?.dropWhile { it.taskId == task.taskId }
                 if (taskToUpdate != null) {
