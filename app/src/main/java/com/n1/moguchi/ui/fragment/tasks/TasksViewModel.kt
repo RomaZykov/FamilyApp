@@ -126,11 +126,8 @@ class TasksViewModel @Inject constructor(
         }
     }
 
-    fun updateTaskToCheckStatus(task: Task) {
+    fun updateTaskCheckStatus(task: Task) {
         viewModelScope.launch {
-            goalRepository.getGoal(task.goalOwnerId!!).also {
-                _secondaryProgression.value?.plus(task.height)
-            }
             val updatedTask = task.copy(
                 onCheck = !task.onCheck
             )

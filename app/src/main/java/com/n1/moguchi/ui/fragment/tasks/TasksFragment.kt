@@ -228,10 +228,13 @@ class TasksFragment : Fragment() {
         tasksRecyclerAdapter.onTaskStatusChangedClicked = { task, isActiveTask ->
             if (relatedGoalId != null) {
                 if (isActiveTask != null) {
+                    if (task.onCheck) {
+                        viewModel.updateTaskCheckStatus(task)
+                    }
                     viewModel.updateTaskStatus(task, isActiveTask)
                     viewModel.updateRelatedGoal(relatedGoalId, task.height, isActiveTask)
                 } else {
-                    viewModel.updateTaskToCheckStatus(task)
+                    viewModel.updateTaskCheckStatus(task)
                     viewModel.updateRelatedGoal(relatedGoalId, task.height, null)
                 }
             }

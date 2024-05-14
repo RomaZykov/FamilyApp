@@ -59,6 +59,8 @@ class TasksRecyclerAdapter(
             binding.taskPoints.text = task.height.toString()
             if (task.onCheck) {
                 binding.taskOnCheckStatusIcon.visibility = View.VISIBLE
+            } else {
+                binding.taskOnCheckStatusIcon.visibility = View.GONE
             }
 
             when (tasksMode) {
