@@ -23,7 +23,7 @@
             tools:text="Написать контрольную минимум на 4" />
 
         <!--    TODO - Replace with common layout-->
-        <ImageView
+        <ImageButton
             android:id="@+id/task_check_status_icon"
             android:layout_width="@dimen/large_icon_size"
             android:layout_height="@dimen/large_icon_size"

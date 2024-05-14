@@ -2,6 +2,7 @@ package com.n1.moguchi.ui.adapter
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -78,6 +79,7 @@ class GoalsRecyclerAdapter(
                     if (relatedTasks.size - i >= 0) {
                         val taskSmallItem = LayoutInflater.from(context)
                             .inflate(R.layout.task_item, this, false)
+
                         with(taskSmallItem) {
                             backgroundTintList =
                                 ColorStateList.valueOf(resources.getColor(R.color.white_opacity_90))
@@ -85,8 +87,14 @@ class GoalsRecyclerAdapter(
                             rootView.findViewById<TextView>(R.id.task_points).text =
                                 relatedTasks[i - 1].height.toString()
                             if (relatedTasks[i - 1].onCheck) {
-                                findViewById<ImageView>(R.id.task_check_status_icon).visibility =
-                                    View.VISIBLE
+                                val checkIcon = findViewById<ImageView>(R.id.task_check_status_icon)
+                                checkIcon.visibility = View.VISIBLE
+                                checkIcon.setOnClickListener {
+                                    // TODO - Add for old api versions
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                        it.tooltipText = context.getString(R.string.on_check_status)
+                                    }
+                                }
                             }
                         }
                         addView(taskSmallItem)
