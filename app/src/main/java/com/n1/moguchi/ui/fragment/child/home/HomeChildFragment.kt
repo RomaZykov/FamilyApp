@@ -7,10 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,6 +19,7 @@ import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.activity.MainActivity
 import com.n1.moguchi.ui.adapter.CompletedGoalsRecyclerAdapter
 import com.n1.moguchi.ui.adapter.GoalsRecyclerAdapter
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,10 +29,10 @@ class HomeChildFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var childGoalsRecyclerAdapter: GoalsRecyclerAdapter
-
     private lateinit var childCompletedGoalsRecyclerAdapter: CompletedGoalsRecyclerAdapter
-    private var currentChildId: String? = null
+    private lateinit var loadChildPrefs: Job
 
+    private var currentChildId: String? = null
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -65,28 +64,26 @@ class HomeChildFragment : Fragment() {
         val navController = findNavController()
 
         if (arguments == null) {
-            lifecycleScope.launch {
+            loadChildPrefs = lifecycleScope.launch {
                 viewModel.getUserPrefs().collect {
                     currentChildId = it.currentChildId
+                    (activity as MainActivity).intent.putExtras(childIdBundle(currentChildId!!))
                 }
             }
         } else {
             currentChildId = requireArguments().getString("childId")
+            (activity as MainActivity).intent.putExtras(childIdBundle(currentChildId!!))
         }
-        (activity as MainActivity).intent.putExtras(childIdBundle(currentChildId!!))
 
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.fetchChildData(currentChildId!!).collect {
-                    binding.childHomeAppBar.menu.findItem(R.id.childProfile)
-                        .setIcon(it.imageResourceId!!)
-                }
+            viewModel.fetchChildData(currentChildId!!).collect {
+                binding.childHomeAppBar.menu.findItem(R.id.childProfile)
+                    .setIcon(it.imageResourceId!!)
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.fetchActiveGoalsWithTasks(currentChildId!!)
-            viewModel.fetchCompletedGoalsWithTasks(currentChildId!!)
             viewModel.activeGoalsWithTasks.collect {
                 if (it.keys.isEmpty()) {
                     binding.activeGoalsNotFoundChild.visibility = View.VISIBLE
@@ -113,6 +110,7 @@ class HomeChildFragment : Fragment() {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.fetchCompletedGoalsWithTasks(currentChildId!!)
             viewModel.completedGoalsWithTasks.collect {
                 if (it.keys.isNotEmpty()) {
                     binding.completedGoalsChildSide.root.visibility = View.VISIBLE
