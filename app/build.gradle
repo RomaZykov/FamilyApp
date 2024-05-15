@@ -24,8 +24,8 @@ android {
         applicationId "com.n1.moguchi"
         minSdk 24
         targetSdk 34
-        versionCode 36
-        versionName "1.10.0"
+        versionCode 37
+        versionName "1.10.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.debug
