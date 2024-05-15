@@ -1,5 +1,6 @@
 package com.n1.moguchi.ui.adapter
 
+import android.os.Build
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
@@ -51,6 +52,7 @@ class TasksRecyclerAdapter(
     inner class EditableTaskViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView), PopupMenu.OnMenuItemClickListener {
         private val binding = EditableTaskItemBinding.bind(itemView)
+        private val context = itemView.context
         private var task: Task? = null
 
         fun bind(task: Task, tasksMode: TasksMode) {
@@ -59,6 +61,8 @@ class TasksRecyclerAdapter(
             binding.taskPoints.text = task.height.toString()
             if (task.onCheck) {
                 binding.taskOnCheckStatusIcon.visibility = View.VISIBLE
+            } else {
+                binding.taskOnCheckStatusIcon.visibility = View.GONE
             }
 
             when (tasksMode) {
@@ -90,6 +94,13 @@ class TasksRecyclerAdapter(
                     } else {
                         binding.taskCompletedIcon.visibility = View.GONE
                     }
+                }
+            }
+
+            binding.taskOnCheckStatusIcon.setOnClickListener {
+                // TODO - Add for old api versions
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    it.tooltipText = context.getString(R.string.on_check_status)
                 }
             }
         }

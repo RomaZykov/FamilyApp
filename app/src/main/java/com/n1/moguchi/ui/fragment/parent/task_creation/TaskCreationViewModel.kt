@@ -39,7 +39,7 @@ class TaskCreationViewModel @Inject constructor(
     }
 
     fun returnCreatedTask(goalId: String): Task {
-        val preparedTask = taskRepository.returnCreatedTask(goalId)
+        val preparedTask = taskRepository.createTask(goalId)
         tasksList.add(preparedTask)
         taskHeightTotal += preparedTask.height
         _currentGoalPoints.value = taskHeightTotal

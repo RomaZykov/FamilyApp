@@ -161,5 +161,6 @@
     <string name="active_goals_not_found">Активных целей нет</string>
     <string name="password_edit_text_error">Поле пусто</string>
     <string name="check_completed_task">Сделано, на проверку</string>
+    <string name="on_check_status">На проверке</string>
 
 </resources>
