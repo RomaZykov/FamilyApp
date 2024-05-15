@@ -34,7 +34,6 @@ class TasksFragment : Fragment() {
     private lateinit var tasksRecyclerAdapter: TasksRecyclerAdapter
     private var currentProfileMode: String? = null
     private var currentGoalHeight: Int = 0
-    private var secondaryGoalHeight: Int = 0
     private var totalGoalHeight: Int = 0
 
     @Inject
@@ -194,16 +193,12 @@ class TasksFragment : Fragment() {
     private fun TasksViewModel.observeProgression() {
         currentGoalPoints.observe(viewLifecycleOwner) { currentPoints ->
             currentGoalHeight = currentPoints
-            secondaryProgression.observe(viewLifecycleOwner) { secondaryProgress ->
-                secondaryGoalHeight = secondaryProgress
-                totalGoalPoints.observe(viewLifecycleOwner) { totalPoints ->
-                    totalGoalHeight = totalPoints
-                    setProgression(
-                        currentGoalHeight,
-                        secondaryGoalHeight,
-                        totalGoalHeight
-                    )
-                }
+            totalGoalPoints.observe(viewLifecycleOwner) { totalPoints ->
+                totalGoalHeight = totalPoints
+                setProgression(
+                    currentGoalHeight,
+                    totalGoalHeight
+                )
             }
         }
     }
@@ -238,14 +233,13 @@ class TasksFragment : Fragment() {
         }
     }
 
-    private fun setProgression(currentPoints: Int, secondaryProgress: Int, totalPoints: Int) {
+    private fun setProgression(currentPoints: Int, totalPoints: Int) {
         binding.tasksPoints.text = getString(
             R.string.current_total_goal_points,
             currentPoints,
             totalPoints
         )
         binding.tasksProgressBar.progress = currentPoints
-        binding.tasksProgressBar.secondaryProgress = secondaryProgress
         binding.tasksProgressBar.max = totalPoints
     }
 

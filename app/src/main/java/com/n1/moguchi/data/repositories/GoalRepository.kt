@@ -11,6 +11,5 @@ interface GoalRepository {
     fun returnCreatedGoal(title: String, totalPoints: Int, childId: String): Goal
     suspend fun saveGoalWithTasksToDb(goal: Goal, tasks: List<Task>)
     suspend fun updateGoalPoints(goalId: String, taskHeight: Int)
-    suspend fun updateSecondaryGoalPoints(goalId: String, taskHeight: Int)
     suspend fun updateGoalStatus(goalId: String)
 }

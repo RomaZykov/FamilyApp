@@ -33,9 +33,6 @@ class TasksViewModel @Inject constructor(
     private val _currentGoalPoints = MutableLiveData<Int>()
     val currentGoalPoints: LiveData<Int> = _currentGoalPoints
 
-    private val _secondaryProgression = MutableLiveData<Int>()
-    val secondaryProgression: LiveData<Int> = _secondaryProgression
-
     private val _goalTitle = MutableLiveData<String>()
     val goalTitle: LiveData<String> = _goalTitle
 
@@ -88,7 +85,6 @@ class TasksViewModel @Inject constructor(
             goalRepository.getGoal(goalId).also {
                 _currentGoalPoints.value = it.currentPoints
                 _totalGoalPoints.value = it.totalPoints
-                _secondaryProgression.value = it.secondaryPoints + it.currentPoints
                 _goalTitle.value = it.title
             }
         }
@@ -105,6 +101,7 @@ class TasksViewModel @Inject constructor(
                 if (taskToUpdate != null) {
                     _completedTasks.value?.plus(taskToUpdate)
                     taskRepository.updateTask(taskToUpdate)
+                    _currentGoalPoints.value = _currentGoalPoints.value?.plus(task.height)
                 }
             } else {
                 val taskToUpdate = _completedTasks.value?.find { it.taskId == task.taskId }.also {
@@ -114,16 +111,13 @@ class TasksViewModel @Inject constructor(
                 _completedTasks.value?.dropWhile { it.taskId == task.taskId }
                 if (taskToUpdate != null) {
                     _activeTasks.value?.plus(taskToUpdate)
-                    taskRepository.updateTask(taskToUpdate)
-                }
-            }
-
-            // Update goal progression
-            goalRepository.getGoal(task.goalOwnerId!!).also {
-                if (task.taskCompleted) {
-                    _currentGoalPoints.value?.plus(task.height)
-                } else {
-                    _currentGoalPoints.value?.minus(task.height)
+                    taskRepository.updateTask(taskToUpdate).also {
+                        val currentPoints = _currentGoalPoints.value
+                        _currentGoalPoints.value =
+                            if (currentPoints!! - task.height < 0) 0 else _currentGoalPoints.value?.minus(
+                                task.height
+                            )
+                    }
                 }
             }
         }
@@ -146,8 +140,6 @@ class TasksViewModel @Inject constructor(
                 } else {
                     goalRepository.updateGoalPoints(goalId, -taskHeight)
                 }
-            } else {
-                goalRepository.updateSecondaryGoalPoints(goalId, taskHeight)
             }
 
             goalRepository.getGoal(goalId).also {

@@ -30,10 +30,6 @@ class FakeGoalRepository : GoalRepository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun updateSecondaryGoalPoints(goalId: String, taskHeight: Int) {
-        TODO("Not yet implemented")
-    }
-
     override suspend fun updateGoalStatus(goalId: String) {
         TODO("Not yet implemented")
     }
