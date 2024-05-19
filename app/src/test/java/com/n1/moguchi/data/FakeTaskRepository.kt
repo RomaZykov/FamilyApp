@@ -6,26 +6,25 @@ import androidx.lifecycle.MutableLiveData
 import com.n1.moguchi.data.models.remote.Task
 import com.n1.moguchi.data.repositories.TaskRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import java.util.UUID
 
 class FakeTaskRepository : TaskRepository {
 
-    private val _activeTasks = MutableLiveData<List<Task>>()
-    val activeTasks: LiveData<List<Task>> = _activeTasks
+    private val activeTasks = mutableListOf<Task>()
+    private val completedTasks = mutableListOf<Task>()
 
-    private val _completedTasks = MutableLiveData<List<Task>>()
-    val completedTasks: LiveData<List<Task>> = _completedTasks
-
-    override fun fetchAllTasks(goalId: String): Flow<List<Task>> {
-        TODO("Not yet implemented")
+    override fun fetchAllTasks(goalId: String): Flow<List<Task>> = flow {
+        val tasks = activeTasks + completedTasks
+        emit(tasks)
     }
 
-    override fun fetchActiveTasks(goalId: String): Flow<List<Task>> {
-        TODO("Not yet implemented")
+    override fun fetchActiveTasks(goalId: String): Flow<List<Task>> = flow {
+        emit(activeTasks)
     }
 
-    override fun fetchCompletedTasks(goalId: String): Flow<List<Task>> {
-        TODO("Not yet implemented")
+    override fun fetchCompletedTasks(goalId: String): Flow<List<Task>> = flow {
+        emit(completedTasks)
     }
 
     override fun createTask(goalId: String): Task {
@@ -34,7 +33,13 @@ class FakeTaskRepository : TaskRepository {
     }
 
     override suspend fun updateTask(task: Task) {
-        TODO("Not yet implemented")
+        if (!task.taskCompleted) {
+            activeTasks.removeIf { task.taskId == it.taskId }
+            completedTasks.add(task)
+        } else {
+            completedTasks.removeIf { task.taskId == it.taskId }
+            activeTasks.add(task)
+        }
     }
 
     override suspend fun deleteTask(goalId: String, task: Task) {
@@ -50,18 +55,18 @@ class FakeTaskRepository : TaskRepository {
     @VisibleForTesting
     fun addTasks(tasks: List<Task>) {
         for (task in tasks) {
-            if (task.taskCompleted) {
-                _activeTasks.value?.plus(task)
+            if (!task.taskCompleted) {
+                activeTasks.add(task)
             } else {
-                _completedTasks.value?.plus(task)
+                completedTasks.add(task)
             }
         }
     }
 
     @VisibleForTesting
     fun getActiveTask(): Task {
-        return if (_activeTasks.value?.isNotEmpty() == true) {
-            _activeTasks.value!!.first()
+        return if (activeTasks.isNotEmpty()) {
+            activeTasks.first()
         } else {
             throw Exception("Test exception")
         }
