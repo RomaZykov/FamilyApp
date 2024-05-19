@@ -1,6 +1,5 @@
 package com.n1.moguchi.ui.fragment.tasks
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,12 +9,16 @@ import com.n1.moguchi.data.models.remote.Task
 import com.n1.moguchi.data.repositories.AppRepository
 import com.n1.moguchi.data.repositories.GoalRepository
 import com.n1.moguchi.data.repositories.TaskRepository
+import com.n1.moguchi.di.modules.IoDispatcher
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class TasksViewModel @Inject constructor(
+    @IoDispatcher private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
     private val taskRepository: TaskRepository,
     private val goalRepository: GoalRepository,
     private val appRepository: AppRepository
@@ -43,7 +46,7 @@ class TasksViewModel @Inject constructor(
     }
 
     fun fetchAllTasks(goalId: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcher) {
             taskRepository.fetchAllTasks(goalId)
                 .collect {
                     _completedTasks.value = it
@@ -52,7 +55,7 @@ class TasksViewModel @Inject constructor(
     }
 
     fun fetchActiveTasks(goalId: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcher) {
             taskRepository.fetchActiveTasks(goalId)
                 .collect {
                     _activeTasks.value = it
@@ -61,7 +64,7 @@ class TasksViewModel @Inject constructor(
     }
 
     fun fetchCompletedTasks(goalId: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcher) {
             taskRepository.fetchCompletedTasks(goalId)
                 .collect {
                     _completedTasks.value = it
@@ -70,7 +73,7 @@ class TasksViewModel @Inject constructor(
     }
 
     fun deleteTask(goalId: String, task: Task, isActiveTask: Boolean) {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcher) {
             taskRepository.deleteTask(goalId, task)
             if (isActiveTask) {
                 _activeTasks.value?.dropWhile { it.taskId == task.taskId }
@@ -81,7 +84,7 @@ class TasksViewModel @Inject constructor(
     }
 
     fun setupRelatedGoalDetails(goalId: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcher) {
             goalRepository.getGoal(goalId).also {
                 _currentGoalPoints.value = it.currentPoints
                 _totalGoalPoints.value = it.totalPoints
@@ -91,11 +94,11 @@ class TasksViewModel @Inject constructor(
     }
 
     fun updateTaskStatus(task: Task, isActiveTask: Boolean) {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcher) {
             if (isActiveTask) {
                 val taskToUpdate = _activeTasks.value?.find { it.taskId == task.taskId }.also {
                     it?.taskCompleted = true
-                    it?.onCheck = if (task.onCheck) !task.onCheck else false
+                    it?.onCheck = false
                 }
                 _activeTasks.value?.dropWhile { it.taskId == task.taskId }
                 if (taskToUpdate != null) {
@@ -106,7 +109,7 @@ class TasksViewModel @Inject constructor(
             } else {
                 val taskToUpdate = _completedTasks.value?.find { it.taskId == task.taskId }.also {
                     it?.taskCompleted = false
-                    it?.onCheck = if (task.onCheck) !task.onCheck else false
+                    it?.onCheck = false
                 }
                 _completedTasks.value?.dropWhile { it.taskId == task.taskId }
                 if (taskToUpdate != null) {
@@ -124,7 +127,7 @@ class TasksViewModel @Inject constructor(
     }
 
     fun updateTaskCheckStatus(task: Task) {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcher) {
             val updatedTask = task.copy(
                 onCheck = !task.onCheck
             )
@@ -133,7 +136,7 @@ class TasksViewModel @Inject constructor(
     }
 
     fun updateRelatedGoal(goalId: String, taskHeight: Int, isActiveTask: Boolean?) {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcher) {
             if (isActiveTask != null) {
                 if (isActiveTask == true) {
                     goalRepository.updateGoalPoints(goalId, taskHeight)
