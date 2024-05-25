@@ -11,11 +11,11 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.n1.moguchi.data.models.local.PreferencesKeys
-import com.n1.moguchi.data.models.local.UserPreferences
-import com.n1.moguchi.data.models.remote.Child
-import com.n1.moguchi.data.models.remote.Parent
-import com.n1.moguchi.data.models.remote.ProfileMode
+import com.n1.moguchi.data.local.PreferencesKeys
+import com.n1.moguchi.data.local.UserPreferences
+import com.n1.moguchi.data.remote.model.Child
+import com.n1.moguchi.data.remote.model.Parent
+import com.n1.moguchi.data.remote.model.ProfileMode
 import com.n1.moguchi.data.repositories.AppRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch

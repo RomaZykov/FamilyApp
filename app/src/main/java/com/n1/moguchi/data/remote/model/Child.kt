@@ -1,4 +1,4 @@
-package com.n1.moguchi.data.models.remote
+package com.n1.moguchi.data.remote.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

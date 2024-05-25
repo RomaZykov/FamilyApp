@@ -12,7 +12,7 @@ import androidx.core.view.get
 import androidx.core.view.size
 import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.R
-import com.n1.moguchi.data.models.remote.Task
+import com.n1.moguchi.data.remote.model.Task
 import com.n1.moguchi.databinding.EditableTaskItemBinding
 import com.n1.moguchi.ui.fragment.tasks.TasksMode
 

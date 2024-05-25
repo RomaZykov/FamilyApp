@@ -1,4 +1,4 @@
-package com.n1.moguchi.data.models.local
+package com.n1.moguchi.data.local
 
 import androidx.datastore.preferences.core.stringPreferencesKey
 

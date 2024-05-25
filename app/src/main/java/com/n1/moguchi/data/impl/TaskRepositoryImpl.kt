@@ -1,11 +1,10 @@
 package com.n1.moguchi.data.impl
 
-import android.util.Log
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.n1.moguchi.data.models.remote.Task
+import com.n1.moguchi.data.remote.model.Task
 import com.n1.moguchi.data.repositories.TaskRepository
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow

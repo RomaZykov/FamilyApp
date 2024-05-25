@@ -1,7 +1,7 @@
 package com.n1.moguchi.data.repositories
 
-import com.n1.moguchi.data.models.remote.Goal
-import com.n1.moguchi.data.models.remote.Task
+import com.n1.moguchi.data.remote.model.Goal
+import com.n1.moguchi.data.remote.model.Task
 import kotlinx.coroutines.flow.Flow
 
 interface GoalRepository {

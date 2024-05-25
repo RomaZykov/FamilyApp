@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.n1.moguchi.data.models.local.UserPreferences
-import com.n1.moguchi.data.models.remote.Child
-import com.n1.moguchi.data.models.remote.ProfileMode
+import com.n1.moguchi.data.local.UserPreferences
+import com.n1.moguchi.data.remote.model.Child
+import com.n1.moguchi.data.remote.model.ProfileMode
 import com.n1.moguchi.data.repositories.AppRepository
 import com.n1.moguchi.data.repositories.ParentRepository
 import com.n1.moguchi.interactors.FetchChildDataUseCase

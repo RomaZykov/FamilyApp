@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat.getString
 import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.R
-import com.n1.moguchi.data.models.remote.Child
+import com.n1.moguchi.data.remote.model.Child
 import com.n1.moguchi.databinding.ChildCreationCardBinding
 import com.n1.moguchi.databinding.CreationSectionFooterBinding
 

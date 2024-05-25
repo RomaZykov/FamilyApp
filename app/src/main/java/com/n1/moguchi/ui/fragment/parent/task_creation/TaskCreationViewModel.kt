@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.n1.moguchi.data.models.remote.Child
-import com.n1.moguchi.data.models.remote.Goal
-import com.n1.moguchi.data.models.remote.Task
+import com.n1.moguchi.data.remote.model.Child
+import com.n1.moguchi.data.remote.model.Goal
+import com.n1.moguchi.data.remote.model.Task
 import com.n1.moguchi.data.repositories.GoalRepository
 import com.n1.moguchi.data.repositories.TaskRepository
 import kotlinx.coroutines.Dispatchers

@@ -15,10 +15,10 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.appbar.MaterialToolbar
 import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
-import com.n1.moguchi.data.models.remote.Child
-import com.n1.moguchi.data.models.remote.Goal
-import com.n1.moguchi.data.models.remote.ProfileMode
-import com.n1.moguchi.data.models.remote.Task
+import com.n1.moguchi.data.remote.model.Child
+import com.n1.moguchi.data.remote.model.Goal
+import com.n1.moguchi.data.remote.model.ProfileMode
+import com.n1.moguchi.data.remote.model.Task
 import com.n1.moguchi.databinding.FragmentAfterOnboardingBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.fragment.parent.child_creation.ChildCreationFragment

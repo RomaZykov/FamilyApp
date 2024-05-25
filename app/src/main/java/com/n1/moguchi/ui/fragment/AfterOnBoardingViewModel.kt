@@ -2,10 +2,10 @@ package com.n1.moguchi.ui.fragment
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.n1.moguchi.data.models.remote.Child
-import com.n1.moguchi.data.models.remote.Goal
-import com.n1.moguchi.data.models.remote.ProfileMode
-import com.n1.moguchi.data.models.remote.Task
+import com.n1.moguchi.data.remote.model.Child
+import com.n1.moguchi.data.remote.model.Goal
+import com.n1.moguchi.data.remote.model.ProfileMode
+import com.n1.moguchi.data.remote.model.Task
 import com.n1.moguchi.data.repositories.AppRepository
 import com.n1.moguchi.data.repositories.ParentRepository
 import kotlinx.coroutines.Dispatchers

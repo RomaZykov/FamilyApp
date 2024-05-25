@@ -1,6 +1,6 @@
 package com.n1.moguchi.interactors
 
-import com.n1.moguchi.data.models.remote.Parent
+import com.n1.moguchi.data.remote.model.Parent
 import com.n1.moguchi.data.repositories.ParentRepository
 import com.n1.moguchi.di.modules.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
