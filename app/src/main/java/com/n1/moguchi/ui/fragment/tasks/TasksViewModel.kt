@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.n1.moguchi.data.models.local.UserPreferences
-import com.n1.moguchi.data.models.remote.Task
+import com.n1.moguchi.data.local.UserPreferences
+import com.n1.moguchi.data.remote.model.Task
 import com.n1.moguchi.data.repositories.AppRepository
 import com.n1.moguchi.data.repositories.GoalRepository
 import com.n1.moguchi.data.repositories.TaskRepository
@@ -76,9 +76,9 @@ class TasksViewModel @Inject constructor(
         viewModelScope.launch(dispatcher) {
             taskRepository.deleteTask(goalId, task)
             if (isActiveTask) {
-                _activeTasks.value?.dropWhile { it.taskId == task.taskId }
+                _activeTasks.value = _activeTasks.value?.dropWhile { it.taskId == task.taskId }
             } else {
-                _completedTasks.value?.dropWhile { it.taskId == task.taskId }
+                _completedTasks.value = _completedTasks.value?.dropWhile { it.taskId == task.taskId }
             }
         }
     }
@@ -100,20 +100,20 @@ class TasksViewModel @Inject constructor(
                     it?.taskCompleted = true
                     it?.onCheck = false
                 }
-                _activeTasks.value?.dropWhile { it.taskId == task.taskId }
+                _activeTasks.value = _activeTasks.value?.dropWhile { it.taskId == task.taskId }
                 if (taskToUpdate != null) {
-                    _completedTasks.value?.plus(taskToUpdate)
-                    taskRepository.updateTask(taskToUpdate)
+                    _completedTasks.value = _completedTasks.value?.plus(taskToUpdate)
                     _currentGoalPoints.value = _currentGoalPoints.value?.plus(task.height)
+                    taskRepository.updateTask(taskToUpdate)
                 }
             } else {
                 val taskToUpdate = _completedTasks.value?.find { it.taskId == task.taskId }.also {
                     it?.taskCompleted = false
                     it?.onCheck = false
                 }
-                _completedTasks.value?.dropWhile { it.taskId == task.taskId }
+                _completedTasks.value = _completedTasks.value?.dropWhile { it.taskId == task.taskId }
                 if (taskToUpdate != null) {
-                    _activeTasks.value?.plus(taskToUpdate)
+                    _activeTasks.value = _activeTasks.value?.plus(taskToUpdate)
                     taskRepository.updateTask(taskToUpdate).also {
                         val currentPoints = _currentGoalPoints.value
                         _currentGoalPoints.value =
