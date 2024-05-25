@@ -25,6 +25,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
+import com.n1.moguchi.BuildConfig
 import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
 import com.n1.moguchi.data.remote.model.Parent
@@ -174,7 +175,7 @@ class RegistrationFragment : Fragment() {
     private fun saveParentToFirebase(
         email: String
     ) {
-        val database = FirebaseDatabase.getInstance(BASE_URL)
+        val database = FirebaseDatabase.getInstance(BuildConfig.BASE_URL)
         val parentsRef = database.getReference("parents")
         val parentId = auth.currentUser?.uid
 
@@ -183,10 +184,5 @@ class RegistrationFragment : Fragment() {
             email = email
         )
         parentsRef.child(parentId!!).setValue(parent)
-    }
-
-    companion object {
-        private const val BASE_URL =
-            "https://moguchi-app-default-rtdb.europe-west1.firebasedatabase.app"
     }
 }
