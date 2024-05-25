@@ -1,13 +1,13 @@
-package com.n1.moguchi.data.models.remote
+package com.n1.moguchi.data.remote.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Goal(
-    var goalId: String? = null,
-    var parentOwnerId: String? = null,
-    var childOwnerId: String? = null,
+    val goalId: String? = null,
+    val parentOwnerId: String? = null,
+    val childOwnerId: String? = null,
     val title: String = "",
     val currentPoints: Int = 0,
     val secondaryPoints: Int = 0,
