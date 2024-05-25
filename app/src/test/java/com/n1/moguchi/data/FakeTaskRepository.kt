@@ -1,9 +1,8 @@
 package com.n1.moguchi.data
 
+import androidx.annotation.IntRange
 import androidx.annotation.VisibleForTesting
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.n1.moguchi.data.models.remote.Task
+import com.n1.moguchi.data.remote.model.Task
 import com.n1.moguchi.data.repositories.TaskRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -33,21 +32,15 @@ class FakeTaskRepository : TaskRepository {
     }
 
     override suspend fun updateTask(task: Task) {
-        if (!task.taskCompleted) {
-            activeTasks.removeIf { task.taskId == it.taskId }
-            completedTasks.add(task)
-        } else {
-            completedTasks.removeIf { task.taskId == it.taskId }
-            activeTasks.add(task)
-        }
+        println("Remote changes")
     }
 
     override suspend fun deleteTask(goalId: String, task: Task) {
-        TODO("Not yet implemented")
+        println("Remote changes")
     }
 
     override suspend fun saveTasksToDb(goalId: String, tasks: List<Task>) {
-        TODO("Not yet implemented")
+        println("Remote changes")
     }
 
     private fun generateId() = UUID.randomUUID().toString()
@@ -69,6 +62,19 @@ class FakeTaskRepository : TaskRepository {
             activeTasks.first()
         } else {
             throw Exception("Test exception")
+        }
+    }
+
+    @VisibleForTesting
+    fun clearTasks() {
+        activeTasks.removeAllList()
+        completedTasks.removeAllList()
+    }
+
+    private fun <T> MutableList<T>.removeAllList() {
+        if (this.isEmpty()) return
+        repeat(this.size) {
+            this.removeAt(0)
         }
     }
 }

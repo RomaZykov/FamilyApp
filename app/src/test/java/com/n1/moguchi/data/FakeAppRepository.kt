@@ -1,7 +1,7 @@
 package com.n1.moguchi.data
 
-import com.n1.moguchi.data.models.local.UserPreferences
-import com.n1.moguchi.data.models.remote.ProfileMode
+import com.n1.moguchi.data.local.UserPreferences
+import com.n1.moguchi.data.remote.model.ProfileMode
 import com.n1.moguchi.data.repositories.AppRepository
 import kotlinx.coroutines.flow.Flow
 

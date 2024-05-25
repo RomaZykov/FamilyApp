@@ -5,18 +5,19 @@ import com.n1.moguchi.MainCoroutineRule
 import com.n1.moguchi.data.FakeAppRepository
 import com.n1.moguchi.data.FakeGoalRepository
 import com.n1.moguchi.data.FakeTaskRepository
-import com.n1.moguchi.data.models.remote.Task
+import com.n1.moguchi.data.remote.model.Task
 import com.n1.moguchi.getOrAwaitValue
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
-import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtendWith
 
 @ExtendWith(InstantTaskExecutorRuleForJUnit5::class)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestInstance(TestInstance.Lifecycle.PER_METHOD)
 class TasksViewModelTest {
 
     private lateinit var viewModel: TasksViewModel
@@ -27,7 +28,7 @@ class TasksViewModelTest {
     @get:Rule
     val mainCoroutineRule = MainCoroutineRule()
 
-    @BeforeAll
+    @BeforeEach
     fun setUp() {
         taskRepository = FakeTaskRepository()
         val tasksList = mutableListOf(
@@ -35,56 +36,84 @@ class TasksViewModelTest {
             Task(taskId = "2", title = "B", height = 2, taskCompleted = false),
             Task(taskId = "3", title = "C", height = 3, taskCompleted = false),
             Task(taskId = "4", title = "D", height = 1, taskCompleted = true),
-            Task(taskId = "5", title = "E", height = 3, taskCompleted = true),
+            Task(taskId = "5", title = "E", height = 3, taskCompleted = true)
         )
         taskRepository.addTasks(tasksList)
 
         goalRepository = FakeGoalRepository()
         appRepository = FakeAppRepository()
-        viewModel = TasksViewModel(mainCoroutineRule.testDispatcher, taskRepository, goalRepository, appRepository)
-    }
-
-    @Test
-    fun test_fetch_all_tasks_to_collect_active_and_completed_task() = runTest {
-        val allTasks = mutableListOf<Task>()
-        with(taskRepository) {
-            fetchAllTasks("").collect {
-                allTasks.addAll(it)
-            }
-        }
-
-        viewModel.fetchAllTasks("")
-
-        val result = viewModel.completedTasks.getOrAwaitValue()
-        assertEquals(allTasks, result)
+        viewModel = TasksViewModel(
+            mainCoroutineRule.testDispatcher,
+            taskRepository,
+            goalRepository,
+            appRepository
+        )
     }
 
     @Test
     fun test_active_task_change_status_to_completed_task() = runTest {
         val task = taskRepository.getActiveTask()
-        val completedTasks = mutableListOf<Task>()
-        val activeTasks = mutableListOf<Task>()
-        viewModel.fetchCompletedTasks("")
         viewModel.fetchActiveTasks("")
-        with(taskRepository) {
-            updateTask(task)
-            fetchCompletedTasks("").collect {
-                completedTasks.addAll(it)
-            }
-            fetchActiveTasks("").collect {
-                activeTasks.addAll(it)
-            }
-        }
+        val activeExpected = listOf(
+            Task(taskId = "2", title = "B", height = 2, taskCompleted = false),
+            Task(taskId = "3", title = "C", height = 3, taskCompleted = false),
+        )
+        viewModel.fetchCompletedTasks("")
+        val completedExpected = listOf(
+            Task(taskId = "4", title = "D", height = 1, taskCompleted = true),
+            Task(taskId = "5", title = "E", height = 3, taskCompleted = true),
+            Task(taskId = "1", title = "A", height = 1, taskCompleted = true)
+        )
 
-        viewModel.updateTaskStatus(task, !task.taskCompleted) // Active task flag
+        viewModel.updateTaskStatus(task, isActiveTask = true)
 
-        val completedTasksVm = viewModel.completedTasks.getOrAwaitValue()
         val activeTasksVm = viewModel.activeTasks.getOrAwaitValue()
-        assertEquals(completedTasks, completedTasksVm)
-        assertEquals(activeTasks, activeTasksVm)
+        assertEquals(activeExpected, activeTasksVm)
+        val completedTasksVm = viewModel.completedTasks.getOrAwaitValue()
+        assertEquals(completedExpected, completedTasksVm)
     }
 
     @Test
-    fun deleteTask() {
+    fun test_active_task_change_status_to_empty_completed_tasks() {
+        taskRepository.clearTasks()
+        taskRepository.addTasks(
+            listOf(
+                Task(
+                    taskId = "1",
+                    title = "A",
+                    height = 1,
+                    taskCompleted = false
+                )
+            )
+        )
+        viewModel.fetchActiveTasks("")
+        val task = taskRepository.getActiveTask()
+        viewModel.fetchCompletedTasks("")
+        val completedExpected = listOf(
+            Task(
+                taskId = "1",
+                title = "A",
+                height = 1,
+                taskCompleted = true
+            ),
+        )
+
+        viewModel.updateTaskStatus(task, isActiveTask = true)
+
+        val activeTasks = viewModel.activeTasks.getOrAwaitValue()
+        assertEquals(emptyList<Task>(), activeTasks)
+        val completedTasksVm = viewModel.completedTasks.getOrAwaitValue()
+        assertEquals(completedExpected, completedTasksVm)
+    }
+
+    @Test
+    fun test_delete_task() = runTest {
+        val task = taskRepository.getActiveTask()
+        viewModel.fetchActiveTasks("")
+
+        viewModel.deleteTask("", task, isActiveTask = true)
+
+        val result = viewModel.activeTasks.getOrAwaitValue()
+        assertEquals(2, result.size)
     }
 }
