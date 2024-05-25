@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.R
-import com.n1.moguchi.data.models.remote.Child
+import com.n1.moguchi.data.remote.model.Child
 import com.n1.moguchi.databinding.MediumChildItemBinding
 import com.n1.moguchi.databinding.SmallAddChildButtonBinding
 import com.n1.moguchi.databinding.SmallChildItemBinding
@@ -21,10 +21,6 @@ class ChildrenRecyclerAdapter(
 
 
     // TODO - Dangerous code
-//    var currentChildIndex: Int = selectedChildIndex
-//        set(value) {
-//            field = value
-//        }
     var updateChildrenList: MutableList<Child> = mutableListOf()
         set(value) {
             field = value
