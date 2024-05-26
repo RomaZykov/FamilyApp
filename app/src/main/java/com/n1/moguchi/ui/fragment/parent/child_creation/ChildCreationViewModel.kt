@@ -46,8 +46,7 @@ class ChildCreationViewModel @Inject constructor(private val parentRepository: P
         _children.value?.find {
             it.childId == child.childId
         }.also {
-            it?.childName = child.childName
-            it?.imageResourceId = child.imageResourceId
+            it?.copy(childName = child.childName, imageResourceId = child.imageResourceId)
         }
     }
 }

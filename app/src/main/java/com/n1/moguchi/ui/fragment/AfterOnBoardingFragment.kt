@@ -190,7 +190,7 @@ class AfterOnBoardingFragment : Fragment() {
             children?.forEach {
                 val password = args.getString(it.childId)
                 if (password != null) {
-                    it.passwordFromParent = password.toInt()
+                    it.copy(passwordFromParent = password.toInt())
                 }
             }
             val tasks = args.getParcelableArrayList<Task>("tasks")

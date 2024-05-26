@@ -112,7 +112,7 @@ class ChildrenCreationRecyclerAdapter(
                 }
             } else {
                 binding.avatarMale1.isChecked = true
-                children[adapterPosition].imageResourceId = childAvatars[binding.avatarMale1.id]
+                children[adapterPosition].copy(imageResourceId = childAvatars[binding.avatarMale1.id])
             }
 
             binding.childNameEditText.addTextChangedListener(object : TextWatcher {
@@ -128,7 +128,7 @@ class ChildrenCreationRecyclerAdapter(
                 }
 
                 override fun afterTextChanged(childName: Editable?) {
-                    children[adapterPosition].childName = childName.toString()
+                    children[adapterPosition].copy(childName = childName.toString())
                     val regex = "^[a-zA-Zа-яА-Я]+$".toRegex()
                     if (!(childName.toString().isNotBlank() && childName.toString()
                             .matches(regex))
@@ -180,9 +180,12 @@ class ChildrenCreationRecyclerAdapter(
                     }
 
                     override fun afterTextChanged(password: Editable?) {
-                        binding.setPasswordInputLayout.isEndIconVisible = password.toString().isNotBlank()
-                        children[adapterPosition].passwordFromParent =
-                            if (password.isNullOrBlank()) -1 else password.toString().toInt()
+                        binding.setPasswordInputLayout.isEndIconVisible =
+                            password.toString().isNotBlank()
+                        children[adapterPosition].copy(
+                            passwordFromParent = if (password.isNullOrBlank()) -1
+                            else password.toString().toInt()
+                        )
                         if (password.toString().isBlank()) {
                             binding.setPasswordEditText.error =
                                 getString(context, R.string.password_edit_text_error)
@@ -201,7 +204,7 @@ class ChildrenCreationRecyclerAdapter(
                     binding.avatarMale2.id,
                     binding.avatarFemale2.id,
                     binding.avatarFemale3.id -> {
-                        children[adapterPosition].imageResourceId = childAvatars[checkedId]
+                        children[adapterPosition].copy(imageResourceId = childAvatars[checkedId])
                         notifyItemChanged(itemCount - FOOTER_ADD_CHILD_BUTTON)
                     }
                 }

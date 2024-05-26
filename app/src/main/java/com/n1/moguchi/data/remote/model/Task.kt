@@ -6,11 +6,11 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Task(
     val taskId: String = "",
-    var title: String = "",
-    var goalOwnerId: String? = null,
-    var taskCompleted: Boolean = false,
-    var onCheck: Boolean = false,
-    var height: Int = 1
+    val title: String = "",
+    val goalOwnerId: String? = null,
+    val taskCompleted: Boolean = false,
+    val onCheck: Boolean = false,
+    val height: Int = 1
 ) : Parcelable {
     fun toMap(): Map<String, Any?> {
         return mapOf(

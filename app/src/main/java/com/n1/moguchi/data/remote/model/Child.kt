@@ -7,9 +7,9 @@ import kotlinx.parcelize.Parcelize
 data class Child(
     val childId: String? = null,
     val parentOwnerId: String? = null,
-    var childName: String? = null,
-    var imageResourceId: Int? = null,
-    var passwordFromParent: Int? = null,
+    val childName: String? = null,
+    val imageResourceId: Int? = null,
+    val passwordFromParent: Int? = null,
     val onBoardingCompleted: Boolean = false,
 ) : Parcelable {
     fun toMap(): Map<String, Any?> {

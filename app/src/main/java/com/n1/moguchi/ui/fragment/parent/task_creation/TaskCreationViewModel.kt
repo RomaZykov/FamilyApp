@@ -69,8 +69,7 @@ class TaskCreationViewModel @Inject constructor(
         _tasks.value?.find {
             it.taskId == task.taskId
         }.also {
-            it?.title = task.title
-            it?.height = task.height
+            it?.copy(title = task.title, height = task.height)
         }
         if (taskPointsChanged) {
             ++taskHeightTotal

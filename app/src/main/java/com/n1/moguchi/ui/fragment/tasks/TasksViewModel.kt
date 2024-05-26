@@ -78,7 +78,8 @@ class TasksViewModel @Inject constructor(
             if (isActiveTask) {
                 _activeTasks.value = _activeTasks.value?.dropWhile { it.taskId == task.taskId }
             } else {
-                _completedTasks.value = _completedTasks.value?.dropWhile { it.taskId == task.taskId }
+                _completedTasks.value =
+                    _completedTasks.value?.dropWhile { it.taskId == task.taskId }
             }
         }
     }
@@ -97,8 +98,7 @@ class TasksViewModel @Inject constructor(
         viewModelScope.launch(dispatcher) {
             if (isActiveTask) {
                 val taskToUpdate = _activeTasks.value?.find { it.taskId == task.taskId }.also {
-                    it?.taskCompleted = true
-                    it?.onCheck = false
+                    it?.copy(taskCompleted = true, onCheck = false)
                 }
                 _activeTasks.value = _activeTasks.value?.dropWhile { it.taskId == task.taskId }
                 if (taskToUpdate != null) {
@@ -108,10 +108,10 @@ class TasksViewModel @Inject constructor(
                 }
             } else {
                 val taskToUpdate = _completedTasks.value?.find { it.taskId == task.taskId }.also {
-                    it?.taskCompleted = false
-                    it?.onCheck = false
+                    it?.copy(taskCompleted = false, onCheck = false)
                 }
-                _completedTasks.value = _completedTasks.value?.dropWhile { it.taskId == task.taskId }
+                _completedTasks.value =
+                    _completedTasks.value?.dropWhile { it.taskId == task.taskId }
                 if (taskToUpdate != null) {
                     _activeTasks.value = _activeTasks.value?.plus(taskToUpdate)
                     taskRepository.updateTask(taskToUpdate).also {

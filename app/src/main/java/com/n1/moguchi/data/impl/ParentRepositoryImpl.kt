@@ -88,7 +88,7 @@ class ParentRepositoryImpl @Inject constructor(
                 if (tasks != null) {
                     for (task in tasks) {
                         if (task.goalOwnerId == goal.goalId) {
-                            val taskRefByGoalId = tasksRef.child(goal.goalId!!).child(task.taskId)
+                            val taskRefByGoalId = tasksRef.child(goal.goalId).child(task.taskId)
                             taskRefByGoalId.setValue(task)
                         }
                     }

@@ -89,7 +89,7 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
 
                 override fun afterTextChanged(taskName: Editable?) {
-                    tasksCardList[adapterPosition].title = taskName.toString()
+                    tasksCardList[adapterPosition].copy(title = taskName.toString())
                     if (taskName.toString().isEmpty()) {
                         binding.taskNameEditText.error =
                             context.getString(R.string.not_all_conditions_is_done)
@@ -112,13 +112,17 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
             binding.increaseButton.setOnClickListener {
                 if (task.height < MAX_TASK_HEIGHT) {
                     onTaskUpdate?.invoke(task, true)
-                    binding.taskHeight.text = (++task.height).toString()
+                    val newTaskHeight = task.height + 1
+                    task.copy(height = newTaskHeight)
+                    binding.taskHeight.text = (newTaskHeight).toString()
                 }
             }
             binding.decreaseButton.setOnClickListener {
                 if (task.height > MIN_TASK_HEIGHT) {
                     onTaskUpdate?.invoke(task, false)
-                    binding.taskHeight.text = (--task.height).toString()
+                    val newTaskHeight = task.height - 1
+                    task.copy(height = newTaskHeight)
+                    binding.taskHeight.text = (newTaskHeight).toString()
                 }
             }
         }
