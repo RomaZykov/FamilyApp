@@ -12,7 +12,7 @@ import com.n1.moguchi.databinding.CompletedGoalCardBinding
 class CompletedGoalsRecyclerAdapter(private val completedGoalsList: List<Goal>) :
     RecyclerView.Adapter<ViewHolder>() {
 
-    var onTasksHistoryClicked: ((String) -> Unit)? = null
+    var onTasksHistoryClicked: (String) -> Unit = {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -42,7 +42,7 @@ class CompletedGoalsRecyclerAdapter(private val completedGoalsList: List<Goal>) 
                 goal.totalPoints
             )
             binding.tasksHistoryButton.setOnClickListener {
-                onTasksHistoryClicked?.invoke(goal.goalId!!)
+                onTasksHistoryClicked.invoke(goal.goalId!!)
             }
         }
     }
