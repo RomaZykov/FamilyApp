@@ -3,7 +3,7 @@ package com.n1.moguchi.presentation.fragment.parent.profile.related_bottom_sheet
 import android.widget.ImageView
 import androidx.lifecycle.ViewModel
 import com.n1.moguchi.data.remote.model.Parent
-import com.n1.moguchi.usecases.FetchParentDataUseCase
+import com.n1.moguchi.domain.usecases.FetchParentDataUseCase
 import com.n1.moguchi.presentation.ProfileImage
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

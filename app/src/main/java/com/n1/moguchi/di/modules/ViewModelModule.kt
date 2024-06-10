@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.n1.moguchi.data.impl.AppRepositoryImpl
-import com.n1.moguchi.data.repositories.AppRepository
+import com.n1.moguchi.domain.repositories.AppRepository
 import com.n1.moguchi.di.components.ApplicationScope
 import com.n1.moguchi.presentation.activity.MainActivityViewModel
 import com.n1.moguchi.presentation.fragment.AfterOnBoardingViewModel

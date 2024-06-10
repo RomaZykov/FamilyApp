@@ -6,7 +6,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.n1.moguchi.data.remote.model.Child
-import com.n1.moguchi.data.repositories.ChildRepository
+import com.n1.moguchi.domain.repositories.ChildRepository
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow

@@ -1,7 +1,7 @@
-package com.n1.moguchi.usecases
+package com.n1.moguchi.domain.usecases
 
 import com.n1.moguchi.data.remote.model.Child
-import com.n1.moguchi.data.repositories.ChildRepository
+import com.n1.moguchi.domain.repositories.ChildRepository
 import com.n1.moguchi.di.modules.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

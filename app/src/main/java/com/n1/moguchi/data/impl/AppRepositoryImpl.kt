@@ -16,7 +16,7 @@ import com.n1.moguchi.data.local.UserPreferences
 import com.n1.moguchi.data.remote.model.Child
 import com.n1.moguchi.data.remote.model.Parent
 import com.n1.moguchi.data.remote.model.ProfileMode
-import com.n1.moguchi.data.repositories.AppRepository
+import com.n1.moguchi.domain.repositories.AppRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -84,7 +84,7 @@ class AppRepositoryImpl @Inject constructor(
                             if (parent != null) {
                                 val actionCodeSettings = ActionCodeSettings.newBuilder()
                                     .setUrl(url)
-                                    .setAndroidPackageName("com.n1.moguchi", false, null)
+                                    .setAndroidPackageName(APP_PACKAGE_NAME, false, null)
                                     .build()
 
                                 auth.sendPasswordResetEmail(parent.email!!, actionCodeSettings)
@@ -100,5 +100,9 @@ class AppRepositoryImpl @Inject constructor(
             override fun onCancelled(error: DatabaseError) {
             }
         })
+    }
+
+    companion object {
+        private const val APP_PACKAGE_NAME = "com.n1.moguchi"
     }
 }

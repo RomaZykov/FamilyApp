@@ -1,4 +1,4 @@
-package com.n1.moguchi.data.repositories
+package com.n1.moguchi.domain.repositories
 
 import com.n1.moguchi.data.remote.model.Child
 import com.n1.moguchi.data.remote.model.Goal

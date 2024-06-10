@@ -6,8 +6,8 @@ import com.n1.moguchi.data.remote.model.Child
 import com.n1.moguchi.data.remote.model.Goal
 import com.n1.moguchi.data.remote.model.ProfileMode
 import com.n1.moguchi.data.remote.model.Task
-import com.n1.moguchi.data.repositories.AppRepository
-import com.n1.moguchi.data.repositories.ParentRepository
+import com.n1.moguchi.domain.repositories.AppRepository
+import com.n1.moguchi.domain.repositories.ParentRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject

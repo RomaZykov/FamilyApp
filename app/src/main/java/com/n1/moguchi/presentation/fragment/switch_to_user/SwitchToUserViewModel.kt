@@ -7,9 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.n1.moguchi.data.local.UserPreferences
 import com.n1.moguchi.data.remote.model.Child
 import com.n1.moguchi.data.remote.model.ProfileMode
-import com.n1.moguchi.data.repositories.AppRepository
-import com.n1.moguchi.data.repositories.ParentRepository
-import com.n1.moguchi.usecases.FetchChildDataUseCase
+import com.n1.moguchi.domain.repositories.AppRepository
+import com.n1.moguchi.domain.repositories.ParentRepository
+import com.n1.moguchi.domain.usecases.FetchChildDataUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

@@ -3,7 +3,7 @@ package com.n1.moguchi.di.modules.child_user
 import androidx.lifecycle.ViewModel
 import com.google.firebase.database.FirebaseDatabase
 import com.n1.moguchi.data.impl.ChildRepositoryImpl
-import com.n1.moguchi.data.repositories.ChildRepository
+import com.n1.moguchi.domain.repositories.ChildRepository
 import com.n1.moguchi.di.components.ApplicationScope
 import com.n1.moguchi.di.modules.ViewModelKey
 import com.n1.moguchi.presentation.fragment.child.home.HomeChildViewModel

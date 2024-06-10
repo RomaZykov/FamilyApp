@@ -1,9 +1,8 @@
 package com.n1.moguchi.data
 
-import androidx.annotation.IntRange
 import androidx.annotation.VisibleForTesting
 import com.n1.moguchi.data.remote.model.Task
-import com.n1.moguchi.data.repositories.TaskRepository
+import com.n1.moguchi.domain.repositories.TaskRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.util.UUID

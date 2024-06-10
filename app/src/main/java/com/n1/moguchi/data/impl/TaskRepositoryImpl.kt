@@ -5,7 +5,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.n1.moguchi.data.remote.model.Task
-import com.n1.moguchi.data.repositories.TaskRepository
+import com.n1.moguchi.domain.repositories.TaskRepository
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow

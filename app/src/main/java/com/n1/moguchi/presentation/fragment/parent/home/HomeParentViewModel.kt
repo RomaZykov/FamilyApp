@@ -8,9 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.n1.moguchi.data.remote.model.Child
 import com.n1.moguchi.data.remote.model.Goal
 import com.n1.moguchi.data.remote.model.Task
-import com.n1.moguchi.data.repositories.GoalRepository
-import com.n1.moguchi.data.repositories.ParentRepository
-import com.n1.moguchi.data.repositories.TaskRepository
+import com.n1.moguchi.domain.repositories.GoalRepository
+import com.n1.moguchi.domain.repositories.ParentRepository
+import com.n1.moguchi.domain.repositories.TaskRepository
 import com.n1.moguchi.presentation.ProfileImage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow

@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.n1.moguchi.data.impl.GoalRepositoryImpl
-import com.n1.moguchi.data.repositories.GoalRepository
+import com.n1.moguchi.domain.repositories.GoalRepository
 import com.n1.moguchi.di.components.ApplicationScope
 import com.n1.moguchi.di.modules.ViewModelKey
 import com.n1.moguchi.presentation.fragment.parent.goal_creation.GoalCreationViewModel

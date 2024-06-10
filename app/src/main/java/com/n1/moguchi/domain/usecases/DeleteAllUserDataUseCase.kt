@@ -1,6 +1,6 @@
-package com.n1.moguchi.usecases
+package com.n1.moguchi.domain.usecases
 
-import com.n1.moguchi.data.repositories.ParentRepository
+import com.n1.moguchi.domain.repositories.ParentRepository
 import javax.inject.Inject
 
 class DeleteAllUserDataUseCase @Inject constructor(

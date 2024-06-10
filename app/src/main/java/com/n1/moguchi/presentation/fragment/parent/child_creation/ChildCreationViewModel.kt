@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.n1.moguchi.data.remote.model.Child
-import com.n1.moguchi.data.repositories.ParentRepository
+import com.n1.moguchi.domain.repositories.ParentRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

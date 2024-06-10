@@ -6,10 +6,10 @@ import com.n1.moguchi.data.local.UserPreferences
 import com.n1.moguchi.data.remote.model.Child
 import com.n1.moguchi.data.remote.model.Goal
 import com.n1.moguchi.data.remote.model.Task
-import com.n1.moguchi.data.repositories.AppRepository
-import com.n1.moguchi.data.repositories.GoalRepository
-import com.n1.moguchi.data.repositories.TaskRepository
-import com.n1.moguchi.usecases.FetchChildDataUseCase
+import com.n1.moguchi.domain.repositories.AppRepository
+import com.n1.moguchi.domain.repositories.GoalRepository
+import com.n1.moguchi.domain.repositories.TaskRepository
+import com.n1.moguchi.domain.usecases.FetchChildDataUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
