@@ -29,8 +29,8 @@ class ChildrenRecyclerAdapter(
             }
         }
 
-    var onChildClicked: ((Int, Child?) -> Unit)? = null
-    var onAddChildClicked: (() -> Unit)? = null
+    var onChildClicked: (Int, Child?) -> Unit = { _, _ -> }
+    var onAddChildClicked: () -> Unit = {}
 
     constructor(childrenList: MutableList<Child>) : this(
         childrenList,
@@ -138,7 +138,7 @@ class ChildrenRecyclerAdapter(
         }
 
         override fun onClick(v: View) {
-            onChildClicked?.invoke(adapterPosition, child!!)
+            onChildClicked.invoke(adapterPosition, child!!)
         }
     }
 
@@ -172,7 +172,7 @@ class ChildrenRecyclerAdapter(
             val oldPosition = selectedChildIndex
             val newPosition = adapterPosition
             selectedChildIndex = newPosition
-            onChildClicked?.invoke(selectedChildIndex, child)
+            onChildClicked.invoke(selectedChildIndex, child)
             notifyItemChanged(oldPosition)
             notifyItemChanged(newPosition)
         }
@@ -183,7 +183,7 @@ class ChildrenRecyclerAdapter(
 
         fun bind() {
             binding.root.setOnClickListener {
-                onAddChildClicked?.invoke()
+                onAddChildClicked.invoke()
             }
         }
     }

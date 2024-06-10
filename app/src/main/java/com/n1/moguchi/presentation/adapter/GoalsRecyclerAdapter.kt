@@ -33,7 +33,7 @@ class GoalsRecyclerAdapter(
                 tasksList.add(it)
             }
         }
-    var onTasksEditingClicked: ((String) -> Unit)? = null
+    var onTasksEditingClicked: (String) -> Unit = {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -103,7 +103,7 @@ class GoalsRecyclerAdapter(
             }
 
             binding.allTasksButton.root.setOnClickListener {
-                onTasksEditingClicked?.invoke(goal.goalId!!)
+                onTasksEditingClicked.invoke(goal.goalId!!)
             }
         }
 

@@ -17,11 +17,11 @@ private const val FOOTER_ADD_TASK_BUTTON = 1
 class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var tasksCardList: MutableList<Task> = ArrayList()
-    var onTaskSettingsClicked: (() -> Unit)? = null
-    var onTaskUpdate: ((Task, Boolean) -> Unit)? = null
-    var onNewTaskAddClicked: (() -> Unit)? = null
-    var onTaskDeleteClicked: ((Task, Int) -> Unit)? = null
-    var onCardsStatusUpdate: ((Boolean) -> Unit)? = null
+    var onTaskSettingsClicked: () -> Unit = {}
+    var onTaskUpdate: (Task, Boolean) -> Unit = { _, _ -> }
+    var onNewTaskAddClicked: () -> Unit = {}
+    var onTaskDeleteClicked: (Task, Int) -> Unit = { _, _ -> }
+    var onCardsStatusUpdate: (Boolean) -> Unit = {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -99,7 +99,7 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
             })
 
             binding.deleteTaskButton.setOnClickListener {
-                onTaskDeleteClicked?.invoke(task, adapterPosition)
+                onTaskDeleteClicked.invoke(task, adapterPosition)
                 tasksCardList.removeAt(adapterPosition)
                 notifyItemRemoved(adapterPosition)
                 notifyItemChanged(itemCount - 1)
@@ -111,7 +111,7 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
 
             binding.increaseButton.setOnClickListener {
                 if (task.height < MAX_TASK_HEIGHT) {
-                    onTaskUpdate?.invoke(task, true)
+                    onTaskUpdate.invoke(task, true)
                     val newTaskHeight = task.height + 1
                     task.copy(height = newTaskHeight)
                     binding.taskHeight.text = (newTaskHeight).toString()
@@ -119,7 +119,7 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
             }
             binding.decreaseButton.setOnClickListener {
                 if (task.height > MIN_TASK_HEIGHT) {
-                    onTaskUpdate?.invoke(task, false)
+                    onTaskUpdate.invoke(task, false)
                     val newTaskHeight = task.height - 1
                     task.copy(height = newTaskHeight)
                     binding.taskHeight.text = (newTaskHeight).toString()
@@ -140,7 +140,7 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
             if (tasksCardList.all {
                     it.title.isNotEmpty() && tasksCardList.size == itemCount - FOOTER_ADD_TASK_BUTTON
                 }) {
-                onCardsStatusUpdate?.invoke(true)
+                onCardsStatusUpdate.invoke(true)
                 with(binding.addChildButton) {
                     isEnabled = true
                     setTextColor(context.getColorStateList(R.color.black))
@@ -148,10 +148,10 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
                     backgroundTintList = context.getColorStateList(R.color.white)
                 }
                 itemView.setOnClickListener {
-                    onNewTaskAddClicked?.invoke()
+                    onNewTaskAddClicked.invoke()
                 }
             } else {
-                onCardsStatusUpdate?.invoke(false)
+                onCardsStatusUpdate.invoke(false)
                 with(binding.addChildButton) {
                     isEnabled = false
                     backgroundTintList = context.getColorStateList(R.color.white_opacity_70)

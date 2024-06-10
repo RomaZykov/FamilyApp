@@ -31,10 +31,10 @@ class ChildrenCreationRecyclerAdapter(
     )
 
     var children: MutableList<Child> = ArrayList()
-    var onNewChildAddClicked: (() -> Unit)? = null
-    var onChildRemoveClicked: ((Child, Int) -> Unit)? = null
-    var onChildRemoveViaBottomSheetClicked: ((Child, Int) -> Unit)? = null
-    var onCardsStatusUpdate: ((Boolean) -> Unit)? = null
+    var onNewChildAddClicked: () -> Unit = {}
+    var onChildRemoveClicked: (Child, Int) -> Unit = { _, _ -> }
+    var onChildRemoveViaBottomSheetClicked: (Child, Int) -> Unit = { _, _ -> }
+    var onCardsStatusUpdate: (Boolean) -> Unit = {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -144,12 +144,12 @@ class ChildrenCreationRecyclerAdapter(
                 binding.deleteChildButton.visibility = View.VISIBLE
                 binding.deleteChildButton.setOnClickListener {
                     if (removeChildFastProcessEnable) {
-                        onChildRemoveClicked?.invoke(child, adapterPosition)
+                        onChildRemoveClicked.invoke(child, adapterPosition)
                         children.removeAt(adapterPosition)
                         notifyItemRemoved(adapterPosition)
                         notifyItemChanged(itemCount - FOOTER_ADD_CHILD_BUTTON)
                     } else {
-                        onChildRemoveViaBottomSheetClicked?.invoke(child, adapterPosition)
+                        onChildRemoveViaBottomSheetClicked.invoke(child, adapterPosition)
                         if (children.size == 1) {
                             notifyItemChanged(0)
                         }
@@ -227,7 +227,7 @@ class ChildrenCreationRecyclerAdapter(
 
                 changeCardStatusUI(true)
                 itemView.setOnClickListener {
-                    onNewChildAddClicked?.invoke()
+                    onNewChildAddClicked.invoke()
                 }
                 return
             }
@@ -239,7 +239,7 @@ class ChildrenCreationRecyclerAdapter(
 
                 changeCardStatusUI(true)
                 itemView.setOnClickListener {
-                    onNewChildAddClicked?.invoke()
+                    onNewChildAddClicked.invoke()
                 }
             } else {
                 changeCardStatusUI(false)
@@ -247,7 +247,7 @@ class ChildrenCreationRecyclerAdapter(
         }
 
         private fun changeCardStatusUI(buttonEnable: Boolean) {
-            onCardsStatusUpdate?.invoke(buttonEnable)
+            onCardsStatusUpdate.invoke(buttonEnable)
             with(binding.addChildButton) {
                 isEnabled = buttonEnable
                 setTextColor(context.getColorStateList(if (buttonEnable) R.color.black else R.color.black_opacity_70))
