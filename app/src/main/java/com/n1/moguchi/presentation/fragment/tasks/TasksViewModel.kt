@@ -6,10 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.n1.moguchi.data.local.UserPreferences
 import com.n1.moguchi.data.remote.model.Task
-import com.n1.moguchi.data.repositories.AppRepository
-import com.n1.moguchi.data.repositories.GoalRepository
-import com.n1.moguchi.data.repositories.TaskRepository
 import com.n1.moguchi.di.modules.IoDispatcher
+import com.n1.moguchi.domain.repositories.AppRepository
+import com.n1.moguchi.domain.repositories.GoalRepository
+import com.n1.moguchi.domain.repositories.TaskRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -72,14 +72,14 @@ class TasksViewModel @Inject constructor(
         }
     }
 
-    fun deleteTask(goalId: String, task: Task, isActiveTask: Boolean) {
+    fun deleteTask(goalId: String, task: Task) {
         viewModelScope.launch(dispatcher) {
             taskRepository.deleteTask(goalId, task)
-            if (isActiveTask) {
-                _activeTasks.value = _activeTasks.value?.dropWhile { it.taskId == task.taskId }
-            } else {
+            if (task.taskCompleted) {
                 _completedTasks.value =
                     _completedTasks.value?.dropWhile { it.taskId == task.taskId }
+            } else {
+                _activeTasks.value = _activeTasks.value?.dropWhile { it.taskId == task.taskId }
             }
         }
     }
@@ -94,33 +94,30 @@ class TasksViewModel @Inject constructor(
         }
     }
 
-    fun updateTaskStatus(task: Task, isActiveTask: Boolean) {
+    fun updateTaskStatus(task: Task) {
         viewModelScope.launch(dispatcher) {
-            if (isActiveTask) {
-                val taskToUpdate = _activeTasks.value?.find { it.taskId == task.taskId }.also {
-                    it?.copy(taskCompleted = true, onCheck = false)
-                }
-                _activeTasks.value = _activeTasks.value?.dropWhile { it.taskId == task.taskId }
-                if (taskToUpdate != null) {
-                    _completedTasks.value = _completedTasks.value?.plus(taskToUpdate)
-                    _currentGoalPoints.value = _currentGoalPoints.value?.plus(task.height)
-                    taskRepository.updateTask(taskToUpdate)
-                }
-            } else {
-                val taskToUpdate = _completedTasks.value?.find { it.taskId == task.taskId }.also {
-                    it?.copy(taskCompleted = false, onCheck = false)
-                }
+            if (task.taskCompleted) {
+                val taskToUpdate = _completedTasks.value?.find { it.taskId == task.taskId }
+                val changedTask = taskToUpdate?.copy(taskCompleted = false, onCheck = false)
                 _completedTasks.value =
                     _completedTasks.value?.dropWhile { it.taskId == task.taskId }
-                if (taskToUpdate != null) {
-                    _activeTasks.value = _activeTasks.value?.plus(taskToUpdate)
-                    taskRepository.updateTask(taskToUpdate).also {
-                        val currentPoints = _currentGoalPoints.value
-                        _currentGoalPoints.value =
-                            if (currentPoints!! - task.height < 0) 0 else _currentGoalPoints.value?.minus(
-                                task.height
-                            )
-                    }
+                if (changedTask != null) {
+                    _activeTasks.value = _activeTasks.value?.plus(changedTask)
+                    val currentPoints = _currentGoalPoints.value
+                    _currentGoalPoints.value =
+                        if (currentPoints!! - task.height < 0) 0 else _currentGoalPoints.value?.minus(
+                            task.height
+                        )
+                    taskRepository.updateTask(changedTask)
+                }
+            } else {
+                val taskToUpdate = _activeTasks.value?.find { it.taskId == task.taskId }
+                val changedTask = taskToUpdate?.copy(taskCompleted = true, onCheck = false)
+                _activeTasks.value = _activeTasks.value?.dropWhile { it.taskId == task.taskId }
+                if (changedTask != null) {
+                    _completedTasks.value = _completedTasks.value?.plus(changedTask)
+                    _currentGoalPoints.value = _currentGoalPoints.value?.plus(task.height)
+                    taskRepository.updateTask(changedTask)
                 }
             }
         }
@@ -131,6 +128,14 @@ class TasksViewModel @Inject constructor(
             val updatedTask = task.copy(
                 onCheck = !task.onCheck
             )
+            if (task.taskCompleted) {
+                _completedTasks.value =
+                    _completedTasks.value?.dropWhile { it.taskId == task.taskId }
+                _completedTasks.value = _completedTasks.value?.plus(updatedTask)
+            } else {
+                _activeTasks.value = _activeTasks.value?.dropWhile { it.taskId == task.taskId }
+                _activeTasks.value = _activeTasks.value?.plus(updatedTask)
+            }
             taskRepository.updateTask(updatedTask)
         }
     }

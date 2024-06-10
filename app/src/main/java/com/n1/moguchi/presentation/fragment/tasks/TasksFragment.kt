@@ -214,16 +214,16 @@ class TasksFragment : Fragment() {
         tasksRecyclerAdapter = TasksRecyclerAdapter(relatedTasks, tasksMode, isActiveTasks)
         recyclerView.adapter = tasksRecyclerAdapter
 
-        tasksRecyclerAdapter.onTaskDeleteClicked = { task, isActiveTask ->
+        tasksRecyclerAdapter.onTaskDeleteClicked = { task ->
             if (relatedGoalId != null) {
-                viewModel.deleteTask(relatedGoalId, task, isActiveTask)
+                viewModel.deleteTask(relatedGoalId, task)
             }
         }
 
         tasksRecyclerAdapter.onTaskStatusChangedClicked = { task, isActiveTask ->
             if (relatedGoalId != null) {
                 if (isActiveTask != null) {
-                    viewModel.updateTaskStatus(task, isActiveTask)
+                    viewModel.updateTaskStatus(task)
                     viewModel.updateRelatedGoal(relatedGoalId, task.height, isActiveTask)
                 } else {
                     viewModel.updateTaskCheckStatus(task)

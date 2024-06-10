@@ -32,7 +32,7 @@ class TasksRecyclerAdapter(
         }
 
     var onTaskStatusChangedClicked: ((Task, Boolean?) -> Unit)? = null
-    var onTaskDeleteClicked: ((Task, Boolean) -> Unit)? = null
+    var onTaskDeleteClicked: ((Task) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EditableTaskViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -125,7 +125,7 @@ class TasksRecyclerAdapter(
                 }
 
                 R.id.delete -> {
-                    onTaskDeleteClicked?.invoke(task!!, isActiveTasks)
+                    onTaskDeleteClicked?.invoke(task!!)
                     relatedTasksList.removeAt(adapterPosition)
                     notifyItemRemoved(adapterPosition)
                 }
