@@ -9,8 +9,8 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.n1.moguchi.core.RecyclerViewMatcher
-import com.n1.moguchi.ui.activity.MainActivity
-import com.n1.moguchi.ui.fragment.parent.child_creation.ChildCreationFragment
+import com.n1.moguchi.presentation.activity.MainActivity
+import com.n1.moguchi.presentation.fragment.parent.child_creation.ChildCreationFragment
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

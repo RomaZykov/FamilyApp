@@ -6,7 +6,7 @@ import com.n1.moguchi.data.impl.ChildRepositoryImpl
 import com.n1.moguchi.data.repositories.ChildRepository
 import com.n1.moguchi.di.components.ApplicationScope
 import com.n1.moguchi.di.modules.ViewModelKey
-import com.n1.moguchi.ui.fragment.child.home.HomeChildViewModel
+import com.n1.moguchi.presentation.fragment.child.home.HomeChildViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

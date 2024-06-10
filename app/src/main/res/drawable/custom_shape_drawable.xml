@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<drawable class="com.n1.moguchi.ui.views.CustomShapesView" />
+<drawable class="com.n1.moguchi.presentation.views.CustomShapesView" />

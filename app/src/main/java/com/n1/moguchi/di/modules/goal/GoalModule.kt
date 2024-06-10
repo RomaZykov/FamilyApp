@@ -7,7 +7,7 @@ import com.n1.moguchi.data.impl.GoalRepositoryImpl
 import com.n1.moguchi.data.repositories.GoalRepository
 import com.n1.moguchi.di.components.ApplicationScope
 import com.n1.moguchi.di.modules.ViewModelKey
-import com.n1.moguchi.ui.fragment.parent.goal_creation.GoalCreationViewModel
+import com.n1.moguchi.presentation.fragment.parent.goal_creation.GoalCreationViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

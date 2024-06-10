@@ -7,11 +7,11 @@ import com.n1.moguchi.data.impl.ParentRepositoryImpl
 import com.n1.moguchi.data.repositories.ParentRepository
 import com.n1.moguchi.di.components.ApplicationScope
 import com.n1.moguchi.di.modules.ViewModelKey
-import com.n1.moguchi.ui.fragment.parent.child_creation.ChildCreationViewModel
-import com.n1.moguchi.ui.fragment.parent.home.HomeParentViewModel
-import com.n1.moguchi.ui.fragment.parent.profile.ProfileParentViewModel
-import com.n1.moguchi.ui.fragment.parent.profile.related_bottom_sheet.ProfileBottomSheetViewModel
-import com.n1.moguchi.ui.fragment.parent.profile.related_bottom_sheet.edit_profile.EditParentViewModel
+import com.n1.moguchi.presentation.fragment.parent.child_creation.ChildCreationViewModel
+import com.n1.moguchi.presentation.fragment.parent.home.HomeParentViewModel
+import com.n1.moguchi.presentation.fragment.parent.profile.ProfileParentViewModel
+import com.n1.moguchi.presentation.fragment.parent.profile.related_bottom_sheet.ProfileBottomSheetViewModel
+import com.n1.moguchi.presentation.fragment.parent.profile.related_bottom_sheet.edit_profile.EditParentViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
