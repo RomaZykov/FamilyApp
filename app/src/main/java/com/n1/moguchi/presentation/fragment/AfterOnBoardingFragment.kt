@@ -17,7 +17,7 @@ import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
 import com.n1.moguchi.data.remote.model.Child
 import com.n1.moguchi.data.remote.model.Goal
-import com.n1.moguchi.data.remote.model.ProfileMode
+import com.n1.moguchi.data.ProfileMode
 import com.n1.moguchi.data.remote.model.Task
 import com.n1.moguchi.databinding.FragmentAfterOnboardingBinding
 import com.n1.moguchi.presentation.ViewModelFactory
@@ -187,10 +187,10 @@ class AfterOnBoardingFragment : Fragment() {
         if (allChildrenCompleted) {
             val args = requireArguments()
             val children = args.getParcelableArrayList<Child>("children")
-            children?.forEach {
-                val password = args.getString(it.childId)
+            children?.forEach { child ->
+                val password = args.getString(child.childId)
                 if (password != null) {
-                    it.copy(passwordFromParent = password.toInt())
+                    child.copy(passwordFromParent = password.toInt())
                 }
             }
             val tasks = args.getParcelableArrayList<Task>("tasks")

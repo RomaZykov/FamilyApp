@@ -31,18 +31,18 @@ class TaskCreationViewModel @Inject constructor(
     val currentGoalPoints: LiveData<Int> = _currentGoalPoints
 
     private val tasksList = mutableListOf<Task>()
-    private var taskHeightTotal = 0
+    private var tasksHeightTotal = 0
 
     init {
         _tasks.value = tasksList
-        _currentGoalPoints.value = taskHeightTotal
+        _currentGoalPoints.value = tasksHeightTotal
     }
 
     fun returnCreatedTask(goalId: String): Task {
         val preparedTask = taskRepository.createTask(goalId)
         tasksList.add(preparedTask)
-        taskHeightTotal += preparedTask.height
-        _currentGoalPoints.value = taskHeightTotal
+        tasksHeightTotal += preparedTask.height
+        _currentGoalPoints.value = tasksHeightTotal
         _tasks.value = tasksList
         return tasksList.last()
     }
@@ -61,22 +61,22 @@ class TaskCreationViewModel @Inject constructor(
         _tasks.value = _tasks.value?.dropWhile {
             it.taskId == task.taskId
         }
-        taskHeightTotal -= task.height
-        _currentGoalPoints.value = taskHeightTotal
+        tasksHeightTotal -= task.height
+        _currentGoalPoints.value = tasksHeightTotal
     }
 
-    fun onTaskUpdate(task: Task, taskPointsChanged: Boolean) {
+    fun onTaskUpdate(task: Task, positiveTaskPointsChange: Boolean) {
         _tasks.value?.find {
             it.taskId == task.taskId
         }.also {
             it?.copy(title = task.title, height = task.height)
         }
-        if (taskPointsChanged) {
-            ++taskHeightTotal
-            _currentGoalPoints.value = taskHeightTotal
+        if (positiveTaskPointsChange) {
+            ++tasksHeightTotal
+            _currentGoalPoints.value = tasksHeightTotal
         } else {
-            --taskHeightTotal
-            _currentGoalPoints.value = taskHeightTotal
+            --tasksHeightTotal
+            _currentGoalPoints.value = tasksHeightTotal
         }
     }
 }

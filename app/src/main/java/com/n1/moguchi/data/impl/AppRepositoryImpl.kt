@@ -15,7 +15,7 @@ import com.n1.moguchi.data.local.PreferencesKeys
 import com.n1.moguchi.data.local.UserPreferences
 import com.n1.moguchi.data.remote.model.Child
 import com.n1.moguchi.data.remote.model.Parent
-import com.n1.moguchi.data.remote.model.ProfileMode
+import com.n1.moguchi.data.ProfileMode
 import com.n1.moguchi.domain.repositories.AppRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch

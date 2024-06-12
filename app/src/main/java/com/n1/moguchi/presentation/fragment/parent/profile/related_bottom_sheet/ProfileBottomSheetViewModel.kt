@@ -2,7 +2,7 @@ package com.n1.moguchi.presentation.fragment.parent.profile.related_bottom_sheet
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.n1.moguchi.data.remote.model.ProfileMode
+import com.n1.moguchi.data.ProfileMode
 import com.n1.moguchi.domain.repositories.AppRepository
 import com.n1.moguchi.domain.usecases.DeleteAllUserDataUseCase
 import kotlinx.coroutines.launch

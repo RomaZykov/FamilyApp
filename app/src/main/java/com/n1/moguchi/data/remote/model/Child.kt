@@ -10,7 +10,7 @@ data class Child(
     val childName: String? = null,
     val imageResourceId: Int? = null,
     val passwordFromParent: Int? = null,
-    val onBoardingCompleted: Boolean = false,
+    val onBoardingCompleted: Boolean = false
 ) : Parcelable {
     fun toMap(): Map<String, Any?> {
         return mapOf(

@@ -112,7 +112,8 @@ class ChildrenCreationRecyclerAdapter(
                 }
             } else {
                 binding.avatarMale1.isChecked = true
-                children[adapterPosition].copy(imageResourceId = childAvatars[binding.avatarMale1.id])
+                children[adapterPosition] =
+                    child.copy(imageResourceId = childAvatars[binding.avatarMale1.id])
             }
 
             binding.childNameEditText.addTextChangedListener(object : TextWatcher {
@@ -128,7 +129,7 @@ class ChildrenCreationRecyclerAdapter(
                 }
 
                 override fun afterTextChanged(childName: Editable?) {
-                    children[adapterPosition].copy(childName = childName.toString())
+                    children[adapterPosition] = child.copy(childName = childName.toString())
                     val regex = "^[a-zA-Zа-яА-Я]+$".toRegex()
                     if (!(childName.toString().isNotBlank() && childName.toString()
                             .matches(regex))
@@ -182,7 +183,7 @@ class ChildrenCreationRecyclerAdapter(
                     override fun afterTextChanged(password: Editable?) {
                         binding.setPasswordInputLayout.isEndIconVisible =
                             password.toString().isNotBlank()
-                        children[adapterPosition].copy(
+                        children[adapterPosition] = child.copy(
                             passwordFromParent = if (password.isNullOrBlank()) -1
                             else password.toString().toInt()
                         )
@@ -204,7 +205,8 @@ class ChildrenCreationRecyclerAdapter(
                     binding.avatarMale2.id,
                     binding.avatarFemale2.id,
                     binding.avatarFemale3.id -> {
-                        children[adapterPosition].copy(imageResourceId = childAvatars[checkedId])
+                        children[adapterPosition] =
+                            child.copy(imageResourceId = childAvatars[checkedId])
                         notifyItemChanged(itemCount - FOOTER_ADD_CHILD_BUTTON)
                     }
                 }

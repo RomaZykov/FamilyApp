@@ -89,7 +89,7 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
 
                 override fun afterTextChanged(taskName: Editable?) {
-                    tasksCardList[adapterPosition].copy(title = taskName.toString())
+                    tasksCardList[adapterPosition] = task.copy(title = taskName.toString())
                     if (taskName.toString().isEmpty()) {
                         binding.taskNameEditText.error =
                             context.getString(R.string.not_all_conditions_is_done)
@@ -105,26 +105,23 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
                 notifyItemChanged(itemCount - 1)
             }
 
-//            binding.taskSettingsButton.setOnClickListener {
-//                onTaskSettingsClicked?.invoke()
-//            }
-
             binding.increaseButton.setOnClickListener {
                 if (task.height < MAX_TASK_HEIGHT) {
-                    onTaskUpdate.invoke(task, true)
-                    val newTaskHeight = task.height + 1
-                    task.copy(height = newTaskHeight)
-                    binding.taskHeight.text = (newTaskHeight).toString()
+                    updateTask(task, true)
                 }
             }
             binding.decreaseButton.setOnClickListener {
                 if (task.height > MIN_TASK_HEIGHT) {
-                    onTaskUpdate.invoke(task, false)
-                    val newTaskHeight = task.height - 1
-                    task.copy(height = newTaskHeight)
-                    binding.taskHeight.text = (newTaskHeight).toString()
+                    updateTask(task, false)
                 }
             }
+        }
+
+        private fun updateTask(task: Task, shouldIncreasePoints: Boolean) {
+            val newTaskHeight = if (shouldIncreasePoints) task.height + 1 else task.height - 1
+            val updatedTask = task.copy(height = newTaskHeight)
+            onTaskUpdate.invoke(updatedTask, shouldIncreasePoints)
+            binding.taskHeight.text = (newTaskHeight).toString()
         }
     }
 

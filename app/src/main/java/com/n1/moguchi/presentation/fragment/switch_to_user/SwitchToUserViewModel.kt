@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.n1.moguchi.data.local.UserPreferences
 import com.n1.moguchi.data.remote.model.Child
-import com.n1.moguchi.data.remote.model.ProfileMode
+import com.n1.moguchi.data.ProfileMode
 import com.n1.moguchi.domain.repositories.AppRepository
 import com.n1.moguchi.domain.repositories.ParentRepository
 import com.n1.moguchi.domain.usecases.FetchChildDataUseCase

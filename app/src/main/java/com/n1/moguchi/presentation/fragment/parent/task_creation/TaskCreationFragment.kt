@@ -27,7 +27,6 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
     private lateinit var taskCreationRecyclerAdapter: TaskCreationRecyclerAdapter
 
     private var isNextButtonPressed: Boolean? = null
-
     private var tasksForParse: MutableList<Task> = mutableListOf()
 
     @Inject

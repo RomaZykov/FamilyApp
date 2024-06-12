@@ -1,7 +1,7 @@
 package com.n1.moguchi.domain.repositories
 
 import com.n1.moguchi.data.local.UserPreferences
-import com.n1.moguchi.data.remote.model.ProfileMode
+import com.n1.moguchi.data.ProfileMode
 import kotlinx.coroutines.flow.Flow
 
 interface AppRepository {

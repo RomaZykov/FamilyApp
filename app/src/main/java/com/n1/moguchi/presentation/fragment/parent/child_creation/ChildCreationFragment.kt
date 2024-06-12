@@ -240,7 +240,6 @@ class ChildCreationFragment : Fragment() {
         modalBottomSheet.show(fragmentManager, null)
     }
 
-    // TODO - Learn more about this solution
     private fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
         observe(
             lifecycleOwner,
@@ -277,3 +276,4 @@ class ChildCreationFragment : Fragment() {
         }
     }
 }
+
