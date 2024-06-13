@@ -1,7 +1,7 @@
 package com.n1.moguchi.di.modules
 
-import com.n1.moguchi.presentation.LoadImage
-import com.n1.moguchi.presentation.ProfileImage
+import com.n1.moguchi.ui.LoadImage
+import com.n1.moguchi.ui.ProfileImage
 import dagger.Module
 import dagger.Provides
 

@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="com.n1.moguchi.presentation.fragment.parent.goal_creation.GoalCreationViewModel" />
+            type="com.n1.moguchi.ui.fragment.parent.goal_creation.GoalCreationViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

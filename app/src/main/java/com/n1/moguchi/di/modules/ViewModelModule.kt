@@ -11,11 +11,11 @@ import com.google.firebase.database.FirebaseDatabase
 import com.n1.moguchi.data.impl.AppRepositoryImpl
 import com.n1.moguchi.domain.repositories.AppRepository
 import com.n1.moguchi.di.components.ApplicationScope
-import com.n1.moguchi.presentation.activity.MainActivityViewModel
-import com.n1.moguchi.presentation.fragment.AfterOnBoardingViewModel
-import com.n1.moguchi.presentation.fragment.parent.PrimaryContainerViewModel
-import com.n1.moguchi.presentation.fragment.parent.registration.RegistrationViewModel
-import com.n1.moguchi.presentation.fragment.switch_to_user.SwitchToUserViewModel
+import com.n1.moguchi.ui.activity.MainActivityViewModel
+import com.n1.moguchi.ui.fragment.AfterOnBoardingViewModel
+import com.n1.moguchi.ui.fragment.parent.PrimaryContainerViewModel
+import com.n1.moguchi.ui.fragment.parent.registration.RegistrationViewModel
+import com.n1.moguchi.ui.fragment.switch_to_user.SwitchToUserViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
