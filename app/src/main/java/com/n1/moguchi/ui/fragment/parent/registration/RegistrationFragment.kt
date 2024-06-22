@@ -89,7 +89,7 @@ class RegistrationFragment : Fragment() {
     private fun signIn() {
         val googleIdOption: GetGoogleIdOption = GetGoogleIdOption.Builder()
             .setFilterByAuthorizedAccounts(false)
-            .setServerClientId(getString(R.string.web_client_id))
+            .setServerClientId(BuildConfig.SERVER_CLIENT_ID)
 //            .setNonce(<nonce string to use when generating a Google ID token>)
             .build()
 
@@ -175,6 +175,7 @@ class RegistrationFragment : Fragment() {
     private fun saveParentToFirebase(
         email: String
     ) {
+        // Static function - bad prictice in ui
         val database = FirebaseDatabase.getInstance(BuildConfig.BASE_URL)
         val parentsRef = database.getReference("parents")
         val parentId = auth.currentUser?.uid
