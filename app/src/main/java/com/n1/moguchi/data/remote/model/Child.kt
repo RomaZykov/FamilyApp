@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 data class Child(
     val childId: String? = null,
     val parentOwnerId: String? = null,
-    val childName: String? = null,
+    val childName: String = "",
     val imageResourceId: Int? = null,
     val passwordFromParent: Int? = null,
     val onBoardingCompleted: Boolean = false,

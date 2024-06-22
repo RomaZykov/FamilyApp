@@ -11,7 +11,7 @@ class RecyclerViewMatcher(private val recyclerViewId: Int) {
     fun atPosition(position: Int, targetViewId: Int = -1) = atPositionOnView(position, targetViewId)
 
     private fun atPositionOnView(position: Int, targetViewId: Int) =
-        object : TypeSafeMatcher<View>() {
+         object : TypeSafeMatcher<View>() {
             var resources: Resources? = null
             var childView: View? = null
 
