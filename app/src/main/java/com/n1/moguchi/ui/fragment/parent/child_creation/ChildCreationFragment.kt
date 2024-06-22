@@ -84,7 +84,7 @@ class ChildCreationFragment : Fragment() {
 
         if (parentId != null) {
             setupRecyclerView()
-            if (isFromParentHome || !isFromParentProfile) {
+            if (isFromParentHome xor isFromParentProfile) {
                 addChildCardToRecyclerList(parentId, 0)
             } else {
                 viewModel.fetchChildren(parentId)
@@ -105,7 +105,7 @@ class ChildCreationFragment : Fragment() {
                     addChildCardToRecyclerList(parentId, children.size)
                 }
 
-                childrenCreationAdapter.onChildRemoveClicked = { child, position ->
+                childrenCreationAdapter.onChildRemoveClicked = { _, position ->
                     if (position == 0 && childrenCreationAdapter.children.size == 2) {
                         childrenCreationAdapter.notifyItemChanged(1)
                     }
@@ -240,7 +240,6 @@ class ChildCreationFragment : Fragment() {
         modalBottomSheet.show(fragmentManager, null)
     }
 
-    // TODO - Learn more about this solution
     private fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
         observe(
             lifecycleOwner,

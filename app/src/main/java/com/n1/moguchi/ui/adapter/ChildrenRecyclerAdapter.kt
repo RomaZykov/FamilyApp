@@ -29,7 +29,7 @@ class ChildrenRecyclerAdapter(
             }
         }
 
-    var onChildClicked: (Int, Child?) -> Unit = { position, child -> }
+    var onChildClicked: (Int, Child?) -> Unit = { _, _ -> }
     var onAddChildClicked: () -> Unit = {}
 
     constructor(childrenList: MutableList<Child>) : this(
@@ -138,7 +138,7 @@ class ChildrenRecyclerAdapter(
         }
 
         override fun onClick(v: View) {
-            onChildClicked.invoke(adapterPosition, child!!)
+            onChildClicked.invoke(absoluteAdapterPosition, child!!)
         }
     }
 
@@ -155,7 +155,7 @@ class ChildrenRecyclerAdapter(
             this.child = child
             binding.smallChildName.text = child.childName
             binding.smallChildAvatar.setImageResource(child.imageResourceId!!)
-            binding.root.isSelected = selectedChildIndex == adapterPosition
+            binding.root.isSelected = selectedChildIndex == absoluteAdapterPosition
             if (binding.root.isSelected || !childSelectionEnable) {
                 changeClickable(false)
             } else {
@@ -170,7 +170,7 @@ class ChildrenRecyclerAdapter(
 
         override fun onClick(v: View?) {
             val oldPosition = selectedChildIndex
-            val newPosition = adapterPosition
+            val newPosition = absoluteAdapterPosition
             selectedChildIndex = newPosition
             onChildClicked.invoke(selectedChildIndex, child)
             notifyItemChanged(oldPosition)
