@@ -6,8 +6,8 @@ import com.n1.moguchi.data.impl.TaskRepositoryImpl
 import com.n1.moguchi.domain.repositories.TaskRepository
 import com.n1.moguchi.di.components.ApplicationScope
 import com.n1.moguchi.di.modules.ViewModelKey
-import com.n1.moguchi.presentation.fragment.parent.task_creation.TaskCreationViewModel
-import com.n1.moguchi.presentation.fragment.tasks.TasksViewModel
+import com.n1.moguchi.ui.fragment.parent.task_creation.TaskCreationViewModel
+import com.n1.moguchi.ui.fragment.tasks.TasksViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

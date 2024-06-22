@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/ultra_light_orange"
-        tools:context=".presentation.fragment.parent.child_creation.ChildCreationFragment">
+        tools:context=".ui.fragment.parent.child_creation.ChildCreationFragment">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/topAppBar"
