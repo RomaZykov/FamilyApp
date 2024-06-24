@@ -27,7 +27,14 @@ class FakeTaskRepository : TaskRepository {
 
     override fun createTask(goalId: String): Task {
         val taskId = generateId()
-        return Task(taskId = taskId, goalOwnerId = goalId)
+        return Task(
+            title = "",
+            taskId = taskId,
+            height = 1,
+            onCheck = false,
+            taskCompleted = false,
+            goalOwnerId = goalId
+        )
     }
 
     override suspend fun updateTask(task: Task) {

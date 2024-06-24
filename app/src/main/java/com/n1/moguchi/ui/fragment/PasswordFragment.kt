@@ -16,6 +16,7 @@ class PasswordFragment : Fragment() {
 
     private var _binding: FragmentPasswordBinding? = null
     private val binding get() = _binding!!
+
     private var isNextButtonPressed: Boolean? = null
 
     override fun onCreateView(
@@ -65,10 +66,10 @@ class PasswordFragment : Fragment() {
             isNextButtonPressed = bundle.getBoolean("buttonIsPressedKey")
             if (isNextButtonPressed == true) {
                 val password = binding.passwordForChildEditText.text.toString().toInt()
-                val currentChildID =
+                val currentChildId =
                     requireParentFragment().arguments?.getString(GoalCreationFragment.CHILD_ID_KEY)
                 val newBundle = Bundle().apply {
-                    this.putString(currentChildID, password.toString())
+                    this.putString(currentChildId, password.toString())
                 }
                 parentFragmentManager.setFragmentResult(
                     "childCreationProcessCompletedRequestKey",

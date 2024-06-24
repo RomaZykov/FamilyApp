@@ -1,5 +1,6 @@
 package com.n1.moguchi.data.remote.model
 
+// Use default values for firebase
 data class Parent(
     val uid: String? = null,
     val parentName: String? = null,

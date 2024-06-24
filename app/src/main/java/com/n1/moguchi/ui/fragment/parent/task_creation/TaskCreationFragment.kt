@@ -58,14 +58,7 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val recyclerView: RecyclerView = binding.rvCardList
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        taskCreationRecyclerAdapter = TaskCreationRecyclerAdapter()
-        recyclerView.adapter = taskCreationRecyclerAdapter
-        recyclerView.recycledViewPool.setMaxRecycledViews(
-            TaskCreationRecyclerAdapter.VIEW_TYPE_TASK_CARD,
-            TaskCreationRecyclerAdapter.MAX_POOL_SIZE
-        )
+        setupRecyclerView()
 
         val currentGoalId =
             requireParentFragment().requireArguments().getString(GOAL_ID_KEY)
@@ -79,8 +72,6 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
         }
 
         viewModel.tasks.observe(viewLifecycleOwner) { tasks ->
-            tasksForParse = tasks.toMutableList()
-
             if (tasks.isEmpty()) {
                 taskCreationRecyclerAdapter.tasksCardList.add(
                     0,
@@ -112,7 +103,6 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
                 if (position == 1 && taskCreationRecyclerAdapter.tasksCardList.size == 2) {
                     taskCreationRecyclerAdapter.notifyItemChanged(0)
                 }
-                tasksForParse.removeAt(position)
                 viewModel.deleteTask(task)
             }
 
@@ -135,8 +125,8 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
         viewModel.currentGoalPoints.observe(viewLifecycleOwner) {
             binding.goalProgressBar.progress = it
             binding.taskHeightTotal.text = it.toString()
-            taskCreationRecyclerAdapter.onTaskUpdate = { updatedTask, positiveChanged ->
-                viewModel.onTaskUpdate(updatedTask, positiveChanged)
+            taskCreationRecyclerAdapter.onTaskUpdate = { updatedTask, shouldIncreasePoints ->
+                viewModel.onTaskUpdate(updatedTask, shouldIncreasePoints)
             }
         }
 
@@ -144,6 +134,7 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
             "nextButtonPressedRequestKey",
             viewLifecycleOwner
         ) { _, bundle ->
+            tasksForParse.addAll(taskCreationRecyclerAdapter.tasksCardList)
             isNextButtonPressed = bundle.getBoolean("buttonIsPressedKey")
             if (isNextButtonPressed == true) {
                 parentFragment?.arguments?.putParcelableArrayList(
@@ -152,6 +143,17 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
                 )
             }
         }
+    }
+
+    private fun setupRecyclerView() {
+        val recyclerView: RecyclerView = binding.rvCardList
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        taskCreationRecyclerAdapter = TaskCreationRecyclerAdapter()
+        recyclerView.adapter = taskCreationRecyclerAdapter
+        recyclerView.recycledViewPool.setMaxRecycledViews(
+            TaskCreationRecyclerAdapter.VIEW_TYPE_TASK_CARD,
+            TaskCreationRecyclerAdapter.MAX_POOL_SIZE
+        )
     }
 
     override fun onDestroyView() {

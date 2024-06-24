@@ -12,11 +12,9 @@ import com.n1.moguchi.data.remote.model.Task
 import com.n1.moguchi.databinding.CreationSectionFooterBinding
 import com.n1.moguchi.databinding.TaskCardBinding
 
-private const val FOOTER_ADD_TASK_BUTTON = 1
-
 class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var tasksCardList: MutableList<Task> = ArrayList()
+    var tasksCardList: MutableList<Task> = mutableListOf()
     var onTaskSettingsClicked: () -> Unit = {}
     var onTaskUpdate: (Task, Boolean) -> Unit = { _, _ -> }
     var onNewTaskAddClicked: () -> Unit = {}
@@ -74,22 +72,28 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
         private val binding = TaskCardBinding.bind(itemView)
 
         fun bind(task: Task) {
+            tasksCardList[absoluteAdapterPosition] = task
             if (tasksCardList.size == 1) {
                 binding.deleteTaskButton.visibility = View.GONE
             } else {
                 binding.deleteTaskButton.visibility = View.VISIBLE
             }
-            binding.taskHeight.text = task.height.toString()
-            binding.taskNameEditText.setText(task.title)
+            binding.taskHeight.text = tasksCardList[absoluteAdapterPosition].height.toString()
+            binding.taskNameEditText.setText(tasksCardList[absoluteAdapterPosition].title)
             binding.taskNameEditText.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
                 }
 
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 }
 
                 override fun afterTextChanged(taskName: Editable?) {
-                    tasksCardList[adapterPosition] = task.copy(title = taskName.toString())
+                    tasksCardList[absoluteAdapterPosition] = task.copy(title = taskName.toString())
                     if (taskName.toString().isEmpty()) {
                         binding.taskNameEditText.error =
                             context.getString(R.string.not_all_conditions_is_done)
@@ -99,44 +103,42 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
             })
 
             binding.deleteTaskButton.setOnClickListener {
-                onTaskDeleteClicked.invoke(task, adapterPosition)
-                tasksCardList.removeAt(adapterPosition)
-                notifyItemRemoved(adapterPosition)
+                onTaskDeleteClicked.invoke(tasksCardList[absoluteAdapterPosition], absoluteAdapterPosition)
+                tasksCardList.removeAt(absoluteAdapterPosition)
+                notifyItemRemoved(absoluteAdapterPosition)
                 notifyItemChanged(itemCount - 1)
             }
 
             binding.increaseButton.setOnClickListener {
-                if (task.height < MAX_TASK_HEIGHT) {
-                    updateTask(task, true)
+                if (tasksCardList[absoluteAdapterPosition].height < MAX_TASK_HEIGHT) {
+                    updateTask(tasksCardList[absoluteAdapterPosition], true)
                 }
             }
             binding.decreaseButton.setOnClickListener {
-                if (task.height > MIN_TASK_HEIGHT) {
-                    updateTask(task, false)
+                if (tasksCardList[absoluteAdapterPosition].height > MIN_TASK_HEIGHT) {
+                    updateTask(tasksCardList[absoluteAdapterPosition], false)
                 }
             }
         }
 
         private fun updateTask(task: Task, shouldIncreasePoints: Boolean) {
             val newTaskHeight = if (shouldIncreasePoints) task.height + 1 else task.height - 1
-            val updatedTask = task.copy(height = newTaskHeight)
-            onTaskUpdate.invoke(updatedTask, shouldIncreasePoints)
-            binding.taskHeight.text = (newTaskHeight).toString()
+            tasksCardList[absoluteAdapterPosition] = task.copy(height = newTaskHeight)
+            onTaskUpdate.invoke(tasksCardList[absoluteAdapterPosition], shouldIncreasePoints)
+            binding.taskHeight.text = (tasksCardList[absoluteAdapterPosition].height).toString()
         }
     }
 
     inner class FooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = CreationSectionFooterBinding.bind(itemView)
-        var context: Context = itemView.context
+        private val context: Context = itemView.context
 
         init {
             binding.addChildButton.text = context.getString(R.string.add_task_text_button)
         }
 
         fun bind() {
-            if (tasksCardList.all {
-                    it.title.isNotEmpty() && tasksCardList.size == itemCount - FOOTER_ADD_TASK_BUTTON
-                }) {
+            if (tasksCardList.all { allTasksValid(it) }) {
                 onCardsStatusUpdate.invoke(true)
                 with(binding.addChildButton) {
                     isEnabled = true
@@ -157,6 +159,9 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             }
         }
+
+        private fun allTasksValid(it: Task) =
+            it.title.isNotEmpty() && tasksCardList.size == itemCount - FOOTER_ADD_TASK_BUTTON
     }
 
     companion object {
@@ -166,5 +171,6 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
 
         private const val MIN_TASK_HEIGHT = 1
         private const val MAX_TASK_HEIGHT = 3
+        private const val FOOTER_ADD_TASK_BUTTON = 1
     }
 }

@@ -87,9 +87,9 @@ class TasksViewModel @Inject constructor(
     fun setupRelatedGoalDetails(goalId: String) {
         viewModelScope.launch(dispatcher) {
             goalRepository.getGoal(goalId).also {
-                _currentGoalPoints.value = it.currentPoints
-                _totalGoalPoints.value = it.totalPoints
-                _goalTitle.value = it.title
+                _currentGoalPoints.postValue(it.currentPoints)
+                _totalGoalPoints.postValue(it.totalPoints)
+                _goalTitle.postValue(it.title)
             }
         }
     }

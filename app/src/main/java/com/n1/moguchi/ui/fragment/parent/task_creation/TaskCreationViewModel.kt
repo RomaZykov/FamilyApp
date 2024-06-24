@@ -33,6 +33,7 @@ class TaskCreationViewModel @Inject constructor(
     private val tasksList = mutableListOf<Task>()
     private var tasksHeightTotal = 0
 
+
     init {
         _tasks.value = tasksList
         _currentGoalPoints.value = tasksHeightTotal
@@ -66,11 +67,14 @@ class TaskCreationViewModel @Inject constructor(
     }
 
     fun onTaskUpdate(task: Task, positiveTaskPointsChange: Boolean) {
-        _tasks.value?.find {
-            it.taskId == task.taskId
-        }.also {
-            it?.copy(title = task.title, height = task.height)
+        val tasks = _tasks.value?.map {
+            if (it.taskId == task.taskId) {
+                it.copy(title = task.title, height = task.height)
+            } else {
+                it
+            }
         }
+        _tasks.value = tasks!!
         if (positiveTaskPointsChange) {
             ++tasksHeightTotal
             _currentGoalPoints.value = tasksHeightTotal

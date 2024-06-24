@@ -22,8 +22,11 @@ class TaskRepositoryImpl @Inject constructor(
         val taskId: String = UUID.randomUUID().toString()
         return Task(
             taskId = taskId,
+            title = "",
             goalOwnerId = goalId,
-            taskCompleted = false
+            taskCompleted = false,
+            onCheck = false,
+            height = 1
         )
     }
 
@@ -40,6 +43,7 @@ class TaskRepositoryImpl @Inject constructor(
         val taskRefById = tasksRef.child(goalId).child(task.taskId)
         taskRefById.removeValue()
     }
+
     override suspend fun updateTask(task: Task) {
         val taskRefByGoalId = tasksRef.child(task.goalOwnerId!!).child(task.taskId)
         val updatedTask = task.copy(

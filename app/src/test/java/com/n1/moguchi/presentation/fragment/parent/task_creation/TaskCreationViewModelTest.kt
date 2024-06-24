@@ -6,6 +6,7 @@ import com.n1.moguchi.data.FakeTaskRepository
 import com.n1.moguchi.data.remote.model.Goal
 import com.n1.moguchi.data.remote.model.Task
 import com.n1.moguchi.getOrAwaitValue
+import com.n1.moguchi.ui.fragment.parent.task_creation.TaskCreationViewModel
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
