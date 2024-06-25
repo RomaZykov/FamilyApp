@@ -12,14 +12,12 @@ import com.n1.moguchi.data.remote.model.Child
 import com.n1.moguchi.databinding.ChildCreationCardBinding
 import com.n1.moguchi.databinding.CreationSectionFooterBinding
 
-private const val FOOTER_ADD_CHILD_BUTTON = 1
-
 class ChildrenCreationRecyclerAdapter(
     private val editChildOptionEnable: Boolean,
     private val addChildButtonEnable: Boolean,
     private val removeChildFastProcessEnable: Boolean,
-    private val passwordEnable: Boolean
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private val passwordEnable: Boolean,
+    ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     constructor(editChildOptionEnable: Boolean) : this(
         editChildOptionEnable,
@@ -33,6 +31,7 @@ class ChildrenCreationRecyclerAdapter(
     var onChildRemoveClicked: (Child, Int) -> Unit = { _, _ -> }
     var onChildRemoveViaBottomSheetClicked: (Child, Int) -> Unit = { _, _ -> }
     var onCardsStatusUpdate: (Boolean) -> Unit = {}
+    var onUpdateChildrenCards: (List<Child>, Boolean) -> Unit = { _, _ -> }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -131,14 +130,19 @@ class ChildrenCreationRecyclerAdapter(
                     val updatedChild =
                         children[absoluteAdapterPosition].copy(childName = childName.toString())
                     children[absoluteAdapterPosition] = updatedChild
-                    val regex = "^[a-zA-Zа-яА-Я]+$".toRegex()
-                    if (!(childName.toString().isNotBlank() && childName.toString()
-                            .matches(regex))
+                    onUpdateChildrenCards.invoke(
+                        children,
+                        if (updatedChild.childName.isEmpty()) false else true
+                    )
+                    if (childName.toString().isBlank() && !childName.toString()
+                            .matches(regex())
                     ) {
                         binding.childNameEditText.error =
                             getString(context, R.string.child_name_edit_text_error)
                     }
-                    notifyItemChanged(itemCount - FOOTER_ADD_CHILD_BUTTON)
+                    if (addChildButtonEnable) {
+                        notifyItemChanged(itemCount - FOOTER_ADD_CHILD_BUTTON)
+                    }
                 }
             })
 
@@ -193,7 +197,9 @@ class ChildrenCreationRecyclerAdapter(
                             binding.setPasswordEditText.error =
                                 getString(context, R.string.password_edit_text_error)
                         }
-                        notifyItemChanged(itemCount - FOOTER_ADD_CHILD_BUTTON)
+                        if (addChildButtonEnable) {
+                            notifyItemChanged(itemCount - FOOTER_ADD_CHILD_BUTTON)
+                        }
                     }
                 })
             } else {
@@ -207,9 +213,16 @@ class ChildrenCreationRecyclerAdapter(
                     binding.avatarMale2.id,
                     binding.avatarFemale2.id,
                     binding.avatarFemale3.id -> {
-                        val updatedChild = children[absoluteAdapterPosition].copy(imageResourceId = childAvatars[checkedId])
+                        val updatedChild =
+                            children[absoluteAdapterPosition].copy(imageResourceId = childAvatars[checkedId])
                         children[absoluteAdapterPosition] = updatedChild
-                        notifyItemChanged(itemCount - FOOTER_ADD_CHILD_BUTTON)
+                        onUpdateChildrenCards.invoke(
+                            children,
+                            if (updatedChild.childName.isEmpty()) false else true
+                        )
+                        if (addChildButtonEnable) {
+                            notifyItemChanged(itemCount - FOOTER_ADD_CHILD_BUTTON)
+                        }
                     }
                 }
             }
@@ -220,30 +233,26 @@ class ChildrenCreationRecyclerAdapter(
         private val binding = CreationSectionFooterBinding.bind(itemView)
 
         fun bind() {
-            val regex = "^[a-zA-Zа-яА-Я]+$".toRegex()
-            if (passwordEnable && children.all {
-                    (it.passwordFromParent != null && it.passwordFromParent != -1)
-                            && it.passwordFromParent.toString().isNotEmpty()
-                            && it.childName.isNotEmpty()
-                            && it.childName.matches(regex)
-                }) {
-
+            val allChildCardCreationWithPasswordIsValid = children.all {
+                (it.passwordFromParent != null && it.passwordFromParent != -1)
+                        && it.passwordFromParent.toString().isNotEmpty()
+                        && it.childName.isNotEmpty()
+                        && it.childName.matches(regex())
+            }
+            val allChildCardCreationIsValid = children.all {
+                it.childName.isNotEmpty() && it.childName.matches(regex())
+            }
+            if ((passwordEnable && allChildCardCreationWithPasswordIsValid)
+                || (!passwordEnable && allChildCardCreationIsValid
+                        && children.size == itemCount - FOOTER_ADD_CHILD_BUTTON)
+            ) {
                 changeCardStatusUI(true)
                 itemView.setOnClickListener {
                     onNewChildAddClicked.invoke()
                 }
                 return
             }
-
-            if (!passwordEnable && children.all {
-                    it.childName.isNotEmpty() && it.childName.matches(regex)
-                } && children.size == itemCount - FOOTER_ADD_CHILD_BUTTON) {
-
-                changeCardStatusUI(true)
-                itemView.setOnClickListener {
-                    onNewChildAddClicked.invoke()
-                }
-            }
+            changeCardStatusUI(false)
         }
 
         private fun changeCardStatusUI(buttonEnable: Boolean) {
@@ -259,9 +268,13 @@ class ChildrenCreationRecyclerAdapter(
         }
     }
 
+    private fun regex() = "^[a-zA-Zа-яА-Я]+$".toRegex()
+
     companion object {
         const val MAX_POOL_SIZE = 0
         const val VIEW_TYPE_CHILD_CARD = 100
         const val VIEW_TYPE_FOOTER = 101
+
+        const val FOOTER_ADD_CHILD_BUTTON = 1
     }
 }
