@@ -49,7 +49,7 @@ class TasksViewModel @Inject constructor(
         viewModelScope.launch(dispatcher) {
             taskRepository.fetchAllTasks(goalId)
                 .collect {
-                    _completedTasks.value = it
+                    _completedTasks.postValue(it)
                 }
         }
     }
@@ -58,7 +58,7 @@ class TasksViewModel @Inject constructor(
         viewModelScope.launch(dispatcher) {
             taskRepository.fetchActiveTasks(goalId)
                 .collect {
-                    _activeTasks.value = it
+                    _activeTasks.postValue(it)
                 }
         }
     }
@@ -67,20 +67,20 @@ class TasksViewModel @Inject constructor(
         viewModelScope.launch(dispatcher) {
             taskRepository.fetchCompletedTasks(goalId)
                 .collect {
-                    _completedTasks.value = it
+                    _completedTasks.postValue(it)
                 }
         }
     }
 
     fun deleteTask(goalId: String, task: Task) {
+        if (task.taskCompleted) {
+            _completedTasks.value =
+                _completedTasks.value?.dropWhile { it.taskId == task.taskId }
+        } else {
+            _activeTasks.value = _activeTasks.value?.dropWhile { it.taskId == task.taskId }
+        }
         viewModelScope.launch(dispatcher) {
             taskRepository.deleteTask(goalId, task)
-            if (task.taskCompleted) {
-                _completedTasks.value =
-                    _completedTasks.value?.dropWhile { it.taskId == task.taskId }
-            } else {
-                _activeTasks.value = _activeTasks.value?.dropWhile { it.taskId == task.taskId }
-            }
         }
     }
 
@@ -95,28 +95,29 @@ class TasksViewModel @Inject constructor(
     }
 
     fun updateTaskStatus(task: Task) {
-        viewModelScope.launch(dispatcher) {
-            if (task.taskCompleted) {
-                val taskToUpdate = _completedTasks.value?.find { it.taskId == task.taskId }
-                val changedTask = taskToUpdate?.copy(taskCompleted = false, onCheck = false)
-                _completedTasks.value =
-                    _completedTasks.value?.dropWhile { it.taskId == task.taskId }
-                if (changedTask != null) {
-                    _activeTasks.value = _activeTasks.value?.plus(changedTask)
-                    val currentPoints = _currentGoalPoints.value
-                    _currentGoalPoints.value =
-                        if (currentPoints!! - task.height < 0) 0 else _currentGoalPoints.value?.minus(
-                            task.height
-                        )
+        if (task.taskCompleted) {
+            val taskToUpdate = _completedTasks.value?.find { it.taskId == task.taskId }
+            val changedTask = taskToUpdate?.copy(taskCompleted = false, onCheck = false)
+            _completedTasks.value = _completedTasks.value?.dropWhile { it.taskId == task.taskId }
+            if (changedTask != null) {
+                _activeTasks.value = _activeTasks.value?.plus(changedTask)
+                val currentPoints = _currentGoalPoints.value
+                _currentGoalPoints.value =
+                    if (currentPoints!! - task.height < 0) 0 else _currentGoalPoints.value?.minus(
+                        task.height
+                    )
+                viewModelScope.launch(dispatcher) {
                     taskRepository.updateTask(changedTask)
                 }
-            } else {
-                val taskToUpdate = _activeTasks.value?.find { it.taskId == task.taskId }
-                val changedTask = taskToUpdate?.copy(taskCompleted = true, onCheck = false)
-                _activeTasks.value = _activeTasks.value?.dropWhile { it.taskId == task.taskId }
-                if (changedTask != null) {
-                    _completedTasks.value = _completedTasks.value?.plus(changedTask)
-                    _currentGoalPoints.value = _currentGoalPoints.value?.plus(task.height)
+            }
+        } else {
+            val taskToUpdate = _activeTasks.value?.find { it.taskId == task.taskId }
+            val changedTask = taskToUpdate?.copy(taskCompleted = true, onCheck = false)
+            _activeTasks.value = _activeTasks.value?.dropWhile { it.taskId == task.taskId }
+            if (changedTask != null) {
+                _completedTasks.value = _completedTasks.value?.plus(changedTask)
+                _currentGoalPoints.value = _currentGoalPoints.value?.plus(task.height)
+                viewModelScope.launch(dispatcher) {
                     taskRepository.updateTask(changedTask)
                 }
             }
@@ -124,18 +125,15 @@ class TasksViewModel @Inject constructor(
     }
 
     fun updateTaskCheckStatus(task: Task) {
+        val updatedTask = task.copy(onCheck = !task.onCheck)
+        if (task.taskCompleted) {
+            _completedTasks.value = _completedTasks.value?.dropWhile { it.taskId == task.taskId }
+            _completedTasks.value = _completedTasks.value?.plus(updatedTask)
+        } else {
+            _activeTasks.value = _activeTasks.value?.dropWhile { it.taskId == task.taskId }
+            _activeTasks.value = _activeTasks.value?.plus(updatedTask)
+        }
         viewModelScope.launch(dispatcher) {
-            val updatedTask = task.copy(
-                onCheck = !task.onCheck
-            )
-            if (task.taskCompleted) {
-                _completedTasks.value =
-                    _completedTasks.value?.dropWhile { it.taskId == task.taskId }
-                _completedTasks.value = _completedTasks.value?.plus(updatedTask)
-            } else {
-                _activeTasks.value = _activeTasks.value?.dropWhile { it.taskId == task.taskId }
-                _activeTasks.value = _activeTasks.value?.plus(updatedTask)
-            }
             taskRepository.updateTask(updatedTask)
         }
     }
