@@ -1,6 +1,5 @@
 package com.n1.moguchi.ui.fragment.parent.child_creation
 
-import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -110,8 +109,10 @@ class ChildrenCreationRecyclerAdapter(
                     binding.avatars.check(checkedId)
                 }
             } else {
+                val updatedChild =
+                    children[absoluteAdapterPosition].copy(imageResourceId = childAvatars[binding.avatarMale1.id])
                 binding.avatarMale1.isChecked = true
-                children[absoluteAdapterPosition].copy(imageResourceId = childAvatars[binding.avatarMale1.id])
+                children[absoluteAdapterPosition] = updatedChild
             }
 
             binding.childNameEditText.addTextChangedListener(object : TextWatcher {
@@ -127,7 +128,9 @@ class ChildrenCreationRecyclerAdapter(
                 }
 
                 override fun afterTextChanged(childName: Editable?) {
-                    children[absoluteAdapterPosition].copy(childName = childName.toString())
+                    val updatedChild =
+                        children[absoluteAdapterPosition].copy(childName = childName.toString())
+                    children[absoluteAdapterPosition] = updatedChild
                     val regex = "^[a-zA-Zа-яА-Я]+$".toRegex()
                     if (!(childName.toString().isNotBlank() && childName.toString()
                             .matches(regex))
@@ -181,10 +184,11 @@ class ChildrenCreationRecyclerAdapter(
                     override fun afterTextChanged(password: Editable?) {
                         binding.setPasswordInputLayout.isEndIconVisible =
                             password.toString().isNotBlank()
-                        children[absoluteAdapterPosition].copy(
+                        val updatedChild = children[absoluteAdapterPosition].copy(
                             passwordFromParent = if (password.isNullOrBlank()) -1
                             else password.toString().toInt()
                         )
+                        children[absoluteAdapterPosition] = updatedChild
                         if (password.toString().isBlank()) {
                             binding.setPasswordEditText.error =
                                 getString(context, R.string.password_edit_text_error)
@@ -203,7 +207,8 @@ class ChildrenCreationRecyclerAdapter(
                     binding.avatarMale2.id,
                     binding.avatarFemale2.id,
                     binding.avatarFemale3.id -> {
-                        children[absoluteAdapterPosition].copy(imageResourceId = childAvatars[checkedId])
+                        val updatedChild = children[absoluteAdapterPosition].copy(imageResourceId = childAvatars[checkedId])
+                        children[absoluteAdapterPosition] = updatedChild
                         notifyItemChanged(itemCount - FOOTER_ADD_CHILD_BUTTON)
                     }
                 }
@@ -213,7 +218,6 @@ class ChildrenCreationRecyclerAdapter(
 
     inner class FooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = CreationSectionFooterBinding.bind(itemView)
-        private var context: Context = itemView.context
 
         fun bind() {
             val regex = "^[a-zA-Zа-яА-Я]+$".toRegex()
@@ -221,7 +225,7 @@ class ChildrenCreationRecyclerAdapter(
                     (it.passwordFromParent != null && it.passwordFromParent != -1)
                             && it.passwordFromParent.toString().isNotEmpty()
                             && it.childName.isNotEmpty()
-                            && it.childName.toString().matches(regex)
+                            && it.childName.matches(regex)
                 }) {
 
                 changeCardStatusUI(true)
@@ -232,7 +236,7 @@ class ChildrenCreationRecyclerAdapter(
             }
 
             if (!passwordEnable && children.all {
-                    it.childName.isNotEmpty() && it.childName.toString().matches(regex)
+                    it.childName.isNotEmpty() && it.childName.matches(regex)
                 } && children.size == itemCount - FOOTER_ADD_CHILD_BUTTON) {
 
                 changeCardStatusUI(true)

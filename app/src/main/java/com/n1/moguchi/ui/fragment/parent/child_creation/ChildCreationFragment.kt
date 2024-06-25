@@ -40,8 +40,6 @@ class ChildCreationFragment : Fragment() {
     private var isFromParentHome: Boolean = false
     private var isFromOnBoarding: Boolean = false
 
-    private var childrenForParse: MutableList<Child> = mutableListOf()
-
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private val viewModel by lazy {
@@ -82,59 +80,56 @@ class ChildCreationFragment : Fragment() {
             binding.myChildrenBottomBar.visibility = View.VISIBLE
         }
 
-        if (parentId != null) {
-            setupRecyclerView()
-            if (isFromParentHome xor isFromParentProfile) {
-                addChildCardToRecyclerList(parentId, 0)
-            } else {
-                viewModel.fetchChildren(parentId)
-                viewModel.children.observeOnce(viewLifecycleOwner) {
-                    childrenCreationAdapter.children = it.toMutableList()
-                    childrenCreationAdapter.notifyItemRangeInserted(
-                        0,
-                        childrenCreationAdapter.children.size
-                    )
+        setupRecyclerView()
+        if (isFromParentHome || isFromOnBoarding) {
+            addChildCardToRecyclerList(parentId!!, 0)
+        } else {
+            viewModel.fetchChildren(parentId!!)
+            viewModel.children.observeOnce(viewLifecycleOwner) {
+                childrenCreationAdapter.children = it.toMutableList()
+                childrenCreationAdapter.notifyItemRangeInserted(
+                    0,
+                    childrenCreationAdapter.children.size
+                )
+            }
+        }
+
+        viewModel.children.observe(viewLifecycleOwner) { children ->
+            childrenCreationAdapter.onNewChildAddClicked = {
+                if (childrenCreationAdapter.children.size == 1) {
+                    childrenCreationAdapter.notifyItemChanged(0)
+                }
+                addChildCardToRecyclerList(parentId, children.size)
+            }
+
+            childrenCreationAdapter.onChildRemoveClicked = { _, position ->
+                if (position == 0 && childrenCreationAdapter.children.size == 2) {
+                    childrenCreationAdapter.notifyItemChanged(1)
+                }
+                if (position == 1 && childrenCreationAdapter.children.size == 2) {
+                    childrenCreationAdapter.notifyItemChanged(0)
                 }
             }
 
-            viewModel.children.observe(viewLifecycleOwner) { children ->
-                childrenCreationAdapter.onNewChildAddClicked = {
-                    if (childrenCreationAdapter.children.size == 1) {
-                        childrenCreationAdapter.notifyItemChanged(0)
+            childrenCreationAdapter.onChildRemoveViaBottomSheetClicked = { child, position ->
+                showBottomSheet(TO_DELETE_CHILD_PROFILE)
+                childFragmentManager.setFragmentResultListener(
+                    "deleteChildProfileClickedRequestKey",
+                    this
+                ) { _, _ ->
+                    if (isFromParentProfile) {
+                        viewModel.deleteChildProfile(child.childId!!)
+                        childrenCreationAdapter.children.removeAt(position)
+                        childrenCreationAdapter.notifyItemRemoved(position)
                     }
-                    addChildCardToRecyclerList(parentId, children.size)
                 }
+            }
 
-                childrenCreationAdapter.onChildRemoveClicked = { _, position ->
-                    if (position == 0 && childrenCreationAdapter.children.size == 2) {
-                        childrenCreationAdapter.notifyItemChanged(1)
-                    }
-                    if (position == 1 && childrenCreationAdapter.children.size == 2) {
-                        childrenCreationAdapter.notifyItemChanged(0)
-                    }
-                    childrenForParse.removeAt(position)
-                }
-
-                childrenCreationAdapter.onChildRemoveViaBottomSheetClicked = { child, position ->
-                    showBottomSheet(TO_DELETE_CHILD_PROFILE)
-                    childFragmentManager.setFragmentResultListener(
-                        "deleteChildProfileClickedRequestKey",
-                        this
-                    ) { _, _ ->
-                        if (isFromParentProfile) {
-                            viewModel.deleteChildProfile(child.childId!!)
-                            childrenCreationAdapter.children.removeAt(position)
-                            childrenCreationAdapter.notifyItemRemoved(position)
-                        }
-                    }
-                }
-
-                childrenCreationAdapter.onCardsStatusUpdate = { isAllCardsCompleted ->
-                    parentFragmentManager.setFragmentResult(
-                        "isButtonEnabledRequestKey",
-                        bundleOf("buttonIsReadyKey" to isAllCardsCompleted)
-                    )
-                }
+            childrenCreationAdapter.onCardsStatusUpdate = { isAllCardsCompleted ->
+                parentFragmentManager.setFragmentResult(
+                    "isButtonEnabledRequestKey",
+                    bundleOf("buttonIsReadyKey" to isAllCardsCompleted)
+                )
             }
         }
 
@@ -145,6 +140,7 @@ class ChildCreationFragment : Fragment() {
             val nextButtonPressed = bundle.getBoolean("buttonIsPressedKey")
             if (nextButtonPressed) {
                 val newBundle = Bundle().apply {
+                    val childrenForParse = childrenCreationAdapter.children
                     this.putParcelableArrayList(
                         "children",
                         childrenForParse as ArrayList<out Parcelable>
@@ -161,7 +157,6 @@ class ChildCreationFragment : Fragment() {
 
     private fun addChildCardToRecyclerList(parentId: String, childrenSize: Int) {
         val createdChild = viewModel.returnCreatedChild(parentId, Child())
-        childrenForParse.add(createdChild)
         if (childrenSize == 0) {
             childrenCreationAdapter.children.add(
                 0,
@@ -276,3 +271,4 @@ class ChildCreationFragment : Fragment() {
         }
     }
 }
+

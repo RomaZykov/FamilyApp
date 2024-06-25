@@ -1,6 +1,7 @@
 package com.n1.moguchi.ui.fragment.tasks
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -143,7 +144,11 @@ class TasksFragment : Fragment() {
                 "refreshRecyclerViewRequestKey",
                 viewLifecycleOwner
             ) { _, innerBundle ->
-                val addedTasks = innerBundle.getParcelableArrayList<Task>("tasks")?.toList()
+                val addedTasks = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    innerBundle.getParcelableArrayList("tasks", Task::class.java)?.toList()
+                } else {
+                    innerBundle.getParcelableArrayList<Task>("tasks")?.toList()
+                }
                 if (addedTasks != null) {
                     tasksRecyclerAdapter.updateTasksList = addedTasks.toMutableList()
                     tasksRecyclerAdapter.notifyItemRangeInserted(

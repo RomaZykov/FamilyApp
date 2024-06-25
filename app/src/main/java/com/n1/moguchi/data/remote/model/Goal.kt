@@ -3,6 +3,7 @@ package com.n1.moguchi.data.remote.model
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
+// Use default values for firebase
 @Parcelize
 data class Goal(
     val goalId: String? = null,

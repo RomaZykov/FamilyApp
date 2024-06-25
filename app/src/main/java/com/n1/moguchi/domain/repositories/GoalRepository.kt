@@ -5,6 +5,7 @@ import com.n1.moguchi.data.remote.model.Task
 import kotlinx.coroutines.flow.Flow
 
 interface GoalRepository {
+
     fun fetchActiveGoals(childId: String): Flow<List<Goal>>
 
     fun fetchCompletedGoals(childId: String): Flow<List<Goal>?>

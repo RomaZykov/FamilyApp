@@ -27,9 +27,8 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.n1.moguchi.BuildConfig
 import com.n1.moguchi.MoguchiBaseApplication
-import com.n1.moguchi.R
+import com.n1.moguchi.data.ProfileMode
 import com.n1.moguchi.data.remote.model.Parent
-import com.n1.moguchi.data.remote.model.ProfileMode
 import com.n1.moguchi.databinding.FragmentRegistrationBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import kotlinx.coroutines.CoroutineScope

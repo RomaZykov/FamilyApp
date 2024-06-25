@@ -3,6 +3,7 @@ package com.n1.moguchi.data.remote.model
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
+// Use default values for firebase
 @Parcelize
 data class Child(
     val childId: String? = null,
@@ -10,7 +11,7 @@ data class Child(
     val childName: String = "",
     val imageResourceId: Int? = null,
     val passwordFromParent: Int? = null,
-    val onBoardingCompleted: Boolean = false,
+    val onBoardingCompleted: Boolean = false
 ) : Parcelable {
     fun toMap(): Map<String, Any?> {
         return mapOf(

@@ -31,7 +31,7 @@ class TasksRecyclerAdapter(
             }
         }
 
-    var onTaskStatusChangedClicked: (Task, Boolean?) -> Unit = { task, isActiveTask -> }
+    var onTaskStatusChangedClicked: (Task, Boolean?) -> Unit = { _, _ -> }
     var onTaskDeleteClicked: (Task) -> Unit = {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EditableTaskViewHolder {

@@ -9,8 +9,9 @@ import com.n1.moguchi.domain.repositories.ParentRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class ChildCreationViewModel @Inject constructor(private val parentRepository: ParentRepository) :
-    ViewModel() {
+class ChildCreationViewModel @Inject constructor(
+    private val parentRepository: ParentRepository
+) : ViewModel() {
 
     private var _children = MutableLiveData<List<Child>>()
     val children: LiveData<List<Child>> = _children
@@ -40,13 +41,5 @@ class ChildCreationViewModel @Inject constructor(private val parentRepository: P
             it.childId == childId
         }
         _children.value = childrenList
-    }
-
-    fun onChildUpdate(child: Child) {
-        _children.value?.find {
-            it.childId == child.childId
-        }.also {
-            it?.copy(childName = child.childName, imageResourceId = child.imageResourceId)
-        }
     }
 }

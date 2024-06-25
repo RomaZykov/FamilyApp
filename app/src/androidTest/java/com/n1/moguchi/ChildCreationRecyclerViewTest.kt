@@ -1,27 +1,25 @@
 package com.n1.moguchi
 
 import android.os.Bundle
-import android.os.SystemClock
 import androidx.fragment.app.testing.FragmentScenario
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.fragment.app.testing.withFragment
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.isChecked
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.isFocusable
-import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.isEnabled
+import androidx.test.espresso.matcher.ViewMatchers.isNotEnabled
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.n1.moguchi.core.RecyclerViewMatcher
 import com.n1.moguchi.data.remote.model.Child
 import com.n1.moguchi.ui.activity.MainActivity
 import com.n1.moguchi.ui.fragment.parent.child_creation.ChildCreationFragment
 import com.n1.moguchi.ui.fragment.parent.child_creation.ChildrenCreationRecyclerAdapter
-import com.n1.moguchi.ui.fragment.parent.goal_creation.GoalCreationFragment
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -49,7 +47,8 @@ class ChildCreationRecyclerViewTest {
             factory = null
         )
         fragmentScenario.withFragment {
-            val recyclerView = requireActivity().findViewById<RecyclerView>(R.id.rv_children_creation_list)
+            val recyclerView =
+                requireActivity().findViewById<RecyclerView>(R.id.rv_children_creation_list)
             val adapter = ChildrenCreationRecyclerAdapter(
                 requireArgs.getBoolean("deleteChildOptionEnable"),
                 requireArgs.getBoolean("isFromParentProfile"),
@@ -73,5 +72,44 @@ class ChildCreationRecyclerViewTest {
                 R.id.material_child_creation_card
             )
         ).check(matches(isDisplayed()))
+
+        onView(
+            RecyclerViewMatcher(R.id.rv_children_creation_list).atPosition(
+                0,
+                R.id.avatar_male_1
+            )
+        ).check(matches(isChecked()))
+
+        onView(
+            RecyclerViewMatcher(R.id.rv_children_creation_list).atPosition(
+                1,
+                R.id.add_child_button
+            )
+        ).check(matches(isNotEnabled()))
+    }
+
+    @Test
+    fun test_child_creation_change_add_button_enable_status_after_performing_child_name() {
+        val inputText = "Roman"
+        onView(
+            RecyclerViewMatcher(R.id.rv_children_creation_list).atPosition(
+                0,
+                R.id.child_name_edit_text
+            )
+        ).perform(typeText(inputText))
+
+        onView(
+            RecyclerViewMatcher(R.id.rv_children_creation_list).atPosition(
+                0,
+                R.id.avatar_female_2
+            )
+        ).perform(click())
+
+        onView(
+            RecyclerViewMatcher(R.id.rv_children_creation_list).atPosition(
+                1,
+                R.id.add_child_button
+            )
+        ).check(matches(isEnabled()))
     }
 }

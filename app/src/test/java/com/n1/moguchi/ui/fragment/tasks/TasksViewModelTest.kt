@@ -34,20 +34,79 @@ class TasksViewModelTest {
     fun setUp() {
         taskRepository = FakeTaskRepository()
         val tasksList = listOf(
-            Task(taskId = "1", title = "A", height = 1, taskCompleted = false),
-            Task(taskId = "2", title = "B", height = 2, taskCompleted = false),
-            Task(taskId = "3", title = "C", height = 3, taskCompleted = false),
-            Task(taskId = "4", title = "D", height = 1, taskCompleted = true),
-            Task(taskId = "5", title = "E", height = 3, taskCompleted = true)
+            Task(
+                taskId = "1",
+                title = "A",
+                height = 1,
+                goalOwnerId = "",
+                onCheck = false,
+                taskCompleted = false
+            ),
+            Task(
+                taskId = "2",
+                title = "B",
+                height = 2,
+                goalOwnerId = "",
+                onCheck = false,
+                taskCompleted = false
+            ),
+            Task(
+                taskId = "3",
+                title = "C",
+                height = 3,
+                goalOwnerId = "",
+                onCheck = false,
+                taskCompleted = false
+            ),
+            Task(
+                taskId = "4",
+                title = "D",
+                height = 1,
+                goalOwnerId = "",
+                onCheck = false,
+                taskCompleted = true
+            ),
+            Task(
+                taskId = "5",
+                title = "E",
+                height = 3,
+                goalOwnerId = "",
+                onCheck = false,
+                taskCompleted = true
+            )
         )
         taskRepository.addTasks(tasksList)
 
         goalRepository = FakeGoalRepository()
         val goalsList = listOf(
-            Goal(goalId = "1", title = "Поездка", currentPoints = 5, totalPoints = 10, goalCompleted = false),
-            Goal(goalId = "2", title = "Покупка компьютера", currentPoints = 9, totalPoints = 10, goalCompleted = false),
-            Goal(goalId = "3", title = "Велосипед", currentPoints = 10, totalPoints = 10, goalCompleted = true),
-            Goal(goalId = "4", title = "Пиво", currentPoints = 1, totalPoints = 1, goalCompleted = true)
+            Goal(
+                goalId = "1",
+                title = "Поездка",
+                currentPoints = 5,
+                totalPoints = 10,
+                goalCompleted = false
+            ),
+            Goal(
+                goalId = "2",
+                title = "Покупка компьютера",
+                currentPoints = 9,
+                totalPoints = 10,
+                goalCompleted = false
+            ),
+            Goal(
+                goalId = "3",
+                title = "Велосипед",
+                currentPoints = 10,
+                totalPoints = 10,
+                goalCompleted = true
+            ),
+            Goal(
+                goalId = "4",
+                title = "Пиво",
+                currentPoints = 1,
+                totalPoints = 1,
+                goalCompleted = true
+            )
         )
         goalRepository.addGoals(goalsList)
 
@@ -89,11 +148,26 @@ class TasksViewModelTest {
         val result = viewModel.completedTasks.getOrAwaitValue()
         assertEquals(
             listOf(
-                Task(taskId = "1", title = "A", height = 1, taskCompleted = false),
-                Task(taskId = "2", title = "B", height = 2, taskCompleted = false),
-                Task(taskId = "3", title = "C", height = 3, taskCompleted = false),
-                Task(taskId = "4", title = "D", height = 1, taskCompleted = true),
-                Task(taskId = "5", title = "E", height = 3, taskCompleted = true)
+                Task(
+                    taskId = "1", title = "A", height = 1, onCheck = false,
+                    goalOwnerId = "", taskCompleted = false
+                ),
+                Task(
+                    taskId = "2", title = "B", height = 2, onCheck = false,
+                    goalOwnerId = "", taskCompleted = false
+                ),
+                Task(
+                    taskId = "3", title = "C", height = 3, onCheck = false,
+                    goalOwnerId = "", taskCompleted = false
+                ),
+                Task(
+                    taskId = "4", title = "D", height = 1, onCheck = false,
+                    goalOwnerId = "", taskCompleted = true
+                ),
+                Task(
+                    taskId = "5", title = "E", height = 3, onCheck = false,
+                    goalOwnerId = "", taskCompleted = true
+                )
             ), result
         )
     }
@@ -103,14 +177,49 @@ class TasksViewModelTest {
         val task = taskRepository.getActiveTask()
         viewModel.fetchActiveTasks("")
         val activeTasksExpected = listOf(
-            Task(taskId = "2", title = "B", height = 2, taskCompleted = false),
-            Task(taskId = "3", title = "C", height = 3, taskCompleted = false),
+            Task(
+                taskId = "2",
+                title = "B",
+                height = 2,
+                goalOwnerId = "",
+                onCheck = false,
+                taskCompleted = false
+            ),
+            Task(
+                taskId = "3",
+                title = "C",
+                height = 3,
+                goalOwnerId = "",
+                onCheck = false,
+                taskCompleted = false
+            ),
         )
         viewModel.fetchCompletedTasks("")
         val completedTasksExpected = listOf(
-            Task(taskId = "4", title = "D", height = 1, taskCompleted = true),
-            Task(taskId = "5", title = "E", height = 3, taskCompleted = true),
-            Task(taskId = "1", title = "A", height = 1, taskCompleted = true)
+            Task(
+                taskId = "4",
+                title = "D",
+                height = 1,
+                goalOwnerId = "",
+                onCheck = false,
+                taskCompleted = true
+            ),
+            Task(
+                taskId = "5",
+                title = "E",
+                height = 3,
+                goalOwnerId = "",
+                onCheck = false,
+                taskCompleted = true
+            ),
+            Task(
+                taskId = "1",
+                title = "A",
+                height = 1,
+                goalOwnerId = "",
+                onCheck = false,
+                taskCompleted = true
+            )
         )
 
         viewModel.updateTaskStatus(task)
@@ -130,6 +239,8 @@ class TasksViewModelTest {
                     taskId = "1",
                     title = "A",
                     height = 1,
+                    onCheck = false,
+                    goalOwnerId = "",
                     taskCompleted = false
                 )
             )
@@ -142,6 +253,8 @@ class TasksViewModelTest {
                 taskId = "1",
                 title = "A",
                 height = 1,
+                onCheck = false,
+                goalOwnerId = "",
                 taskCompleted = true
             ),
         )
@@ -180,6 +293,7 @@ class TasksViewModelTest {
                 title = "A",
                 height = 1,
                 taskCompleted = false,
+                goalOwnerId = "",
                 onCheck = true
             ), result
         )

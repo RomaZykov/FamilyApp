@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.n1.moguchi.data.remote.model.Child
 import com.n1.moguchi.data.remote.model.Goal
-import com.n1.moguchi.data.remote.model.ProfileMode
+import com.n1.moguchi.data.ProfileMode
 import com.n1.moguchi.data.remote.model.Task
 import com.n1.moguchi.domain.repositories.AppRepository
 import com.n1.moguchi.domain.repositories.ParentRepository
