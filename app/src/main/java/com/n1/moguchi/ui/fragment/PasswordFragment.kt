@@ -40,8 +40,7 @@ class PasswordFragment : Fragment() {
             }
 
             override fun afterTextChanged(password: Editable?) {
-                binding.passwordForChildInputLayout.isEndIconVisible =
-                    password.toString().isNotBlank()
+                binding.passwordForChildInputLayout.isEndIconVisible = password.toString().isNotBlank()
                 if (password.toString().isEmpty() && password.toString().isBlank()) {
                     binding.passwordForChildEditText.error = getString(R.string.password_error)
                     parentFragmentManager.clearFragmentResult("isButtonEnabledRequestKey")
@@ -66,14 +65,13 @@ class PasswordFragment : Fragment() {
             isNextButtonPressed = bundle.getBoolean("buttonIsPressedKey")
             if (isNextButtonPressed == true) {
                 val password = binding.passwordForChildEditText.text.toString().toInt()
-                val currentChildId =
-                    requireParentFragment().arguments?.getString(GoalCreationFragment.CHILD_ID_KEY)
-                val newBundle = Bundle().apply {
+                val currentChildId = requireParentFragment().arguments?.getString(CHILD_ID_KEY)
+                val childCreationProcessCompletedBundle = Bundle().apply {
                     this.putString(currentChildId, password.toString())
                 }
                 parentFragmentManager.setFragmentResult(
                     "childCreationProcessCompletedRequestKey",
-                    newBundle
+                    childCreationProcessCompletedBundle
                 )
             }
         }
@@ -82,5 +80,9 @@ class PasswordFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        const val CHILD_ID_KEY = "childIdKey"
     }
 }

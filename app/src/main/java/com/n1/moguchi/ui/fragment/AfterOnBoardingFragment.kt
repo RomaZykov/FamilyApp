@@ -186,18 +186,18 @@ class AfterOnBoardingFragment : Fragment() {
     ) {
         if (allChildrenCompleted) {
             val args = requireArguments()
-            val children = args.getParcelableArrayList<Child>("children")
-            children?.forEach { child ->
+            val childrenToParce = mutableListOf<Child>()
+            args.getParcelableArrayList<Child>("children")?.forEach { child ->
                 val password = args.getString(child.childId)
                 if (password != null) {
-                    child.copy(passwordFromParent = password.toInt())
+                    childrenToParce.add(child.copy(passwordFromParent = password.toInt()))
                 }
             }
             val tasks = args.getParcelableArrayList<Task>("tasks")
             val goals = args.getParcelableArrayList<Goal>("goals")?.toSet()
-            if (children != null && goals != null && tasks != null) {
+            if (goals != null && tasks != null) {
                 viewModel.saveChildrenDataToDb(
-                    children.toList(),
+                    childrenToParce.toList(),
                     goals.toList(),
                     tasks.toList()
                 )
