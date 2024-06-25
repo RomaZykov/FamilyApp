@@ -150,6 +150,14 @@ class ChildCreationFragment : Fragment() {
             }
         }
 
+        childrenCreationAdapter.onUpdateChildrenCards = { child, isButtonEnabled ->
+            binding.saveButton.isEnabled = isButtonEnabled
+            binding.saveButton.setOnClickListener {
+                viewModel.saveChildrenData(child)
+                parentFragmentManager.popBackStack()
+            }
+        }
+
         binding.cancelButton.setOnClickListener {
             parentFragmentManager.popBackStack()
         }

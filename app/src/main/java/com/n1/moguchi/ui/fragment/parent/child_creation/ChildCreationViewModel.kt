@@ -42,4 +42,10 @@ class ChildCreationViewModel @Inject constructor(
         }
         _children.value = childrenList
     }
+
+    fun saveChildrenData(children: List<Child>) {
+        viewModelScope.launch {
+            parentRepository.saveChildrenToDb(children, null, null)
+        }
+    }
 }
