@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     "undefined" -> {
-                        graph.setStartDestination(R.id.registrationFragment)
+                        graph.setStartDestination(R.id.registration_fragment)
                     }
                 }
                 navController.graph = graph

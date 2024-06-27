@@ -79,13 +79,6 @@ class AfterOnBoardingFragment : Fragment() {
             PasswordFragment()
         )
 
-        val topAppBar = requireActivity().findViewById<MaterialToolbar>(R.id.top_common_app_bar)
-        topAppBar.setNavigationOnClickListener {
-            if (childFragmentManager.fragments.last() != fragments[0] && childFragmentManager.backStackEntryCount > 0) {
-                childFragmentManager.popBackStack()
-            }
-        }
-
         childFragmentManager.commit {
             replace(R.id.after_onboarding_fragment_container_view, fragments[0])
                 .addToBackStack("ChildCreation")
@@ -185,16 +178,15 @@ class AfterOnBoardingFragment : Fragment() {
         allChildrenCompleted: Boolean
     ) {
         if (allChildrenCompleted) {
-            val args = requireArguments()
             val childrenToParce = mutableListOf<Child>()
-            args.getParcelableArrayList<Child>("children")?.forEach { child ->
-                val password = args.getString(child.childId)
+            requireArguments().getParcelableArrayList<Child>("children")?.forEach { child ->
+                val password = requireArguments().getString(child.childId)
                 if (password != null) {
                     childrenToParce.add(child.copy(passwordFromParent = password.toInt()))
                 }
             }
-            val tasks = args.getParcelableArrayList<Task>("tasks")
-            val goals = args.getParcelableArrayList<Goal>("goals")?.toSet()
+            val tasks = requireArguments().getParcelableArrayList<Task>("tasks")
+            val goals = requireArguments().getParcelableArrayList<Goal>("goals")?.toSet()
             if (goals != null && tasks != null) {
                 viewModel.saveChildrenDataToDb(
                     childrenToParce.toList(),

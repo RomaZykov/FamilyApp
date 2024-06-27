@@ -2,6 +2,7 @@ package com.n1.moguchi.di.modules
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.n1.moguchi.BuildConfig
 import com.n1.moguchi.di.components.ApplicationScope
 import dagger.Module
 import dagger.Provides
@@ -18,7 +19,7 @@ interface FirebaseModule {
 
         @Provides
         fun provideFirebaseDatabaseInstance(): FirebaseDatabase {
-            return FirebaseDatabase.getInstance()
+            return FirebaseDatabase.getInstance(BuildConfig.BASE_URL)
         }
     }
 }
