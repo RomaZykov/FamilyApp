@@ -15,10 +15,10 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.appbar.MaterialToolbar
 import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
-import com.n1.moguchi.data.models.remote.Child
-import com.n1.moguchi.data.models.remote.Goal
-import com.n1.moguchi.data.models.remote.ProfileMode
-import com.n1.moguchi.data.models.remote.Task
+import com.n1.moguchi.data.remote.model.Child
+import com.n1.moguchi.data.remote.model.Goal
+import com.n1.moguchi.data.ProfileMode
+import com.n1.moguchi.data.remote.model.Task
 import com.n1.moguchi.databinding.FragmentAfterOnboardingBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.fragment.parent.child_creation.ChildCreationFragment
@@ -78,13 +78,6 @@ class AfterOnBoardingFragment : Fragment() {
             TaskCreationFragment(),
             PasswordFragment()
         )
-
-        val topAppBar = requireActivity().findViewById<MaterialToolbar>(R.id.top_common_app_bar)
-        topAppBar.setNavigationOnClickListener {
-            if (childFragmentManager.fragments.last() != fragments[0] && childFragmentManager.backStackEntryCount > 0) {
-                childFragmentManager.popBackStack()
-            }
-        }
 
         childFragmentManager.commit {
             replace(R.id.after_onboarding_fragment_container_view, fragments[0])
@@ -185,19 +178,18 @@ class AfterOnBoardingFragment : Fragment() {
         allChildrenCompleted: Boolean
     ) {
         if (allChildrenCompleted) {
-            val args = requireArguments()
-            val children = args.getParcelableArrayList<Child>("children")
-            children?.forEach {
-                val password = args.getString(it.childId)
+            val childrenToParce = mutableListOf<Child>()
+            requireArguments().getParcelableArrayList<Child>("children")?.forEach { child ->
+                val password = requireArguments().getString(child.childId)
                 if (password != null) {
-                    it.passwordFromParent = password.toInt()
+                    childrenToParce.add(child.copy(passwordFromParent = password.toInt()))
                 }
             }
-            val tasks = args.getParcelableArrayList<Task>("tasks")
-            val goals = args.getParcelableArrayList<Goal>("goals")?.toSet()
-            if (children != null && goals != null && tasks != null) {
+            val tasks = requireArguments().getParcelableArrayList<Task>("tasks")
+            val goals = requireArguments().getParcelableArrayList<Goal>("goals")?.toSet()
+            if (goals != null && tasks != null) {
                 viewModel.saveChildrenDataToDb(
-                    children.toList(),
+                    childrenToParce.toList(),
                     goals.toList(),
                     tasks.toList()
                 )

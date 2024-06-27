@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.R
-import com.n1.moguchi.data.models.remote.Child
+import com.n1.moguchi.data.remote.model.Child
 import com.n1.moguchi.databinding.MediumChildItemBinding
 import com.n1.moguchi.databinding.SmallAddChildButtonBinding
 import com.n1.moguchi.databinding.SmallChildItemBinding
@@ -21,10 +21,6 @@ class ChildrenRecyclerAdapter(
 
 
     // TODO - Dangerous code
-//    var currentChildIndex: Int = selectedChildIndex
-//        set(value) {
-//            field = value
-//        }
     var updateChildrenList: MutableList<Child> = mutableListOf()
         set(value) {
             field = value
@@ -33,8 +29,8 @@ class ChildrenRecyclerAdapter(
             }
         }
 
-    var onChildClicked: ((Int, Child?) -> Unit)? = null
-    var onAddChildClicked: (() -> Unit)? = null
+    var onChildClicked: (Int, Child?) -> Unit = { _, _ -> }
+    var onAddChildClicked: () -> Unit = {}
 
     constructor(childrenList: MutableList<Child>) : this(
         childrenList,
@@ -142,7 +138,7 @@ class ChildrenRecyclerAdapter(
         }
 
         override fun onClick(v: View) {
-            onChildClicked?.invoke(adapterPosition, child!!)
+            onChildClicked.invoke(absoluteAdapterPosition, child!!)
         }
     }
 
@@ -159,7 +155,7 @@ class ChildrenRecyclerAdapter(
             this.child = child
             binding.smallChildName.text = child.childName
             binding.smallChildAvatar.setImageResource(child.imageResourceId!!)
-            binding.root.isSelected = selectedChildIndex == adapterPosition
+            binding.root.isSelected = selectedChildIndex == absoluteAdapterPosition
             if (binding.root.isSelected || !childSelectionEnable) {
                 changeClickable(false)
             } else {
@@ -174,9 +170,9 @@ class ChildrenRecyclerAdapter(
 
         override fun onClick(v: View?) {
             val oldPosition = selectedChildIndex
-            val newPosition = adapterPosition
+            val newPosition = absoluteAdapterPosition
             selectedChildIndex = newPosition
-            onChildClicked?.invoke(selectedChildIndex, child)
+            onChildClicked.invoke(selectedChildIndex, child)
             notifyItemChanged(oldPosition)
             notifyItemChanged(newPosition)
         }
@@ -187,7 +183,7 @@ class ChildrenRecyclerAdapter(
 
         fun bind() {
             binding.root.setOnClickListener {
-                onAddChildClicked?.invoke()
+                onAddChildClicked.invoke()
             }
         }
     }

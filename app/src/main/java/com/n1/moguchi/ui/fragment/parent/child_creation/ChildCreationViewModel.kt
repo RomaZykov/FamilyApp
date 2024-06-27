@@ -4,13 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.n1.moguchi.data.models.remote.Child
-import com.n1.moguchi.data.repositories.ParentRepository
+import com.n1.moguchi.data.remote.model.Child
+import com.n1.moguchi.domain.repositories.ParentRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class ChildCreationViewModel @Inject constructor(private val parentRepository: ParentRepository) :
-    ViewModel() {
+class ChildCreationViewModel @Inject constructor(
+    private val parentRepository: ParentRepository
+) : ViewModel() {
 
     private var _children = MutableLiveData<List<Child>>()
     val children: LiveData<List<Child>> = _children
@@ -42,12 +43,9 @@ class ChildCreationViewModel @Inject constructor(private val parentRepository: P
         _children.value = childrenList
     }
 
-    fun onChildUpdate(child: Child) {
-        _children.value?.find {
-            it.childId == child.childId
-        }.also {
-            it?.childName = child.childName
-            it?.imageResourceId = child.imageResourceId
+    fun saveChildrenData(children: List<Child>) {
+        viewModelScope.launch {
+            parentRepository.saveChildrenToDb(children, null, null)
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.n1.moguchi.ui.fragment.tasks
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
-import com.n1.moguchi.data.models.remote.Task
+import com.n1.moguchi.data.remote.model.Task
 import com.n1.moguchi.databinding.FragmentTasksBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.adapter.TasksRecyclerAdapter
@@ -143,7 +144,11 @@ class TasksFragment : Fragment() {
                 "refreshRecyclerViewRequestKey",
                 viewLifecycleOwner
             ) { _, innerBundle ->
-                val addedTasks = innerBundle.getParcelableArrayList<Task>("tasks")?.toList()
+                val addedTasks = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    innerBundle.getParcelableArrayList("tasks", Task::class.java)?.toList()
+                } else {
+                    innerBundle.getParcelableArrayList<Task>("tasks")?.toList()
+                }
                 if (addedTasks != null) {
                     tasksRecyclerAdapter.updateTasksList = addedTasks.toMutableList()
                     tasksRecyclerAdapter.notifyItemRangeInserted(
@@ -214,16 +219,16 @@ class TasksFragment : Fragment() {
         tasksRecyclerAdapter = TasksRecyclerAdapter(relatedTasks, tasksMode, isActiveTasks)
         recyclerView.adapter = tasksRecyclerAdapter
 
-        tasksRecyclerAdapter.onTaskDeleteClicked = { task, isActiveTask ->
+        tasksRecyclerAdapter.onTaskDeleteClicked = { task ->
             if (relatedGoalId != null) {
-                viewModel.deleteTask(relatedGoalId, task, isActiveTask)
+                viewModel.deleteTask(relatedGoalId, task)
             }
         }
 
         tasksRecyclerAdapter.onTaskStatusChangedClicked = { task, isActiveTask ->
             if (relatedGoalId != null) {
                 if (isActiveTask != null) {
-                    viewModel.updateTaskStatus(task, isActiveTask)
+                    viewModel.updateTaskStatus(task)
                     viewModel.updateRelatedGoal(relatedGoalId, task.height, isActiveTask)
                 } else {
                     viewModel.updateTaskCheckStatus(task)

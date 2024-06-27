@@ -27,7 +27,7 @@
             app:destination="@id/goalCreationFragment" />
     </fragment>
     <fragment
-        android:id="@+id/registrationFragment"
+        android:id="@+id/registration_fragment"
         android:name="com.n1.moguchi.ui.fragment.parent.registration.RegistrationFragment"
         android:label="RegistrationFragment">
         <action
@@ -36,7 +36,7 @@
         <action
             android:id="@+id/action_registrationFragment_to_homeFragment"
             app:destination="@id/home_parent_fragment"
-            app:popUpTo="@id/registrationFragment"
+            app:popUpTo="@id/registration_fragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
@@ -68,7 +68,7 @@
         android:label="fragment_parent_profile">
         <action
             android:id="@+id/action_parentProfileFragment_to_registrationFragment"
-            app:destination="@id/registrationFragment" />
+            app:destination="@id/registration_fragment" />
         <action
             android:id="@+id/action_parentProfileFragment_to_addChildFragment"
             app:destination="@id/childCreationFragment">

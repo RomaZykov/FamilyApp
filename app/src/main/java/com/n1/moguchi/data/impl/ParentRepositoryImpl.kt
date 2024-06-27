@@ -1,16 +1,15 @@
 package com.n1.moguchi.data.impl
 
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.n1.moguchi.data.models.remote.Child
-import com.n1.moguchi.data.models.remote.Goal
-import com.n1.moguchi.data.models.remote.Parent
-import com.n1.moguchi.data.models.remote.Task
-import com.n1.moguchi.data.repositories.ParentRepository
+import com.n1.moguchi.data.remote.model.Child
+import com.n1.moguchi.data.remote.model.Goal
+import com.n1.moguchi.data.remote.model.Parent
+import com.n1.moguchi.data.remote.model.Task
+import com.n1.moguchi.domain.repositories.ParentRepository
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -19,8 +18,7 @@ import java.util.UUID
 import javax.inject.Inject
 
 class ParentRepositoryImpl @Inject constructor(
-    database: FirebaseDatabase,
-    private val auth: FirebaseAuth
+    database: FirebaseDatabase
 ) : ParentRepository {
 
     private val childrenRef: DatabaseReference = database.getReference("children")
@@ -88,7 +86,7 @@ class ParentRepositoryImpl @Inject constructor(
                 if (tasks != null) {
                     for (task in tasks) {
                         if (task.goalOwnerId == goal.goalId) {
-                            val taskRefByGoalId = tasksRef.child(goal.goalId!!).child(task.taskId)
+                            val taskRefByGoalId = tasksRef.child(goal.goalId).child(task.taskId)
                             taskRefByGoalId.setValue(task)
                         }
                     }

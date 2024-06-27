@@ -1,10 +1,9 @@
 package com.n1.moguchi.di.modules.parent_user
 
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.n1.moguchi.data.impl.ParentRepositoryImpl
-import com.n1.moguchi.data.repositories.ParentRepository
+import com.n1.moguchi.domain.repositories.ParentRepository
 import com.n1.moguchi.di.components.ApplicationScope
 import com.n1.moguchi.di.modules.ViewModelKey
 import com.n1.moguchi.ui.fragment.parent.child_creation.ChildCreationViewModel
@@ -50,10 +49,9 @@ interface ParentUserModule {
         @ApplicationScope
         @Provides
         fun provideParentRepositoryImpl(
-            database: FirebaseDatabase,
-            auth: FirebaseAuth
+            database: FirebaseDatabase
         ): ParentRepository {
-            return ParentRepositoryImpl(database, auth)
+            return ParentRepositoryImpl(database)
         }
     }
 }

@@ -19,7 +19,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
-import com.n1.moguchi.data.models.remote.ProfileMode
+import com.n1.moguchi.data.ProfileMode
 import com.n1.moguchi.databinding.ActivityMainBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.fragment.parent.PrimaryContainerBottomSheetFragment
@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     "undefined" -> {
-                        graph.setStartDestination(R.id.registrationFragment)
+                        graph.setStartDestination(R.id.registration_fragment)
                     }
                 }
                 navController.graph = graph

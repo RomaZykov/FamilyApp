@@ -3,7 +3,7 @@ package com.n1.moguchi.di.modules.task
 import androidx.lifecycle.ViewModel
 import com.google.firebase.database.FirebaseDatabase
 import com.n1.moguchi.data.impl.TaskRepositoryImpl
-import com.n1.moguchi.data.repositories.TaskRepository
+import com.n1.moguchi.domain.repositories.TaskRepository
 import com.n1.moguchi.di.components.ApplicationScope
 import com.n1.moguchi.di.modules.ViewModelKey
 import com.n1.moguchi.ui.fragment.parent.task_creation.TaskCreationViewModel

@@ -10,8 +10,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.R
-import com.n1.moguchi.data.models.remote.Goal
-import com.n1.moguchi.data.models.remote.Task
+import com.n1.moguchi.data.remote.model.Goal
+import com.n1.moguchi.data.remote.model.Task
 import com.n1.moguchi.databinding.GoalCardBinding
 import com.n1.moguchi.ui.views.CustomShapesView
 
@@ -33,7 +33,7 @@ class GoalsRecyclerAdapter(
                 tasksList.add(it)
             }
         }
-    var onTasksEditingClicked: ((String) -> Unit)? = null
+    var onTasksEditingClicked: (String) -> Unit = {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -103,7 +103,7 @@ class GoalsRecyclerAdapter(
             }
 
             binding.allTasksButton.root.setOnClickListener {
-                onTasksEditingClicked?.invoke(goal.goalId!!)
+                onTasksEditingClicked.invoke(goal.goalId!!)
             }
         }
 

@@ -21,7 +21,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.n1.moguchi.MoguchiBaseApplication
 import com.n1.moguchi.R
-import com.n1.moguchi.data.models.remote.Child
+import com.n1.moguchi.data.remote.model.Child
 import com.n1.moguchi.databinding.FragmentChildCreationBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.fragment.parent.DeleteChildProfileBottomSheetFragment
@@ -39,8 +39,6 @@ class ChildCreationFragment : Fragment() {
     private var isFromParentProfile: Boolean = false
     private var isFromParentHome: Boolean = false
     private var isFromOnBoarding: Boolean = false
-
-    private var childrenForParse: MutableList<Child> = mutableListOf()
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -82,59 +80,56 @@ class ChildCreationFragment : Fragment() {
             binding.myChildrenBottomBar.visibility = View.VISIBLE
         }
 
-        if (parentId != null) {
-            setupRecyclerView()
-            if (isFromParentHome || !isFromParentProfile) {
-                addChildCardToRecyclerList(parentId, 0)
-            } else {
-                viewModel.fetchChildren(parentId)
-                viewModel.children.observeOnce(viewLifecycleOwner) {
-                    childrenCreationAdapter.children = it.toMutableList()
-                    childrenCreationAdapter.notifyItemRangeInserted(
-                        0,
-                        childrenCreationAdapter.children.size
-                    )
+        setupRecyclerView()
+        if (isFromParentHome || isFromOnBoarding) {
+            addChildCardToRecyclerList(parentId!!, 0)
+        } else {
+            viewModel.fetchChildren(parentId!!)
+            viewModel.children.observeOnce(viewLifecycleOwner) {
+                childrenCreationAdapter.children = it.toMutableList()
+                childrenCreationAdapter.notifyItemRangeInserted(
+                    0,
+                    childrenCreationAdapter.children.size
+                )
+            }
+        }
+
+        viewModel.children.observe(viewLifecycleOwner) { children ->
+            childrenCreationAdapter.onNewChildAddClicked = {
+                if (childrenCreationAdapter.children.size == 1) {
+                    childrenCreationAdapter.notifyItemChanged(0)
+                }
+                addChildCardToRecyclerList(parentId, children.size)
+            }
+
+            childrenCreationAdapter.onChildRemoveClicked = { _, position ->
+                if (position == 0 && childrenCreationAdapter.children.size == 2) {
+                    childrenCreationAdapter.notifyItemChanged(1)
+                }
+                if (position == 1 && childrenCreationAdapter.children.size == 2) {
+                    childrenCreationAdapter.notifyItemChanged(0)
                 }
             }
 
-            viewModel.children.observe(viewLifecycleOwner) { children ->
-                childrenCreationAdapter.onNewChildAddClicked = {
-                    if (childrenCreationAdapter.children.size == 1) {
-                        childrenCreationAdapter.notifyItemChanged(0)
+            childrenCreationAdapter.onChildRemoveViaBottomSheetClicked = { child, position ->
+                showBottomSheet(TO_DELETE_CHILD_PROFILE)
+                childFragmentManager.setFragmentResultListener(
+                    "deleteChildProfileClickedRequestKey",
+                    this
+                ) { _, _ ->
+                    if (isFromParentProfile) {
+                        viewModel.deleteChildProfile(child.childId!!)
+                        childrenCreationAdapter.children.removeAt(position)
+                        childrenCreationAdapter.notifyItemRemoved(position)
                     }
-                    addChildCardToRecyclerList(parentId, children.size)
                 }
+            }
 
-                childrenCreationAdapter.onChildRemoveClicked = { child, position ->
-                    if (position == 0 && childrenCreationAdapter.children.size == 2) {
-                        childrenCreationAdapter.notifyItemChanged(1)
-                    }
-                    if (position == 1 && childrenCreationAdapter.children.size == 2) {
-                        childrenCreationAdapter.notifyItemChanged(0)
-                    }
-                    childrenForParse.removeAt(position)
-                }
-
-                childrenCreationAdapter.onChildRemoveViaBottomSheetClicked = { child, position ->
-                    showBottomSheet(TO_DELETE_CHILD_PROFILE)
-                    childFragmentManager.setFragmentResultListener(
-                        "deleteChildProfileClickedRequestKey",
-                        this
-                    ) { _, _ ->
-                        if (isFromParentProfile) {
-                            viewModel.deleteChildProfile(child.childId!!)
-                            childrenCreationAdapter.children.removeAt(position)
-                            childrenCreationAdapter.notifyItemRemoved(position)
-                        }
-                    }
-                }
-
-                childrenCreationAdapter.onCardsStatusUpdate = { isAllCardsCompleted ->
-                    parentFragmentManager.setFragmentResult(
-                        "isButtonEnabledRequestKey",
-                        bundleOf("buttonIsReadyKey" to isAllCardsCompleted)
-                    )
-                }
+            childrenCreationAdapter.onCardsStatusUpdate = { isAllCardsCompleted ->
+                parentFragmentManager.setFragmentResult(
+                    "isButtonEnabledRequestKey",
+                    bundleOf("buttonIsReadyKey" to isAllCardsCompleted)
+                )
             }
         }
 
@@ -145,12 +140,21 @@ class ChildCreationFragment : Fragment() {
             val nextButtonPressed = bundle.getBoolean("buttonIsPressedKey")
             if (nextButtonPressed) {
                 val newBundle = Bundle().apply {
+                    val childrenForParse = childrenCreationAdapter.children
                     this.putParcelableArrayList(
                         "children",
                         childrenForParse as ArrayList<out Parcelable>
                     )
                 }
                 parentFragmentManager.setFragmentResult("createBundleRequestKey", newBundle)
+            }
+        }
+
+        childrenCreationAdapter.onUpdateChildrenCards = { child, isButtonEnabled ->
+            binding.saveButton.isEnabled = isButtonEnabled
+            binding.saveButton.setOnClickListener {
+                viewModel.saveChildrenData(child)
+                parentFragmentManager.popBackStack()
             }
         }
 
@@ -161,7 +165,6 @@ class ChildCreationFragment : Fragment() {
 
     private fun addChildCardToRecyclerList(parentId: String, childrenSize: Int) {
         val createdChild = viewModel.returnCreatedChild(parentId, Child())
-        childrenForParse.add(createdChild)
         if (childrenSize == 0) {
             childrenCreationAdapter.children.add(
                 0,
@@ -240,7 +243,6 @@ class ChildCreationFragment : Fragment() {
         modalBottomSheet.show(fragmentManager, null)
     }
 
-    // TODO - Learn more about this solution
     private fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
         observe(
             lifecycleOwner,
@@ -277,3 +279,4 @@ class ChildCreationFragment : Fragment() {
         }
     }
 }
+

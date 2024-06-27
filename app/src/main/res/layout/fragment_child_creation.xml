@@ -68,11 +68,12 @@
                 android:layout_height="wrap_content" />
 
             <Button
-                android:id="@+id/next_button"
+                android:id="@+id/save_button"
                 android:layout_width="@dimen/cancel_continue_button_width"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/orange"
+                android:backgroundTint="@color/button_enabled_selector"
                 android:fontFamily="@font/onest_regular"
+                android:enabled="false"
                 android:paddingHorizontal="@dimen/large_padding"
                 android:paddingVertical="@dimen/medium_padding"
                 android:text="@string/save"

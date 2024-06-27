@@ -12,7 +12,7 @@ import androidx.core.view.get
 import androidx.core.view.size
 import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.R
-import com.n1.moguchi.data.models.remote.Task
+import com.n1.moguchi.data.remote.model.Task
 import com.n1.moguchi.databinding.EditableTaskItemBinding
 import com.n1.moguchi.ui.fragment.tasks.TasksMode
 
@@ -31,8 +31,8 @@ class TasksRecyclerAdapter(
             }
         }
 
-    var onTaskStatusChangedClicked: ((Task, Boolean?) -> Unit)? = null
-    var onTaskDeleteClicked: ((Task, Boolean) -> Unit)? = null
+    var onTaskStatusChangedClicked: (Task, Boolean?) -> Unit = { _, _ -> }
+    var onTaskDeleteClicked: (Task) -> Unit = {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EditableTaskViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -108,24 +108,24 @@ class TasksRecyclerAdapter(
         override fun onMenuItemClick(item: MenuItem?): Boolean {
             when (item?.itemId) {
                 R.id.task_completed -> {
-                    onTaskStatusChangedClicked?.invoke(task!!, isActiveTasks)
+                    onTaskStatusChangedClicked.invoke(task!!, isActiveTasks)
                     relatedTasksList.removeAt(adapterPosition)
                     notifyItemRemoved(adapterPosition)
                 }
 
                 R.id.task_not_completed -> {
-                    onTaskStatusChangedClicked?.invoke(task!!, isActiveTasks)
+                    onTaskStatusChangedClicked.invoke(task!!, isActiveTasks)
                     relatedTasksList.removeAt(adapterPosition)
                     notifyItemRemoved(adapterPosition)
                 }
 
                 R.id.check_completed_task -> {
-                    onTaskStatusChangedClicked?.invoke(task!!, null)
+                    onTaskStatusChangedClicked.invoke(task!!, null)
                     notifyItemChanged(adapterPosition)
                 }
 
                 R.id.delete -> {
-                    onTaskDeleteClicked?.invoke(task!!, isActiveTasks)
+                    onTaskDeleteClicked.invoke(task!!)
                     relatedTasksList.removeAt(adapterPosition)
                     notifyItemRemoved(adapterPosition)
                 }

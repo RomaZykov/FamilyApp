@@ -1,6 +1,5 @@
 package com.n1.moguchi.ui.fragment.parent.child_creation
 
-import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -9,19 +8,16 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat.getString
 import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.R
-import com.n1.moguchi.data.models.remote.Child
+import com.n1.moguchi.data.remote.model.Child
 import com.n1.moguchi.databinding.ChildCreationCardBinding
 import com.n1.moguchi.databinding.CreationSectionFooterBinding
-
-private const val FOOTER_ADD_CHILD_BUTTON = 1
 
 class ChildrenCreationRecyclerAdapter(
     private val editChildOptionEnable: Boolean,
     private val addChildButtonEnable: Boolean,
     private val removeChildFastProcessEnable: Boolean,
-    private val passwordEnable: Boolean
-) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private val passwordEnable: Boolean,
+    ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     constructor(editChildOptionEnable: Boolean) : this(
         editChildOptionEnable,
@@ -30,11 +26,12 @@ class ChildrenCreationRecyclerAdapter(
         passwordEnable = false
     )
 
-    var children: MutableList<Child> = ArrayList()
-    var onNewChildAddClicked: (() -> Unit)? = null
-    var onChildRemoveClicked: ((Child, Int) -> Unit)? = null
-    var onChildRemoveViaBottomSheetClicked: ((Child, Int) -> Unit)? = null
-    var onCardsStatusUpdate: ((Boolean) -> Unit)? = null
+    var children: MutableList<Child> = mutableListOf()
+    var onNewChildAddClicked: () -> Unit = {}
+    var onChildRemoveClicked: (Child, Int) -> Unit = { _, _ -> }
+    var onChildRemoveViaBottomSheetClicked: (Child, Int) -> Unit = { _, _ -> }
+    var onCardsStatusUpdate: (Boolean) -> Unit = {}
+    var onUpdateChildrenCards: (List<Child>, Boolean) -> Unit = { _, _ -> }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -104,15 +101,17 @@ class ChildrenCreationRecyclerAdapter(
         )
 
         fun bind(child: Child) {
-            if (child.childName != null && child.imageResourceId != null) {
+            if (child.childName.isNotEmpty() && child.imageResourceId != null) {
                 binding.childNameEditText.setText(child.childName)
                 val checkedId = childAvatars.entries.find { it.value == child.imageResourceId }?.key
                 if (checkedId != null) {
                     binding.avatars.check(checkedId)
                 }
             } else {
+                val updatedChild =
+                    children[absoluteAdapterPosition].copy(imageResourceId = childAvatars[binding.avatarMale1.id])
                 binding.avatarMale1.isChecked = true
-                children[adapterPosition].imageResourceId = childAvatars[binding.avatarMale1.id]
+                children[absoluteAdapterPosition] = updatedChild
             }
 
             binding.childNameEditText.addTextChangedListener(object : TextWatcher {
@@ -128,15 +127,22 @@ class ChildrenCreationRecyclerAdapter(
                 }
 
                 override fun afterTextChanged(childName: Editable?) {
-                    children[adapterPosition].childName = childName.toString()
-                    val regex = "^[a-zA-Zа-яА-Я]+$".toRegex()
-                    if (!(childName.toString().isNotBlank() && childName.toString()
-                            .matches(regex))
+                    val updatedChild =
+                        children[absoluteAdapterPosition].copy(childName = childName.toString())
+                    children[absoluteAdapterPosition] = updatedChild
+                    onUpdateChildrenCards.invoke(
+                        children,
+                        if (updatedChild.childName.isEmpty()) false else true
+                    )
+                    if (childName.toString().isBlank() && !childName.toString()
+                            .matches(regex())
                     ) {
                         binding.childNameEditText.error =
                             getString(context, R.string.child_name_edit_text_error)
                     }
-                    notifyItemChanged(itemCount - FOOTER_ADD_CHILD_BUTTON)
+                    if (addChildButtonEnable) {
+                        notifyItemChanged(itemCount - FOOTER_ADD_CHILD_BUTTON)
+                    }
                 }
             })
 
@@ -144,12 +150,12 @@ class ChildrenCreationRecyclerAdapter(
                 binding.deleteChildButton.visibility = View.VISIBLE
                 binding.deleteChildButton.setOnClickListener {
                     if (removeChildFastProcessEnable) {
-                        onChildRemoveClicked?.invoke(child, adapterPosition)
-                        children.removeAt(adapterPosition)
-                        notifyItemRemoved(adapterPosition)
+                        onChildRemoveClicked.invoke(child, absoluteAdapterPosition)
+                        children.removeAt(absoluteAdapterPosition)
+                        notifyItemRemoved(absoluteAdapterPosition)
                         notifyItemChanged(itemCount - FOOTER_ADD_CHILD_BUTTON)
                     } else {
-                        onChildRemoveViaBottomSheetClicked?.invoke(child, adapterPosition)
+                        onChildRemoveViaBottomSheetClicked.invoke(child, absoluteAdapterPosition)
                         if (children.size == 1) {
                             notifyItemChanged(0)
                         }
@@ -180,14 +186,20 @@ class ChildrenCreationRecyclerAdapter(
                     }
 
                     override fun afterTextChanged(password: Editable?) {
-                        binding.setPasswordInputLayout.isEndIconVisible = password.toString().isNotBlank()
-                        children[adapterPosition].passwordFromParent =
-                            if (password.isNullOrBlank()) -1 else password.toString().toInt()
+                        binding.setPasswordInputLayout.isEndIconVisible =
+                            password.toString().isNotBlank()
+                        val updatedChild = children[absoluteAdapterPosition].copy(
+                            passwordFromParent = if (password.isNullOrBlank()) -1
+                            else password.toString().toInt()
+                        )
+                        children[absoluteAdapterPosition] = updatedChild
                         if (password.toString().isBlank()) {
                             binding.setPasswordEditText.error =
                                 getString(context, R.string.password_edit_text_error)
                         }
-                        notifyItemChanged(itemCount - FOOTER_ADD_CHILD_BUTTON)
+                        if (addChildButtonEnable) {
+                            notifyItemChanged(itemCount - FOOTER_ADD_CHILD_BUTTON)
+                        }
                     }
                 })
             } else {
@@ -201,8 +213,16 @@ class ChildrenCreationRecyclerAdapter(
                     binding.avatarMale2.id,
                     binding.avatarFemale2.id,
                     binding.avatarFemale3.id -> {
-                        children[adapterPosition].imageResourceId = childAvatars[checkedId]
-                        notifyItemChanged(itemCount - FOOTER_ADD_CHILD_BUTTON)
+                        val updatedChild =
+                            children[absoluteAdapterPosition].copy(imageResourceId = childAvatars[checkedId])
+                        children[absoluteAdapterPosition] = updatedChild
+                        onUpdateChildrenCards.invoke(
+                            children,
+                            if (updatedChild.childName.isEmpty()) false else true
+                        )
+                        if (addChildButtonEnable) {
+                            notifyItemChanged(itemCount - FOOTER_ADD_CHILD_BUTTON)
+                        }
                     }
                 }
             }
@@ -211,40 +231,32 @@ class ChildrenCreationRecyclerAdapter(
 
     inner class FooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = CreationSectionFooterBinding.bind(itemView)
-        var context: Context = itemView.context
 
         fun bind() {
-            val regex = "^[a-zA-Zа-яА-Я]+$".toRegex()
-            if (passwordEnable && children.all {
-                    (it.passwordFromParent != null && it.passwordFromParent != -1)
-                            && it.passwordFromParent.toString().isNotEmpty()
-                            && it.childName != null
-                            && it.childName.toString().matches(regex)
-                }) {
-
+            val allChildCardCreationWithPasswordIsValid = children.all {
+                (it.passwordFromParent != null && it.passwordFromParent != -1)
+                        && it.passwordFromParent.toString().isNotEmpty()
+                        && it.childName.isNotEmpty()
+                        && it.childName.matches(regex())
+            }
+            val allChildCardCreationIsValid = children.all {
+                it.childName.isNotEmpty() && it.childName.matches(regex())
+            }
+            if ((passwordEnable && allChildCardCreationWithPasswordIsValid)
+                || (!passwordEnable && allChildCardCreationIsValid
+                        && children.size == itemCount - FOOTER_ADD_CHILD_BUTTON)
+            ) {
                 changeCardStatusUI(true)
                 itemView.setOnClickListener {
-                    onNewChildAddClicked?.invoke()
+                    onNewChildAddClicked.invoke()
                 }
                 return
             }
-
-            if (!passwordEnable && children.all {
-                    it.childName != null
-                            && it.childName.toString().matches(regex)
-                } && children.size == itemCount - FOOTER_ADD_CHILD_BUTTON) {
-
-                changeCardStatusUI(true)
-                itemView.setOnClickListener {
-                    onNewChildAddClicked?.invoke()
-                }
-            } else {
-                changeCardStatusUI(false)
-            }
+            changeCardStatusUI(false)
         }
 
         private fun changeCardStatusUI(buttonEnable: Boolean) {
-            onCardsStatusUpdate?.invoke(buttonEnable)
+            onCardsStatusUpdate.invoke(buttonEnable)
             with(binding.addChildButton) {
                 isEnabled = buttonEnable
                 setTextColor(context.getColorStateList(if (buttonEnable) R.color.black else R.color.black_opacity_70))
@@ -256,9 +268,13 @@ class ChildrenCreationRecyclerAdapter(
         }
     }
 
+    private fun regex() = "^[a-zA-Zа-яА-Я]+$".toRegex()
+
     companion object {
         const val MAX_POOL_SIZE = 0
         const val VIEW_TYPE_CHILD_CARD = 100
         const val VIEW_TYPE_FOOTER = 101
+
+        const val FOOTER_ADD_CHILD_BUTTON = 1
     }
 }

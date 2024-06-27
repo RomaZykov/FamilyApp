@@ -8,20 +8,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.n1.moguchi.R
-import com.n1.moguchi.data.models.remote.Task
+import com.n1.moguchi.data.remote.model.Task
 import com.n1.moguchi.databinding.CreationSectionFooterBinding
 import com.n1.moguchi.databinding.TaskCardBinding
 
-private const val FOOTER_ADD_TASK_BUTTON = 1
-
 class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var tasksCardList: MutableList<Task> = ArrayList()
-    var onTaskSettingsClicked: (() -> Unit)? = null
-    var onTaskUpdate: ((Task, Boolean) -> Unit)? = null
-    var onNewTaskAddClicked: (() -> Unit)? = null
-    var onTaskDeleteClicked: ((Task, Int) -> Unit)? = null
-    var onCardsStatusUpdate: ((Boolean) -> Unit)? = null
+    var tasksCardList: MutableList<Task> = mutableListOf()
+    var onTaskSettingsClicked: () -> Unit = {}
+    var onTaskUpdate: (Task, Boolean) -> Unit = { _, _ -> }
+    var onNewTaskAddClicked: () -> Unit = {}
+    var onTaskDeleteClicked: (Task, Int) -> Unit = { _, _ -> }
+    var onCardsStatusUpdate: (Boolean) -> Unit = {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -74,22 +72,28 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
         private val binding = TaskCardBinding.bind(itemView)
 
         fun bind(task: Task) {
+            tasksCardList[absoluteAdapterPosition] = task
             if (tasksCardList.size == 1) {
                 binding.deleteTaskButton.visibility = View.GONE
             } else {
                 binding.deleteTaskButton.visibility = View.VISIBLE
             }
-            binding.taskHeight.text = task.height.toString()
-            binding.taskNameEditText.setText(task.title)
+            binding.taskHeight.text = tasksCardList[absoluteAdapterPosition].height.toString()
+            binding.taskNameEditText.setText(tasksCardList[absoluteAdapterPosition].title)
             binding.taskNameEditText.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
                 }
 
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 }
 
                 override fun afterTextChanged(taskName: Editable?) {
-                    tasksCardList[adapterPosition].title = taskName.toString()
+                    tasksCardList[absoluteAdapterPosition] = task.copy(title = taskName.toString())
                     if (taskName.toString().isEmpty()) {
                         binding.taskNameEditText.error =
                             context.getString(R.string.not_all_conditions_is_done)
@@ -99,44 +103,43 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
             })
 
             binding.deleteTaskButton.setOnClickListener {
-                onTaskDeleteClicked?.invoke(task, adapterPosition)
-                tasksCardList.removeAt(adapterPosition)
-                notifyItemRemoved(adapterPosition)
+                onTaskDeleteClicked.invoke(tasksCardList[absoluteAdapterPosition], absoluteAdapterPosition)
+                tasksCardList.removeAt(absoluteAdapterPosition)
+                notifyItemRemoved(absoluteAdapterPosition)
                 notifyItemChanged(itemCount - 1)
             }
 
-//            binding.taskSettingsButton.setOnClickListener {
-//                onTaskSettingsClicked?.invoke()
-//            }
-
             binding.increaseButton.setOnClickListener {
-                if (task.height < MAX_TASK_HEIGHT) {
-                    onTaskUpdate?.invoke(task, true)
-                    binding.taskHeight.text = (++task.height).toString()
+                if (tasksCardList[absoluteAdapterPosition].height < MAX_TASK_HEIGHT) {
+                    updateTask(tasksCardList[absoluteAdapterPosition], true)
                 }
             }
             binding.decreaseButton.setOnClickListener {
-                if (task.height > MIN_TASK_HEIGHT) {
-                    onTaskUpdate?.invoke(task, false)
-                    binding.taskHeight.text = (--task.height).toString()
+                if (tasksCardList[absoluteAdapterPosition].height > MIN_TASK_HEIGHT) {
+                    updateTask(tasksCardList[absoluteAdapterPosition], false)
                 }
             }
+        }
+
+        private fun updateTask(task: Task, shouldIncreasePoints: Boolean) {
+            val newTaskHeight = if (shouldIncreasePoints) task.height + 1 else task.height - 1
+            tasksCardList[absoluteAdapterPosition] = task.copy(height = newTaskHeight)
+            onTaskUpdate.invoke(tasksCardList[absoluteAdapterPosition], shouldIncreasePoints)
+            binding.taskHeight.text = (tasksCardList[absoluteAdapterPosition].height).toString()
         }
     }
 
     inner class FooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = CreationSectionFooterBinding.bind(itemView)
-        var context: Context = itemView.context
+        private val context: Context = itemView.context
 
         init {
             binding.addChildButton.text = context.getString(R.string.add_task_text_button)
         }
 
         fun bind() {
-            if (tasksCardList.all {
-                    it.title.isNotEmpty() && tasksCardList.size == itemCount - FOOTER_ADD_TASK_BUTTON
-                }) {
-                onCardsStatusUpdate?.invoke(true)
+            if (tasksCardList.all { allTasksValid(it) }) {
+                onCardsStatusUpdate.invoke(true)
                 with(binding.addChildButton) {
                     isEnabled = true
                     setTextColor(context.getColorStateList(R.color.black))
@@ -144,10 +147,10 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
                     backgroundTintList = context.getColorStateList(R.color.white)
                 }
                 itemView.setOnClickListener {
-                    onNewTaskAddClicked?.invoke()
+                    onNewTaskAddClicked.invoke()
                 }
             } else {
-                onCardsStatusUpdate?.invoke(false)
+                onCardsStatusUpdate.invoke(false)
                 with(binding.addChildButton) {
                     isEnabled = false
                     backgroundTintList = context.getColorStateList(R.color.white_opacity_70)
@@ -156,6 +159,9 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             }
         }
+
+        private fun allTasksValid(it: Task) =
+            it.title.isNotEmpty() && tasksCardList.size == itemCount - FOOTER_ADD_TASK_BUTTON
     }
 
     companion object {
@@ -165,5 +171,6 @@ class TaskCreationRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder
 
         private const val MIN_TASK_HEIGHT = 1
         private const val MAX_TASK_HEIGHT = 3
+        private const val FOOTER_ADD_TASK_BUTTON = 1
     }
 }

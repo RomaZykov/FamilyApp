@@ -1,17 +1,15 @@
 package com.n1.moguchi.ui.fragment.child.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.n1.moguchi.data.models.local.UserPreferences
-import com.n1.moguchi.data.models.remote.Child
-import com.n1.moguchi.data.models.remote.Goal
-import com.n1.moguchi.data.models.remote.Task
-import com.n1.moguchi.data.repositories.AppRepository
-import com.n1.moguchi.data.repositories.GoalRepository
-import com.n1.moguchi.data.repositories.TaskRepository
-import com.n1.moguchi.interactors.FetchChildDataUseCase
+import com.n1.moguchi.data.local.UserPreferences
+import com.n1.moguchi.data.remote.model.Child
+import com.n1.moguchi.data.remote.model.Goal
+import com.n1.moguchi.data.remote.model.Task
+import com.n1.moguchi.domain.repositories.AppRepository
+import com.n1.moguchi.domain.repositories.GoalRepository
+import com.n1.moguchi.domain.repositories.TaskRepository
+import com.n1.moguchi.domain.usecases.FetchChildDataUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow

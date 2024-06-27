@@ -1,12 +1,11 @@
 package com.n1.moguchi.data.impl
 
-import android.util.Log
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.n1.moguchi.data.models.remote.Task
-import com.n1.moguchi.data.repositories.TaskRepository
+import com.n1.moguchi.data.remote.model.Task
+import com.n1.moguchi.domain.repositories.TaskRepository
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -23,8 +22,11 @@ class TaskRepositoryImpl @Inject constructor(
         val taskId: String = UUID.randomUUID().toString()
         return Task(
             taskId = taskId,
+            title = "",
             goalOwnerId = goalId,
-            taskCompleted = false
+            taskCompleted = false,
+            onCheck = false,
+            height = 1
         )
     }
 
@@ -41,6 +43,7 @@ class TaskRepositoryImpl @Inject constructor(
         val taskRefById = tasksRef.child(goalId).child(task.taskId)
         taskRefById.removeValue()
     }
+
     override suspend fun updateTask(task: Task) {
         val taskRefByGoalId = tasksRef.child(task.goalOwnerId!!).child(task.taskId)
         val updatedTask = task.copy(

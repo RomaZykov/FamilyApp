@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.n1.moguchi.MoguchiBaseApplication
-import com.n1.moguchi.data.models.remote.Goal
-import com.n1.moguchi.data.models.remote.Task
+import com.n1.moguchi.data.remote.model.Goal
+import com.n1.moguchi.data.remote.model.Task
 import com.n1.moguchi.databinding.FragmentTaskCreationBinding
 import com.n1.moguchi.ui.ViewModelFactory
 import com.n1.moguchi.ui.fragment.parent.TaskSettingsSecondaryBottomSheetFragment
@@ -27,7 +27,6 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
     private lateinit var taskCreationRecyclerAdapter: TaskCreationRecyclerAdapter
 
     private var isNextButtonPressed: Boolean? = null
-
     private var tasksForParse: MutableList<Task> = mutableListOf()
 
     @Inject
@@ -59,14 +58,7 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val recyclerView: RecyclerView = binding.rvCardList
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        taskCreationRecyclerAdapter = TaskCreationRecyclerAdapter()
-        recyclerView.adapter = taskCreationRecyclerAdapter
-        recyclerView.recycledViewPool.setMaxRecycledViews(
-            TaskCreationRecyclerAdapter.VIEW_TYPE_TASK_CARD,
-            TaskCreationRecyclerAdapter.MAX_POOL_SIZE
-        )
+        setupRecyclerView()
 
         val currentGoalId =
             requireParentFragment().requireArguments().getString(GOAL_ID_KEY)
@@ -80,8 +72,6 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
         }
 
         viewModel.tasks.observe(viewLifecycleOwner) { tasks ->
-            tasksForParse = tasks.toMutableList()
-
             if (tasks.isEmpty()) {
                 taskCreationRecyclerAdapter.tasksCardList.add(
                     0,
@@ -113,7 +103,6 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
                 if (position == 1 && taskCreationRecyclerAdapter.tasksCardList.size == 2) {
                     taskCreationRecyclerAdapter.notifyItemChanged(0)
                 }
-                tasksForParse.removeAt(position)
                 viewModel.deleteTask(task)
             }
 
@@ -136,8 +125,8 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
         viewModel.currentGoalPoints.observe(viewLifecycleOwner) {
             binding.goalProgressBar.progress = it
             binding.taskHeightTotal.text = it.toString()
-            taskCreationRecyclerAdapter.onTaskUpdate = { updatedTask, positiveChanged ->
-                viewModel.onTaskUpdate(updatedTask, positiveChanged)
+            taskCreationRecyclerAdapter.onTaskUpdate = { updatedTask, shouldIncreasePoints ->
+                viewModel.onTaskUpdate(updatedTask, shouldIncreasePoints)
             }
         }
 
@@ -145,6 +134,7 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
             "nextButtonPressedRequestKey",
             viewLifecycleOwner
         ) { _, bundle ->
+            tasksForParse.addAll(taskCreationRecyclerAdapter.tasksCardList)
             isNextButtonPressed = bundle.getBoolean("buttonIsPressedKey")
             if (isNextButtonPressed == true) {
                 parentFragment?.arguments?.putParcelableArrayList(
@@ -153,6 +143,17 @@ class TaskCreationFragment : BottomSheetDialogFragment() {
                 )
             }
         }
+    }
+
+    private fun setupRecyclerView() {
+        val recyclerView: RecyclerView = binding.rvCardList
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        taskCreationRecyclerAdapter = TaskCreationRecyclerAdapter()
+        recyclerView.adapter = taskCreationRecyclerAdapter
+        recyclerView.recycledViewPool.setMaxRecycledViews(
+            TaskCreationRecyclerAdapter.VIEW_TYPE_TASK_CARD,
+            TaskCreationRecyclerAdapter.MAX_POOL_SIZE
+        )
     }
 
     override fun onDestroyView() {
