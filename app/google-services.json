@@ -1,42 +1,66 @@
 {
   "project_info": {
-    "project_number": "620122652964",
-    "firebase_url": "https://moguchi-debug-default-rtdb.europe-west1.firebasedatabase.app",
-    "project_id": "moguchi-debug",
-    "storage_bucket": "moguchi-debug.appspot.com"
+    "project_number": "868557684546",
+    "firebase_url": "https://moguchi-app-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "moguchi-app",
+    "storage_bucket": "moguchi-app.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:620122652964:android:ab1fc26e6850a964b633b1",
+        "mobilesdk_app_id": "1:868557684546:android:81b83ad933e4992552d2db",
         "android_client_info": {
-          "package_name": "com.n1.moguchi.debug"
+          "package_name": "com.n1.moguchi"
         }
       },
       "oauth_client": [
         {
-          "client_id": "620122652964-uh5597h3jqq4ojio2b8h6jek6d5ofcje.apps.googleusercontent.com",
+          "client_id": "868557684546-0qpa3ejk7fe43iqk5d69f0ntq9cnr9v9.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.n1.moguchi.debug",
-            "certificate_hash": "3f9b00eef9801b2a3165718ed7416583979f7d22"
+            "package_name": "com.n1.moguchi",
+            "certificate_hash": "0464c79611ad89773aa5fbe68d2fb3f82a73fb50"
           }
         },
         {
-          "client_id": "620122652964-ruvd9u3fru7mqfpdh9j3sd13i7b71lem.apps.googleusercontent.com",
+          "client_id": "868557684546-d0qqcdklnj44lr7qunq291qefncshttq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.n1.moguchi",
+            "certificate_hash": "732140432137cd62f35238d8d81332e326bccc60"
+          }
+        },
+        {
+          "client_id": "868557684546-dljssug30hjejlje99j3l3p97nftsor5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.n1.moguchi",
+            "certificate_hash": "6a93e51d4de9c994bfef7ac0ea9f84bf7a013b58"
+          }
+        },
+        {
+          "client_id": "868557684546-tj270pc0r3rf2dtfb5qtusmq07pgcip5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.n1.moguchi",
+            "certificate_hash": "f9b7be6a263db919a6ebf85aed9cd20b12e82157"
+          }
+        },
+        {
+          "client_id": "868557684546-bk9a2umde9evges2mi6t9n47elnmg6hl.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDHm9HSzyJynwLldlmIaRhj2TKZybL8wPg"
+          "current_key": "AIzaSyAr_HM-3Ofv-GJ2MJGMdn3SyIlnit80Vhg"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "620122652964-ruvd9u3fru7mqfpdh9j3sd13i7b71lem.apps.googleusercontent.com",
+              "client_id": "868557684546-bk9a2umde9evges2mi6t9n47elnmg6hl.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
