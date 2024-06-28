@@ -17,7 +17,7 @@ android {
             keyAlias 'debug'
         }
         release {
-            storeFile file("${rootDir}\\release_key.keystore")
+            storeFile file("${rootDir}\\key_store.jks")
             storePassword 'N1team0808'
             keyPassword 'N1team0808'
             keyAlias 'upload'
@@ -47,13 +47,6 @@ android {
             ndk {
                 debugSymbolLevel 'FULL'
             }
-        }
-
-        debug {
-            applicationIdSuffix '.debug'
-            buildConfigField "String", "BASE_URL", '"https://moguchi-debug-default-rtdb.europe-west1.firebasedatabase.app"'
-            buildConfigField "String", "SERVER_CLIENT_ID", '"620122652964-ruvd9u3fru7mqfpdh9j3sd13i7b71lem.apps.googleusercontent.com"'
-            signingConfig signingConfigs.debug
         }
     }
 
