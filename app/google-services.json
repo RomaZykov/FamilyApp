@@ -39,6 +39,14 @@
           }
         },
         {
+          "client_id": "868557684546-oij30ok0d490mnb6shia52nghks7f2pg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.n1.moguchi",
+            "certificate_hash": "e7c01007c8e831c46df1a52801d989309b673c77"
+          }
+        },
+        {
           "client_id": "868557684546-tj270pc0r3rf2dtfb5qtusmq07pgcip5.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
