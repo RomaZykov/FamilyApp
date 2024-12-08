@@ -14,11 +14,9 @@
 <img src="https://github.com/taasonei/RandomFox/blob/master/demo/demo_screens.png">
 </p>
 
-## FamilyApp
-
 ## Description
 
 ## Stack
-
+  - Kotlin
 
 ## Post-mortem
