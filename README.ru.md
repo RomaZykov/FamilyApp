@@ -8,7 +8,7 @@
   </a>
 </p>
 <p align="center">
-!На английском описание!
+!На русском описание!
 </p>
 <p align="center">
 <img src="https://github.com/taasonei/RandomFox/blob/master/demo/demo_screens.png">
