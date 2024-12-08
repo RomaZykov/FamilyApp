@@ -1,4 +1,4 @@
-<h1 align="center">FamilyApp</h1>
+<h1 align="center">FamilyApp <br /> (заброшено)</h1>
 <p align="center">
   <a href="https://github.com/RomaZykov/FamilyApp/blob/main/README.md">
     <img src="https://img.shields.io/badge/lang-en-yellow" />
