@@ -10,9 +10,6 @@
 <p align="center">
 !На английском описание!
 </p>
-<p align="center">
-<img src="https://github.com/taasonei/RandomFox/blob/master/demo/demo_screens.png">
-</p>
 
 ## FamilyApp
 
