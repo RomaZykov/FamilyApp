@@ -16,7 +16,13 @@
 
 ## Description
 
+## Notes
+
 ## Stack
   - Kotlin
+  - MVVM
+  - Попытка в Clean Architecture
+  - Dagger2
+  - Androix: ViewPager2, RecyclerView, ViewModel, LiveData
 
 ## Post-mortem
