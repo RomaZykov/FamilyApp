@@ -1,4 +1,4 @@
-package com.n1.moguchi.di
+package com.example.familyapp.di
 
 import com.google.firebase.database.FirebaseDatabase
 import dagger.Module

@@ -23,11 +23,11 @@ android {
             keyAlias 'upload'
         }
     }
-    namespace 'com.n1.moguchi'
+    namespace 'com.example.familyapp'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.n1.moguchi"
+        applicationId "com.example.familyapp"
         minSdk 24
         targetSdk 34
         versionCode 42
@@ -42,8 +42,8 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
-            buildConfigField "String", "BASE_URL", '"https://moguchi-app-default-rtdb.europe-west1.firebasedatabase.app"'
-            buildConfigField "String", "SERVER_CLIENT_ID", '"868557684546-bk9a2umde9evges2mi6t9n47elnmg6hl.apps.googleusercontent.com"'
+            buildConfigField("String", 'BASE_URL', '"https://moguchi-app-default-rtdb.europe-west1.firebasedatabase.app"')
+            buildConfigField("String", 'SERVER_CLIENT_ID', '"868557684546-bk9a2umde9evges2mi6t9n47elnmg6hl.apps.googleusercontent.com"')
             ndk {
                 debugSymbolLevel 'FULL'
             }
@@ -60,9 +60,9 @@ android {
     }
 
     buildFeatures {
-        buildConfig true
-        dataBinding true
-        viewBinding true
+        buildConfig = true
+        dataBinding = true
+        viewBinding = true
     }
 
     testOptions {
@@ -89,7 +89,6 @@ dependencies {
 
     implementation 'com.google.android.play:feature-delivery:2.1.0'
     implementation 'com.google.android.play:feature-delivery-ktx:2.1.0'
-
 
     // Testing
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'
@@ -120,8 +119,8 @@ dependencies {
     implementation 'com.google.android.libraries.identity.googleid:googleid:1.1.1'
 
     // Dagger 2
-    implementation 'com.google.dagger:hilt-android:2.51.1'
-    ksp 'com.google.dagger:dagger-compiler:2.51.1'
+    implementation 'com.google.dagger:dagger:2.52'
+    ksp 'com.google.dagger:dagger-compiler:2.52'
 
     // Firebase
     implementation platform('com.google.firebase:firebase-bom:33.1.1')
@@ -144,6 +143,8 @@ dependencies {
 
     // Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'jp.wasabeef:picasso-transformations:2.4.0'
+
 
     // Material Design
     implementation 'com.google.android.material:material:1.12.0'

@@ -8,50 +8,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:868557684546:android:81b83ad933e4992552d2db",
+        "mobilesdk_app_id": "1:868557684546:android:62c44a2573b2420952d2db",
         "android_client_info": {
-          "package_name": "com.n1.moguchi"
+          "package_name": "com.example.familyapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "868557684546-0qpa3ejk7fe43iqk5d69f0ntq9cnr9v9.apps.googleusercontent.com",
+          "client_id": "868557684546-evn5m0m2fj8dkcetcfdum2nggkj39ip6.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.n1.moguchi",
-            "certificate_hash": "0464c79611ad89773aa5fbe68d2fb3f82a73fb50"
-          }
-        },
-        {
-          "client_id": "868557684546-d0qqcdklnj44lr7qunq291qefncshttq.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.n1.moguchi",
-            "certificate_hash": "732140432137cd62f35238d8d81332e326bccc60"
-          }
-        },
-        {
-          "client_id": "868557684546-dljssug30hjejlje99j3l3p97nftsor5.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.n1.moguchi",
-            "certificate_hash": "6a93e51d4de9c994bfef7ac0ea9f84bf7a013b58"
-          }
-        },
-        {
-          "client_id": "868557684546-oij30ok0d490mnb6shia52nghks7f2pg.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.n1.moguchi",
-            "certificate_hash": "e7c01007c8e831c46df1a52801d989309b673c77"
-          }
-        },
-        {
-          "client_id": "868557684546-tj270pc0r3rf2dtfb5qtusmq07pgcip5.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.n1.moguchi",
-            "certificate_hash": "f9b7be6a263db919a6ebf85aed9cd20b12e82157"
+            "package_name": "com.example.familyapp",
+            "certificate_hash": "94a63fd53b922dd3feb6b35e88b1ee33713687c5"
           }
         },
         {

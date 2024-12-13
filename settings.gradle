@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "Moguchi"
+rootProject.name = "FamilyApp"
 include ':app'

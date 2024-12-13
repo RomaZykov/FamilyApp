@@ -1,4 +1,4 @@
-package com.n1.moguchi
+package com.example.familyapp
 
 import android.os.Bundle
 import androidx.fragment.app.testing.FragmentScenario
@@ -15,11 +15,11 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isEnabled
 import androidx.test.espresso.matcher.ViewMatchers.isNotEnabled
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import com.n1.moguchi.core.RecyclerViewMatcher
-import com.n1.moguchi.data.remote.model.Child
-import com.n1.moguchi.ui.activity.MainActivity
-import com.n1.moguchi.ui.fragment.parent.child_creation.ChildCreationFragment
-import com.n1.moguchi.ui.fragment.parent.child_creation.ChildrenCreationRecyclerAdapter
+import com.example.familyapp.core.RecyclerViewMatcher
+import com.example.familyapp.data.remote.model.Child
+import com.example.familyapp.ui.activity.MainActivity
+import com.example.familyapp.ui.fragment.parent.child_creation.ChildCreationFragment
+import com.example.familyapp.ui.fragment.parent.child_creation.ChildrenCreationRecyclerAdapter
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

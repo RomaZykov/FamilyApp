@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Moguchi</string>
+    <string name="app_name">FamilyApp</string>
     <string name="greetings">Hello! Давай познакомимся, как тебя зовут?</string>
 
     <!-- Strings related to login -->
@@ -46,7 +46,7 @@
     <string name="tasks_title">Задачи:</string>
     <string name="alternative_way">Or</string>
     <string name="add_task_text_button">Добавить задачу</string>
-    <string name="moguchi_welcome_title">Добро пожаловать \nв Moguchi!</string>
+    <string name="familyapp_welcome_title">Добро пожаловать \nв FamilyApp!</string>
     <string name="set_date_hint">Укажите дату</string>
     <string name="avatar">Аватар</string>
     <string name="set_child_name_hint">Введите имя ребенка</string>
@@ -57,7 +57,7 @@
     <string name="switch_to_parent_mode_description">Чтобы перейти в режим родителя введите пароль</string>
     <string name="set_password_hint">Введите пароль</string>
     <string name="forgot_password">Забыли пароль?</string>
-    <string name="welcome_to_moguchi">Добро пожаловать \nв Moguchi!</string>
+    <string name="welcome_to_familyapp">Добро пожаловать \nв FamilyApp!</string>
     <string name="welcome_page_description">Выполняй задачи и достигай \nцели вместе с нами</string>
     <string name="completed_goals">Выполненные цели</string>
     <string name="complete_tasks">Выполняй задачи</string>

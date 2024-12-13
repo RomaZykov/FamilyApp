@@ -1,4 +1,4 @@
-package com.n1.moguchi.core
+package com.example.familyapp.core
 
 import android.content.res.Resources
 import android.view.View
