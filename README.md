@@ -14,7 +14,9 @@
 A gamified task tracker mobile app for parents and their children. Parents set
 goals with a certain amount (10 points maximum) for each child, tasks are defined to complete
 the goal (no more than 3 points), and children complete tasks and thus close large goals and
-receive a reward for the goal (or do not receive). The child marks the completed task in his profile for
+receive a reward for the goal (or do not receive). 
+
+The child marks the completed task in his profile for
 verification by the parent -> the parent confirms/does not confirm the completion of the task -> task points
 are awarded to the attached goal.
 
