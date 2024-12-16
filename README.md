@@ -73,9 +73,9 @@ tests, OOP, etc.
 - A single Network model for all layers (what was I even thinking about?) -> working local Room model
   absent
 - Leakage of the business logic of registration in a fragment (in the second project everything is beautiful)
-- There are hardcore elements
+- There are hardcode elements
 - The presence of both user cases and repositories in the domain layer at the same time
 - Availability of both flow and live data at the same time
 - Commented out code
-- Did not output duplicate code to the base entities
+- Did not output duplicate code to the abstract entities
 - Overcomplicated ViewModel - did not encapsulate logic in another layer
