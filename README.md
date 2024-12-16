@@ -70,7 +70,7 @@ tests, OOP, etc.
 - Based on the example of a project with a bad architecture
 - Dispatchers in the ViewModel are nailed down, not passed through DI
 - 1% Test coverage (kringe, wanted 70%) within the framework of the classical school of unit testing
-- A single Network model for all layers (what was I even thinking about?) -> working local Room model
+- A Network-first approach for all layers (what was I even thinking about?) -> working local Room model
   absent
 - Leakage of the business logic of registration in a fragment (in the second project everything is beautiful)
 - There are hardcode elements
